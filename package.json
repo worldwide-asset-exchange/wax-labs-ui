@@ -12,6 +12,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "ual-anchor": "^0.5.1",
+    "ual-local": "^0.1.4",
     "ual-reactjs-renderer": "^0.3.1",
     "ual-scatter": "^0.3.0"
   },

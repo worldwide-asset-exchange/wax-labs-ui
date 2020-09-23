@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router
+  } from 'react-router-dom';
+
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { Anchor } from 'ual-anchor'
-import { Scatter } from 'ual-scatter'
-import { Wax } from '@eosdacio/ual-wax'
+import { Anchor } from 'ual-anchor';
+import { Scatter } from 'ual-scatter';
+import { Wax } from '@eosdacio/ual-wax';
 
-import { JsonRpc } from 'eosjs'
-import { UALProvider, withUAL } from 'ual-reactjs-renderer'
+import { UALProvider, withUAL } from 'ual-reactjs-renderer';
 
 const waxChain = {
   chainId: process.env.REACT_APP_WAX_CHAINID,
@@ -19,20 +22,19 @@ const waxChain = {
     port: process.env.REACT_APP_WAX_PORT,
   }]
 }
- 
-const AppWithUAL = withUAL(App)
 
-const appName = process.env.REACT_APP_NAME
+const AppWithUAL = withUAL(App);
+const appName = "Wax Labs";
 const scatter = new Scatter([waxChain], { appName: appName });
 const anchor = new Anchor([waxChain], { appName: appName });
 const waxcloud = new Wax([waxChain], { appName: appName });
 
 ReactDOM.render(
-  <React.StrictMode>
     <UALProvider chains={[waxChain]} authenticators={[waxcloud, anchor, scatter ]} appName={appName}>
-      <AppwWithUAL />
-    </UALProvider>
-  </React.StrictMode>,
+      <Router>
+        <AppWithUAL />
+      </Router>
+    </UALProvider>,
   document.getElementById('root')
 );
 

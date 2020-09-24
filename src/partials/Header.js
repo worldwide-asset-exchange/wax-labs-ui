@@ -12,6 +12,9 @@ function RenderHeader(props) {
                     <button id="menu-icon"></button>
                     <ul>
                         <li><Link to="/">Home</Link></li>
+                        <li><Link to="/proposals">Proposals</Link></li>
+                        <li><Link to="/my-proposals">My Proposals</Link></li>
+                        <li><Link to="/my-account">Account Info</Link></li>
                         <li className="login-li">
                             <span className="accHeader">Account</span>
                             <span className="accName">{props.accountName}</span>

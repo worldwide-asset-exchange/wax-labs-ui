@@ -17,6 +17,7 @@ class App extends React.Component {
     this.state = {
       activeUser: null,
       accountName: '',
+      isAdmin: false,
     };
 
     this.updateAccountName = this.updateAccountName.bind(this);
@@ -58,14 +59,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <RenderHeader showModal={this.props.ual.showModal} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} />
-          <Switch>
-            <Route exact path="/">
-              <RenderHome />
-            </Route>
-            <Route path="*">
-              <RenderErrorPage />
-            </Route>
-          </Switch>
+          <main>
+            <Switch>
+              <Route exact path="/">
+                <RenderHome />
+              </Route>
+              <Route path="*">
+                <RenderErrorPage />
+              </Route>
+            </Switch>
+          </main>
           <RenderFooter />
       </div>
     );

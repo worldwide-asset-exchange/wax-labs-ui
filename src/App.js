@@ -1,12 +1,15 @@
 import React from 'react';
 import {
-Switch,
+Routes,
 Route,
 } from 'react-router-dom'
 
 import './App.css';
 import RenderHome from './pages/Home.js';
 import RenderErrorPage from './pages/ErrorPage.js';
+import RenderAccountPortal from './pages/AccountPortal.js';
+import RenderProposals from './pages/Proposals.js';
+import RenderAdminPortal from './pages/AdminPortal.js'; 
 
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header.js';
@@ -58,18 +61,17 @@ class App extends React.Component {
   render(){
     return (
       <div className="App">
-        <RenderHeader showModal={this.props.ual.showModal} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} />
+        <RenderHeader showModal={this.props.ual.showModal} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} isAdmin={this.state.isAdmin} />
           <main>
-            <Switch>
-              <Route exact path="/">
-                <RenderHome />
-              </Route>
-              <Route path="*">
-                <RenderErrorPage />
-              </Route>
-            </Switch>
+            <Routes>
+              <Route path="/" element={<RenderHome/>} />
+              <Route path="proposals/*" element={<RenderProposals />} />
+              <Route path="/" element={<RenderAccountPortal />} />
+              <Route path="/" element={<RenderAdminPortal />} />
+              <Route path="*" element={<RenderErrorPage />} />
+            </Routes>
           </main>
-          <RenderFooter />
+          <RenderFooter activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} />
       </div>
     );
   }

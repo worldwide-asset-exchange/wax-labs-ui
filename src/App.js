@@ -40,7 +40,7 @@ class App extends React.Component {
 
   async updateAccountName(): Promise<void> {
     try {
-      const accountName = await this.state.activeUser.getAccountName();
+      const accountName = await this.props.ual.activeUser.getAccountName();
       this.setState({ accountName });
     } catch (e) {
       console.warn(e);
@@ -59,15 +59,16 @@ class App extends React.Component {
   }
 
   render(){
+    console.log(this.props.ual.activeUser);
     return (
       <div className="App">
-        <RenderHeader showModal={this.props.ual.showModal} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} isAdmin={this.state.isAdmin} />
+        <RenderHeader showModal={this.props.ual.showModal} accountName={this.state.accountName} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} isAdmin={this.state.isAdmin} />
           <main>
             <Routes>
               <Route path="/" element={<RenderHome/>} />
               <Route path="proposals/*" element={<RenderProposals />} />
-              <Route path="/" element={<RenderAccountPortal />} />
-              <Route path="/" element={<RenderAdminPortal />} />
+              <Route path="/account/*" element={<RenderAccountPortal />} />
+              <Route path="/admin/*" element={<RenderAdminPortal />} />
               <Route path="*" element={<RenderErrorPage />} />
             </Routes>
           </main>

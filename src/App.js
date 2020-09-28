@@ -63,16 +63,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <RenderHeader showModal={this.props.ual.showModal} accountName={this.state.accountName} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} isAdmin={this.state.isAdmin} />
-          <main>
-            <Routes>
-              <Route path="/" element={<RenderHome/>} />
-              <Route path="proposals/*" element={<RenderProposals />} />
-              <Route path="/account/*" element={<RenderAccountPortal />} />
-              <Route path="/admin/*" element={<RenderAdminPortal />} />
-              <Route path="*" element={<RenderErrorPage />} />
-            </Routes>
-          </main>
-          <RenderFooter activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} />
+        <main>
+          <Routes>
+            <Route path="/" element={<RenderHome/>} />
+            <Route path="proposals/*" element={<RenderProposals />} />
+            <Route path="/account/*" element={<RenderAccountPortal />} />
+            <Route path="/admin/*" element={<RenderAdminPortal />} />
+            <Route path="*" element={<RenderErrorPage />} />
+          </Routes>
+        </main>
+        <RenderFooter activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} />
       </div>
     );
   }

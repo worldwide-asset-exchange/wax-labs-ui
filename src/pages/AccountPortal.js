@@ -28,8 +28,8 @@ class RenderAccountPortal extends React.Component {
 
     render(){
     return (
-            <div className="proposals">
-                <div className="proposals-filter">
+            <div className="account-portal">
+                <div className="account-menu">
                     <h3>Hello, ACCOUNT_NAME!</h3>
                     <ul>
                         <li><Link to="/account">Account Info</Link></li>

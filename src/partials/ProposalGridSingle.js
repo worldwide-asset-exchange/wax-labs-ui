@@ -3,12 +3,12 @@ import {
 Link
 } from 'react-router-dom';
 
-function RenderProposalGridSingle(){
+function RenderProposalGrid(props){
     return (
-        <Link className="proposal-grid-single">
-
+        <Link key={props.proposal_id} to={'/proposals/' + props.proposal_id} className="proposal-grid-single">
+            Proposal
         </Link>
     );
 }
 
-export default RenderProposalGridSingle;
+export default RenderProposalGrid;

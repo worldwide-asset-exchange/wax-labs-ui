@@ -7,8 +7,8 @@ function RenderAdminPortal() {
     return (
             <div className="admin-portal">
                 <div className="admin-body">
-                    <Link>Proposals to Review</Link>
-                    <Link>Devliverables to Review</Link>
+                    <Link to="/proposals/in-review">Proposals to Review</Link>
+                    <Link to="/deliverables-in-review">Devliverables to Review</Link>
                 </div>
             </div>
         );

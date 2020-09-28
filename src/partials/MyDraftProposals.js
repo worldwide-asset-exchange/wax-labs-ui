@@ -8,15 +8,15 @@ import RenderProposalGrid from "./ProposalGridSingle.js";
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
-class RenderInReviewProposals extends React.Component {
+class RenderMyDraftProposals extends React.Component {
     constructor(props){
         super(props);
     }
 
     render(){
         return (
-            <div className="filtered-proposals review-proposals">
-                <h2>Proposals Under Review</h2>
+            <div className="filtered-proposals my-drafts">
+                <h2>Draft Proposals</h2>
                 {this.state.proposals.map((proposal, key) =>
                 <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
             </div>
@@ -25,4 +25,4 @@ class RenderInReviewProposals extends React.Component {
 
 }
 
-export default RenderInReviewProposals;
+export default RenderMyDraftProposals;

@@ -67,8 +67,8 @@ class App extends React.Component {
           <Routes>
             <Route path="/" element={<RenderHome/>} />
             <Route path="proposals/*" element={<RenderProposals />} />
-            <Route path="/account/*" element={<RenderAccountPortal />} />
-            <Route path="/admin/*" element={<RenderAdminPortal />} />
+            <Route path="account/*" element={<RenderAccountPortal />} />
+            <Route path="admin/*" element={<RenderAdminPortal />} />
             <Route path="*" element={<RenderErrorPage />} />
           </Routes>
         </main>

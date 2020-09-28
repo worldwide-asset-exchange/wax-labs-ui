@@ -5,7 +5,9 @@ Link
 
 function RenderSingleProposal(){
     return (
-
+        <div className="single-proposal">
+            
+        </div>
     );
 }
 

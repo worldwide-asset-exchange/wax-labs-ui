@@ -10,15 +10,13 @@ class RenderEditAccountInfo extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            proposal_id: '',
-            proposer: '',
-            title: '',
-            category: '',
-            description: '',
-            content: '',
-            total_requested_funds: '',
-            deliverables_count: '',
-            available_categories: []
+            wax_account: '',
+            full_name: '',
+            country: '',
+            bio: '',
+            image_url: '',
+            website: '',
+            contact: ''
         }
     }
 
@@ -31,6 +29,7 @@ class RenderEditAccountInfo extends React.Component {
             [name]: value,
             }), () => { }
         );
+        console.log(this.state);
     }
 
     render(){
@@ -42,7 +41,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Name:</strong>
                     </div>
                     <div className="col value">
-                        <input type="text" name="name" value={this.state.name} />
+                        <input type="text" name="full_name" value={this.state.name} onChange={this.handleInputChange} />
                     </div>
                 </div>
                 <div className="row">
@@ -50,7 +49,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Biography:</strong>
                     </div>
                     <div className="col value">
-                    <textarea name="bio" value={this.state.bio} ></textarea>
+                    <textarea name="bio" value={this.state.bio} onChange={this.handleInputChange} ></textarea>
                     </div>
                 </div>
                 <div className="row">
@@ -58,7 +57,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Image (url):</strong>
                     </div>
                     <div className="col value">
-                        <input type="text" name="img" value={this.state.img} />
+                        <input type="text" name="image_url" value={this.state.img} onChange={this.handleInputChange} />
                     </div>        
                 </div>
                 <div className="row">
@@ -66,7 +65,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Country:</strong>    
                     </div>
                     <div className="col value">
-                        <input type="text" name="country" value={this.state.country} />          
+                        <input type="text" name="country" value={this.state.country} onChange={this.handleInputChange} />          
                     </div>                          
                 </div>
                 <div className="row">
@@ -74,7 +73,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Website:</strong>   
                     </div>
                     <div className="col value">
-                        <input type="text" name="website" value={this.state.website} />               
+                        <input type="text" name="website" value={this.state.website} onChange={this.handleInputChange} />               
                     </div>                         
                 </div>
                 <div className="row">
@@ -82,8 +81,11 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Telegram Handle:</strong>   
                     </div>
                     <div className="col value">
-                        <input type="text" name="telegram" value={this.state.telegram} />              
+                        <input type="text" name="contact" value={this.state.telegram} onChange={this.handleInputChange} />              
                     </div>                         
+                </div>
+                <div className="row">
+                    <button className="submit">Update Profile</button>
                 </div>
             </div>
         );

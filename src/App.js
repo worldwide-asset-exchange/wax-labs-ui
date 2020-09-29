@@ -19,7 +19,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeUser: null,
-      accountName: '',
       isAdmin: false,
     };
 
@@ -59,7 +58,6 @@ class App extends React.Component {
   }
 
   render(){
-    console.log(this.props.ual.activeUser);
     return (
       <div className="App">
         <RenderHeader showModal={this.props.ual.showModal} accountName={this.state.accountName} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} isAdmin={this.state.isAdmin} />
@@ -67,7 +65,7 @@ class App extends React.Component {
           <Routes>
             <Route path="/" element={<RenderHome/>} />
             <Route path="proposals/*" element={<RenderProposals />} />
-            <Route path="account/*" element={<RenderAccountPortal />} />
+            <Route path="account/*" element={<RenderAccountPortal accountName={this.state.accountName} />} />
             <Route path="admin/*" element={<RenderAdminPortal />} />
             <Route path="*" element={<RenderErrorPage />} />
           </Routes>

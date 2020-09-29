@@ -12,12 +12,12 @@ class RenderAccountPortal extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            name: '',
+            full_name: '',
             bio: '',
-            img: '',
+            image_url: '',
             country: '',
             website: '',
-            telegram: ''
+            contact: ''
         }
         this.getAccountInfo = this.getAccountInfo.bind(this);
     }
@@ -30,7 +30,7 @@ class RenderAccountPortal extends React.Component {
     return (
             <div className="account-portal">
                 <div className="account-menu">
-                    <h3>Hello, ACCOUNT_NAME!</h3>
+                    <h3>Hello, {this.props.accountName}</h3>
                     <ul>
                         <li><Link to="/account">Account Info</Link></li>
                         <li><Link to="/my-proposals">My Proposals</Link></li>
@@ -38,8 +38,8 @@ class RenderAccountPortal extends React.Component {
                 </div>
                 <div className="account-body">
                     <Routes>
-                        <Route path="/" element={<RenderAccountInfo />} name={this.state.name} bio={this.state.bio} img={this.state.img} country={this.state.country} website={this.state.website} telegram={this.state.telegram} />
-                        <Route path="edit" element={<RenderEditAccountInfo />} name={this.state.name} bio={this.state.bio} img={this.state.img} country={this.state.country} website={this.state.website} telegram={this.state.telegram} />
+                        <Route path="/" element={<RenderAccountInfo full_name={this.state.full_name} bio={this.state.bio} image_url={this.state.image_url} country={this.state.country} website={this.state.website} contact={this.state.contact} wax_account={this.state.wax_account} />} />
+                        <Route path="edit" element={<RenderEditAccountInfo full_name={this.state.full_name} bio={this.state.bio} image_url={this.state.image_url} country={this.state.country} website={this.state.website} contact={this.state.contact} wax_account={this.state.wax_account} />} />
                     </Routes>
                 </div>
             </div>

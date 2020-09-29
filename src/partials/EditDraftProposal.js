@@ -51,13 +51,13 @@ class RenderEditProposal extends React.Component {
                     <div className="row">
                         <div className="col label">
                             <strong>Proposal Title:</strong>
-                            <input type="text" name="title" value={this.state.title} />
+                            <input type="text" name="title" value={this.state.title} onChange={this.handleInputChange} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Category:</strong>
-                            <select name="category">
+                            <select name="category" onChange={this.handleInputChange} >
                                 <option value="Value 1">Value 1</option>
                                 <option value="Value 2">Value 2</option>
                             </select>
@@ -66,25 +66,25 @@ class RenderEditProposal extends React.Component {
                     <div className="row">
                         <div className="col label">
                             <strong>Description:</strong>
-                            <textarea name="description" value={this.state.description}></textarea>
+                            <textarea name="description" value={this.state.description} onChange={this.handleInputChange} ></textarea>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Content:</strong>
-                            <textarea name="content" value={this.state.content}></textarea>
+                            <textarea name="content" value={this.state.content} onChange={this.handleInputChange} ></textarea>
                         </div>     
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Total Requested Amount:</strong>
-                            <input type="number" name="total_amount_requested" value={this.state.total_amount_request + ' WAX'} />
+                            <input type="number" name="total_amount_requested" value={this.state.total_amount_request + ' WAX'} onChange={this.handleInputChange} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Number of Deliverables:</strong>
-                            <input type="number" name="deliverables_count" value={this.state.deliverables_count} />
+                            <input type="number" name="deliverables_count" value={this.state.deliverables_count} onChange={this.handleInputChange} />
                         </div>
                     </div>
                 </div>

@@ -49,15 +49,24 @@ class RenderActiveProposals extends React.Component {
     }
 
     render(){
-        return (
-            <div className="filtered-proposals active">
-                <h2>Active Proposals</h2>
-                {this.state.proposals.map((proposal) =>
-                <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
-            </div>
-        );
+        const proposal_list = this.state.proposals;
+        if (!proposal_list.length){
+            return (
+                <div className="filtered-proposals active">
+                    <h2>Active Proposals</h2>
+                    <p>There are currently no active proposals.</p>
+                </div>
+            );
+        } else {
+            return (
+                <div className="filtered-proposals active">
+                    <h2>Active Proposals</h2>
+                    {this.state.proposals.map((proposal) =>
+                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                </div>
+            );
+        }
     }
-
 }
 
 export default RenderActiveProposals;

@@ -26,8 +26,8 @@ class RenderInProgressProposals extends React.Component {
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
-                  lower_bound: 'drafting',
-                  upper_bound: 'drafting',
+                  lower_bound: 'in progress',
+                  upper_bound: 'in progress',
                   key_type: 'name'
               });
             
@@ -49,15 +49,24 @@ class RenderInProgressProposals extends React.Component {
     }
 
     render(){
-        return (
-            <div className="filtered-proposals in-progress">
-                <h2>Active Proposals: In Progress</h2>
-                {this.state.proposals.map((proposal) =>
-                <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
-            </div>
-        );
+        const proposal_list = this.state.proposals;
+        if (!proposal_list.length){
+            return (
+                <div className="filtered-proposals in-progress">
+                    <h2>Active Proposals: In Progress</h2>
+                    <p>There are currently no proposals in progress.</p>
+                </div>
+            );
+        } else {
+            return (
+                <div className="filtered-proposals in-progress">
+                    <h2>Active Proposals: In Progress</h2>
+                    {this.state.proposals.map((proposal) =>
+                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                </div>
+            );
+        }
     }
-
 }
 
 export default RenderInProgressProposals;

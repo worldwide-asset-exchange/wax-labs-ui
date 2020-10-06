@@ -26,8 +26,8 @@ class RenderArchivedProposals extends React.Component {
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
-                  lower_bound: 'drafting',
-                  upper_bound: 'drafting',
+                  lower_bound: 'completed',
+                  upper_bound: 'rejected',
                   key_type: 'name'
               });
             
@@ -49,15 +49,24 @@ class RenderArchivedProposals extends React.Component {
     }
 
     render(){
-        return (
-            <div className="filtered-proposals archived">
-                <h2>Archived Proposals</h2>
-                {this.state.proposals.map((proposal) =>
-                <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
-            </div>
-        );
+        const proposal_list = this.state.proposals;
+        if (!proposal_list.length){
+            return (
+                <div className="filtered-proposals archived">
+                    <h2>Archived Proposals</h2>
+                    <p>There are currently no archived proposals.</p>
+                </div>
+            );
+        } else {
+            return (
+                <div className="filtered-proposals archived">
+                    <h2>Archived Proposals</h2>
+                    {this.state.proposals.map((proposal) =>
+                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                </div>
+            );
+        }
     }
-
 }
 
 export default RenderArchivedProposals;

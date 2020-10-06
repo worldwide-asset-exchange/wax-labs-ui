@@ -24,8 +24,8 @@ class RenderCompletedProposals extends React.Component {
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
-                  lower_bound: 'drafting',
-                  upper_bound: 'drafting',
+                  lower_bound: 'completed',
+                  upper_bound: 'completed',
                   key_type: 'name'
               });
             
@@ -47,15 +47,24 @@ class RenderCompletedProposals extends React.Component {
     }
 
     render(){
-        return (
-            <div className="filtered-proposals completed">
-                <h2>Archived Proposals: Completed</h2>
-                {this.state.proposals.map((proposal) =>
-                <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
-            </div>
-        );
+        const proposal_list = this.state.proposals;
+        if (!proposal_list.length){
+            return (
+                <div className="filtered-proposals completed">
+                    <h2>Active Proposals: Completed</h2>
+                    <p>There are currently no completed proposals.</p>
+                </div>
+            );
+        } else {
+            return (
+                <div className="filtered-proposals completed">
+                    <h2>Archived Proposals: Completed</h2>
+                    {this.state.proposals.map((proposal) =>
+                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                </div>
+            );
+        }
     }
-
 }
 
 export default RenderCompletedProposals;

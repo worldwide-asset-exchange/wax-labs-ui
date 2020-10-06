@@ -4,9 +4,11 @@ Link
 } from 'react-router-dom';
 
 function RenderProposalGrid(props){
+    const proposal = props.proposal;
     return (
-        <Link key={props.proposal_id} to={'/proposals/' + props.proposal_id} className="proposal-grid-single">
-            Proposal
+        <Link to={'/proposals/' + proposal.proposal_id} className="proposal-grid-single">
+            {proposal.proposal_id}
+            {proposal.title}
         </Link>
     );
 }

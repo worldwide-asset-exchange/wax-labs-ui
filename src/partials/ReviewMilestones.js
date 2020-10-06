@@ -13,6 +13,36 @@ class RenderReviewMilestones extends React.Component {
         super(props);
     }
 
+    async getCompletedProposals() {
+        try {
+            let resp = await wax.rpc.get_table_rows({             
+                  code: 'labs.decide',
+                  scope: 'labs.decide',
+                  table: 'proposals',
+                  json: true,
+                  index_position: 'fourth', //status
+                  lower_bound: 'drafting',
+                  upper_bound: 'drafting',
+                  key_type: 'name'
+              });
+            
+            if (!resp.rows.length) {
+                return null
+                } else {
+                    this.setState({
+                        proposals: resp.rows
+                    });
+                }
+            } catch(e) {
+              console.log(e);
+        }
+        console.log(this.state); 
+    }
+
+    componentDidMount(){
+        return this.getCompletedProposals();
+    }
+
     render(){
         return (
             <div className="filtered-proposals review-milestones">

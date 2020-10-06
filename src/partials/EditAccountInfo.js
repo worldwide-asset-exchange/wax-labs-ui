@@ -10,7 +10,6 @@ class RenderEditAccountInfo extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            wax_account: '',
             full_name: '',
             country: '',
             bio: '',
@@ -18,6 +17,10 @@ class RenderEditAccountInfo extends React.Component {
             website: '',
             contact: ''
         }
+    }
+
+    submitProfile = (async) => {
+
     }
 
     handleInputChange = (event) => {

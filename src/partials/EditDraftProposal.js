@@ -10,7 +10,6 @@ class RenderEditProposal extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            proposal_id: '',
             proposer: '',
             title: '',
             category: '',
@@ -41,9 +40,18 @@ class RenderEditProposal extends React.Component {
         // Retreives the categories from the tab
     }
 
+    saveDraftProposal = (async) => {
+        // Creates a proposal in draft status
+    }
+
+    submitProposal= (async) => {
+        // Changes the status of the draft to in-review
+    }
+
     // Remember to render in categories into the dropdown option tags
 
     render(){
+        console.log(this.state);
         return (
             <div className="filtered-proposals edit-proposal">
                 <h2>Edit Proposal</h2>

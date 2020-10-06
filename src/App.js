@@ -32,7 +32,7 @@ class App extends React.Component {
     } else if (!activeUser && this.state.activeUser) {
       this.setState({
           activeUser: null,
-          accountName: ''
+          accountName: '',
       });
     }
   }
@@ -64,7 +64,7 @@ class App extends React.Component {
         <main>
           <Routes>
             <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" element={<RenderProposals />} />
+            <Route path="proposals/*" element={<RenderProposals accountName={this.state.accountName} />} />
             <Route path="account/*" element={<RenderAccountPortal accountName={this.state.accountName} />} />
             <Route path="admin/*" element={<RenderAdminPortal />} />
             <Route path="*" element={<RenderErrorPage />} />

@@ -50,7 +50,7 @@ class RenderProposals extends React.Component {
                     <Route path="my-drafts" element={<RenderMyDraftProposals accountName={this.props.accountName} />} />
                     <Route path="my-proposals" element={<RenderMyProposals accountName={this.props.accountName} />} />
                     <Route path="new" element={<RenderEditDraftProposal />} />
-                    <Route path=":proposal_id" element={<RenderSingleProposal />} />
+                    <Route path=":id" element={<RenderSingleProposal />} />
                 </Routes>
             </div>
         </div>

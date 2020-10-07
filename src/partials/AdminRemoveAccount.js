@@ -4,6 +4,6 @@ Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-export default function RenderDeliverables(){
-
+export default function RenderRemoveAccount(){
+    
 }

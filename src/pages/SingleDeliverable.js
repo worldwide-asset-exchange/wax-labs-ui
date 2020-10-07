@@ -5,7 +5,7 @@ useParams
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-export default function RenderSingleProposal(){
+export default function RenderSingleDeliverable(){
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const { id } = useParams();
     const [ proposal, setProposal ] = useState({
@@ -26,7 +26,7 @@ export default function RenderSingleProposal(){
     });
 
     useEffect(() => {
-        async function getProposal() {
+        async function getDeliverable() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
                       code: 'labs.decide',
@@ -41,7 +41,7 @@ export default function RenderSingleProposal(){
                   console.log(e);
             }
         }
-        getProposal();
+        getDeliverable();
      }, []);
     return (
         <div className="single-proposal">{id}{proposal.title}{proposal.description}{proposal.content}

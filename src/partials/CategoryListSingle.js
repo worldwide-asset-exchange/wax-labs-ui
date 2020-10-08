@@ -4,6 +4,42 @@ Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-export default function RenderSingleCategory(){
-    
+export default function RenderCategoryList(props){
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const activeUser = props.activeUser;
+
+    async function removeCategory(){
+        try {
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs.decide',
+                        name: 'rmvcategory',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            category_name: props.category,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    return (
+        <div className="single-category">
+            <div className="cat-name">
+                {props.category}
+            </div>
+            <div className="cat-remove">
+                <button className="btn" onClick={removeCategory}>Remove</button>
+            </div>
+        </div>
+    );
 }

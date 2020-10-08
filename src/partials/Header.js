@@ -4,7 +4,6 @@ import {
 } from "react-router-dom";
 
 function RenderHeader(props) {
-    console.log(props);
     if (props.activeUser && props.activeAuthenticator) {
         return (
             <header>

@@ -18,7 +18,7 @@ export default function RenderAdminPortal(props) {
                 <div className="admin-body">
                 <Routes>
                     <Route path="/" element={<RenderAdminMenu />} />
-                    <Route path="categories" element={<RenderAdminCategories accountName={props.accountName} />} />
+                    <Route path="categories" element={<RenderAdminCategories accountName={props.accountName} activeUser={props.activeUser} />} />
                     <Route path="deliverables-review" element={<RenderDeliverablesReview accountName={props.accountName} />} />
                     <Route path="vote-duration" element={<RenderVoteDuration accountName={props.accountName} />} />
                     <Route path="transfer-admin" element={<RenderAdminRole accountName={props.accountName} activeUser={props.activeUser} />} />

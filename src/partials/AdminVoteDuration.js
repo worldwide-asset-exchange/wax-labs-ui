@@ -5,5 +5,9 @@ Link
 import * as waxjs from "@waxio/waxjs/dist";
 
 export default function RenderVoteDuration(){
-    
+    return (
+        <div className="admin-content">
+            
+        </div>
+    );
 }

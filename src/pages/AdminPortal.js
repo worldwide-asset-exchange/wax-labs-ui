@@ -1,21 +1,30 @@
 import React from 'react';
 import {
-Link
+Link,
+Routes,
+Route
 } from 'react-router-dom';
 
-function RenderAdminPortal() {
+import RenderAdminMenu from '../partials/AdminMenu.js';
+import RenderAdminCategories from '../partials/AdminCategories.js';
+import RenderDeliverablesReview from '../partials/AdminDeliverables.js';
+import RenderVoteDuration from '../partials/AdminVoteDuration.js';
+import RenderAdminRole from '../partials/AdminRole.js';
+import RenderRemoveAccount from '../partials/AdminRemoveAccount.js';
+
+export default function RenderAdminPortal(props) {
     return (
             <div className="admin-portal">
                 <div className="admin-body">
-                    <Link to="categories" className="admin-dashboard-item">Add/Remove Categories</Link>
-                    <Link to="/proposals/in-review" className="admin-dashboard-item">Proposals to Review</Link>
-                    <Link to="deliverables-review" className="admin-dashboard-item">Devliverables to Review</Link>
-                    <Link to="vote-duration" className="admin-dashboard-item">Change Voting Period Duration</Link>
-                    <Link to="transfer-admin" className="admin-dashboard-item">Transfer Administrative Role</Link>
-                    <Link to="remove-account" className="admin-dashboard-item">Remove Account or Profile</Link>
+                <Routes>
+                    <Route path="/" element={<RenderAdminMenu />} />
+                    <Route path="categories" element={<RenderAdminCategories accountName={props.accountName} />} />
+                    <Route path="deliverables-review" element={<RenderDeliverablesReview accountName={props.accountName} />} />
+                    <Route path="vote-duration" element={<RenderVoteDuration accountName={props.accountName} />} />
+                    <Route path="transfer-admin" element={<RenderAdminRole accountName={props.accountName} activeUser={props.activeUser} />} />
+                    <Route path="remove-account" element={<RenderRemoveAccount accountName={props.accountName} />} />
+                </Routes>
                 </div>
             </div>
         );
 }
-
-export default RenderAdminPortal;

@@ -66,7 +66,7 @@ class App extends React.Component {
             <Route path="/" element={<RenderHome/>} />
             <Route path="proposals/*" element={<RenderProposals accountName={this.state.accountName} />} />
             <Route path="account/*" element={<RenderAccountPortal accountName={this.state.accountName} />} />
-            <Route path="admin/*" element={<RenderAdminPortal />} />
+            <Route path="admin/*" element={<RenderAdminPortal accountName={this.state.accountName} activeUser={this.props.ual.activeUser} />} />
             <Route path="*" element={<RenderErrorPage />} />
           </Routes>
         </main>

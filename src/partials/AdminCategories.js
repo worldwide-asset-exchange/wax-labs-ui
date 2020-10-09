@@ -22,7 +22,6 @@ export default function RenderAdminCategories(props){
     }
 
     async function addCategory(){
-        console.log(add_category);
         try {
             await activeUser.signTransaction({
                 actions: [

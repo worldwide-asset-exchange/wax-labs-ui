@@ -9,9 +9,42 @@ import RenderCategoryList from './CategoryListSingle.js';
 export default function RenderAdminCategories(props){
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [ categories, setCategories ] = useState([]);
+    const [ add_category, setNewCategory ] = useState('');
+    const activeUser = props.activeUser;
+    
+    function handleInputChange(event) {
+        const value = event.target.value;
 
-    console.log(props.accountName);
-    console.log(props.activeUser);
+        setNewCategory(prevState => {
+            return { ...prevState, new_category: value }
+          }
+        );
+    }
+
+    async function addCategory(){
+        console.log(add_category);
+        try {
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs.decide',
+                        name: 'addcategory',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            new_category: add_category.new_category,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    }
 
     useEffect(() => {
         async function getCategories() {
@@ -22,7 +55,6 @@ export default function RenderAdminCategories(props){
                       table: 'config',
                       json: true,
                   });
-                  console.log(resp.rows[0].categories);
                   setCategories(resp.rows[0].categories);
                 } catch(e) {
                   console.log(e);
@@ -35,6 +67,10 @@ export default function RenderAdminCategories(props){
     return (
         <div className="admin-content">
             <Link to="/admin">Return to Admin Menu</Link>
+            <div className="add-cat">
+                <input type="text" onChange={handleInputChange} />
+                <button onClick={addCategory}>Add Category</button>
+            </div>
             {categories.map((category) =>
             <RenderCategoryList category={category} key={category} activeUser={props.activeUser} accountName={props.activeUser} />)}
         </div>

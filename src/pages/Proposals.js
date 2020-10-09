@@ -6,6 +6,7 @@ Link
 } from 'react-router-dom';
 
 import RenderVotingProposals from '../partials/VotingProposals.js';
+import RenderInReviewProposals from '../partials/InReviewProposals.js'
 import RenderInProgressProposals from '../partials/InProgressProposals.js';
 import RenderCompletedProposals from '../partials/CompletedProposals.js';
 import RenderRejectedProposals from '../partials/RejectedProposals.js';
@@ -43,6 +44,7 @@ class RenderProposals extends React.Component {
                 <Routes>
                     <Route path="/" element={<RenderActiveProposals />} />
                     <Route path="vote" element={<RenderVotingProposals />} />
+                    <Route path="in-review" element={<RenderInReviewProposals />} />
                     <Route path="in-progress" element={<RenderInProgressProposals />} />
                     <Route path="archived" element={<RenderArchivedProposals />} />
                     <Route path="archived/rejected" element={<RenderRejectedProposals />} />

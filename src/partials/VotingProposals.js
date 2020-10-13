@@ -18,7 +18,7 @@ class RenderVotingProposals extends React.Component {
         this.getVotingProposals = this.getVotingProposals.bind(this);
     }
 
-    async getVotingdProposals() {
+    async getVotingProposals() {
         try {
             let resp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',

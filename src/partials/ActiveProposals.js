@@ -26,8 +26,8 @@ class RenderActiveProposals extends React.Component {
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
-                  lower_bound: 'drafting',
-                  upper_bound: 'drafting',
+                  lower_bound: 'voting',
+                  upper_bound: 'in progress',
                   key_type: 'name'
               });
             

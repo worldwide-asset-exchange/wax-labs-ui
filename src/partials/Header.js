@@ -12,7 +12,7 @@ function RenderHeader(props) {
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/proposals">Proposals</Link></li>
-                        <li><Link to="/my-proposals">My Proposals</Link></li>
+                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
                         <li><Link to="/admin">Admin</Link></li>
                         <li><Link to="/account">Account Info</Link></li>
                         <li className="login-li">

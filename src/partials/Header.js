@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 
 function RenderHeader(props) {
-    if (props.activeUser && props.activeAuthenticator) {
+    if (props.activeUser && props.activeAuthenticator && props.isAdmin) {
         return (
             <header>
                 <nav>
@@ -12,7 +12,6 @@ function RenderHeader(props) {
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/proposals">Proposals</Link></li>
-                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
                         <li><Link to="/admin">Admin</Link></li>
                         <li><Link to="/account">Account Info</Link></li>
                         <li className="login-li">
@@ -24,7 +23,7 @@ function RenderHeader(props) {
                 </nav>
             </header>
         );
-    } else  if (props.activeUser && props.activeAuthenticator && props.isAdmin) {
+    } else if (props.activeUser && props.activeAuthenticator) {
         return (
             <header>
                 <nav>
@@ -32,7 +31,8 @@ function RenderHeader(props) {
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/proposals">Proposals</Link></li>
-                        <li><Link to="/admin">Admin</Link></li>
+                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
+                        <li><Link to="/account">Account Info</Link></li>
                         <li className="login-li">
                             <span className="accHeader">Account</span>
                             <span className="accName">{props.accountName}</span>

@@ -17,12 +17,15 @@ import RenderMyDraftProposals from '../partials/MyDraftProposals.js';
 import RenderMyProposals from '../partials/MyProposals.js';
 import RenderSingleProposal from './SingleProposal.js';
 
-class RenderProposals extends React.Component {
-    render(){
+export default function RenderProposals(props) {
     return (
         <div className="proposals">
             <div className="proposals-menu">
+                {props.activeUser ?
                 <Link to="new">New Proposal</Link>
+                :
+                <></>
+                }
                 <h3>Active Proposals</h3>
                 <ul>
                     <li><Link to="/proposals">All Active Proposals</Link></li>
@@ -35,10 +38,14 @@ class RenderProposals extends React.Component {
                     <li><Link to="archived/completed">Completed Proposals</Link></li>
                     <li><Link to="archived/rejected">Rejected Proposals</Link></li>
                 </ul>
+                {props.activeUser ?
                 <ul>
                     <li><Link to="my-proposals">My Proposals</Link></li>
                     <li><Link to="my-drafts">My Draft Proposals</Link></li>
                 </ul>
+                :
+                <></>
+                }
             </div>
             <div className="proposals-body">
                 <Routes>
@@ -49,15 +56,12 @@ class RenderProposals extends React.Component {
                     <Route path="archived" element={<RenderArchivedProposals />} />
                     <Route path="archived/rejected" element={<RenderRejectedProposals />} />
                     <Route path="archived/completed" element={<RenderCompletedProposals />} />
-                    <Route path="my-drafts" element={<RenderMyDraftProposals accountName={this.props.accountName} />} />
-                    <Route path="my-proposals" element={<RenderMyProposals accountName={this.props.accountName} />} />
+                    <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} />} />
+                    <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} />} />
                     <Route path="new" element={<RenderEditDraftProposal />} />
-                    <Route path=":id" element={<RenderSingleProposal activeUser={this.props.activeUser} isAdmin={this.props.isAdmin} />} />
+                    <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
                 </Routes>
             </div>
         </div>
     );
-    }
 }
-
-export default RenderProposals;

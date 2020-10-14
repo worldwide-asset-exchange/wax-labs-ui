@@ -20,24 +20,43 @@ class RenderArchivedProposals extends React.Component {
 
     async getArchivedProposals() {
         try {
-            let resp = await wax.rpc.get_table_rows({             
+            let completedResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
                   scope: 'labs.decide',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
                   lower_bound: 'completed',
-                  upper_bound: 'rejected',
+                  upper_bound: 'completed',
                   key_type: 'name'
               });
             
-            if (!resp.rows.length) {
-                return null
+            if (!completedResp.rows.length) {
+                return null;
                 } else {
                     this.setState({
-                        proposals: resp.rows
+                        proposals: completedResp.rows
                     });
                 }
+
+            let rejectedResp = await wax.rpc.get_table_rows({             
+                    code: 'labs.decide',
+                    scope: 'labs.decide',
+                    table: 'proposals',
+                    json: true,
+                    index_position: 'fourth', //status
+                    lower_bound: 'rejected',
+                    upper_bound: 'rejected',
+                    key_type: 'name'
+                });
+
+            if (!rejectedResp.rows.length) {
+                return null;
+                } else {
+                    this.setState(prevState => ({
+                    proposals: rejectedResp.rows
+                    }));
+                }    
             } catch(e) {
               console.log(e);
         }
@@ -45,7 +64,7 @@ class RenderArchivedProposals extends React.Component {
     }
 
     componentDidMount(){
-        return this.getActiveProposals();
+        return this.getArchivedProposals();
     }
 
     render(){

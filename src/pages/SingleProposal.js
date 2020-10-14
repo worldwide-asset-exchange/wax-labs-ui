@@ -110,7 +110,7 @@ export default function RenderSingleProposal(props){
                     }],
                     data: {
                       voter: activeUser.accountName,
-                    },
+                        },
                     },
                     {
                     account: 'decide',
@@ -296,7 +296,7 @@ export default function RenderSingleProposal(props){
      }
 
      function RenderVoteButtons(){
-        if (proposal.status === "voting"){ 
+        if (activeUser && proposal.status === "voting"){ 
             return (
                 <div className="vote-buttons">
                     <button className="btn" name="yes" onClick={castVote}>Vote Yes</button>

@@ -26,6 +26,23 @@ export default function RenderProposals(props) {
                 :
                 <></>
                 }
+                <ul>
+                {props.activeUser ?
+                <>    
+                    <li><Link to="my-proposals">My Proposals</Link></li>
+                    <li><Link to="my-drafts">My Draft Proposals</Link></li>
+                </>
+                :
+                <></>
+                }
+                {props.activeUser && props.isAdmin ?
+                <>
+                    <li><Link to="in-review">In Review Proposals</Link></li>
+                </>
+                :
+                <></>
+                }
+                </ul>
                 <h3>Active Proposals</h3>
                 <ul>
                     <li><Link to="/proposals">All Active Proposals</Link></li>
@@ -38,14 +55,6 @@ export default function RenderProposals(props) {
                     <li><Link to="archived/completed">Completed Proposals</Link></li>
                     <li><Link to="archived/rejected">Rejected Proposals</Link></li>
                 </ul>
-                {props.activeUser ?
-                <ul>
-                    <li><Link to="my-proposals">My Proposals</Link></li>
-                    <li><Link to="my-drafts">My Draft Proposals</Link></li>
-                </ul>
-                :
-                <></>
-                }
             </div>
             <div className="proposals-body">
                 <Routes>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
@@ -6,67 +6,74 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderActiveProposals(props) {
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderActiveProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: []
-        };
-
-        this.getActiveProposals = this.getActiveProposals.bind(this);
-    }
-
-    async getActiveProposals() {
+    useEffect(() => {
+        async function getActiveProposals() {
         try {
-            let resp = await wax.rpc.get_table_rows({             
+            let votingResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
                   scope: 'labs.decide',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
                   lower_bound: 'voting',
-                  upper_bound: 'in progress',
+                  upper_bound: 'voting',
                   key_type: 'name'
               });
             
-            if (!resp.rows.length) {
+              console.log(votingResp.rows);
+            
+            if (!votingResp.rows.length) {
                 return null
-                } else {
-                    this.setState({
-                        proposals: resp.rows
-                    });
-                }
+            } else {
+                console.log(votingResp.rows);
+                setProposals(votingResp.rows);
+            }
+            
+            let inprogResp = await wax.rpc.get_table_rows({             
+                code: 'labs.decide',
+                scope: 'labs.decide',
+                table: 'proposals',
+                json: true,
+                index_position: 'fourth', //status
+                lower_bound: 'in.progress',
+                upper_bound: 'in.progress',
+                key_type: 'name'
+            });
+
+            if (!inprogResp.rows.length) {
+                return null
+            } else {
+                const inprog = inprogResp.rows;
+                setProposals(prevState => {
+                    return { ...prevState, inprog }
+                  }); 
+            }
+            
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.state); 
-    }
+            return getActiveProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getActiveProposals();
-    }
-
-    render(){
-        const proposal_list = this.state.proposals;
-        if (!proposal_list.length){
-            return (
-                <div className="filtered-proposals active">
-                    <h2>Active Proposals</h2>
-                    <p>There are currently no active proposals.</p>
-                </div>
-            );
-        } else {
-            return (
-                <div className="filtered-proposals active">
-                    <h2>Active Proposals</h2>
-                    {this.state.proposals.map((proposal) =>
-                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
-                </div>
+    if (!proposals){
+        return (
+            <div className="filtered-proposals active">
+                <h2>Active Proposals</h2>
+                <p>There are currently no active proposals.</p>
+            </div>
+        );
+    } else {
+        return (
+            <div className="filtered-proposals active">
+                <h2>Active Proposals</h2>
+                {proposals.map((proposal) =>
+                <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+            </div>
             );
         }
     }
-}
-
-export default RenderActiveProposals;

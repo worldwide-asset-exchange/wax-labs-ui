@@ -434,7 +434,7 @@ export default function RenderSingleProposal(props){
             return (
                 <div className="proposer-menu">
                     <h3>Proposer Menu</h3>
-                    <Link to="/">Edit Proposal</Link>
+                    <Link to="edit">Edit Proposal</Link>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
                 </div>

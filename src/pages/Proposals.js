@@ -69,6 +69,7 @@ export default function RenderProposals(props) {
                     <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} />} />
                     <Route path="new" element={<RenderEditDraftProposal />} />
                     <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} />} />
                 </Routes>
             </div>
         </div>

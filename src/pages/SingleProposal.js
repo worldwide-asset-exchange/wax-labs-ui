@@ -4,7 +4,6 @@ Link,
 useParams
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
-import RenderActiveProposals from '../partials/ActiveProposals';
 
 export default function RenderSingleProposal(props){
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -34,6 +33,7 @@ export default function RenderSingleProposal(props){
         contact: ''
     });
     const [deliverables, setDeliverables ] = useState([]);
+    const [currentVotes, setVotes ] = useState([]);
 
     useEffect(() => {
         async function getProposal() {
@@ -51,31 +51,12 @@ export default function RenderSingleProposal(props){
                 console.log(resp.rows[0]);
                 setProposal(resp.rows[0]);
 
-                let profile = await wax.rpc.get_table_rows({             
-                    code: 'labs.decide',
-                    scope: 'labs.decide',
-                    table: 'profiles',
-                    json: true,
-                    lower_bound: proposal.proposer,
-                    upper_bound: proposal.proposer,
-                });
-
-                console.log(profile.rows[0]);
-                setProfile(profile.rows[0]);
+                const proposerAcct = resp.rows[0].proposer;
+                const ballotName = resp.rows[0].ballot_name;
                 
-                if (proposal.status === "in progress"){
-                    let delivs = await wax.rpc.get_table_rows({
-                        code: 'labs.decide',
-                        scope: 'labs.decide',
-                        table: 'deliverables',
-                        json: true,
-                        lower_bound: id,
-                        upper_bound: id,
-                    });
-                    console.log(delivs.rows);
-                    setDeliverables(delivs.rows);
-                }}
+                return getVotes(proposerAcct, ballotName);
 
+                }
                 } catch(e) {
                     console.log(e);
             }
@@ -83,57 +64,142 @@ export default function RenderSingleProposal(props){
         return getProposal();
      }, []);
 
+     async function getVotes(proposerAcct, ballotName){
+         try {
+            let profile = await wax.rpc.get_table_rows({             
+                code: 'labs.decide',
+                scope: 'labs.decide',
+                table: 'profiles',
+                json: true,
+                lower_bound: proposerAcct,
+                upper_bound: proposerAcct,
+            });
+
+            console.log(profile.rows[0]);
+            setProfile(profile.rows[0]);
+
+            let currentVote = await wax.rpc.get_table_rows({             
+                code: 'decide',
+                scope: 'decide',
+                table: 'ballots',
+                json: true,
+                lower_bound: ballotName,
+                upper_bound: ballotName,
+                limit: 1
+            });
+
+            console.log(currentVote.rows[0].options);
+            setVotes(currentVote.rows[0].options);
+         } catch(e) {
+            console.log(e);
+         }
+     }
+
+     async function getDeliverables(){
+        try {
+                let delivs = await wax.rpc.get_table_rows({
+                    code: 'labs.decide',
+                    scope: 'labs.decide',
+                    table: 'deliverables',
+                    json: true,
+                    lower_bound: id,
+                    upper_bound: id,
+                });
+                console.log(delivs.rows);
+                setDeliverables(delivs.rows);
+        } catch(e) {
+           console.log(e);
+        }
+    }
+
      async function castVote(event) {
         const voteOption = event.target.name;
         try {
-            await activeUser.signTransaction({
-                actions: [
-                    {
-                        account: 'decide',
-                        name: 'regvoter',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            voter: activeUser.accountName,
-                            treasury_symbol: '8,VOTE',
-                            referrer: 'labs.decide'
-                        },
-                    },
-                    {
-                    account: 'decide',
-                    name: 'sync',
-                    authorization: [{
-                      actor: activeUser.accountName,
-                      permission: 'active',
-                    }],
-                    data: {
-                      voter: activeUser.accountName,
-                        },
-                    },
-                    {
-                    account: 'decide',
-                    name: 'castvote',
-                    authorization: [{
-                      actor: activeUser.accountName,
-                      permission: 'active',
-                    }],
-                    data: {
-                      voter: activeUser.accountName,
-                      options: [voteOption],
-                      ballot_name: proposal.ballot_name
-                    },
-                    }
-                ]}, {
-                blocksBehind: 3,
-                expireSeconds: 30
+            let checkReg = await wax.rpc.get_table_rows({             
+                code: 'decide',
+                scope: activeUser.accountName,
+                table: 'voters',
+                json: true
             });
-
-          } catch(e) {
-            console.log(e);
-          }
-     }
+            if (!checkReg.rows.length){
+                await activeUser.signTransaction({
+                    actions: [
+                        {
+                            account: 'oig',
+                            name: 'regvoter',
+                            authorization: [{
+                                actor: activeUser.accountName,
+                                permission: 'active',
+                            }],
+                            data: {
+                                voter: activeUser.accountName,
+                                treasury_symbol: '8,VOTE',
+                            },
+                        },
+                        {
+                            account: 'decide',
+                            name: 'sync',
+                            authorization: [{
+                                actor: activeUser.accountName,
+                                permission: 'active',
+                            }],
+                            data: {
+                                voter: activeUser.accountName,
+                                },
+                            },
+                        {
+                            account: 'decide',
+                            name: 'castvote',
+                                authorization: [{
+                                    actor: activeUser.accountName,
+                                    permission: 'active',
+                                }],
+                            data: {
+                                voter: activeUser.accountName,
+                                options: [voteOption],
+                                ballot_name: proposal.ballot_name
+                                },
+                            }
+                        ]}, {
+                            blocksBehind: 3,
+                            expireSeconds: 30
+                        });
+                    } else {
+                        await activeUser.signTransaction({
+                            actions: [
+                                {
+                                    account: 'decide',
+                                    name: 'sync',
+                                    authorization: [{
+                                        actor: activeUser.accountName,
+                                        permission: 'active',
+                                    }],
+                                    data: {
+                                        voter: activeUser.accountName,
+                                        },
+                                    },
+                                {
+                                    account: 'decide',
+                                    name: 'castvote',
+                                        authorization: [{
+                                            actor: activeUser.accountName,
+                                            permission: 'active',
+                                        }],
+                                    data: {
+                                        voter: activeUser.accountName,
+                                        options: [voteOption],
+                                        ballot_name: proposal.ballot_name
+                                        },
+                                    }
+                                ]}, {
+                                    blocksBehind: 3,
+                                    expireSeconds: 30
+                                });
+                    }
+                } catch(e) {
+                    console.log(e);
+            }
+        }  
 
     async function rejectProposal() {
         try {        
@@ -289,8 +355,8 @@ export default function RenderSingleProposal(props){
      function RenderVoteTotals(){
         return (
             <div className="vote-totals">
-                <div className="yes-vote"><strong>Yes: {proposal.ballot_results.filter(({key}) => key === "yes").map(ele => ele.value)}</strong></div>
-                <div className="no-vote"><strong>No: {proposal.ballot_results.filter(({key}) => key === "no").map(ele => ele.value)}</strong></div>
+                <div className="yes-vote"><strong>Yes: {currentVotes.filter(({key}) => key === "yes").map(ele => ele.value)}</strong></div>
+                <div className="no-vote"><strong>No: {currentVotes.filter(({key}) => key === "no").map(ele => ele.value)}</strong></div>
             </div>
         );
      }
@@ -364,7 +430,16 @@ export default function RenderSingleProposal(props){
     }
 
     function RenderProposerMenu(){
-        if (activeUser && activeUser.accountName === proposal.proposer && proposal.status === "approved"){
+        if (activeUser && activeUser.accountName === proposal.proposer && proposal.status === "drafting"){
+            return (
+                <div className="proposer-menu">
+                    <h3>Proposer Menu</h3>
+                    <Link to="/">Edit Proposal</Link>
+                    <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
+                    <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
+                </div>
+            );
+        } else if (activeUser && activeUser.accountName === proposal.proposer && proposal.status === "approved"){
             return (
                 <div className="proposer-menu">
                     <h3>Proposer Menu</h3>

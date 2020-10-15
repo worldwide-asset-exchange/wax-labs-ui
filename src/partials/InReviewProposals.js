@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
@@ -6,21 +6,14 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderInReviewProposals() {
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderInReviewProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: []
-        };
-
-        this.getInReviewProposals = this.getInReviewProposals.bind(this);
-    }
-
-    async getInReviewProposals() {
+    useEffect(() => {
+        async function getInReviewProposals() {
         try {
-            let resp = await wax.rpc.get_table_rows({             
+            let inrevResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
                   scope: 'labs.decide',
                   table: 'proposals',
@@ -31,26 +24,21 @@ class RenderInReviewProposals extends React.Component {
                   key_type: 'name'
               });
             
-            if (!resp.rows.length) {
+            
+            if (!inrevResp.rows.length) {
                 return null
-                } else {
-                    this.setState({
-                        proposals: resp.rows
-                    });
-                }
+            } else {
+                setProposals(inrevResp.rows);
+            }  
+             
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.state); 
-    }
+            return getInReviewProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getInReviewProposals();
-    }
-
-    render(){
-        const proposal_list = this.state.proposals;
-        if (!proposal_list.length){
+        if (!proposals){
             return (
                 <div className="filtered-proposals review-proposals">
                     <h2>Proposals Under Review</h2>
@@ -61,12 +49,9 @@ class RenderInReviewProposals extends React.Component {
             return (
                 <div className="filtered-proposals review-proposals">
                     <h2>Proposals Under Review</h2>
-                    {this.state.proposals.map((proposal) =>
+                    {proposals.map((proposal) =>
                     <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                 </div>
             );
         }
     }
-}
-
-export default RenderInReviewProposals;

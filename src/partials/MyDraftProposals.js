@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
@@ -6,21 +6,14 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderMyDraftProposals(props) {
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderMyDraftProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: []
-        }
-
-        this.getDraftProposals = this.getDraftProposals.bind(this);
-    }
-
-    async getDraftProposals() {
+    useEffect(() => {
+        async function getMyDraftProposals() {
         try {
-            let resp = await wax.rpc.get_table_rows({             
+            let draftResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
                   scope: 'labs.decide',
                   table: 'proposals',
@@ -31,27 +24,22 @@ class RenderMyDraftProposals extends React.Component {
                   key_type: 'name'
               });
             
-            if (!resp.rows.length) {
-                return null;
-                } else {
-                    this.setState({
-                        proposals: resp.rows
-                    });
-                }
+            
+            if (!draftResp.rows.length) {
+                return null
+            } else {
+                setProposals(draftResp.rows);
+            }  
+             
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.props.accountName);   
-    }
+            return getMyDraftProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getDraftProposals();
-    }
     
-
-    render(){
-        const proposal_list = this.state.proposals;
-        if (!proposal_list.length){
+        if (!proposals){
             return (
                 <div className="filtered-proposals my-drafts">
                     <h2>Draft Proposals</h2>
@@ -62,12 +50,9 @@ class RenderMyDraftProposals extends React.Component {
             return (
                 <div className="filtered-proposals my-drafts">
                     <h2>Draft Proposals</h2>
-                    {this.state.proposals.filter(proposal => proposal.proposer === this.props.accountName).map((filteredProposal) =>
+                    {proposals.filter(proposal => proposal.proposer === props.accountName).map((filteredProposal) =>
                     <RenderProposalGrid proposal={filteredProposal} key={filteredProposal.proposal_id} />)}
                 </div>
             );
         }
     }
-}
-
-export default RenderMyDraftProposals;

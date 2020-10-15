@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
@@ -6,21 +6,14 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderRejectedProposals(){
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderRejectedProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: []
-        };
-
-        this.getRejectedProposals = this.getRejectedProposals.bind(this);
-    }
-
-    async getRejectedProposals() {
+    useEffect(() => {
+        async function getRejectedProposals() {
         try {
-            let resp = await wax.rpc.get_table_rows({             
+            let rejectedResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
                   scope: 'labs.decide',
                   table: 'proposals',
@@ -31,26 +24,22 @@ class RenderRejectedProposals extends React.Component {
                   key_type: 'name'
               });
             
-            if (!resp.rows.length) {
+            
+            if (!rejectedResp.rows.length) {
                 return null
-                } else {
-                    this.setState({
-                        proposals: resp.rows
-                    });
-                }
+            } else {
+                setProposals(rejectedResp.rows);
+            }  
+             
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.state); 
-    }
+            return getRejectedProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getRejectedProposals();
-    }
 
-    render(){
-        const proposal_list = this.state.proposals;
-        if (!proposal_list.length){
+        if (!proposals){
             return (
                 <div className="filtered-proposals rejected">
                     <h2>Archived Proposals: Rejected</h2>
@@ -61,12 +50,9 @@ class RenderRejectedProposals extends React.Component {
             return (
                 <div className="filtered-proposals rejected">
                     <h2>Archived Proposals: Rejected</h2>
-                    {this.state.proposals.map((proposal) =>
+                    {proposals.map((proposal) =>
                     <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                 </div>
             );
         }
     }
-}
-
-export default RenderRejectedProposals;

@@ -1,24 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderCompletedProposals() {
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderCompletedProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: []
-        };
-
-        this.getCompletedProposals = this.getCompletedProposals.bind(this);
-        
-    }
-
-    async getCompletedProposals() {
+    useEffect(() => {
+        async function getCompletedProposals() {
         try {
-            let resp = await wax.rpc.get_table_rows({             
+            let completedResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
                   scope: 'labs.decide',
                   table: 'proposals',
@@ -29,26 +21,21 @@ class RenderCompletedProposals extends React.Component {
                   key_type: 'name'
               });
             
-            if (!resp.rows.length) {
+            
+            if (!completedResp.rows.length) {
                 return null
-                } else {
-                    this.setState({
-                        proposals: resp.rows
-                    });
-                }
+            } else {
+                setProposals(completedResp.rows);
+            }  
+             
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.state); 
-    }
+            return getCompletedProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getCompletedProposals();
-    }
-
-    render(){
-        const proposal_list = this.state.proposals;
-        if (!proposal_list.length){
+    if (!proposals){
             return (
                 <div className="filtered-proposals completed">
                     <h2>Active Proposals: Completed</h2>
@@ -59,12 +46,9 @@ class RenderCompletedProposals extends React.Component {
             return (
                 <div className="filtered-proposals completed">
                     <h2>Archived Proposals: Completed</h2>
-                    {this.state.proposals.map((proposal) =>
+                    {proposals.map((proposal) =>
                     <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                 </div>
             );
         }
     }
-}
-
-export default RenderCompletedProposals;

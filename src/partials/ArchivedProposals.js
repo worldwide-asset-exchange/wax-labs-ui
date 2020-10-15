@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
@@ -6,19 +6,12 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderArchivedProposals() {
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderArchivedProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: []
-        };
-
-        this.getArchivedProposals = this.getArchivedProposals.bind(this);
-    }
-
-    async getArchivedProposals() {
+    useEffect(() => {
+        async function getArchivedProposals() {
         try {
             let completedResp = await wax.rpc.get_table_rows({             
                   code: 'labs.decide',
@@ -31,45 +24,41 @@ class RenderArchivedProposals extends React.Component {
                   key_type: 'name'
               });
             
+            
             if (!completedResp.rows.length) {
-                return null;
-                } else {
-                    this.setState({
-                        proposals: completedResp.rows
-                    });
-                }
-
+                return null
+            } else {
+                setProposals(completedResp.rows);
+            }
+            
             let rejectedResp = await wax.rpc.get_table_rows({             
-                    code: 'labs.decide',
-                    scope: 'labs.decide',
-                    table: 'proposals',
-                    json: true,
-                    index_position: 'fourth', //status
-                    lower_bound: 'rejected',
-                    upper_bound: 'rejected',
-                    key_type: 'name'
-                });
+                code: 'labs.decide',
+                scope: 'labs.decide',
+                table: 'proposals',
+                json: true,
+                index_position: 'fourth', //status
+                lower_bound: 'rejected',
+                upper_bound: 'rejected',
+                key_type: 'name'
+            });
 
             if (!rejectedResp.rows.length) {
-                return null;
-                } else {
-                    this.setState(prevState => ({
-                    proposals: rejectedResp.rows
-                    }));
-                }    
+                return null
+            } else {
+                const rejected = rejectedResp.rows;
+                setProposals(prevState => {
+                    return { ...prevState, rejected }
+                  }); 
+            }
+            
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.state); 
-    }
+            return getArchivedProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getArchivedProposals();
-    }
-
-    render(){
-        const proposal_list = this.state.proposals;
-        if (!proposal_list.length){
+        if (!proposals){
             return (
                 <div className="filtered-proposals archived">
                     <h2>Archived Proposals</h2>
@@ -80,12 +69,9 @@ class RenderArchivedProposals extends React.Component {
             return (
                 <div className="filtered-proposals archived">
                     <h2>Archived Proposals</h2>
-                    {this.state.proposals.map((proposal) =>
+                    {proposals.map((proposal) =>
                     <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                 </div>
             );
         }
     }
-}
-
-export default RenderArchivedProposals;

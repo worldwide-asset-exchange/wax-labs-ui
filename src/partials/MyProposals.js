@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
@@ -6,50 +6,46 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderMyProposals() {
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [proposals, setProposals ] = useState();
 
-class RenderMyProposals extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            proposals: [],
-        };
-
-        this.getMyProposals = this.getMyProposals.bind(this);
-    }
-
-    async getMyProposals() {
+    useEffect(() => {
+        async function getMyProposals() {
         try {
             let resp = await wax.rpc.get_table_rows({             
-                  code: 'labs.decide',
-                  scope: 'labs.decide',
-                  table: 'proposals',
-                  json: true,
-                  index_position: 'secondary',
-                  lower_bound: this.props.accountName,
-                  upper_bound: this.props.accountName,
-                  key_type: 'name'
-              });
+                code: 'labs.decide',
+                scope: 'labs.decide',
+                table: 'proposals',
+                json: true,
+                index_position: 'secondary',
+                lower_bound: this.props.accountName,
+                upper_bound: this.props.accountName,
+                key_type: 'name'
+            });
+            
             
             if (!resp.rows.length) {
                 return null
-                } else {
-                    this.setState({
-                        proposals: resp.rows
-                    });
-                }
+            } else {
+                setProposals(resp.rows);
+            }  
+             
             } catch(e) {
               console.log(e);
+            }
         }
-        console.log(this.state); 
-    }
+            return getMyProposals();
+        }, []);
 
-    componentDidMount(){
-        return this.getMyProposals();
-    }
-
-    render(){
-        console.log(this.props.accountName);
+    if (!proposals){
+        return (
+            <div className="filtered-proposals my-proposals">
+            <h2>My Proposals</h2>
+            <p>You currently have no proposals. <Link to="/proposals/new">Create a proposal.</Link></p>
+            </div>
+        );
+    } else {
         return (
             <div className="filtered-proposals my-proposals">
                 <h2>My Proposals</h2>
@@ -58,7 +54,4 @@ class RenderMyProposals extends React.Component {
             </div>
         );
     }
-
 }
-
-export default RenderMyProposals;

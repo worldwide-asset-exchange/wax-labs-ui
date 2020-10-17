@@ -23,7 +23,7 @@ build-test-deploy-mainnet:
   script:
     - yarn install
     - yarn build
-  stage: test
+  stage: prod
   artifacts:
     paths:
       - build/

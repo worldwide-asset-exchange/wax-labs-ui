@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import * as waxjs from "@waxio/waxjs/dist";
 
 export default function RenderRemoveAccount(props){
     const [wax_account, setAccount] = useState('');

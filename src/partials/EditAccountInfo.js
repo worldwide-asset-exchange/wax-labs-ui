@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import * as waxjs from "@waxio/waxjs/dist";
 
 export default function RenderEditAccountInfo(props){
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [userProfile, setProfile] = useState({
         full_name: props.full_name,
         country: props.country,

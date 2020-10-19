@@ -6,7 +6,6 @@ export default function RenderRemoveAccount(props){
     
     function handleInputChange(event) {
         const value = event.target.value;
-        const name = event.target.name;
 
         setAccount(prevState => {
             return { ...prevState, wax_account: value }

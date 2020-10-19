@@ -14,7 +14,6 @@ export default function RenderEditAccountInfo(props){
 
     useEffect(() => {
         async function ifProfileExists() {
-            console.log(userProfile.full_name);
             if (userProfile.full_name) {
                 setProfile(prevState => ({
                     ...userProfile,
@@ -25,7 +24,7 @@ export default function RenderEditAccountInfo(props){
             }
         }
         ifProfileExists();
-        }, []);
+        }, [userProfile]);
     
     async function submitProfile() {
         try {

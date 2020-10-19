@@ -55,7 +55,7 @@ export default function RenderActiveProposals(props) {
             }
         }
         getActiveProposals();
-        }, []);
+        }, [wax.rpc]);
 
     if (!proposals){
         return (

@@ -36,7 +36,7 @@ export default function RenderMyProposals(props) {
             }
         }
         getMyProposals();
-        }, []);
+        }, [props.accountName, wax.rpc]);
 
     if (!proposals){
         return (

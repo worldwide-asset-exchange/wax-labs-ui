@@ -33,7 +33,7 @@ export default function RenderCompletedProposals() {
             }
         }
         getCompletedProposals();
-        }, []);
+        }, [wax.rpc]);
 
     if (!proposals){
             return (

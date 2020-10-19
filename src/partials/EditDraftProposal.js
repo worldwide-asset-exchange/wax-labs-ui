@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-Link,
 useParams
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
@@ -48,7 +47,7 @@ export default function RenderEditProposal(props) {
             }
         }
         getProposalDetails();
-        }, []);
+        }, [id, wax.rpc]);
 
     function handleInputChange(event) {
         const value = event.target.value;

@@ -16,7 +16,6 @@ export default function RenderVoteDuration(props){
             return { ...prevState, new_vote_duration: value }
           }
         );
-        console.log(new_vote_duration);
     }
 
     async function updateDuration(){
@@ -58,7 +57,7 @@ export default function RenderVoteDuration(props){
             }
         }
         getDuration();
-     }, []);
+     }, [wax.rpc]);
 
     return (
         <div className="admin-content">

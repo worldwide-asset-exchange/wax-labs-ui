@@ -45,7 +45,7 @@ export default function RenderProposals(props) {
             }
         }
         getCategories();
-     }, []);
+     }, [props.accountName, wax.rpc]);
     
     return (
         <div className="proposals">

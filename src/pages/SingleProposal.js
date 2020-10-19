@@ -24,7 +24,7 @@ export default function RenderSingleProposal(props){
         ballot_name: '',
         ballot_results: []
     });
-    const [ profile, setProfile ] = useState({
+    /* const [ profile, setProfile ] = useState({
         full_name: '',
         country: '',
         bio: '',
@@ -32,7 +32,7 @@ export default function RenderSingleProposal(props){
         website: '',
         contact: ''
     });
-    const [deliverables, setDeliverables ] = useState([]);
+    const [deliverables, setDeliverables ] = useState([]); */
     const [currentVotes, setVotes ] = useState([]);
 
     useEffect(() => {
@@ -54,47 +54,46 @@ export default function RenderSingleProposal(props){
                 const proposerAcct = resp.rows[0].proposer;
                 const ballotName = resp.rows[0].ballot_name;
                 
-                getVotes(proposerAcct, ballotName);
-
+                async function getVotes(){
+                    try {
+                       let profile = await wax.rpc.get_table_rows({             
+                           code: 'labs',
+                           scope: 'labs',
+                           table: 'profiles',
+                           json: true,
+                           lower_bound: proposerAcct,
+                           upper_bound: proposerAcct,
+                       });
+           
+                       console.log(profile.rows[0]);
+                       /* setProfile(profile.rows[0]); */
+           
+                       let currentVote = await wax.rpc.get_table_rows({             
+                           code: 'decide',
+                           scope: 'decide',
+                           table: 'ballots',
+                           json: true,
+                           lower_bound: ballotName,
+                           upper_bound: ballotName,
+                           limit: 1
+                       });
+           
+                       console.log(currentVote.rows[0].options);
+                       setVotes(currentVote.rows[0].options);
+                    } catch(e) {
+                       console.log(e);
+                    }
+                }
+                getVotes();
                 }
                 } catch(e) {
                     console.log(e);
             }
         }
         getProposal();
-     }, []);
+     }, [setProposal, id, wax.rpc, proposal.proposer]);
 
-     async function getVotes(proposerAcct, ballotName){
-         try {
-            let profile = await wax.rpc.get_table_rows({             
-                code: 'labs',
-                scope: 'labs',
-                table: 'profiles',
-                json: true,
-                lower_bound: proposerAcct,
-                upper_bound: proposerAcct,
-            });
-
-            console.log(profile.rows[0]);
-            setProfile(profile.rows[0]);
-
-            let currentVote = await wax.rpc.get_table_rows({             
-                code: 'decide',
-                scope: 'decide',
-                table: 'ballots',
-                json: true,
-                lower_bound: ballotName,
-                upper_bound: ballotName,
-                limit: 1
-            });
-
-            console.log(currentVote.rows[0].options);
-            setVotes(currentVote.rows[0].options);
-         } catch(e) {
-            console.log(e);
-         }
-     }
-
+     /*
      async function getDeliverables(){
         try {
                 let delivs = await wax.rpc.get_table_rows({
@@ -110,7 +109,7 @@ export default function RenderSingleProposal(props){
         } catch(e) {
            console.log(e);
         }
-    }
+    } */
 
      async function castVote(event) {
         const voteOption = event.target.name;
@@ -373,7 +372,7 @@ export default function RenderSingleProposal(props){
             return null;
         }
      }
-    
+    /*
     function RenderDeliverables(){
         if (proposal.status === "in progress"){ 
             return (
@@ -386,6 +385,7 @@ export default function RenderSingleProposal(props){
             return null;
         }
     } 
+    
 
     function RenderSingleDeliverable(){
         if (activeUser === proposal.reviewer){
@@ -398,6 +398,7 @@ export default function RenderSingleProposal(props){
             );
         }
     }
+    */
 
     function RenderAdminMenu(){
         if (props.isAdmin === true ){
@@ -489,7 +490,6 @@ export default function RenderSingleProposal(props){
                 <div className="deliverables-header">
                     <strong>Deliverables:</strong> {proposal.deliverables} {proposal.deliverables_completed}
                 </div>
-                <RenderDeliverables />
             </div>
         </div>
     );

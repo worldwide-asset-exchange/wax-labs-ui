@@ -53,7 +53,7 @@ export default function RenderArchivedProposals() {
             }
         }
         getArchivedProposals();
-        }, []);
+        }, [wax.rpc]);
 
         if (!proposals){
             return (

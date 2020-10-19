@@ -33,7 +33,7 @@ export default function RenderInReviewProposals(props) {
                             <strong>Image (url):</strong>
                         </div>
                         <div className="col value">
-                            <img src={props.image_url} alt="Account Image" />
+                            <img src={props.image_url} alt="" />
                             <Link to="edit">Edit</Link>
                         </div>        
                     </div>

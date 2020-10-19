@@ -33,7 +33,7 @@ export default function RenderMyDraftProposals(props) {
             }
         }
         getMyDraftProposals();
-        }, []);
+        }, [wax.rpc]);
 
     
         if (!proposals){

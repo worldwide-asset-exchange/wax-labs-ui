@@ -19,6 +19,7 @@ export default function RenderAccountPortal(props) {
         website: '',
         contact: ''
     });
+    const activeUser = props.activeUser;
 
     useEffect(() => {
         async function getAccountInfo() {
@@ -28,8 +29,8 @@ export default function RenderAccountPortal(props) {
                       scope: 'labs',
                       table: 'profiles',
                       json: true,
-                      lower_limit: props.accountName,
-                      upper_limit: props.accountName,
+                      lower_limit: activeUser.accountName,
+                      upper_limit: activeUser.accountName,
                       limit: 1
                   });
                   console.log(resp.rows[0]);
@@ -45,7 +46,7 @@ export default function RenderAccountPortal(props) {
             }
         }
         getAccountInfo();
-     }, []);
+     }, [activeUser.accountName, wax.rpc]);
 
     if (props.accountName !== "") {
     return(

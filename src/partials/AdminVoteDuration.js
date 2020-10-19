@@ -27,7 +27,7 @@ export default function RenderVoteDuration(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'setduration',
                         authorization: [{
                             actor: activeUser.accountName,
@@ -50,8 +50,8 @@ export default function RenderVoteDuration(props){
         async function getDuration() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
-                      code: 'labs.decide',
-                      scope: 'labs.decide',
+                      code: 'labs',
+                      scope: 'labs',
                       table: 'config',
                       json: true,
                   });

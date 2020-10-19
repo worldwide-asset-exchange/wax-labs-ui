@@ -40,8 +40,8 @@ export default function RenderSingleProposal(props){
             try {
                 if (!proposal.proposer) {
                 let resp = await wax.rpc.get_table_rows({             
-                    code: 'labs.decide',
-                    scope: 'labs.decide',
+                    code: 'labs',
+                    scope: 'labs',
                     table: 'proposals',
                     json: true,
                     lower_bound: id,
@@ -54,21 +54,21 @@ export default function RenderSingleProposal(props){
                 const proposerAcct = resp.rows[0].proposer;
                 const ballotName = resp.rows[0].ballot_name;
                 
-                return getVotes(proposerAcct, ballotName);
+                getVotes(proposerAcct, ballotName);
 
                 }
                 } catch(e) {
                     console.log(e);
             }
         }
-        return getProposal();
+        getProposal();
      }, []);
 
      async function getVotes(proposerAcct, ballotName){
          try {
             let profile = await wax.rpc.get_table_rows({             
-                code: 'labs.decide',
-                scope: 'labs.decide',
+                code: 'labs',
+                scope: 'labs',
                 table: 'profiles',
                 json: true,
                 lower_bound: proposerAcct,
@@ -98,8 +98,8 @@ export default function RenderSingleProposal(props){
      async function getDeliverables(){
         try {
                 let delivs = await wax.rpc.get_table_rows({
-                    code: 'labs.decide',
-                    scope: 'labs.decide',
+                    code: 'labs',
+                    scope: 'labs',
                     table: 'deliverables',
                     json: true,
                     lower_bound: id,
@@ -206,7 +206,7 @@ export default function RenderSingleProposal(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'reviewprop',
                         authorization: [{
                             actor: activeUser.accountName,
@@ -232,7 +232,7 @@ export default function RenderSingleProposal(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'reviewprop',
                         authorization: [{
                             actor: activeUser.accountName,
@@ -258,7 +258,7 @@ export default function RenderSingleProposal(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'cancelprop',
                         authorization: [{
                             actor: activeUser.accountName,
@@ -283,7 +283,7 @@ export default function RenderSingleProposal(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'deleteprop',
                         authorization: [{
                             actor: activeUser.accountName,
@@ -307,7 +307,7 @@ export default function RenderSingleProposal(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'claimfunds',
                         authorization: [{
                             actor: activeUser.accountName,
@@ -332,7 +332,7 @@ export default function RenderSingleProposal(props){
             await props.activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs.decide',
+                        account: 'labs',
                         name: 'beginvoting',
                         authorization: [{
                             actor: activeUser.accountName,

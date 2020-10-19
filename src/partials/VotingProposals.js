@@ -14,8 +14,8 @@ export default function RenderVotingProposals() {
         async function getVotingProposals() {
         try {
             let votingResp = await wax.rpc.get_table_rows({             
-                  code: 'labs.decide',
-                  scope: 'labs.decide',
+                  code: 'labs',
+                  scope: 'labs',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
@@ -35,7 +35,7 @@ export default function RenderVotingProposals() {
               console.log(e);
             }
         }
-            return getVotingProposals();
+        getVotingProposals();
         }, []);
 
         if (!proposals){

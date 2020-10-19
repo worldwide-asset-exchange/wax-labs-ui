@@ -14,8 +14,8 @@ export default function RenderInProgressProposals() {
         async function getInProgressProposals() {
         try {
             let inprogResp = await wax.rpc.get_table_rows({             
-                  code: 'labs.decide',
-                  scope: 'labs.decide',
+                  code: 'labs',
+                  scope: 'labs',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
@@ -35,9 +35,9 @@ export default function RenderInProgressProposals() {
               console.log(e);
             }
         }
-            return getInProgressProposals();
+        getInProgressProposals();
         }, []);
-        
+
         if (!proposals){
             return (
                 <div className="filtered-proposals in-progress">

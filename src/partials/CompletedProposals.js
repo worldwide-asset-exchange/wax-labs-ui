@@ -11,8 +11,8 @@ export default function RenderCompletedProposals() {
         async function getCompletedProposals() {
         try {
             let completedResp = await wax.rpc.get_table_rows({             
-                  code: 'labs.decide',
-                  scope: 'labs.decide',
+                  code: 'labs',
+                  scope: 'labs',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
@@ -32,7 +32,7 @@ export default function RenderCompletedProposals() {
               console.log(e);
             }
         }
-            return getCompletedProposals();
+        getCompletedProposals();
         }, []);
 
     if (!proposals){

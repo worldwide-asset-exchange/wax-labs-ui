@@ -1,41 +1,100 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function RenderEditAccountInfo(props){
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const [userProfile, setProfile] = useState({
+        full_name: props.full_name,
+        country: props.country,
+        bio: props.bio,
+        image_url: props.image_url,
+        website: props.website,
+        contact: props.contact,
+        isNew: true
+    });
+    const activeUser = props.activeUser;
 
-class RenderEditAccountInfo extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            full_name: '',
-            country: '',
-            bio: '',
-            image_url: '',
-            website: '',
-            contact: ''
+    useEffect(() => {
+        function ifProfileExists() {
+            if (props.full_name !== '') {
+                setProfile({
+                    isNew: false
+                })
+            } else {
+                return null;
+            }
+        }
+        ifProfileExists();
+        }, []);
+    
+    async function submitProfile() {
+        try {
+            if (userProfile.isNew) {
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs.decide',
+                        name: 'newprofile',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            full_name: userProfile.full_name,
+                            country: userProfile.country,
+                            bio: userProfile.bio,
+                            image_url: userProfile.image_url,
+                            website: userProfile.website,
+                            contact: userProfile.contact,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+            } else {
+                await activeUser.signTransaction({
+                    actions: [
+                        {
+                            account: 'labs.decide',
+                            name: 'editprofile',
+                            authorization: [{
+                                actor: activeUser.accountName,
+                                permission: 'active',
+                            }],
+                            data: {
+                                full_name: userProfile.full_name,
+                                country: userProfile.country,
+                                bio: userProfile.bio,
+                                image_url: userProfile.image_url,
+                                website: userProfile.website,
+                                contact: userProfile.contact,
+                            },
+                        },
+                    ]} , {
+                    blocksBehind: 3,
+                    expireSeconds: 30
+                });
+            }
+        } catch(e) {
+            console.log(e);
         }
     }
 
-    submitProfile = (async) => {
+    function handleInputChange(event) {
+        const value = event.target.value;
+        const name = event.target.name;
 
-    }
-
-    handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState(prevState => ({
-            [name]: value,
-            }), () => { }
+        setProfile(prevState => {
+            return { ...prevState, [name]: value }
+          }
         );
-        console.log(this.state);
+        console.log(userProfile);
     }
 
-    render(){
         return (
             <div className="filtered-proposals edit-proposal">
                 <h2>Edit Account Info</h2>
@@ -44,7 +103,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Name:</strong>
                     </div>
                     <div className="col value">
-                        <input type="text" name="full_name" value={this.state.name} onChange={this.handleInputChange} />
+                        <input type="text" name="full_name" value={userProfile.full_name} onChange={handleInputChange} />
                     </div>
                 </div>
                 <div className="row">
@@ -52,7 +111,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Biography:</strong>
                     </div>
                     <div className="col value">
-                    <textarea name="bio" value={this.state.bio} onChange={this.handleInputChange} ></textarea>
+                    <textarea name="bio" value={userProfile.bio} onChange={handleInputChange}></textarea>
                     </div>
                 </div>
                 <div className="row">
@@ -60,7 +119,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Image (url):</strong>
                     </div>
                     <div className="col value">
-                        <input type="text" name="image_url" value={this.state.img} onChange={this.handleInputChange} />
+                        <input type="text" name="image_url" value={userProfile.image_url} onChange={handleInputChange} />
                     </div>        
                 </div>
                 <div className="row">
@@ -68,7 +127,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Country:</strong>    
                     </div>
                     <div className="col value">
-                        <select id="country" name="country" value={this.state.img} onChange={this.handleInputChange}>
+                        <select id="country" name="country" value={userProfile.country} onChange={handleInputChange}>
                             <option value=""></option>
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
@@ -324,7 +383,7 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Website:</strong>   
                     </div>
                     <div className="col value">
-                        <input type="text" name="website" value={this.state.website} onChange={this.handleInputChange} />               
+                        <input type="text" name="website" value={userProfile.website} onChange={handleInputChange} />               
                     </div>                         
                 </div>
                 <div className="row">
@@ -332,16 +391,12 @@ class RenderEditAccountInfo extends React.Component {
                         <strong>Telegram Handle:</strong>   
                     </div>
                     <div className="col value">
-                        <input type="text" name="contact" value={this.state.telegram} onChange={this.handleInputChange} />              
+                        <input type="text" name="contact" value={userProfile.telegram} onChange={handleInputChange} />              
                     </div>                         
                 </div>
                 <div className="row">
-                    <button className="submit">Update Profile</button>
+                    <button className="submit" onClick={submitProfile}>Update Profile</button>
                 </div>
             </div>
         );
     }
-
-}
-
-export default RenderEditAccountInfo;

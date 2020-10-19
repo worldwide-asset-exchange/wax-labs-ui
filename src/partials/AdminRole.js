@@ -19,26 +19,20 @@ export default function RenderAdminRole(props){
 
     async function updateAdmin(){
         try {
-            let actions = [
-                {
-                    account: 'labs.decide',
-                    name: 'setadmin',
-                    authorization: [{
-                        actor: props.accountName,
-                        permission: 'active',
-                    }],
-                    data: {
-                        new_admin: admin,
+            await props.activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'setadmin',
+                        authorization: [{
+                            actor: props.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            new_admin: admin,
+                        },
                     },
-                },
-            ]
-        
-            const adminTransaction = {
-              actions: actions
-            };
-        
-            await props.activeUser.signTransaction(
-              adminTransaction, {
+                ]}, {
                 blocksBehind: 3,
                 expireSeconds: 30
             });

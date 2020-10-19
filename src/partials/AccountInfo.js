@@ -3,11 +3,7 @@ import {
 Link
 } from 'react-router-dom';
 
-import * as waxjs from "@waxio/waxjs/dist";
-
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-
-function RenderInReviewProposals(props) {
+export default function RenderInReviewProposals(props) {
         return (
             <div className="account-info">
                 <h2>Account Info</h2>
@@ -20,7 +16,7 @@ function RenderInReviewProposals(props) {
                             <strong>Name:</strong>
                         </div>
                         <div className="col value">
-                            {props.name}
+                            {props.full_name}
                             <Link to="edit">Edit</Link>
                         </div>
                     </div>
@@ -38,7 +34,7 @@ function RenderInReviewProposals(props) {
                             <strong>Image (url):</strong>
                         </div>
                         <div className="col value">
-                            <img src={props.img} alt="Account Image" />
+                            <img src={props.image_url} alt="Account Image" />
                             <Link to="edit">Edit</Link>
                         </div>        
                     </div>
@@ -65,7 +61,7 @@ function RenderInReviewProposals(props) {
                             <strong>Telegram Handle:</strong>   
                         </div>
                         <div className="col value">
-                            {props.telegram}
+                            {props.contact}
                             <Link to="edit">Edit</Link>                
                         </div>                         
                     </div>
@@ -73,5 +69,3 @@ function RenderInReviewProposals(props) {
             </div>
         );
 }
-
-export default RenderInReviewProposals;

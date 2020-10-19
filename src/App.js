@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 Routes,
 Route,
@@ -15,46 +15,34 @@ import RenderAdminPortal from './pages/AdminPortal.js';
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header.js';
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+export default function App(props)  {
+  const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
-class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      activeUser: null,
-      isAdmin: false,
-    };
+  const [activeUser, setActiveUser ] = useState(null);
+  const [accountName, setAccountName ] = useState('');
+  const [isAdmin, setIsAdmin ] = useState(false);
 
-    this.updateAccountName = this.updateAccountName.bind(this);
-    this.checkAdmin = this.checkAdmin.bind(this);
-  }
-
-  componentDidUpdate() {
-    const { ual: { activeUser } } = this.props;
-    if (activeUser && !this.state.activeUser) {
-      this.setState({ activeUser }, this.updateAccountName);
-      this.checkAdmin();
-    } else if (!activeUser && this.state.activeUser) {
-      this.setState({
-          activeUser: null,
-          accountName: '',
-      });
+  useEffect(() => {
+    const { ual: { activeUser } } = props;
+    if (activeUser && !props.ual.activeUser) {
+      setActiveUser({ activeUser }, updateAccountName);
+      checkAdmin();
+    } else if (activeUser && props.ual.activeUser) {
+      setActiveUser(null) && setAccountName('');
     }
-  }
+  }, []);
 
-  async checkAdmin(){
+  async function checkAdmin(){
     try {
       let resp = await wax.rpc.get_table_rows({             
-          code: 'labs.decide',
-          scope: 'labs.decide',
+          code: 'labs',
+          scope: 'labs',
           table: 'config',
           json: true
       });
 
-      if (resp.rows[0].admin_acct === this.state.activeUser.accountName){
-        this.setState({
-          isAdmin: true
-        });
+      if (resp.rows[0].admin_acct === activeUser.accountName){
+        setIsAdmin(true);
       }
 
     } catch(e) {
@@ -62,17 +50,17 @@ class App extends React.Component {
     }
   }
 
-  async updateAccountName(): Promise<void> {
+  async function updateAccountName() {
     try {
-      const accountName = await this.props.ual.activeUser.getAccountName();
-      this.setState({ accountName });
+      const userAccountName = await props.ual.activeUser.getAccountName();
+      setAccountName(userAccountName);
     } catch (e) {
       console.warn(e);
     }
   }
 
-  renderLogoutBtn = () => {
-    const { ual: { activeUser, activeAuthenticator, logout } } = this.props
+  function renderLogoutBtn() {
+    const { ual: { activeUser, activeAuthenticator, logout } } = props
     if (activeUser && activeAuthenticator) {
       return (
           <span className='logoutBtn' onClick={logout}>
@@ -81,24 +69,34 @@ class App extends React.Component {
       )
     }
   }
-
-  render(){
     return (
       <div className="App">
-        <RenderHeader showModal={this.props.ual.showModal} accountName={this.state.accountName} activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} logout={this.props.ual.logout} isAdmin={this.state.isAdmin} />
+        {props.ual.activeUser ? 
+        <>
+        <RenderHeader showModal={props.ual.showModal} accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} activeAuthenticator={props.ual.activeAuthenticator} logout={props.ual.logout} isAdmin={isAdmin} />
         <main>
           <Routes>
-            <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" element={<RenderProposals accountName={this.state.accountName} activeUser={this.props.ual.activeUser} isAdmin={this.state.isAdmin} />} />
-            <Route path="account/*" element={<RenderAccountPortal accountName={this.state.accountName} />} />
-            <Route path="admin/*" element={<RenderAdminPortal accountName={this.state.accountName} activeUser={this.props.ual.activeUser} isAdmin={this.state.isAdmin} />} />
-            <Route path="*" element={<RenderErrorPage />} />
+          <Route path="/" element={<RenderHome/>} />
+          <Route path="proposals/*" accountName={props.ual.activeUser.accountName} element={<RenderProposals accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+          <Route path="account/*" element={<RenderAccountPortal accountName={props.ual.activeUser.accountName} /> } />  
+          <Route path="admin/*" element={<RenderAdminPortal accountName={accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+          <Route path="*" element={<RenderErrorPage />} />
           </Routes>
         </main>
-        <RenderFooter activeUser={this.props.ual.activeUser} activeAuthenticator={this.props.ual.activeAuthenticator} />
+        </>
+        :
+        <>
+        <RenderHeader showModal={props.ual.showModal} isAdmin={isAdmin} />
+        <main>
+          <Route path="/" element={<RenderHome/>} />
+          <Route path="proposals/*" element={<RenderProposals isAdmin={isAdmin} />} />
+          <Route path="account/*" element={<RenderAccountPortal />} />
+          <Route path="admin/*" element={<RenderAdminPortal isAdmin={isAdmin} />} />
+          <Route path="*" element={<RenderErrorPage />} />
+        </main>
+        </>
+        }
+        <RenderFooter activeUser={props.ual.activeUser} activeAuthenticator={props.ual.activeAuthenticator} />
       </div>
     );
   }
-}
-
-export default App;

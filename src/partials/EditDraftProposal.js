@@ -30,8 +30,8 @@ export default function RenderEditProposal(props) {
             if (id) {
                 try {
                     let resp = await wax.rpc.get_table_rows({             
-                        code: 'labs.decide',
-                        scope: 'labs.decide',
+                        code: 'labs',
+                        scope: 'labs',
                         table: 'proposals',
                         json: true,
                         lower_bound: id,
@@ -48,7 +48,7 @@ export default function RenderEditProposal(props) {
                 return null;
             }
         }
-        return getProposalDetails();
+        getProposalDetails();
         }, []);
 
     function handleInputChange(event) {

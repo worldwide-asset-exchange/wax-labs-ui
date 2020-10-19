@@ -14,8 +14,8 @@ export default function RenderArchivedProposals() {
         async function getArchivedProposals() {
         try {
             let completedResp = await wax.rpc.get_table_rows({             
-                  code: 'labs.decide',
-                  scope: 'labs.decide',
+                  code: 'labs',
+                  scope: 'labs',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
@@ -32,8 +32,8 @@ export default function RenderArchivedProposals() {
             }
             
             let rejectedResp = await wax.rpc.get_table_rows({             
-                code: 'labs.decide',
-                scope: 'labs.decide',
+                code: 'labs',
+                scope: 'labs',
                 table: 'proposals',
                 json: true,
                 index_position: 'fourth', //status
@@ -55,7 +55,7 @@ export default function RenderArchivedProposals() {
               console.log(e);
             }
         }
-            return getArchivedProposals();
+        getArchivedProposals();
         }, []);
 
         if (!proposals){

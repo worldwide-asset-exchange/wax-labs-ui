@@ -14,8 +14,8 @@ export default function RenderActiveProposals(props) {
         async function getActiveProposals() {
         try {
             let votingResp = await wax.rpc.get_table_rows({             
-                  code: 'labs.decide',
-                  scope: 'labs.decide',
+                  code: 'labs',
+                  scope: 'labs',
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
@@ -27,15 +27,15 @@ export default function RenderActiveProposals(props) {
               console.log(votingResp.rows);
             
             if (!votingResp.rows.length) {
-                return null
+                return null;
             } else {
                 console.log(votingResp.rows);
                 setProposals(votingResp.rows);
             }
             
             let inprogResp = await wax.rpc.get_table_rows({             
-                code: 'labs.decide',
-                scope: 'labs.decide',
+                code: 'labs',
+                scope: 'labs',
                 table: 'proposals',
                 json: true,
                 index_position: 'fourth', //status
@@ -57,7 +57,7 @@ export default function RenderActiveProposals(props) {
               console.log(e);
             }
         }
-            return getActiveProposals();
+        getActiveProposals();
         }, []);
 
     if (!proposals){

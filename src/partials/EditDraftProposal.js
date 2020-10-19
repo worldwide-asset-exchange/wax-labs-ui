@@ -19,6 +19,7 @@ export default function RenderEditProposal(props) {
         total_requested_funds: 0,
         remaining_funds: 0,
         deliverables: 0,
+        deliverables_count: 0,
         deliverables_completed: 0,
         reviewer: '',
         ballot_name: '',
@@ -38,9 +39,7 @@ export default function RenderEditProposal(props) {
                         upper_bound: id,
                     });
 
-                    console.log(resp.rows[0]);
                     setProposal(resp.rows[0]);
-
                 } catch(e) {
                     console.log(e);
                 }
@@ -55,25 +54,82 @@ export default function RenderEditProposal(props) {
         const value = event.target.value;
         const name = event.target.name;
 
-        setProposal(prevState => {
-            return { ...prevState, [name]: value }
-          } 
+        setProposal(prevState => ({
+            ...proposal, [name]: value 
+          }), () => {} 
         );
     }
 
-    async function getCategories() {
-        // Remember to render in categories into the dropdown option tags
-    }
-
     async function saveDraftProposal() {
-        // Creates a proposal in draft status
+        try {
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'draftprop',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposer: activeUser.accountName,
+                            category: proposal.category,
+                            title: proposal.title,
+                            description: proposal.description,
+                            content: proposal.content,
+                            total_requested_funds: proposal.total_requested_funds,
+                            deliverables_count: proposal.deliverables_count,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+        });
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     async function submitProposal() {
-        // Changes the status of the draft to in-review
+        try {
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'draftprop',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposer: activeUser.accountName,
+                            category: proposal.category,
+                            title: proposal.title,
+                            description: proposal.description,
+                            content: proposal.content,
+                            total_requested_funds: proposal.total_requested_funds,
+                            deliverables_count: proposal.deliverables_count,
+                        },
+                    },
+                    {
+                        account: 'labs',
+                        name: 'submitprop',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: id
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+        });
+        } catch(e) {
+            console.log(e);
+        }
     }
-
-    console.log(proposal);
 
     return (
             <div className="filtered-proposals edit-proposal">
@@ -89,8 +145,10 @@ export default function RenderEditProposal(props) {
                         <div className="col label">
                             <strong>Category:</strong>
                             <select name="category" onChange={handleInputChange} >
-                                <option value="Value 1">Value 1</option>
-                                <option value="Value 2">Value 2</option>
+                                <option value=""></option>
+                                {props.categories.map((category) =>
+                                    <option key={category}>{category}</option>
+                                )}
                             </select>
                         </div>
                     </div>
@@ -109,13 +167,19 @@ export default function RenderEditProposal(props) {
                     <div className="row">
                         <div className="col label">
                             <strong>Total Requested Amount:</strong>
-                            <input type="text" name="total_amount_requested" value={proposal.total_requested_funds} onChange={handleInputChange} />
+                            <input type="text" name="total_requested_funds" value={proposal.total_requested_funds} onChange={handleInputChange} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Number of Deliverables:</strong>
-                            <input type="number" name="deliverables_count" value={proposal.deliverables} onChange={handleInputChange} />
+                            <input type="number" name="deliverables_count" value={proposal.deliverables_count} onChange={handleInputChange} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col label">
+                            <button className="btn draft" onClick={saveDraftProposal}>Save Draft</button>
+                            <button className="btn" onClick={submitProposal}>Submit for Review</button>
                         </div>
                     </div>
                 </div>

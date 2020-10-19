@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import {
-Link
-} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 export default function RenderRemoveAccount(props){
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-    const [wax_account, setAccount] = useState();
+    const [wax_account, setAccount] = useState('');
     const activeUser = props.activeUser;
     
     function handleInputChange(event) {
         const value = event.target.value;
+        const name = event.target.name;
 
         setAccount(prevState => {
             return { ...prevState, wax_account: value }
@@ -19,6 +16,7 @@ export default function RenderRemoveAccount(props){
     }
 
     async function removeProfile(){
+        console.log(activeUser);
         try {
             await activeUser.signTransaction({
                 actions: [
@@ -30,7 +28,7 @@ export default function RenderRemoveAccount(props){
                             permission: 'active',
                         }],
                         data: {
-                            wax_account: wax_account,
+                            wax_account: wax_account.wax_account,
                         },
                     },
                 ]}, {
@@ -54,7 +52,7 @@ export default function RenderRemoveAccount(props){
                             permission: 'active',
                         }],
                         data: {
-                            account_name: wax_account,
+                            account_name: wax_account.wax_account,
                         },
                     },
                 ]}, {
@@ -70,7 +68,7 @@ export default function RenderRemoveAccount(props){
         <div className="admin-content">
             <h2>Remove Profile</h2>
             <div>
-                <input type="text" onChange={handleInputChange} />
+                <input type="text" name="wax_account" onChange={handleInputChange} />
                 <button className="btn" onClick={removeProfile}>Remove Profile</button>
                 <button className="btn" onClick={deleteAccount}>Delete Account</button>
             </div>

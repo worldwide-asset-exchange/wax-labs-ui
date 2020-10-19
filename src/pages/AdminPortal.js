@@ -22,7 +22,7 @@ export default function RenderAdminPortal(props) {
                     <Route path="deliverables-review" element={<RenderDeliverablesReview accountName={props.accountName} />} />
                     <Route path="vote-duration" element={<RenderVoteDuration accountName={props.accountName} activeUser={props.activeUser} />} />
                     <Route path="transfer-admin" element={<RenderAdminRole accountName={props.accountName} activeUser={props.activeUser} />} />
-                    <Route path="remove-account" element={<RenderRemoveAccount accountName={props.accountName} />} />
+                    <Route path="remove-account" element={<RenderRemoveAccount accountName={props.accountName} activeUser={props.activeUser} />} />
                 </Routes>
                 </div>
             </div>

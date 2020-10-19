@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-Link
-} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);

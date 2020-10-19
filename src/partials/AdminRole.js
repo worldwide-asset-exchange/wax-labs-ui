@@ -7,6 +7,7 @@ import * as waxjs from "@waxio/waxjs/dist";
 export default function RenderAdminRole(props){
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [admin, updateAdminState] = useState('');
+    const activeUser = props.activeUser;
     
     function handleInputChange(event) {
         const value = event.target.value;
@@ -19,17 +20,17 @@ export default function RenderAdminRole(props){
 
     async function updateAdmin(){
         try {
-            await props.activeUser.signTransaction({
+            await activeUser.signTransaction({
                 actions: [
                     {
                         account: 'labs',
                         name: 'setadmin',
                         authorization: [{
-                            actor: props.accountName,
+                            actor: activeUser.accountName,
                             permission: 'active',
                         }],
                         data: {
-                            new_admin: admin,
+                            new_admin: admin.admin,
                         },
                     },
                 ]}, {
@@ -45,8 +46,8 @@ export default function RenderAdminRole(props){
         <div className="admin-content">
             <Link to="/admin">Return to Admin Menu</Link>
             <h2>Assign WAX Labs Admin Account</h2>
-            <input type="text" name="admin" onChange={handleInputChange} />
-            <button onSubmit={updateAdmin}>Assign Admin</button>
+            <input type="text" name="new_admin" onChange={handleInputChange} />
+            <button className="btn" onClick={updateAdmin}>Assign Admin</button>
         </div>
     );
 }

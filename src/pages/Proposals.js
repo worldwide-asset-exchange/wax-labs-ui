@@ -35,7 +35,6 @@ export default function RenderProposals(props) {
                       limit: 1
                   });
                   if (resp.rows.length){
-                      console.log('success');
                   setCategories(resp.rows[0].categories);
                   }
                   else{
@@ -47,8 +46,6 @@ export default function RenderProposals(props) {
         }
         getCategories();
      }, []);
-
-     console.log(categories);
     
     return (
         <div className="proposals">
@@ -99,7 +96,7 @@ export default function RenderProposals(props) {
                     <Route path="archived/completed" element={<RenderCompletedProposals />} />
                     <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} />} />
                     <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} />} />
-                    <Route path="new" element={<RenderEditDraftProposal categories={categories} />} />
+                    <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} />} />
                     <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
                     <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} />} />
                 </Routes>

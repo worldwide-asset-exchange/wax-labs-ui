@@ -6,7 +6,7 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
-export default function RenderMyProposals() {
+export default function RenderMyProposals(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
 
@@ -19,8 +19,8 @@ export default function RenderMyProposals() {
                 table: 'proposals',
                 json: true,
                 index_position: 'secondary',
-                lower_bound: this.props.accountName,
-                upper_bound: this.props.accountName,
+                lower_bound: props.accountName,
+                upper_bound: props.accountName,
                 key_type: 'name'
             });
             

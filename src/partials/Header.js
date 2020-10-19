@@ -50,7 +50,7 @@ function RenderHeader(props) {
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/proposals">Proposals</Link></li>
-                        <li className="login-li"><button id="login" className="login-btn" onClick= {props.showModal}>Login</button></li>
+                        <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}>Login</button></li>
                     </ul>
                 </nav>
             </header>

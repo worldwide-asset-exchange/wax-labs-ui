@@ -20,8 +20,6 @@ export default function RenderAccountPortal(props) {
         contact: ''
     });
 
-    const accountName = props.accountName;
-
     useEffect(() => {
         async function getAccountInfo() {
             try {
@@ -30,11 +28,13 @@ export default function RenderAccountPortal(props) {
                       scope: 'labs',
                       table: 'profiles',
                       json: true,
-                      lower_limit: accountName,
-                      upper_limit: accountName,
+                      lower_limit: props.accountName,
+                      upper_limit: props.accountName,
                       limit: 1
                   });
+                  console.log(resp.rows[0]);
                   if (resp.rows.length){
+                      console.log('success');
                   setProfile(resp.rows[0]);
                   }
                   else{
@@ -46,6 +46,7 @@ export default function RenderAccountPortal(props) {
         }
         getAccountInfo();
      }, []);
+
     if (props.accountName !== "") {
     return(
     <div className="account-portal">
@@ -57,10 +58,23 @@ export default function RenderAccountPortal(props) {
             </ul>
         </div>
         <div className="account-body">
+        <h2>Account Info</h2>
+            {userProfile.full_name ?
+            <div>
+            <p>Your current account information is listed below.</p>
             <Routes>
                 <Route path="/" element={<RenderAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} />} />
-                <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} />} />
+                <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
             </Routes>
+            </div>
+                :
+            <div>
+            <Routes>
+                <Route path="/" element={<RenderAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" />} />
+                <Route path="edit" element={<RenderEditAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
+            </Routes>
+            </div>
+                }
         </div>
     </div>
     );

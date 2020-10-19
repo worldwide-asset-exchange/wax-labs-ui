@@ -6,7 +6,6 @@ Link
 export default function RenderInReviewProposals(props) {
         return (
             <div className="account-info">
-                <h2>Account Info</h2>
                 <div className="account-info-table">
                     <div className="row">
                         <Link className="header-edit-button" to="edit">Edit</Link>

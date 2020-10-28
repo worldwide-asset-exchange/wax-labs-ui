@@ -4,3 +4,11 @@
 .main-content {
     
 }
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: initial;
+}

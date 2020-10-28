@@ -34,6 +34,8 @@ export default function App(props)  {
         
         if (props.ual.activeUser.accountName && props.ual.activeUser.accountName === adminAccount){
           setIsAdmin(true);
+        } else {
+          return null;
         }
 
       } catch(e) {
@@ -42,7 +44,7 @@ export default function App(props)  {
     }
 
   if (props.ual.activeUser) {
-    checkAdmin();
+    checkAdmin(); 
     return (
       <div className="App">
         <RenderHeader showModal={props.ual.showModal} accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} activeAuthenticator={props.ual.activeAuthenticator} logout={props.ual.logout} isAdmin={isAdmin} />

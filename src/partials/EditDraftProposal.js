@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+Link,
 useParams
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
@@ -90,10 +91,11 @@ export default function RenderEditProposal(props) {
     }
 
     async function submitProposal() {
+        console.log(id);
         try {
             await activeUser.signTransaction({
                 actions: [
-                    {
+                    /* {
                         account: 'labs',
                         name: 'draftprop',
                         authorization: [{
@@ -109,7 +111,7 @@ export default function RenderEditProposal(props) {
                             total_requested_funds: proposal.total_requested_funds,
                             deliverables_count: proposal.deliverables_count,
                         },
-                    },
+                    }, */
                     {
                         account: 'labs',
                         name: 'submitprop',

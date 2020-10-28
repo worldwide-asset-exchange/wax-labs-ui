@@ -49,7 +49,7 @@ export default function RenderMyProposals(props) {
         return (
             <div className="filtered-proposals my-proposals">
                 <h2>My Proposals</h2>
-                {this.state.proposals.map((proposal) =>
+                {proposals.map((proposal) =>
                 <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
             </div>
         );

@@ -21,8 +21,7 @@ export default function RenderActiveProposals(props) {
                   key_type: 'name'
               });
             
-              console.log(votingResp.rows);
-            
+            console.log(votingResp.rows);
             if (!votingResp.rows.length) {
                 return null;
             } else {

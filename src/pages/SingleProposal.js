@@ -84,7 +84,10 @@ export default function RenderSingleProposal(props){
                            upper_bound: ballotName,
                            limit: 1
                        });
-           
+
+                       const yes_votes = currentVote.rows[0].options.filter(option => option.key === "yes").value;
+                       
+                       console.log(yes_votes);
                        setVotes(currentVote.rows[0].options);
 
                        if (status === "inprogress"){

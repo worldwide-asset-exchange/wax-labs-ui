@@ -10,6 +10,7 @@ import RenderHome from './pages/Home.js';
 import RenderErrorPage from './pages/ErrorPage.js';
 import RenderAccountPortal from './pages/AccountPortal.js';
 import RenderProposals from './pages/Proposals.js';
+import RenderDeliverables from './pages/Deliverables.js';
 import RenderAdminPortal from './pages/AdminPortal.js'; 
 
 import RenderFooter from './partials/Footer.js';
@@ -52,6 +53,7 @@ export default function App(props)  {
           <Routes>
           <Route path="/" element={<RenderHome/>} />
           <Route path="proposals/*" accountName={props.ual.activeUser.accountName} element={<RenderProposals accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+          <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
           <Route path="account/*" element={<RenderAccountPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} /> } />  
           <Route path="admin/*" element={<RenderAdminPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
           <Route path="*" element={<RenderErrorPage />} />
@@ -68,6 +70,7 @@ export default function App(props)  {
         <Routes>
         <Route path="/" element={<RenderHome/>} />
         <Route path="proposals/*" element={<RenderProposals isAdmin={isAdmin} />} />
+        <Route path="deliverables/*" element={<RenderDeliverables isAdmin={isAdmin} />} />
         <Route path="account/*" element={<RenderAccountPortal />} />
         <Route path="admin/*" element={<RenderAdminPortal isAdmin={isAdmin} />} />
         <Route path="*" element={<RenderErrorPage />} />

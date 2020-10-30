@@ -34,13 +34,14 @@ export default function RenderSingleProposal(props){
     });
     const [deliverables, setDeliverables ] = useState([]);
     const [currentVotes, setVotes ] = useState([]);
-    const [reviewer_name, setReviewer] = useState('');
+    const [reviewer, setReviewer] = useState('');
     const [new_deliv, setNewDeliverable] = useState({
         requested_amount: '',
         recipient: ''
     });
     const [new_deliverable_report, setReportUrl] = useState('');
     const [show_new_deliverable, showNewDeliverable] = useState(false);
+    const [show_new_reviewer, showNewReviewer] = useState(false);
     const new_deliverable_id = deliverables.length + 1;
 
     useEffect(() => {
@@ -85,7 +86,7 @@ export default function RenderSingleProposal(props){
                            limit: 1
                        });
 
-                       const yes_votes = currentVote.rows[0].options.filter(option => option.key === "yes").value;
+                       const yes_votes = currentVote.rows[0].options.filter(option => option.key === "yes");
                        
                        console.log(yes_votes);
                        setVotes(currentVote.rows[0].options);
@@ -248,6 +249,19 @@ export default function RenderSingleProposal(props){
                             memo: ''
                         },
                     },
+                    {
+                        account: 'labs',
+                        name: 'setreviewer',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: id,
+                            deliverable_id: 1,
+                            memo: activeUser.accountName
+                        },
+                    }
                 ]} , {
                 blocksBehind: 3,
                 expireSeconds: 30
@@ -467,8 +481,8 @@ export default function RenderSingleProposal(props){
                         }],
                         data: {
                             proposal_id: id,
-                            deliverable_id: deliverable.deliverable_id,
-                            new_reviewer: reviewer_name
+                            deliverable_id: 1,
+                            new_reviewer: reviewer.reviewer_name
                         },
                     },
                 ]} , {
@@ -511,6 +525,10 @@ export default function RenderSingleProposal(props){
         showNewDeliverable(!show_new_deliverable);
     }
 
+    function toggleNewReviewer(){
+        showNewReviewer(!show_new_reviewer);
+    }
+
     function handleInputChange(event) {
                 const value = event.target.value;
                 const name = event.target.name;
@@ -524,10 +542,11 @@ export default function RenderSingleProposal(props){
                     setDeliverables(prevState => {
                         return {...prevState, [name]: value}
                     })
-                } else if (targetId.includes('new_reviewer')){
+                } else if (name.includes('reviewer_name')){
                     setReviewer(prevState => {
                         return {...prevState, [name]: value}
                     });
+                    console.log(reviewer);
                 } else if (targetId.includes('report')){
                 setReportUrl(prevState => {
                     return {...prevState, report: value}
@@ -826,9 +845,14 @@ export default function RenderSingleProposal(props){
                     <h3>Admin Menu</h3>
                     <button className="btn" onClick={approveProposal} >Approve Proposal</button>
                     <button className="btn" onClick={rejectProposal} >Reject Proposal</button>
-                    <button className="btn" onClick={newReviewer}>Set Reviewer</button>
+                    <button className="btn" onClick={toggleNewReviewer}>Set Reviewer</button>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
+                    <div className={show_new_reviewer ? 'new-reviewer-panel' : 'new-reviewer-panel hide'}>
+                        <input type="text" autoFocus name="reviewer_name" value={reviewer.reviewer_name} onChange={handleInputChange} />
+                        <button className="btn" onClick={newReviewer}>Submit</button>
+                        <button className="btn" onCLick={toggleNewReviewer}>X</button>
+                    </div>
                 </div>
             );
         } else {

@@ -35,8 +35,8 @@ export default function RenderActiveProposals(props) {
                 table: 'proposals',
                 json: true,
                 index_position: 'fourth', //status
-                lower_bound: 'in.progress',
-                upper_bound: 'in.progress',
+                lower_bound: 'inprogress',
+                upper_bound: 'inprogress',
                 key_type: 'name'
             });
 

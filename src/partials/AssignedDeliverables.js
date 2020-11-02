@@ -8,8 +8,37 @@ export default function RenderAssignedDevliverables(props) {
     const [deliverables, setDeliverables ] = useState([]);
     const activeUser = props.activeUser;
 
+
+    async function getDelivs(proposal) {
+        try {                                      
+            let delivsResp = await wax.rpc.get_table_rows({             
+                code: 'labs',
+                scope: proposal.proposal_id,
+                table: 'deliverables',
+                json: true,
+                primary_index: '',
+                key_type: 'name',
+                lower_bound: '',
+                upper_bound: ''
+            })
+
+            delivsResp.rows.forEach(function (element) {
+                element.proposal_id = proposal.proposal_id;
+                element.deliverable_id_readable = element.deliverable_id;
+                element.deliverable_id = proposal.proposal_id+'.'+element.deliverable_id;
+                element.proposal_title = proposal.title;
+                element.reviewer = proposal.reviewer;
+            });
+    
+            let delivs = delivsResp.rows;
+            return delivs;
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
     useEffect(() => {
-        async function getDeliverablesInReview(){
+        async function getDeliverablesInReview() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
                     code: 'labs',
@@ -22,42 +51,11 @@ export default function RenderAssignedDevliverables(props) {
                     return null
                 } 
                 let stateArray = deliverables;
-                    resp.rows.forEach(inProgProposal => {
-                        async function getDelivs() {
-                            try {                                      
-                                    let delivsResp = await wax.rpc.get_table_rows({             
-                                        code: 'labs',
-                                        scope: inProgProposal.proposal_id,
-                                        table: 'deliverables',
-                                        json: true,
-                                        primary_index: '',
-                                        key_type: 'name',
-                                        lower_bound: '',
-                                        upper_bound: ''
-                                    })
-
-                                    delivsResp.rows.forEach(function (element) {
-                                        element.proposal_id = inProgProposal.proposal_id;
-                                        element.deliverable_id_readable = element.deliverable_id;
-                                        element.deliverable_id = inProgProposal.proposal_id+'.'+element.deliverable_id;
-                                        element.proposal_title = inProgProposal.title;
-                                        element.reviewer = inProgProposal.reviewer;
-                                        });
-                                    
-
-                                    let newArray = delivsResp.rows;
-
-                                    Array.prototype.push.apply(stateArray, newArray); 
-                                    console.log(stateArray);
-    
-                            } catch(e) {
-                                console.log(e);
-                            }
-                        }
-                        getDelivs()
-                    })
-                    setDeliverables(stateArray);
-                    console.log(deliverables);
+                console.log(stateArray);
+                resp.rows.forEach(async(inProgProposal) => {
+                    let delivs = await getDelivs(inProgProposal);
+                    console.log(delivs);
+                });
             } catch(e) {
                 console.log(e);
             }

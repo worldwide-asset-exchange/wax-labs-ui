@@ -1,9 +1,190 @@
-.App {
-}
-
-.main-content {
-    
-}
+* {
+    padding: 0;
+    margin: 0;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  ::-webkit-scrollbar {
+    display:none;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+    color: #333;
+    font-family: 'Muli', sans-serif;
+    height: 100%;
+  }
+  
+  #root {
+    height: 100%;
+  }
+  
+  .App {
+    height: 100%;
+  }
+  
+  .main-wrapper {
+    min-height: 100%; 
+    margin-bottom: -205px;
+  }
+  
+  .main-wrapper:after {
+    content: "";
+    display: block;
+    height: 205px;
+  }
+  
+  header, footer, div {
+    box-sizing: border-box;
+  }
+  
+  header#nav .nav-wrapper {
+    display: grid;
+    grid-template-rows: [row]auto[end];
+    grid-template-columns: [logo]50%[nav]50%[accName];
+  }
+  
+  header#nav {
+    background: #183648;
+    color: #fff;
+  }
+  
+  header#nav .logo {
+    padding: 20px;
+    grid-row-start: row;
+    grid-row-end: span end;
+    grid-column-start: logo;
+    grid-column-end: span nav;
+  }
+  header#nav .header-link {
+    width: 100%;
+    display: inline-block;
+    margin-top: 13px;
+  }
+  
+  header#nav .logo-text {
+    width: 100%;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 1.3em;
+  }
+  
+  header#nav .logo img {
+    vertical-align: middle;
+    max-width: 125px;
+    width: 100%;
+  } 
+  
+  header#nav .logo a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  header#nav .logo a:hover {
+    text-decoration: none;
+  }
+  
+  header#nav .menu-wrapper {
+    grid-row-start: row;
+    grid-row-end: span end;
+    grid-column-start: nav;
+    grid-column-end: span accName;
+    text-align: right;
+  }
+  
+  header#nav nav {
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+  }
+  
+  header#nav nav ul {
+    height: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+  }
+  
+  header#nav nav ul li {
+    height: 100%;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+  
+  header#nav .login-wrapper button {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-color: transparent;
+    color: #fff;
+    border: 0;
+    font-size: 1.3em;
+    height: 100%;
+    width: 100%;
+  }
+  
+  body header#nav .login-wrapper button:hover {
+      background: #000;
+      cursor: pointer;
+  }
+  
+  
+  header#nav .login button:focus {
+    cursor: pointer;
+    border: 0;
+    outline: none;
+  }
+  
+  header#nav nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3em;
+    padding: 0 8px;
+    display: inline-block;
+    line-height: 7rem;
+    height: 100%;
+  }
+  
+  header#nav nav a:hover {
+    color: #fff;
+    background: #85b1bb;
+  }
+  
+  header#nav .login-wrapper {
+    text-align: center;
+    display: inline-block;
+    padding-right: 10px;
+  }
+  
+  header#nav .login-wrapper.mobile {
+    display: none;
+  }
+  
+  header#nav .login-li button {
+    font-size: 1.3em;
+    background: 0;
+    color: #fff;
+    padding: 0 10px;
+    display: inline-block;
+    line-height: 7rem;
+    border: 0;
+    cursor: pointer;
+  }
+  
+  header#nav .login-li button:focus {
+    border: 0;
+  }
+  
+  header#nav .login-li button:hover {
+    background: #000;
+  }
 
 .hide {
     display: none;

@@ -22,6 +22,10 @@ export default function RenderDeliverables(props) {
                     scope: 'labs',
                     table: 'proposals',
                     json: true,
+                    index_position: 'fourth', //status
+                    lower_bound: 'inprogress',
+                    upper_bound: 'inprogress',
+                    key_type: 'name'
                 });
             
             

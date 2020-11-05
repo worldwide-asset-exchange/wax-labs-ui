@@ -4,76 +4,131 @@ import {
 } from "react-router-dom";
 import * as waxjs from "@waxio/waxjs/dist";
 
-function RenderHeader(props) {
+export default function RenderHeader(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-    const [deliverables, setDeliverables] = useState();
-    let total_proposals_check = 0;
+    const [deliverables, setDeliverables] = useState(0);
+    const [proposals, setProposals] = useState(0);
+    const [end_voting_proposal, setEndVotingProposals] = useState(0);
+    const [approved_proposals, setApprovedProposals] = useState(0);
+    const activeUser = props.activeUser;
 
     useEffect(() => {
         async function getNotifications(){
+            console.log('run')
             try {
                 let resp = await wax.rpc.get_table_rows({             
                     code: 'labs',
                     scope: 'labs',
                     table: 'proposals',
                     json: true,
+                    index_position: 'fourth', //status
+                    lower_bound: 'inprogress',
+                    upper_bound: 'inprogress',
+                    key_type: 'name'
                 });
-            
-                if (!resp.rows.length) {
-                    return null
-                } else {
-                    const total_proposals = resp.rows.length;
-                    const stateArray = deliverables;
-                        resp.rows.forEach(inProgProposal => {
-                            async function getDelivs() {
-                                try {
-                                    if (total_proposals_check !== total_proposals){
-                                        
-                                        let delivsResp = await wax.rpc.get_table_rows({             
-                                            code: 'labs',
-                                            scope: inProgProposal.proposal_id,
-                                            table: 'deliverables',
-                                            json: true,
-                                            primary_index: '',
-                                            key_type: 'name',
-                                            lower_bound: '',
-                                            upper_bound: ''
-                                        })
 
-                                        delivsResp.rows.forEach(function (element) {
-                                            element.proposal_id = inProgProposal.proposal_id;
-                                            element.deliverable_id_readable = element.deliverable_id;
-                                            element.deliverable_id = inProgProposal.proposal_id+'.'+element.deliverable_id;
-                                            element.proposal_title = inProgProposal.title;
-                                            element.reviewer = inProgProposal.reviewer;
-                                          });
-                                        
+                let approvedResp = await wax.rpc.get_table_rows({             
+                    code: 'labs',
+                    scope: 'labs',
+                    table: 'proposals',
+                    json: true,
+                    index_position: 'fourth', //status
+                    lower_bound: 'approved',
+                    upper_bound: 'approved',
+                    key_type: 'name'
+                });
 
-                                        let newArray = delivsResp.rows;
+                let endVoteCount = 0;
+                let approvedCount = 0;
 
-                                        Array.prototype.push.apply(stateArray, newArray); 
+                if (activeUser) {
+                    let myProposalsResp = await wax.rpc.get_table_rows({             
+                        code: 'labs',
+                        scope: 'labs',
+                        table: 'proposals',
+                        json: true,
+                        index_position: 'secondary', //status
+                        lower_bound: activeUser.accountName,
+                        upper_bound: activeUser.accountName,
+                        key_type: 'name'
+                    });
+                    myProposalsResp.rows.forEach(function (element) {
+                        async function getBallots(){
+                        let ballots = await wax.rpc.get_table_rows({             
+                            code: 'decide',
+                            scope: 'decide',
+                            table: 'ballots',
+                            json: true,
+                            lower_bound: element.ballot_name,
+                            upper_bound: element.ballot_name,
+                        })
 
-                                        total_proposals_check = total_proposals_check + 1;
+                        const now = new Date().toISOString();
 
-                                    }  else if (total_proposals_check === total_proposals) {
-                                        setDeliverables(stateArray);
-                                    }
-    
-                                } catch(e) {
-                                    console.log(e);
-                                }
-                                console.log(deliverables);
-                        console.log(total_proposals_check);
+                        element.end_time = ballots.rows[0].end_time
+                        if (element.end_time < now && element.status === 'inprogress'){
+
+                        endVoteCount = endVoteCount + 1;
+
+                        setEndVotingProposals(endVoteCount);
+
                         }
-                        getDelivs()
-                    })
+                        if (element.status === "approved"){
+
+                        approvedCount = approvedCount + 1;
+
+                        setApprovedProposals(approvedCount);
+                        }
+                    }
+                    getBallots()
+                    
+                    });
                 }
+
+                    let delivsCount = 0;
+                    let proposalCount = 0;
+
+
+                resp.rows.forEach(filteredProposal => {
+                    proposalCount = proposalCount + 1;
+                    async function getAssignedDelivs() {
+                        try {
+                                let delivsResp = await wax.rpc.get_table_rows({             
+                                    code: 'labs',
+                                    scope: filteredProposal.proposal_id,
+                                    table: 'deliverables',
+                                    json: true,
+                                })                        
+
+
+                                if (activeUser){
+                                delivsResp.rows.forEach(function (element) {
+                                    element.proposal_id = filteredProposal.proposal_id;
+                                    element.deliverable_id_readable = element.deliverable_id;
+                                    element.deliverable_id = filteredProposal.proposal_id+'.'+element.deliverable_id;
+                                    element.proposal_title = filteredProposal.title;
+                                    element.reviewer = filteredProposal.reviewer;
+                                    console.log(activeUser)
+                                    if (filteredProposal.reviewer === activeUser.accountName && element.status === "drafting"){
+                                    delivsCount = delivsCount + 1;
+                                    setDeliverables(delivsCount);
+                                    }
+                                    });
+                                }
+
+                        } catch(e) {
+                            console.log(e);
+                        }
+                    }
+                    getAssignedDelivs()
+                });
+                setProposals(proposalCount);
             } catch(e) {
                 console.log(e);
             }
         }
     getNotifications();
-    }, []);     
+    }, [activeUser]);     
 
     if (props.activeUser && props.activeAuthenticator && props.isAdmin) {
         return (
@@ -86,6 +141,7 @@ function RenderHeader(props) {
                         <li><Link to="/deliverables">Deliverables</Link></li>
                         <li><Link to="/admin">Admin</Link></li>
                         <li><Link to="/account">Account Info</Link></li>
+                        <li>{deliverables + proposals + end_voting_proposal + approved_proposals}</li>
                         <li className="login-li">
                             <span className="accHeader">Account</span>
                             <span className="accName">{props.accountName}</span>
@@ -130,5 +186,3 @@ function RenderHeader(props) {
     }
 
 }
-
-export default RenderHeader;

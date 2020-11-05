@@ -16,8 +16,8 @@ export default function RenderRejectedProposals(){
                   table: 'proposals',
                   json: true,
                   index_position: 'fourth', //status
-                  lower_bound: 'rejected',
-                  upper_bound: 'rejected',
+                  lower_bound: 'cancelled',
+                  upper_bound: 'cancelled',
                   key_type: 'name'
               });
             

@@ -4,6 +4,8 @@ import {
 } from "react-router-dom";
 import * as waxjs from "@waxio/waxjs/dist";
 
+import logo from "../assets/wax_labs_logo.svg";
+
 export default function RenderHeader(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [deliverables, setDeliverables] = useState(0);
@@ -133,41 +135,64 @@ export default function RenderHeader(props) {
     if (props.activeUser && props.activeAuthenticator && props.isAdmin) {
         return (
             <header>
-                <nav>
-                    <button id="menu-icon"></button>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/proposals">Proposals</Link></li>
-                        <li><Link to="/deliverables">Deliverables</Link></li>
-                        <li><Link to="/admin">Admin</Link></li>
-                        <li><Link to="/account">Account Info</Link></li>
-                        <li>{deliverables + proposals + end_voting_proposal + approved_proposals}</li>
-                        <li className="login-li">
+                <div className="nav-wrapper">
+                    <div className="logo">
+                        <Link className="header-link" to="/">
+                            <img src={logo} alt="WAX Logo" width="201px" />
+                        </Link>
+                    </div>
+                    <div className="menu-wrapper">
+                        <nav>
+                            <button id="menu-icon"></button>
+                            <ul>
+                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/proposals">Proposals</Link></li>
+                                <li><Link to="/deliverables">Deliverables</Link></li>
+                                <li><Link to="/admin">Admin</Link></li>
+                                <li className="notifications"><button className={deliverables + proposals + end_voting_proposal + approved_proposals !== 0 ? "bell has-notifications" : "bell"}><span className="count">{deliverables + proposals + end_voting_proposal + approved_proposals}</span></button></li>
+                            </ul>
+                        </nav>
+                        <div className="login-wrapper">
                             <span className="accHeader">Account</span>
                             <span className="accName">{props.accountName}</span>
+                            <Link className="accProfile" to="/account">Profile</Link>&nbsp;&bull;&nbsp;
                             <span className='logoutBtn' onClick={props.logout}>{'Logout'}</span>
-                        </li>
-                    </ul>
-                </nav>
+                        </div>
+                    </div>
+                </div>
             </header>
         );
     } else if (props.activeUser && props.activeAuthenticator) {
         return (
             <header>
-                <nav>
-                    <button id="menu-icon"></button>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/proposals">Proposals</Link></li>
-                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
-                        <li><Link to="/account">Account Info</Link></li>
-                        <li className="login-li">
+                <div className="nav-wrapper">
+                    <div className="logo">
+                        <Link className="header-link" to="/">
+                            <img src={logo} alt="WAX Logo" width="235px" />
+                        </Link>
+                    </div>
+                    <div className="menu-wrapper">
+                        <div className="login-wrapper mobile">
                             <span className="accHeader">Account</span>
-                            <span className="accName">{props.accountName}</span>
+                            <span className="accName">{props.accountName}</span>&nbsp;&bull;&nbsp;
                             <span className='logoutBtn' onClick={props.logout}>{'Logout'}</span>
-                        </li>
-                    </ul>
-                </nav>
+                        </div>
+                        <nav>
+                            <button id="menu-icon"></button>
+                            <ul>
+                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/proposals">Proposals</Link></li>
+                                <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
+                                <li className="notifications"><span className="count">{deliverables + end_voting_proposal + approved_proposals}</span></li>
+                                <li className="login-li">
+                                    <span className="accHeader">Account</span>
+                                    <span className="accName">{props.accountName}</span>
+                                    <span className='logoutBtn' onClick={props.logout}>{'Logout'}</span>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </header>
         );
     } else {

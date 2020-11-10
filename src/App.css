@@ -51,10 +51,12 @@ header .nav-wrapper {
 header {
   background: #183648;
   color: #fff;
+  padding: 0 10px;
+  border-bottom: 1px solid #000;
 }
 
 header .logo {
-  padding: 15px;
+  padding: 15px 0 0 5px;
   grid-row-start: row;
   grid-row-end: span end;
   grid-column-start: logo;
@@ -108,12 +110,12 @@ header nav ul {
 
 header nav ul li {
   display: inline-block;
-  padding: 16px 0px;
+  padding: 19px 0px;
   margin: 0;
   vertical-align: middle;
 }
 
-header nav ul li:hover:not(.notifications) {
+header nav ul li:hover {
   cursor: pointer;
   background: #85b1bb;
 }
@@ -125,13 +127,12 @@ header .login-wrapper button {
   background-color: transparent;
   color: #fff;
   border: 0;
-  font-size: 1.3em;
+  font-size: 1.2em;
   height: 100%;
   width: 100%;
 }
 
 body header .login-wrapper button:hover {
-    background: #000;
     cursor: pointer;
 }
 
@@ -159,7 +160,7 @@ header nav a:hover {
 header .login-wrapper {
   text-align: center;
   display: inline-block;
-  padding: 10px;
+  padding: 14px 0 13px 8px;
   vertical-align: middle;
 }
 
@@ -168,10 +169,9 @@ header .login-wrapper.mobile {
 }
 
 header .login-li button {
-  font-size: 1.3em;
-  background: 0;
+  font-size: 1.2em;
   color: #fff;
-  padding: 0 10px;
+  padding: 8px;
   display: inline-block;
   border: 0;
   cursor: pointer;
@@ -179,7 +179,7 @@ header .login-li button {
 
 header .notifications {
   position: relative;
-  padding-left: 8px;
+  padding: 19px 8px;
 }
 
 header .notifications .bell {
@@ -213,12 +213,44 @@ header .notifications .bell .count {
   font-size: 10px;
 }
 
-header .login-li button:focus {
-  border: 0;
+header .notifications .notifications-submenu {
+  height: auto;
+  display: block;
+  position: absolute;
+  background: #85b1bb;
+  top: 100%;
+  right: 0;
+  border-right: 1px solid #000;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  color: #000;
+  margin-top: 1px;
 }
 
-header .login-li button:hover {
-  background: #000;
+header .notifications .notifications-submenu li {
+  min-width: 200px;
+  padding: 8px;
+  font-size: 0.8em;
+}
+
+header .notifications .notifications-submenu li span {
+  display: block;
+  border: 1px solid #000;
+  border-radius: 25px;
+  padding: 20px 10px;
+  background: #fff;
+}
+
+button:focus {
+  outline: 0 !important;
+}
+
+header .notifications .notifications-submenu li span:hover {
+  background: #666;
+}
+
+header .login-li button:focus {
+  border: 0;
 }
 
 .login-wrapper .accHeader {
@@ -257,7 +289,12 @@ header nav button#menu-icon {
 }
 
 #login {
-  background: rgba(25, 40, 56, 1);
+  background: transparent;
+}
+
+#login:focus {
+  border: 0;
+  outline: 0;
 }
 
 .hide {
@@ -277,7 +314,7 @@ header nav button#menu-icon {
   font-size: 16px;
   transition: background 0.4s, color 0.4s, border 0.4s;
   cursor: pointer;
-  font-size: 1.4em;
+  text-decoration: none;
 }
 
 .btn.accept:hover {
@@ -301,6 +338,68 @@ header nav button#menu-icon {
 .btn:hover {
   background: #FA7B21;
   border: 2px solid #FA7B21;
+}
+
+.deliverables .btn {
+  margin-left: 5px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: [start-gutter]auto[main-content]980px[end-gutter]auto[end];
+  grid-template-rows: [start]auto[end];
+  padding: 10px 0;
+}
+
+.content {
+  grid-row-start: start;
+  grid-row-end: span end;
+  grid-column-start: main-content;
+  grid-column-end: end-gutter;
+}
+
+.content .proposal-grid-single {
+  margin-top: 10px;
+  border: 1px solid #333;
+  padding: 10px;
+}
+
+.deliverables .single {
+  margin-top: 10px;
+  border: 1px solid #333;
+  padding: 10px;
+}
+
+.single-proposal .backend-menu {
+  margin-bottom: 10px;
+  border: 1px solid #333;
+  padding: 10px;
+  background: #ebebeb
+}
+
+.single-proposal .backend-menu .btn {
+  background: #666;
+  border: #666;
+  padding: 5px 10px;
+  margin-right: 5px;
+}
+
+.single-proposal .backend-menu .btn:hover {
+  background: #333;
+}
+
+.single-proposal .backend-menu h3 {
+  padding-bottom: 10px;
+}
+
+.core-information .row {
+  padding: 10px 0;
+}
+
+.core-information .row .left-col, .core-information .row .right-col {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
 }
 
 footer {

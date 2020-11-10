@@ -582,10 +582,12 @@ export default function RenderSingleProposal(props){
 
         if (proposal.status === "inprogress"){ 
             return (
-                <div>
+                <>
+                <h3>Deliverables</h3>
+                <p>{proposal.deliverables_completed} / {proposal.deliverables} completed</p>
                 {deliverables.map((deliverable) =>
                     <RenderSingleDeliverable key={deliverable.deliverable_id} deliverable_id={deliverable.deliverable_id} review_options={deliverable.review_options} editable={deliverable.editable} report_editable={deliverable.report_editable} recipient={deliverable.recipient} report={deliverable.report} requested={deliverable.requested} review_time={deliverable.review_time} status={deliverable.status} isAdmin={props.isAdmin} />)}
-                </div>
+                </>
             );
         } else {
             return null;
@@ -734,14 +736,14 @@ export default function RenderSingleProposal(props){
             setDeliverables(newDelivState);
          }
 
-        if (activeUser.accountName === proposal.reviewer && !props.isAdmin){
+        if (activeUser && activeUser.accountName === proposal.reviewer && !props.isAdmin){
             return (
                 <div className="single">
-                    <div className="number">{deliverable.deliverable_id}</div>
-                    <div className="amount">{deliverable.requested}</div>
-                    <div className="status">{deliverable.status}</div>
+                    <div className="number"><h4>Deliverable {deliverable.deliverable_id}</h4></div>
+                    <div className="amount"><strong>Amount:</strong> {deliverable.requested}</div>
+                    <div className="status"><strong>Status:</strong> {deliverable.status}</div>
                     {deliverable.status !== "drafting" ?
-                    <div className="report"><a href={deliverable.report} target="_blank">Report</a></div>
+                    <div className="report"><a href={deliverable.report} target="_blank">View Deliverable Report</a></div>
                     :
                     <>
                     <div className="report">No Report Submitted</div>
@@ -766,23 +768,23 @@ export default function RenderSingleProposal(props){
 
                 </div>
             );
-        } else if (activeUser.accountName === proposal.proposer) {
+        } else if (activeUser && activeUser.accountName === proposal.proposer) {
             return (
                 <div className="single">
-                    <div className="number">{deliverable.deliverable_id}</div>
+                    <div className="number"><h4>Deliverable {deliverable.deliverable_id}</h4></div>
                     <div className="amount">
-                        {deliverable.requested}
+                        <strong>Amount Requested:</strong> {deliverable.requested}
                         <input type="text" id="edit-requested" className={!deliverable.editable ? 'hide': ''} name="new_requested_amount" onChange={handleInputChange} />
                     </div>
-                    <div className="status">{deliverable.status}</div>
+                    <div className="status"><strong>Status:</strong> {deliverable.status}</div>
                     <div className="recipient">
-                        {deliverable.recipient}
+                        <strong>Recipient Account:</strong> {deliverable.recipient}
                         <input type="text" id="edit-recipient" className={!deliverable.editable ? 'hide': ''} name="new_recipient" onChange={handleInputChange} />
                     </div>
                     <div className="report">
                         {deliverable.status !== "drafting" ?
                         <>
-                            <a href={deliverable.report} target="_blank">Report</a>
+                            <a href={deliverable.report} target="_blank">View Deliverable Report</a>
                         </>
                         :
                         <>
@@ -831,9 +833,31 @@ export default function RenderSingleProposal(props){
                 </div>
             );
         } else {
-            
             return (
-                <div className="single">{deliverable.deliverable_id}</div>
+                <div className="single">
+                    <div className="number">Deliverable {deliverable.deliverable_id}</div>
+                    <div className="amount">
+                        <strong>Amount Requested:</strong> {deliverable.requested}
+                        <input type="text" id="edit-requested" className={!deliverable.editable ? 'hide': ''} name="new_requested_amount" onChange={handleInputChange} />
+                    </div>
+                    <div className="status">Status: {deliverable.status}</div>
+                    <div className="recipient">
+                        <strong>Recipient Account:</strong>{deliverable.recipient}
+                        <input type="text" id="edit-recipient" className={!deliverable.editable ? 'hide': ''} name="new_recipient" onChange={handleInputChange} />
+                    </div>
+                    <div className="report">
+                        {deliverable.status !== "drafting" ?
+                        <>
+                            <a href={deliverable.report} target="_blank">View Deliverable Report</a>
+                        </>
+                        :
+                        <>
+                            No Report Submitted
+                        </>
+                        }
+                        <input type="text" autoFocus id="submit-report" className={!deliverable.report_editable ? 'hide': ''} name="report" value={new_deliverable_report.report} onChange={handleInputChange} />
+                    </div>
+                </div>
             );
         }
     }
@@ -841,7 +865,7 @@ export default function RenderSingleProposal(props){
     function RenderAdminMenu(){
         if (props.isAdmin === true ){
             return (
-                <div className="admin-menu">
+                <div className="admin-menu backend-menu">
                     <h3>Admin Menu</h3>
                     <button className="btn" onClick={approveProposal} >Approve Proposal</button>
                     <button className="btn" onClick={rejectProposal} >Reject Proposal</button>
@@ -863,7 +887,7 @@ export default function RenderSingleProposal(props){
     function RenderReviewerMenu(){
         if (activeUser && activeUser.accountName === proposal.reviewer && proposal.status === "submitted"){
             return (
-                <div className="reviewer-menu">
+                <div className="reviewer-menu backend-menu">
                     <h3>Reviewer Menu</h3>
                     <button className="btn" onClick={approveProposal} >Approve Proposal</button>
                     <button className="btn" onClick={rejectProposal} >Reject Proposal</button>
@@ -877,7 +901,7 @@ export default function RenderSingleProposal(props){
     function RenderProposerMenu(){
         if (activeUser && activeUser.accountName === proposal.proposer && proposal.status === "drafting"){
             return (
-                <div className="proposer-menu">
+                <div className="proposer-menu backend-menu">
                     <h3>Proposer Menu</h3>
                     <Link to="edit">Edit Proposal</Link>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
@@ -886,7 +910,7 @@ export default function RenderSingleProposal(props){
             );
         } else if (activeUser && activeUser.accountName === proposal.proposer && proposal.status === "approved"){
             return (
-                <div className="proposer-menu">
+                <div className="proposer-menu backend-menu">
                     <h3>Proposer Menu</h3>
                     <button className="btn" onClick={beginVoting} >Begin Voting</button>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
@@ -895,7 +919,7 @@ export default function RenderSingleProposal(props){
             );
         } else if (activeUser && activeUser.accountName === proposal.proposer && proposal.status === "voting"){
             return (
-                <div className="proposer-menu">
+                <div className="proposer-menu backend-menu">
                     <h3>Proposer Menu</h3>
                     <button className="btn" onClick={endVoting}>End Voting</button>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
@@ -904,7 +928,7 @@ export default function RenderSingleProposal(props){
             );
         } else if (activeUser && activeUser.accountName === proposal.proposer && proposal.status !== "approved") {
             return (
-                <div className="proposer-menu">
+                <div className="proposer-menu backend-menu">
                     <h3>Proposer Menu</h3>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
@@ -919,19 +943,25 @@ export default function RenderSingleProposal(props){
     return (
         <div className="single-proposal">
             <div className="proposal-header">
+                <div className="backend-menus">
+                    <RenderAdminMenu />
+                    <RenderReviewerMenu />
+                    <RenderProposerMenu />
+                </div>
                 <h2>{proposal.title}</h2>
-                <div><strong>Submitted by:</strong>{proposal.proposer}</div>
-                <div><strong>Status:</strong>{proposal.status}</div>
-                <div><strong>Reviewer:</strong>{proposal.reviewer}</div>
-                <div><strong>Total Requested Funds:</strong>{proposal.total_requested_funds}</div>
-            </div>
-            <div className="backend-menus">
-                <RenderAdminMenu />
-                <RenderReviewerMenu />
-                <RenderProposerMenu />
+                <p><em>{proposal.description}</em></p>
+                <div className="core-information">
+                    <div className="row">
+                        <div className="left-col"><strong>Submitted by:</strong>{proposal.proposer}</div>
+                        <div className="right-col"><strong>Reviewer:</strong>{proposal.reviewer}</div>
+                    </div>
+                    <div className="row">
+                        <div className="left-col"><strong>Status:</strong>{proposal.status}</div>
+                        <div className="right-col"><strong>Total Requested Funds:</strong>{proposal.total_requested_funds}</div>
+                    </div>
+                </div>
             </div>
             <div className="proposal-body">
-                <p>{proposal.description}</p>
                 <p>{proposal.content}</p>
             </div>
             <div className="voting">
@@ -939,9 +969,6 @@ export default function RenderSingleProposal(props){
                 <RenderVoteButtons />
             </div>
             <div className="deliverables">
-                <div className="deliverables-header">
-                    <strong>Deliverables:</strong> {proposal.deliverables_completed} / {proposal.deliverables} completed
-                </div>
                 <RenderDeliverables />
                 <div className={show_new_deliverable ? 'new-deliverable' : 'new-deliverable hide'}>
                     <h3>New Deliverable ({new_deliverable_id})</h3>

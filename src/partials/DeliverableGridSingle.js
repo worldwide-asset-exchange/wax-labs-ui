@@ -9,13 +9,17 @@ export default function RenderDeliverableGrid(props){
     
     return (
         <div className="proposal-grid-single">
-            Proposal ID: {deliverable.proposal_id}
-            Title: {deliverable.proposal_title}
-            Deliverable ID: {deliverable.deliverable_id_readable}
-            <a href={deliverable.report} target="_blank">{deliverable.report}</a>
-            <button className="btn" onClick={props.approveDeliverable}>Approve</button>
-            <button className="btn" onClick={props.rejectDeliverable}>Reject</button>
-            <Link className="btn" to={"/proposals/"+ deliverable.proposal_id}>View Proposal</Link>
+            <div className="information">
+                Proposal: <Link to={"/proposals/" + deliverable.proposal_id}>{deliverable.proposal_title}</Link>
+                Deliverable: {deliverable.deliverable_id_readable}
+                {deliverable.description}
+                <a href={deliverable.report} target="_blank">View Deliverable</a>
+            </div>
+            <div className="actions">
+                <button className="btn" onClick={props.approveDeliverable}>Approve</button>
+                <button className="btn" onClick={props.rejectDeliverable}>Reject</button>
+                <Link className="btn" to={"/proposals/"+ deliverable.proposal_id}>View Proposal</Link>
+            </div>
         </div>
     );
 }

@@ -12,6 +12,7 @@ export default function RenderHeader(props) {
     const [proposals, setProposals] = useState(0);
     const [end_voting_proposal, setEndVotingProposals] = useState(0);
     const [approved_proposals, setApprovedProposals] = useState(0);
+    const [show_notifcations, setShowNotifications] = useState(false);
     const activeUser = props.activeUser;
 
     useEffect(() => {
@@ -130,7 +131,51 @@ export default function RenderHeader(props) {
             }
         }
     getNotifications();
-    }, [activeUser]);     
+    }, [activeUser]);
+    
+    function toggleNotificationsSubMenu() {
+        setShowNotifications(!show_notifcations);
+    }
+
+    function RenderNotificationsSubMenu() {
+        if (show_notifcations) {
+            return (
+                <ul className="notifications-submenu">
+                    {proposals ?
+                    <>
+                        <li><span>{proposals} proposals to review</span></li>
+                    </>
+                    :
+                    ''
+                    }
+                    {deliverables ?
+                    <>
+                        <li><span>{deliverables} deliverables to review</span></li>
+                    </>
+                    :
+                    ''
+                    }
+                    {end_voting_proposal ?
+                    <>
+                        <li><span>{end_voting_proposal} proposals to end voting</span></li>
+                    </>
+                    :
+                    ''
+                    }
+                    {approved_proposals ?
+                    <>
+                        <li><span>{proposals} proposals to begin</span></li>
+                    </>
+                    :
+                    ''
+                    }
+                </ul>
+
+            );
+        } else {
+            return null;
+        }
+    }
 
     if (props.activeUser && props.activeAuthenticator && props.isAdmin) {
         return (
@@ -149,7 +194,9 @@ export default function RenderHeader(props) {
                                 <li><Link to="/proposals">Proposals</Link></li>
                                 <li><Link to="/deliverables">Deliverables</Link></li>
                                 <li><Link to="/admin">Admin</Link></li>
-                                <li className="notifications"><button className={deliverables + proposals + end_voting_proposal + approved_proposals !== 0 ? "bell has-notifications" : "bell"}><span className="count">{deliverables + proposals + end_voting_proposal + approved_proposals}</span></button></li>
+                                <li className="notifications"><button className={deliverables + proposals + end_voting_proposal + approved_proposals !== 0 ? "bell has-notifications" : "bell"} onClick={toggleNotificationsSubMenu}><span className="count">{deliverables + proposals + end_voting_proposal + approved_proposals}</span></button>
+                                    <RenderNotificationsSubMenu />
+                                </li>
                             </ul>
                         </nav>
                         <div className="login-wrapper">
@@ -198,14 +245,23 @@ export default function RenderHeader(props) {
     } else {
         return (
             <header>
-                <nav>
-                    <button id="menu-icon"></button>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/proposals">Proposals</Link></li>
-                        <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}>Login</button></li>
-                    </ul>
-                </nav>
+                <div className="nav-wrapper">
+                    <div className="logo">
+                        <Link className="header-link" to="/">
+                            <img src={logo} alt="WAX Logo" width="235px" />
+                        </Link>
+                    </div>
+                    <div className="menu-wrapper">
+                        <nav>
+                            <button id="menu-icon"></button>
+                            <ul>
+                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/proposals">Proposals</Link></li>
+                                <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}>Login</button></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </header>
         );
     }

@@ -47,7 +47,7 @@ export default function RenderDeliverables(props) {
                                     })
 
                             
-                                    delivsResp.rows.forEach(function (element) {
+                                    delivsResp.rows.sort().forEach(function (element) {
                                         element.proposal_id = inProgProposal.proposal_id;
                                         element.deliverable_id_readable = element.deliverable_id;
                                         element.deliverable_id = inProgProposal.proposal_id+'.'+element.deliverable_id;

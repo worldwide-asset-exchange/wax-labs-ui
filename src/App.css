@@ -110,7 +110,7 @@ header nav ul {
 
 header nav ul li {
   display: inline-block;
-  padding: 19px 0px;
+  padding: 6px 0px;
   margin: 0;
   vertical-align: middle;
 }
@@ -118,6 +118,13 @@ header nav ul li {
 header nav ul li:hover {
   cursor: pointer;
   background: #85b1bb;
+}
+
+header nav img {
+  width: 32px;
+  height: 32px;
+  display: block;
+  margin: 0 auto;
 }
 
 header .login-wrapper button {
@@ -146,7 +153,7 @@ header .login button:focus {
 header nav ul li a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.2em;
+  font-size: 0.9em;
   padding: 8px;
   display: inline-block;
   vertical-align: middle;
@@ -179,7 +186,7 @@ header .login-li button {
 
 header .notifications {
   position: relative;
-  padding: 19px 8px;
+  padding: 6px 8px;
 }
 
 header .notifications .bell {

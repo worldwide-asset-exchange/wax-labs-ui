@@ -5,6 +5,11 @@ import {
 import * as waxjs from "@waxio/waxjs/dist";
 
 import logo from "../assets/wax_labs_logo.svg";
+import homeIcon from "../assets/bee-box-home.png";
+import proposalsIcon from "../assets/certificate-proposals.png";
+import deliverablesIcon from "../assets/honey-deliverables.png";
+import adminIcon from "../assets/beekeeper-admin.png";
+
 
 export default function RenderHeader(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -190,10 +195,10 @@ export default function RenderHeader(props) {
                         <nav>
                             <button id="menu-icon"></button>
                             <ul>
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/proposals">Proposals</Link></li>
-                                <li><Link to="/deliverables">Deliverables</Link></li>
-                                <li><Link to="/admin">Admin</Link></li>
+                                <li><Link to="/"><img src={homeIcon} /><span>Home</span></Link></li>
+                                <li><Link to="/proposals"><img src={proposalsIcon} /><span>Proposals</span></Link></li>
+                                <li><Link to="/deliverables"><img src={deliverablesIcon} /><span>Deliverables</span></Link></li>
+                                <li><Link to="/admin"><img src={adminIcon} /><span>Admin</span></Link></li>
                                 <li className="notifications"><button className={deliverables + proposals + end_voting_proposal + approved_proposals !== 0 ? "bell has-notifications" : "bell"} onClick={toggleNotificationsSubMenu}><span className="count">{deliverables + proposals + end_voting_proposal + approved_proposals}</span></button>
                                     <RenderNotificationsSubMenu />
                                 </li>

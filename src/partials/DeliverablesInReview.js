@@ -18,7 +18,7 @@ export default function RenderDevliverablesInReview(props) {
             <div className="filtered-proposals archived">
                 <h2>Deliverables In Review</h2>
                 {props.deliverables.map((deliverable) =>
-                <RenderDeliverableGrid deliverable={deliverable} key={deliverable.deliverable_id} />)}
+                <RenderDeliverableGrid deliverable={deliverable} activeUser={props.activeUser} key={deliverable.deliverable_id} />)}
             </div>
         );
     }

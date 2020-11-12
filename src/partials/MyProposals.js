@@ -5,6 +5,7 @@ Link
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
+import RenderProposalFilter from "./ProposalFilter.js";
 
 export default function RenderMyProposals(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -40,17 +41,23 @@ export default function RenderMyProposals(props) {
 
     if (!proposals){
         return (
-            <div className="filtered-proposals my-proposals">
-            <h2>My Proposals</h2>
-            <p>You currently have no proposals. <Link to="/proposals/new">Create a proposal.</Link></p>
+            <div className="proposals-body">
+                <RenderProposalFilter />
+                <div className="filtered-proposals my-proposals">
+                    <h2>My Proposals</h2>
+                    <p>You currently have no proposals. <Link to="/proposals/new">Create a proposal.</Link></p>
+                </div>
             </div>
         );
     } else {
         return (
-            <div className="filtered-proposals my-proposals">
-                <h2>My Proposals</h2>
-                {proposals.map((proposal) =>
-                <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+            <div className="proposals-body">
+                <RenderProposalFilter />
+                <div className="filtered-proposals my-proposals">
+                    <h2>My Proposals</h2>
+                    {proposals.map((proposal) =>
+                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                </div>
             </div>
         );
     }

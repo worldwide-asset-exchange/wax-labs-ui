@@ -195,6 +195,7 @@ header .notifications .bell {
   width: 32px;
   height: 32px;
   position: relative;
+  margin: 16px 0;
   border: 0;
 }
 

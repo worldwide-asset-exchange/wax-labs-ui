@@ -249,19 +249,6 @@ export default function RenderSingleProposal(props){
                             memo: ''
                         },
                     },
-                    {
-                        account: 'labs',
-                        name: 'setreviewer',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: id,
-                            deliverable_id: 1,
-                            memo: activeUser.accountName
-                        },
-                    }
                 ]} , {
                 blocksBehind: 3,
                 expireSeconds: 30
@@ -309,31 +296,6 @@ export default function RenderSingleProposal(props){
                         }],
                         data: {
                             proposal_id: id,
-                        },
-                    },
-                ]} , {
-                blocksBehind: 3,
-                expireSeconds: 30
-            });
-        } catch(e) {
-            console.log(e);
-        }
-     }
-
-     async function claimFunds() {
-        try {        
-            await activeUser.signTransaction({
-                actions: [
-                    {
-                        account: 'labs',
-                        name: 'claimfunds',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: id,
-                            deliverable_id: id
                         },
                     },
                 ]} , {
@@ -675,6 +637,31 @@ export default function RenderSingleProposal(props){
            }
        }
 
+       async function claimFunds() {
+        try {        
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'claimfunds',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: id,
+                            deliverable_id: deliverable.deliverable_id
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
         async function submitReport(){
             try {
                 await activeUser.signTransaction({
@@ -782,7 +769,7 @@ export default function RenderSingleProposal(props){
                         <input type="text" id="edit-recipient" className={!deliverable.editable ? 'hide': ''} name="new_recipient" onChange={handleInputChange} />
                     </div>
                     <div className="report">
-                        {deliverable.status !== "drafting" ?
+                        {deliverable.status !== "inprogress" ?
                         <>
                             <a href={deliverable.report} target="_blank">View Deliverable Report</a>
                         </>
@@ -794,7 +781,7 @@ export default function RenderSingleProposal(props){
                         <input type="text" autoFocus id="submit-report" className={!deliverable.report_editable ? 'hide': ''} name="report" value={new_deliverable_report.report} onChange={handleInputChange} />
                     </div>
                     <div className="actions">
-                        {deliverable.status === "drafting" || deliverable.status === "submitted"  || deliverable.status === "rejected" ?
+                        {deliverable.status === "inprogress" || deliverable.status === "reported"  || deliverable.status === "rejected" ?
                         <>
                             {deliverable.editable ? 
                             <>
@@ -821,7 +808,7 @@ export default function RenderSingleProposal(props){
                             ''
                             }
                         </>
-                        : deliverable.status === "approved" ?
+                        : deliverable.status === "accepted" ?
                         <>
                             <button className="btn" onClick={claimFunds}>Claim Funds</button>
                         </>

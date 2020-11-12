@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
+import RenderProposalFilter from "./ProposalFilter.js";
 
 export default function RenderMyDraftProposals(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -38,17 +39,23 @@ export default function RenderMyDraftProposals(props) {
     
         if (!proposals){
             return (
-                <div className="filtered-proposals my-drafts">
-                    <h2>Draft Proposals</h2>
-                    <p>You do not have any saved draft proposals.</p>
+                <div className="proposals-body">
+                    <RenderProposalFilter />
+                    <div className="filtered-proposals my-drafts">
+                        <h2>Draft Proposals</h2>
+                        <p>You do not have any saved draft proposals.</p>
+                    </div>
                 </div>
             )
         } else {
             return (
-                <div className="filtered-proposals my-drafts">
-                    <h2>Draft Proposals</h2>
-                    {proposals.filter(proposal => proposal.proposer === props.accountName).map((filteredProposal) =>
-                    <RenderProposalGrid proposal={filteredProposal} key={filteredProposal.proposal_id} />)}
+                <div className="proposals-body">
+                    <RenderProposalFilter />
+                    <div className="filtered-proposals my-drafts">
+                        <h2>Draft Proposals</h2>
+                        {proposals.filter(proposal => proposal.proposer === props.accountName).map((filteredProposal) =>
+                        <RenderProposalGrid proposal={filteredProposal} key={filteredProposal.proposal_id} />)}
+                    </div>
                 </div>
             );
         }

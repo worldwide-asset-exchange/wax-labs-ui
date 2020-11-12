@@ -49,43 +49,6 @@ export default function RenderProposals(props) {
     
     return (
         <div className="proposals">
-            <div className="proposals-menu">
-                {props.activeUser ?
-                <Link to="new">New Proposal</Link>
-                :
-                <></>
-                }
-                <ul>
-                {props.activeUser ?
-                <>    
-                    <li><Link to="my-proposals">My Proposals</Link></li>
-                    <li><Link to="my-drafts">My Draft Proposals</Link></li>
-                </>
-                :
-                <></>
-                }
-                {props.activeUser && props.isAdmin ?
-                <>
-                    <li><Link to="in-review">In Review Proposals</Link></li>
-                </>
-                :
-                <></>
-                }
-                </ul>
-                <h3>Active Proposals</h3>
-                <ul>
-                    <li><Link to="/proposals">All Active Proposals</Link></li>
-                    <li><Link to="vote">In Vote Proposals</Link></li>
-                    <li><Link to="in-progress">In Progress Proposals</Link></li>
-                </ul>
-                <h3>Archived Proposals</h3>
-                <ul>
-                    <li><Link to="archived">All Archived Proposals</Link></li>
-                    <li><Link to="archived/completed">Completed Proposals</Link></li>
-                    <li><Link to="archived/rejected">Rejected Proposals</Link></li>
-                </ul>
-            </div>
-            <div className="proposals-body">
                 <Routes>
                     <Route path="/" element={<RenderActiveProposals />} />
                     <Route path="vote" element={<RenderVotingProposals />} />
@@ -100,7 +63,6 @@ export default function RenderProposals(props) {
                     <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
                     <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} />} />
                 </Routes>
-            </div>
         </div>
     );
 }

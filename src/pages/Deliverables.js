@@ -52,6 +52,7 @@ export default function RenderDeliverables(props) {
                                         element.deliverable_id_readable = element.deliverable_id;
                                         element.deliverable_id = inProgProposal.proposal_id+'.'+element.deliverable_id;
                                         element.proposal_title = inProgProposal.title;
+                                        element.decription = inProgProposal.description;
                                         element.reviewer = inProgProposal.reviewer;
                                         stateArray = [...stateArray, element];
                                         setDeliverables(stateArray);
@@ -71,62 +72,6 @@ export default function RenderDeliverables(props) {
     getDeliverablesInReview();
     }, []);
 
-    console.log(deliverables);
-
-    async function approveDeliverable(deliverable){
-        try {
-           await activeUser.signTransaction({
-               actions: [
-                   {
-                       account: 'labs',
-                       name: 'reviewdeliv',
-                       authorization: [{
-                           actor: activeUser.accountName,
-                           permission: 'active',
-                       }],
-                       data: {
-                           proposal_id: deliverable.proposal_id,
-                           deliverable_id: deliverable.deliverable_id_readable,
-                           accept: true,
-                           memo: ''
-                       },
-                   },
-               ]} , {
-               blocksBehind: 3,
-               expireSeconds: 30
-           });
-        } catch(e){
-            console.log(e);
-        }
-    }
-
-    async function rejectDeliverable(deliverable){
-        try {
-           await activeUser.signTransaction({
-               actions: [
-                   {
-                       account: 'labs',
-                       name: 'reviewdeliv',
-                       authorization: [{
-                           actor: activeUser.accountName,
-                           permission: 'active',
-                       }],
-                       data: {
-                           proposal_id: deliverable.proposal_id,
-                           deliverable_id: deliverable.deliverable_id_readable,
-                           accept: false,
-                           memo: ''
-                       },
-                   },
-               ]} , {
-               blocksBehind: 3,
-               expireSeconds: 30
-           });
-        } catch(e){
-            console.log(e);
-        }
-    }
-    
     if (props.activeUser && deliverables) {
         return (
             <div className="deliverables">
@@ -139,8 +84,8 @@ export default function RenderDeliverables(props) {
                 </div>
                 <div className="deliverables-body">
                     <Routes>
-                        <Route path="/" element={<RenderDeliverablesInReview activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} approveDeliverable={approveDeliverable} rejectDeliverable={rejectDeliverable} />} />
-                        <Route path="assigned" element={<RenderAssignedDeliverables activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} approveDeliverable={approveDeliverable} rejectDeliverable={rejectDeliverable} />} />
+                        <Route path="/" element={<RenderDeliverablesInReview activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
+                        <Route path="assigned" element={<RenderAssignedDeliverables activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
                     </Routes>
                 </div>
             </div>
@@ -157,8 +102,8 @@ export default function RenderDeliverables(props) {
                 </div>
                 <div className="deliverables-body">
                     <Routes>
-                        <Route path="/" element={<RenderDeliverablesInReview isAdmin={props.isAdmin} approveDeliverable={approveDeliverable} rejectDeliverable={rejectDeliverable} />} />
-                        <Route path="assigned" element={<RenderAssignedDeliverables isAdmin={props.isAdmin} approveDeliverable={approveDeliverable} rejectDeliverable={rejectDeliverable} />} />
+                        <Route path="/" element={<RenderDeliverablesInReview isAdmin={props.isAdmin} />} />
+                        <Route path="assigned" element={<RenderAssignedDeliverables isAdmin={props.isAdmin} />} />
                     </Routes>
                 </div>
             </div>

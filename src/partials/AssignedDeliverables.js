@@ -1,6 +1,7 @@
 import React from 'react';
 
 import RenderDeliverableGrid from './DeliverableGridSingle.js';
+import RenderProposalFilter from "./ProposalFilter.js";
 
 export default function RenderAssignedDevliverables(props) {
 
@@ -17,7 +18,7 @@ export default function RenderAssignedDevliverables(props) {
             <div className="filtered-proposals archived">
                 <h2>Assigned Deliverables to Review</h2>
                 {props.deliverables.filter(x => x.reviewer === props.activeUser.accountName).map((deliverable) =>
-                <RenderDeliverableGrid deliverable={deliverable} key={deliverable.deliverable_id} />)}
+                <RenderDeliverableGrid deliverable={deliverable} activeUser={props.activeUser} key={deliverable.deliverable_id} />)}
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
+import RenderProposalFilter from "./ProposalFilter.js";
 
 export default function RenderCompletedProposals() {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -37,17 +38,23 @@ export default function RenderCompletedProposals() {
 
     if (!proposals){
             return (
-                <div className="filtered-proposals completed">
-                    <h2>Active Proposals: Completed</h2>
-                    <p>There are currently no completed proposals.</p>
+                <div className="proposals-body">
+                    <RenderProposalFilter />
+                    <div className="filtered-proposals completed">
+                        <h2>Active Proposals: Completed</h2>
+                        <p>There are currently no completed proposals.</p>
+                    </div>
                 </div>
             );
         } else {
             return (
-                <div className="filtered-proposals completed">
-                    <h2>Archived Proposals: Completed</h2>
-                    {proposals.map((proposal) =>
-                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                <div className="proposals-body">
+                <RenderProposalFilter />
+                    <div className="filtered-proposals completed">
+                        <h2>Archived Proposals: Completed</h2>
+                        {proposals.map((proposal) =>
+                        <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                    </div>
                 </div>
             );
         }

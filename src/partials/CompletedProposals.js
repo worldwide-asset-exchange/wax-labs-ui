@@ -41,7 +41,7 @@ export default function RenderCompletedProposals() {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals completed">
-                        <h2>Active Proposals: Completed</h2>
+                        <h3>Active Proposals: Completed</h3>
                         <p>There are currently no completed proposals.</p>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ export default function RenderCompletedProposals() {
                 <div className="proposals-body">
                 <RenderProposalFilter />
                     <div className="filtered-proposals completed">
-                        <h2>Archived Proposals: Completed</h2>
+                        <h3>Archived Proposals: Completed</h3>
                         {proposals.map((proposal) =>
                         <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                     </div>

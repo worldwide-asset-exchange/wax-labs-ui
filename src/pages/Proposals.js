@@ -49,6 +49,7 @@ export default function RenderProposals(props) {
     
     return (
         <div className="proposals">
+            <h2>Proposals</h2>
                 <Routes>
                     <Route path="/" element={<RenderActiveProposals />} />
                     <Route path="vote" element={<RenderVotingProposals />} />

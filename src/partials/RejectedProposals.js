@@ -42,7 +42,7 @@ export default function RenderRejectedProposals(){
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals rejected">
-                        <h2>Archived Proposals: Rejected</h2>
+                        <h3>Archived Proposals: Rejected</h3>
                         <p>There are currently no rejected proposals.</p>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ export default function RenderRejectedProposals(){
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals rejected">
-                        <h2>Archived Proposals: Rejected</h2>
+                        <h3>Archived Proposals: Rejected</h3>
                         {proposals.map((proposal) =>
                         <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                     </div>

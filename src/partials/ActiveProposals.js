@@ -61,7 +61,7 @@ export default function RenderActiveProposals(props) {
             <div className="proposals-body">
                 <RenderProposalFilter />
                 <div className="filtered-proposals active">
-                    <h2>Active Proposals</h2>
+                    <h3>Active Proposals</h3>
                     <p>There are currently no active proposals.</p>
                 </div>
             </div>
@@ -71,7 +71,7 @@ export default function RenderActiveProposals(props) {
             <div className="proposals-body">
                 <RenderProposalFilter />
                 <div className="filtered-proposals active">
-                    <h2>Active Proposals</h2>
+                    <h3>Active Proposals</h3>
                     {proposals.map((proposal) =>
                     <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                 </div>

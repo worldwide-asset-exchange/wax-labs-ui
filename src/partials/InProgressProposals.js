@@ -41,7 +41,7 @@ export default function RenderInProgressProposals() {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals in-progress">
-                        <h2>Active Proposals: In Progress</h2>
+                        <h3>Active Proposals: In Progress</h3>
                         <p>There are currently no proposals in progress.</p>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ export default function RenderInProgressProposals() {
                 <div className="proposals-body">
                 <RenderProposalFilter />
                     <div className="filtered-proposals in-progress">
-                        <h2>Active Proposals: In Progress</h2>
+                        <h3>Active Proposals: In Progress</h3>
                         {proposals.map((proposal) =>
                         <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                     </div>

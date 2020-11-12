@@ -415,6 +415,28 @@ main {
   box-sizing: border-box;
 }
 
+.proposals-menu {
+  padding: 10px 0;
+}
+
+.proposals-menu ul {
+  list-style: none;
+  border: 1px solid;
+}
+
+.proposals-menu ul li {
+  display: inline-block;
+}
+
+.proposals-menu ul li:not(:last-child) {
+  border-right: 1px solid;
+}
+
+.proposals-menu ul li a {
+  padding: 5px 8px;
+  text-decoration: none;
+}
+
 .proposal-body {
   padding-top: 10px;
 }
@@ -427,6 +449,19 @@ main {
 .proposal-body .proposal-content {
   display: inline-block;
   width: 60%;
+}
+
+.single-proposal .deliverables {
+  padding-top: 10px;
+}
+
+.admin-portal .admin-dashboard-item {
+  display: block;
+}
+
+.admin-portal .admin-dashboard-item .icon {
+  width: 48px;
+  height: 48px;
 }
 
 footer {

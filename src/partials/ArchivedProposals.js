@@ -62,7 +62,7 @@ export default function RenderArchivedProposals() {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals archived">
-                        <h2>Archived Proposals</h2>
+                        <h3>Archived Proposals</h3>
                         <p>There are currently no archived proposals.</p>
                     </div>
                 </div>
@@ -72,7 +72,7 @@ export default function RenderArchivedProposals() {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals archived">
-                        <h2>Archived Proposals</h2>
+                        <h3>Archived Proposals</h3>
                         {proposals.map((proposal) =>
                         <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                     </div>

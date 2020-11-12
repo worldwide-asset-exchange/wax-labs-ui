@@ -42,7 +42,7 @@ export default function RenderMyDraftProposals(props) {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals my-drafts">
-                        <h2>Draft Proposals</h2>
+                        <h3>Draft Proposals</h3>
                         <p>You do not have any saved draft proposals.</p>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ export default function RenderMyDraftProposals(props) {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals my-drafts">
-                        <h2>Draft Proposals</h2>
+                        <h3>Draft Proposals</h3>
                         {proposals.filter(proposal => proposal.proposer === props.accountName).map((filteredProposal) =>
                         <RenderProposalGrid proposal={filteredProposal} key={filteredProposal.proposal_id} />)}
                     </div>

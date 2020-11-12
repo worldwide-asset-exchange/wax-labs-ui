@@ -41,7 +41,7 @@ export default function RenderInReviewProposals() {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals review-proposals">
-                        <h2>Proposals Under Review</h2>
+                        <h3>Proposals Under Review</h3>
                         <p>There are currently no proposals to review.</p>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ export default function RenderInReviewProposals() {
                 <div className="proposals-body">
                     <RenderProposalFilter />
                     <div className="filtered-proposals review-proposals">
-                        <h2>Proposals Under Review</h2>
+                        <h3>Proposals Under Review</h3>
                         {proposals.map((proposal) =>
                         <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
                     </div>

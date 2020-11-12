@@ -27,15 +27,15 @@ body {
   height: 100%;
 }
 
-.main-wrapper {
+.wrapper {
   min-height: 100%; 
-  margin-bottom: -205px;
+  margin-bottom: -150px;
 }
 
-.main-wrapper:after {
+.wrapper:after {
   content: "";
   display: block;
-  height: 205px;
+  height: 150px;
 }
 
 header, footer, div {
@@ -434,6 +434,7 @@ footer {
   padding: 20px 0;
   border-top: 1px solid #333;
   margin-top: 1em;
+  min-height: 130px;
 }
 
 footer .footer-inner {

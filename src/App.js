@@ -48,39 +48,43 @@ export default function App(props)  {
     checkAdmin(); 
     return (
       <div className="App">
-        <RenderHeader showModal={props.ual.showModal} accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} activeAuthenticator={props.ual.activeAuthenticator} logout={props.ual.logout} isAdmin={isAdmin} />
-        <main>
-          <div className="content">
-            <Routes>
-            <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" accountName={props.ual.activeUser.accountName} element={<RenderProposals accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
-            <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
-            <Route path="account/*" element={<RenderAccountPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} /> } />  
-            <Route path="admin/*" element={<RenderAdminPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
-            <Route path="*" element={<RenderErrorPage />} />
-            </Routes>
-          </div>
-        </main>
-        <RenderFooter />
+        <div className="wrapper">
+          <RenderHeader showModal={props.ual.showModal} accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} activeAuthenticator={props.ual.activeAuthenticator} logout={props.ual.logout} isAdmin={isAdmin} />
+          <main>
+            <div className="content">
+              <Routes>
+              <Route path="/" element={<RenderHome/>} />
+              <Route path="proposals/*" accountName={props.ual.activeUser.accountName} element={<RenderProposals accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+              <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+              <Route path="account/*" element={<RenderAccountPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} /> } />  
+              <Route path="admin/*" element={<RenderAdminPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+              <Route path="*" element={<RenderErrorPage />} />
+              </Routes>
+            </div>
+          </main>
         </div>
+        <RenderFooter />
+      </div>
     );
   } else {
     return (
       <div className="App">
-      <RenderHeader showModal={props.ual.showModal} isAdmin={isAdmin} />
-      <main>
-        <div className="content">
-            <Routes>
-            <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" element={<RenderProposals isAdmin={isAdmin} />} />
-            <Route path="deliverables/*" element={<RenderDeliverables isAdmin={isAdmin} />} />
-            <Route path="account/*" element={<RenderAccountPortal />} />
-            <Route path="admin/*" element={<RenderAdminPortal isAdmin={isAdmin} />} />
-            <Route path="*" element={<RenderErrorPage />} />
-            </Routes>
-          </div>
-      </main>
-      <RenderFooter />
+        <div className="wrapper">
+          <RenderHeader showModal={props.ual.showModal} isAdmin={isAdmin} />
+          <main>
+            <div className="content">
+                <Routes>
+                <Route path="/" element={<RenderHome/>} />
+                <Route path="proposals/*" element={<RenderProposals isAdmin={isAdmin} />} />
+                <Route path="deliverables/*" element={<RenderDeliverables isAdmin={isAdmin} />} />
+                <Route path="account/*" element={<RenderAccountPortal />} />
+                <Route path="admin/*" element={<RenderAdminPortal isAdmin={isAdmin} />} />
+                <Route path="*" element={<RenderErrorPage />} />
+                </Routes>
+              </div>
+          </main>
+        </div>
+        <RenderFooter />
       </div>
     );
   }

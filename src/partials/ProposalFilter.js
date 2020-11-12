@@ -4,6 +4,7 @@ Link
 } from 'react-router-dom';
 
 export default function RenderProposalFilter(props) {
+    console.log(props.activeUser);
     return (
     <div className="proposals-menu">
         {props.activeUser ?

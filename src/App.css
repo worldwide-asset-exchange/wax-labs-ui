@@ -370,6 +370,7 @@ main {
   margin-top: 10px;
   border: 1px solid #333;
   padding: 10px;
+  display: block;
 }
 
 .deliverables .single {
@@ -400,6 +401,10 @@ main {
   padding-bottom: 10px;
 }
 
+.proposal-header .short-description {
+  margin-top: 7px;
+}
+
 .core-information .row {
   padding: 10px 0;
 }
@@ -408,6 +413,20 @@ main {
   display: inline-block;
   width: 50%;
   box-sizing: border-box;
+}
+
+.proposal-body {
+  padding-top: 10px;
+}
+
+.proposal-body .voting {
+  display: inline-block;
+  width: 40%;
+}
+
+.proposal-body .proposal-content {
+  display: inline-block;
+  width: 60%;
 }
 
 footer {

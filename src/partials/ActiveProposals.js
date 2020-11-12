@@ -8,6 +8,8 @@ export default function RenderActiveProposals(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
 
+    let proposalsArray = []
+
     useEffect(() => {
         async function getActiveProposals() {
         try {
@@ -22,12 +24,11 @@ export default function RenderActiveProposals(props) {
                   key_type: 'name'
               });
             
-            console.log(votingResp.rows);
-            if (!votingResp.rows.length) {
-                return null;
-            } else {
-                console.log(votingResp.rows);
-                setProposals(votingResp.rows);
+            if (votingResp.rows.length) {
+                votingResp.rows.forEach(function (element) {
+                    proposalsArray = [...proposalsArray, element];
+                    setProposals(proposalsArray);
+                    });
             }
             
             let inprogResp = await wax.rpc.get_table_rows({             
@@ -41,13 +42,11 @@ export default function RenderActiveProposals(props) {
                 key_type: 'name'
             });
 
-            if (!inprogResp.rows.length) {
-                return null
-            } else {
-                const inprog = inprogResp.rows;
-                setProposals(prevState => {
-                    return { ...prevState, inprog }
-                  }); 
+            if (inprogResp.rows.length) {
+                inprogResp.rows.forEach(function (element) {
+                    proposalsArray = [...proposalsArray, element];
+                    setProposals(proposalsArray);
+                    });
             }
             
             } catch(e) {
@@ -55,7 +54,7 @@ export default function RenderActiveProposals(props) {
             }
         }
         getActiveProposals();
-        }, [wax.rpc]);
+        }, []);
 
     if (!proposals){
         return (

@@ -936,7 +936,7 @@ export default function RenderSingleProposal(props){
                     <RenderProposerMenu />
                 </div>
                 <h2>{proposal.title}</h2>
-                <p><em>{proposal.description}</em></p>
+                <p className="short-description"><em>{proposal.description}</em></p>
                 <div className="core-information">
                     <div className="row">
                         <div className="left-col"><strong>Submitted by:</strong>{proposal.proposer}</div>
@@ -949,11 +949,13 @@ export default function RenderSingleProposal(props){
                 </div>
             </div>
             <div className="proposal-body">
-                <p>{proposal.content}</p>
-            </div>
-            <div className="voting">
-                <RenderVoteTotals />
-                <RenderVoteButtons />
+                <div className="proposal-content">
+                    <p>{proposal.content}</p>
+                </div>
+                <div className="voting">
+                    <RenderVoteTotals />
+                    <RenderVoteButtons />
+                </div>
             </div>
             <div className="deliverables">
                 <RenderDeliverables />
@@ -971,7 +973,6 @@ export default function RenderSingleProposal(props){
                         <button className="btn" onClick={newDeliverable}>Submit</button>
                         <button className="btn" onClick={toggleNewDeliverable}>Cancel</button>
                     </div>
-
                 </div>
             </div>
         </div>

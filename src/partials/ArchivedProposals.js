@@ -8,6 +8,8 @@ export default function RenderArchivedProposals() {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
 
+    let proposalsArray = [];
+
     useEffect(() => {
         async function getArchivedProposals() {
         try {
@@ -23,10 +25,11 @@ export default function RenderArchivedProposals() {
               });
             
             
-            if (!completedResp.rows.length) {
-                return null
-            } else {
-                setProposals(completedResp.rows);
+            if (completedResp.rows.length) {
+                completedResp.rows.forEach(function (element) {
+                    proposalsArray = [...proposalsArray, element];
+                    setProposals(proposalsArray);
+                    });
             }
             
             let rejectedResp = await wax.rpc.get_table_rows({             
@@ -35,18 +38,16 @@ export default function RenderArchivedProposals() {
                 table: 'proposals',
                 json: true,
                 index_position: 'fourth', //status
-                lower_bound: 'rejected',
-                upper_bound: 'rejected',
+                lower_bound: 'cancelled',
+                upper_bound: 'cancelled',
                 key_type: 'name'
             });
 
-            if (!rejectedResp.rows.length) {
-                return null
-            } else {
-                const rejected = rejectedResp.rows;
-                setProposals(prevState => {
-                    return { ...prevState, rejected }
-                  }); 
+            if (rejectedResp.rows.length) {
+                rejectedResp.rows.forEach(function (element) {
+                    proposalsArray = [...proposalsArray, element];
+                    setProposals(proposalsArray);
+                    });
             }
             
             } catch(e) {
@@ -54,7 +55,7 @@ export default function RenderArchivedProposals() {
             }
         }
         getArchivedProposals();
-        }, [wax.rpc]);
+        }, []);
 
         if (!proposals){
             return (

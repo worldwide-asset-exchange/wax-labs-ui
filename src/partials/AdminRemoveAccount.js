@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function RenderRemoveAccount(props){
     const [wax_account, setAccount] = useState('');
@@ -63,12 +64,15 @@ export default function RenderRemoveAccount(props){
     }
 
     return (
-        <div className="admin-content">
-            <h2>Remove Profile</h2>
-            <div>
-                <input type="text" name="wax_account" onChange={handleInputChange} />
-                <button className="btn" onClick={removeProfile}>Remove Profile</button>
-                <button className="btn" onClick={deleteAccount}>Delete Account</button>
+        <div className="admin-content-wrapper">
+            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-content">
+                <h3>Remove Profile</h3>
+                <div>
+                    <input type="text" name="wax_account" onChange={handleInputChange} />
+                    <button className="btn" onClick={removeProfile}>Remove Profile</button>
+                    <button className="btn" onClick={deleteAccount}>Delete Account</button>
+                </div>
             </div>
         </div>
     );

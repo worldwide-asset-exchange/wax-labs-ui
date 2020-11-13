@@ -13,6 +13,7 @@ import RenderRemoveAccount from '../partials/AdminRemoveAccount.js';
 export default function RenderAdminPortal(props) {
     return (
             <div className="admin-portal">
+                <h2>Admin Portal</h2>
                 <div className="admin-body">
                 <Routes>
                     <Route path="/" element={<RenderAdminMenu />} />

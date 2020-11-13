@@ -50,7 +50,7 @@ export default function RenderMyDraftProposals(props) {
         } else {
             return (
                 <div className="proposals-body">
-                    <RenderProposalFilter />
+                    <RenderProposalFilter activeUser={props.activeUser} />
                     <div className="filtered-proposals my-drafts">
                         <h3>Draft Proposals</h3>
                         {proposals.filter(proposal => proposal.proposer === props.accountName).map((filteredProposal) =>

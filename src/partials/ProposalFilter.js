@@ -7,6 +7,7 @@ export default function RenderProposalFilter(props) {
     console.log(props.activeUser);
     return (
     <div className="proposals-menu">
+        <h2>Proposals</h2>
         {props.activeUser ?
         <Link to="/proposals/new">New Proposal</Link>
         :

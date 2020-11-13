@@ -41,11 +41,15 @@ export default function RenderAdminRole(props){
     }
 
     return (
-        <div className="admin-content">
-            <Link to="/admin">Return to Admin Menu</Link>
-            <h2>Assign WAX Labs Admin Account</h2>
-            <input type="text" name="new_admin" onChange={handleInputChange} />
-            <button className="btn" onClick={updateAdmin}>Assign Admin</button>
+        <div className="admin-content-wrapper">
+            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-content">
+                <h3>Assign WAX Labs Admin Account</h3>
+                <div className="assign-account">
+                    <input type="text" name="new_admin" onChange={handleInputChange} />
+                    <button className="btn" onClick={updateAdmin}>Assign Admin</button>
+                </div>
+            </div>
         </div>
     );
 }

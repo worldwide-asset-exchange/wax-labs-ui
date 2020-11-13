@@ -1,4 +1,5 @@
 import React, { useState , useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 export default function RenderVoteDuration(props){
@@ -60,10 +61,16 @@ export default function RenderVoteDuration(props){
      }, [wax.rpc]);
 
     return (
-        <div className="admin-content">
-            <div className="current_duration">{vote_duration}</div>
-            <input type="number" onChange={handleInputChange} />
-            <button onClick={updateDuration}>Update Voting Duration</button>
+        <div className="admin-content-wrapper">
+            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-content">
+                <h3>Change Voting Period Duration</h3>
+                <div className="current_duration"><strong>Current Duration:</strong> {vote_duration}</div>
+                <div className="change-duration">
+                    <input type="number" onChange={handleInputChange} />
+                    <button className="btn" onClick={updateDuration}>Update Voting Duration</button>
+                </div>
+            </div>
         </div>
     );
 }

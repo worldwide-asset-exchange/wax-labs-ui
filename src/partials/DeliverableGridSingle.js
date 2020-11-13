@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 Link
 } from 'react-router-dom';
 
 
 export default function RenderDeliverableGrid(props){
+    const [show_approval_pane, setApprovalVis] = useState(false);
+    const [memo, setMemo] = useState('');
     const deliverable = props.deliverable;
     const activeUser = props.activeUser;
 
@@ -23,7 +25,7 @@ export default function RenderDeliverableGrid(props){
                            proposal_id: deliverable.proposal_id,
                            deliverable_id: deliverable.deliverable_id_readable,
                            accept: true,
-                           memo: ''
+                           memo: memo
                        },
                    },
                ]} , {
@@ -50,7 +52,7 @@ export default function RenderDeliverableGrid(props){
                            proposal_id: deliverable.proposal_id,
                            deliverable_id: deliverable.deliverable_id_readable,
                            accept: false,
-                           memo: ''
+                           memo: memo
                        },
                    },
                ]} , {
@@ -60,6 +62,19 @@ export default function RenderDeliverableGrid(props){
         } catch(e){
             console.log(e);
         }
+    }
+
+    function handleInputChange(event) {
+        const value = event.target.value;
+
+        setMemo(prevState => {
+            return { ...prevState, memo: value }
+          }
+        );
+    }
+
+    function toggleReviewDeliverable(){
+        setApprovalVis(!show_approval_pane) && setMemo('');
     }
     
     return (
@@ -71,9 +86,21 @@ export default function RenderDeliverableGrid(props){
                 <a href={deliverable.report} target="_blank">View Deliverable</a>
             </div>
             <div className="actions">
-                <button className="btn" onClick={approveDeliverable}>Approve</button>
-                <button className="btn" onClick={rejectDeliverable}>Reject</button>
+                {!show_approval_pane ?
+                <>
+                <button className="btn" onClick={toggleReviewDeliverable}>Review</button>
+                </>
+                :
+                <>
+                <button className="btn" onClick={toggleReviewDeliverable}>X</button>
+                </>
+                }
                 <Link className="btn" to={"/proposals/"+ deliverable.proposal_id}>View Proposal</Link>
+                <div className={show_approval_pane ? "approval-pane" : "approval-pane hide"}>
+                    <input type="text" name="memo" onChange={handleInputChange} />
+                    <button className="btn" onClick={approveDeliverable}>Approve</button>
+                    <button className="btn" onClick={rejectDeliverable}>Reject</button>
+                </div>
             </div>
         </div>
     );

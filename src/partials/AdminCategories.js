@@ -64,14 +64,18 @@ export default function RenderAdminCategories(props){
 
 
     return (
-        <div className="admin-content">
-            <Link to="/admin">Return to Admin Menu</Link>
-            <div className="add-cat">
-                <input type="text" onChange={handleInputChange} />
-                <button onClick={addCategory}>Add Category</button>
+        <div className="admin-content-wrapper">
+            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-content">
+                <h3>Add or Remove Category</h3>
+                <div className="add-cat">
+                    <input type="text" onChange={handleInputChange} />
+                    <button className="btn" onClick={addCategory}>Add Category</button>
+                </div>
+                <h3>Category List</h3>
+                {categories.map((category) =>
+                <RenderCategoryList category={category} key={category} activeUser={props.activeUser} accountName={props.activeUser} />)}
             </div>
-            {categories.map((category) =>
-            <RenderCategoryList category={category} key={category} activeUser={props.activeUser} accountName={props.activeUser} />)}
         </div>
     );
 }

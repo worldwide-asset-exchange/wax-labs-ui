@@ -75,8 +75,8 @@ export default function RenderDeliverables(props) {
     if (props.activeUser && deliverables) {
         return (
             <div className="deliverables">
+                <h2>Deliverables In Review</h2>
                 <div className="deliverables-menu">
-                    <h3>Active Proposals</h3>
                     <ul>
                         <li><Link to="/deliverables">Deliverables</Link></li>
                         <li><Link to="assigned">Assigned to Me</Link></li>
@@ -94,7 +94,6 @@ export default function RenderDeliverables(props) {
         return (
             <div className="deliverables">
                 <div className="deliverables-menu">
-                    <h3>Active Proposals</h3>
                     <ul>
                         <li><Link to="/deliverables">Deliverables</Link></li>
                         <li><Link to="assigned">Assigned to Me</Link></li>

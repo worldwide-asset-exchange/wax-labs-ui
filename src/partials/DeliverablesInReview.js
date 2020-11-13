@@ -8,7 +8,7 @@ export default function RenderDevliverablesInReview(props) {
         console.log(props.deliverables);
         return (
             <div className="filtered-proposals archived">
-                <h2>Deliverables In Review</h2>
+                <h3>Deliverables In Review</h3>
                 <p>There are currently no deliverables to review.</p>
             </div>
         );
@@ -16,7 +16,7 @@ export default function RenderDevliverablesInReview(props) {
         console.log(props.deliverables)
         return (
             <div className="filtered-proposals archived">
-                <h2>Deliverables In Review</h2>
+                <h3>All Deliverables</h3>
                 {props.deliverables.map((deliverable) =>
                 <RenderDeliverableGrid deliverable={deliverable} activeUser={props.activeUser} key={deliverable.deliverable_id} />)}
             </div>

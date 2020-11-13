@@ -52,7 +52,7 @@ export default function RenderMyProposals(props) {
     } else {
         return (
             <div className="proposals-body">
-                <RenderProposalFilter />
+                <RenderProposalFilter activeUser={props.activeUser} />
                 <div className="filtered-proposals my-proposals">
                     <h3>My Proposals</h3>
                     {proposals.map((proposal) =>

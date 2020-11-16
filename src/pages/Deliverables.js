@@ -78,8 +78,8 @@ export default function RenderDeliverables(props) {
                 <h2>Deliverables In Review</h2>
                 <div className="deliverables-menu">
                     <ul>
-                        <li><Link to="/deliverables">Deliverables</Link></li>
-                        <li><Link to="assigned">Assigned to Me</Link></li>
+                        <li><Link to="/deliverables" className="btn">Deliverables</Link></li>
+                        <li><Link to="assigned" className="btn">Assigned to Me</Link></li>
                     </ul>
                 </div>
                 <div className="deliverables-body">

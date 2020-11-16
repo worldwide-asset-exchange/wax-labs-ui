@@ -374,10 +374,68 @@ main {
   display: block;
 }
 
+.proposal-grid-single {
+  text-decoration: none;
+  color: #000;
+}
+
+.proposal-grid-single:visited {
+  color: #000;
+}
+
+.proposal-grid-single .title .description {
+  padding-top: 5px;
+}
+
+.proposal-grid-single .body .row {
+  padding: 10px 0;
+}
+
+.proposal-grid-single .body .row .cell {
+  display: inline-block;
+  width: 50%;
+}
+
+.proposal-grid-single .body .row .cell .category {
+  text-transform: capitalize;
+}
+
 .deliverables .single {
   margin-top: 10px;
   border: 1px solid #333;
   padding: 10px;
+}
+
+.deliverables .deliverables-menu {
+  padding: 15px 0;
+}
+
+.deliverables .deliverables-menu ul {
+  list-style: none;
+}
+
+.deliverables .deliverables-menu ul li {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.deliverables .deliverables-menu ul li a {
+  text-decoration: none;
+  padding: 5px 8px;
+  background-color: #ebebeb;
+  border-color: #ebebeb;
+  color: #000;
+}
+
+.deliverables .deliverables-menu ul li a:hover {
+  background-color: #999999;
+  border-color: #999;
+}
+
+
+
+.proposal-grid-single .title .proposal-id {
+  font-size: 0.75em;
 }
 
 .single-proposal .backend-menu {

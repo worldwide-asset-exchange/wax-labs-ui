@@ -520,10 +520,11 @@ export default function RenderSingleProposal(props){
      
 
      function RenderVoteTotals(){
+
         return (
             <div className="vote-totals">
-                <div className="yes-vote"><strong>Yes: {currentVotes.filter(({key}) => key === "yes").map(ele => ele.value)}</strong></div>
-                <div className="no-vote"><strong>No: {currentVotes.filter(({key}) => key === "no").map(ele => ele.value)}</strong></div>
+                <div className="yes-vote"><strong>Yes: {currentVotes.filter(({key}) => key === "yes").map(ele => ele.value.slice(0,-14))}</strong></div>
+                <div className="no-vote"><strong>No: {currentVotes.filter(({key}) => key === "no").map(ele => ele.value.slice(0,-14))}</strong></div>
             </div>
         );
      }
@@ -754,13 +755,17 @@ export default function RenderSingleProposal(props){
             newDelivState[index] = {...newDelivState[index], review_options: true}
             }
             setDeliverables(newDelivState);
-         }
+        }
+
+
 
         if (activeUser && activeUser.accountName === proposal.reviewer && !props.isAdmin){
+            const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
+            
             return (
                 <div className="single">
                     <div className="number"><h4>Deliverable {deliverable.deliverable_id}</h4></div>
-                    <div className="amount"><strong>Amount:</strong> {deliverable.requested}</div>
+                    <div className="amount"><strong>Amount:</strong> {readableDeliverableAmount}</div>
                     <div className="status"><strong>Status:</strong> <RenderReadableDeliverableStatus /></div>
                     { deliverable.report === null ?
                     <div className="report">No Report Submitted</div>
@@ -789,11 +794,12 @@ export default function RenderSingleProposal(props){
                 </div>
             );
         } else if (activeUser && activeUser.accountName === proposal.proposer) {
+            const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
             return (
                 <div className="single">
                     <div className="number"><h4>Deliverable {deliverable.deliverable_id}</h4></div>
                     <div className="amount">
-                        <strong>Amount Requested:</strong> {deliverable.requested}
+                        <strong>Amount Requested:</strong> {readableDeliverableAmount}
                         <input type="text" id="edit-requested" className={!deliverable.editable ? 'hide': ''} name="new_requested_amount" onChange={handleInputChange} />
                     </div>
                     <div className="status"><strong>Status:</strong> <RenderReadableDeliverableStatus /></div>
@@ -853,11 +859,12 @@ export default function RenderSingleProposal(props){
                 </div>
             );
         } else {
+            const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
             return (
                 <div className="single">
                     <div className="number">Deliverable {deliverable.deliverable_id}</div>
                     <div className="amount">
-                        <strong>Amount Requested:</strong> {deliverable.requested}
+                        <strong>Amount Requested:</strong> {readableDeliverableAmount}
                         <input type="text" id="edit-requested" className={!deliverable.editable ? 'hide': ''} name="new_requested_amount" onChange={handleInputChange} />
                     </div>
                     <div className="status">Status: <RenderReadableDeliverableStatus /></div>
@@ -1025,6 +1032,14 @@ export default function RenderSingleProposal(props){
             return null;
         }
     }
+    
+
+    let readableAmount = '';
+
+    if (proposal.total_requested_funds) {
+        readableAmount = proposal.total_requested_funds.slice(0,-13) + ' WAX';
+    }
+    
 
     return (
         <div className="single-proposal">
@@ -1044,7 +1059,7 @@ export default function RenderSingleProposal(props){
                     </div>
                     <div className="row">
                         <div className="left-col"><strong>Status:</strong> <RenderReadableProposalStatus /></div>
-                        <div className="right-col"><strong>Total Requested Funds:</strong>{proposal.total_requested_funds}</div>
+                        <div className="right-col"><strong>Total Requested Funds: </strong>{readableAmount}</div>
                     </div>
                 </div>
             </div>

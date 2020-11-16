@@ -30,6 +30,8 @@ export default function RenderProposalGrid(props){
         }
     }
 
+    const readableAmount = proposal.total_requested_funds.slice(0,-13) + ' WAX';
+
     return (
         <Link to={'/proposals/' + proposal.proposal_id} className="proposal-grid-single">
             <div className="title">
@@ -43,7 +45,7 @@ export default function RenderProposalGrid(props){
                 </div>
                 <div className="row">
                     <div className="cell"><strong>Proposer:</strong> {proposal.proposer}</div>
-                    <div className="cell"><strong>Requested Amount:</strong> {proposal.total_requested_funds}</div>
+                    <div className="cell"><strong>Requested Amount:</strong> {readableAmount}</div>
                 </div>
                 <div className="row">
                     <div className="cell"><strong>Deliverables:</strong> {proposal.deliverables}</div>

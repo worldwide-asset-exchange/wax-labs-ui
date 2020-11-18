@@ -378,6 +378,12 @@ main {
   text-decoration: none;
   color: #000;
   padding-right: 10px;
+  transition: background 0.4s, color 0.4s, border 0.4s;
+}
+
+.proposal-grid-single:hover {
+  background: #ebebeb;
+  transition: background 0.4s, color 0.4s, border 0.4s;
 }
 
 .proposal-grid-single:visited {
@@ -390,7 +396,7 @@ main {
 
 .proposal-grid-single .image {
   display: inline-block;
-  width: 33%;
+  width: 25%;
 }
 
 .proposal-grid-single .image img {
@@ -399,7 +405,8 @@ main {
 
 .proposal-grid-single .body {
   display: inline-block;
-  width: 34%;
+  width: 75%;
+  padding: 10px;
 }
 
 .proposal-grid-single .body .row {

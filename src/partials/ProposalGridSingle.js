@@ -34,11 +34,14 @@ export default function RenderProposalGrid(props){
 
     return (
         <Link to={'/proposals/' + proposal.proposal_id} className="proposal-grid-single">
-            <div className="title">
-                <h3>{proposal.title} <span className="proposal-id">(#{proposal.proposal_id})</span></h3>
-                <div className="description"><em>{proposal.description}</em></div>
+            <div className="image">
+                <img src="https://via.placeholder.com/245x90?text=Cover+Image"  />
             </div>
             <div className="body">
+                <div className="title">
+                    <h3>{proposal.title} <span className="proposal-id">(#{proposal.proposal_id})</span></h3>
+                    <div className="description"><em>{proposal.description}</em></div>
+                </div>
                 <div className="row">
                     <div className="cell"><strong>Status:</strong> <RenderReadableStatus /></div>
                     <div className="cell"><strong>Category:</strong> <span className="category">{proposal.category}</span></div>

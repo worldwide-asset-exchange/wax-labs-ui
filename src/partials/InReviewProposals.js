@@ -39,6 +39,7 @@ export default function RenderInReviewProposals() {
         if (!proposals){
             return (
                 <div className="proposals-body">
+                    <h2>Proposals</h2>
                     <RenderProposalFilter />
                     <div className="filtered-proposals review-proposals">
                         <h3>Proposals Under Review</h3>
@@ -49,6 +50,7 @@ export default function RenderInReviewProposals() {
         } else {
             return (
                 <div className="proposals-body">
+                    <h2>Proposals</h2>
                     <RenderProposalFilter />
                     <div className="filtered-proposals review-proposals">
                         <h3>Proposals Under Review</h3>

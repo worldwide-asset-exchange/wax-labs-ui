@@ -40,6 +40,7 @@ export default function RenderMyDraftProposals(props) {
         if (!proposals){
             return (
                 <div className="proposals-body">
+                    <h2>Proposals</h2>
                     <RenderProposalFilter />
                     <div className="filtered-proposals my-drafts">
                         <h3>Draft Proposals</h3>
@@ -50,6 +51,7 @@ export default function RenderMyDraftProposals(props) {
         } else {
             return (
                 <div className="proposals-body">
+                    <h2>Proposals</h2>
                     <RenderProposalFilter activeUser={props.activeUser} />
                     <div className="filtered-proposals my-drafts">
                         <h3>Draft Proposals</h3>

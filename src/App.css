@@ -562,24 +562,41 @@ main {
 
 .proposals-menu {
   padding: 10px 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.proposals-menu .row {
+  padding-bottom: 20px;
+}
+
+.proposals-menu strong {
+  display: block;
+  padding-bottom: 10px;
 }
 
 .proposals-menu ul {
   list-style: none;
-  border: 1px solid;
 }
 
 .proposals-menu ul li {
-  display: inline-block;
-}
-
-.proposals-menu ul li:not(:last-child) {
-  border-right: 1px solid;
+  padding-bottom: 5px;
 }
 
 .proposals-menu ul li a {
   padding: 5px 8px;
   text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.category-filter ul li {
+  text-transform: capitalize;
+}
+
+.filtered-proposals {
+  display: inline-block;
+  padding-left: 20px;
 }
 
 .proposal-body {

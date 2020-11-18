@@ -60,7 +60,8 @@ export default function RenderArchivedProposals() {
         if (!proposals){
             return (
                 <div className="proposals-body">
-                    <RenderProposalFilter />
+                    <h2>Proposals</h2>
+                    <RenderProposalFilter status="archived" />
                     <div className="filtered-proposals archived">
                         <h3>Archived Proposals</h3>
                         <p>There are currently no archived proposals.</p>
@@ -70,7 +71,8 @@ export default function RenderArchivedProposals() {
         } else {
             return (
                 <div className="proposals-body">
-                    <RenderProposalFilter />
+                    <h2>Proposals</h2>
+                    <RenderProposalFilter status="archived" />
                     <div className="filtered-proposals archived">
                         <h3>Archived Proposals</h3>
                         {proposals.map((proposal) =>

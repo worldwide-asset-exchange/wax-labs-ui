@@ -377,6 +377,7 @@ main {
 .proposal-grid-single {
   text-decoration: none;
   color: #000;
+  padding-right: 10px;
 }
 
 .proposal-grid-single:visited {
@@ -385,6 +386,20 @@ main {
 
 .proposal-grid-single .title .description {
   padding-top: 5px;
+}
+
+.proposal-grid-single .image {
+  display: inline-block;
+  width: 33%;
+}
+
+.proposal-grid-single .image img {
+  width: 100%;
+}
+
+.proposal-grid-single .body {
+  display: inline-block;
+  width: 34%;
 }
 
 .proposal-grid-single .body .row {
@@ -398,6 +413,20 @@ main {
 
 .proposal-grid-single .body .row .cell .category {
   text-transform: capitalize;
+}
+
+.public-account .row {
+  padding-bottom: 10px;
+}
+
+.public-account .account-info-wrapper .account-image {
+  display: inline-block;
+}
+
+.public-account .account-info-wrapper .account-info-table {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
 }
 
 .deliverables-grid-single .image {

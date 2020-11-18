@@ -1072,7 +1072,7 @@ export default function RenderSingleProposal(props){
                 <p className="short-description"><em>{proposal.description}</em></p>
                 <div className="core-information">
                     <div className="row">
-                        <div className="left-col"><strong>Submitted by:</strong> {proposal.proposer}</div>
+                        <div className="left-col"><strong>Submitted by:</strong> <Link to={'/account/' + proposal.proposer}>{proposal.proposer}</Link></div>
                         <div className="right-col"><strong>Reviewer:</strong> {proposal.reviewer}</div>
                     </div>
                     <div className="row">

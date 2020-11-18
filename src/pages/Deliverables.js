@@ -11,7 +11,7 @@ import RenderAssignedDeliverables from '../partials/AssignedDeliverables.js';
 
 export default function RenderDeliverables(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-    const [deliverables, setDeliverables ] = useState([]);
+    const [deliverables, setDeliverables ] = useState();
     const activeUser = props.activeUser;
 
     useEffect(() => {
@@ -23,8 +23,8 @@ export default function RenderDeliverables(props) {
                     table: 'proposals',
                     json: true,
                     index_position: 'fourth', //status
-                    lower_bound: 'inprogress',
-                    upper_bound: 'inprogress',
+                    lower_bound: 'submitted',
+                    upper_bound: 'submitted',
                     key_type: 'name'
                 });
             
@@ -52,7 +52,7 @@ export default function RenderDeliverables(props) {
                                         element.deliverable_id_readable = element.deliverable_id;
                                         element.deliverable_id = inProgProposal.proposal_id+'.'+element.deliverable_id;
                                         element.proposal_title = inProgProposal.title;
-                                        element.decription = inProgProposal.description;
+                                        element.description = inProgProposal.description;
                                         element.reviewer = inProgProposal.reviewer;
                                         stateArray = [...stateArray, element];
                                         setDeliverables(stateArray);
@@ -72,7 +72,7 @@ export default function RenderDeliverables(props) {
     getDeliverablesInReview();
     }, []);
 
-    if (props.activeUser && deliverables) {
+    if (props.activeUser && deliverables != []) {
         return (
             <div className="deliverables">
                 <h2>Deliverables In Review</h2>
@@ -100,10 +100,10 @@ export default function RenderDeliverables(props) {
                     </ul>
                 </div>
                 <div className="deliverables-body">
-                    <Routes>
-                        <Route path="/" element={<RenderDeliverablesInReview isAdmin={props.isAdmin} />} />
-                        <Route path="assigned" element={<RenderAssignedDeliverables isAdmin={props.isAdmin} />} />
-                    </Routes>
+                    <div className="filtered-proposals archived">
+                        <h3>Deliverables In Review</h3>
+                        <p>There are currently no deliverables to review.</p>
+                    </div>
                 </div>
             </div>
         );

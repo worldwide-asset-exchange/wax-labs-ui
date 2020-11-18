@@ -5,7 +5,7 @@ import RenderDeliverableGrid from './DeliverableGridSingle.js';
 export default function RenderDevliverablesInReview(props) {
 
     if (!props.deliverables){
-        console.log(props.deliverables);
+        console.log('no delivs');
         return (
             <div className="filtered-proposals archived">
                 <h3>Deliverables In Review</h3>

@@ -367,10 +367,10 @@ main {
   grid-column-end: end-gutter;
 }
 
-.content .proposal-grid-single {
+.content .proposal-grid-single, .content .deliverables-grid-single {
   margin-top: 10px;
   border: 1px solid #333;
-  padding: 10px;
+  padding-right: 10px;
   display: block;
 }
 
@@ -398,6 +398,32 @@ main {
 
 .proposal-grid-single .body .row .cell .category {
   text-transform: capitalize;
+}
+
+.deliverables-grid-single .image {
+  display: inline-block;
+  vertical-align: middle;
+  width: 25%;
+}
+
+.deliverables-grid-single .image img {
+  margin-bottom: -4px;
+  width: 100%;
+}
+
+.deliverables-grid-single .information {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px;
+  width: 42%;
+}
+
+.deliverables-grid-single .actions {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 0;
+  text-align: right;
+  width: 33%;
 }
 
 .deliverables .single {

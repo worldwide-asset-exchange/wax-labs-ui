@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function RenderEditAccountInfo(props){
     const [userProfile, setProfile] = useState({
@@ -93,7 +94,14 @@ export default function RenderEditAccountInfo(props){
 
     if (!userProfile.isNew){
         return (
-            <div className="filtered-proposals edit-proposal">
+            <div className="account-info">
+                <div className="account-menu">
+                    <h3>Hello, {props.wax_account}</h3>
+                    <ul>
+                        <li><Link to="/account">Account Info</Link></li>
+                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
+                    </ul>
+                </div>
                 <div className="row">
                     <div className="col label">
                         <strong>Name:</strong>

@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect} from 'react';
 import {
 Link,
-useParams
+useParams,
+useNavigate
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
@@ -43,6 +44,7 @@ export default function RenderSingleProposal(props){
     const [show_new_deliverable, showNewDeliverable] = useState(false);
     const [show_new_reviewer, showNewReviewer] = useState(false);
     const [show_reviewal_pane, setReviewalPaneVis] = useState(false);
+    const [end_time, setEndTime] = useState('');
     const new_deliverable_id = deliverables.length + 1;
 
     useEffect(() => {
@@ -88,8 +90,11 @@ export default function RenderSingleProposal(props){
                        });
 
                        const yes_votes = currentVote.rows[0].options.filter(option => option.key === "yes");
+
+                       const end_time = currentVote.rows[0].end_time;
                        
                        console.log(yes_votes);
+                       setEndTime(end_time);
                        setVotes(currentVote.rows[0].options);
 
                        if (status === "inprogress"){
@@ -517,6 +522,18 @@ export default function RenderSingleProposal(props){
                 console.log(new_deliverable_report.report);
             }
         }
+
+    function RenderDynamicBreadcrumbs(){
+        if (props.fromProposals) {
+            return (
+                <div>
+                    <button>{'< Back to Proposals'}</button>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    }
      
 
      function RenderVoteTotals(){
@@ -1044,12 +1061,13 @@ export default function RenderSingleProposal(props){
     return (
         <div className="single-proposal">
             <div className="proposal-header">
+                <RenderDynamicBreadcrumbs />
                 <div className="backend-menus">
                     <RenderAdminMenu />
                     <RenderReviewerMenu />
                     <RenderProposerMenu />
                 </div>
-                <div className="header-image"><img src={proposal.image} /></div>
+                <div className="header-image"><img src="https://via.placeholder.com/980x360?text=Cover+Image" /></div>
                 <h2>{proposal.title} - <span className="category">{proposal.category}</span></h2>
                 <p className="short-description"><em>{proposal.description}</em></p>
                 <div className="core-information">
@@ -1071,6 +1089,7 @@ export default function RenderSingleProposal(props){
                 <div className="voting">
                     <RenderVoteTotals />
                     <RenderVoteButtons />
+                    <strong>Voting ends:</strong> {end_time}
                 </div>
             </div>
             <div className="deliverables">

@@ -75,6 +75,13 @@ export default function RenderInReviewProposals(props) {
 
         return (
             <div className="account-info">
+                <div className="account-menu">
+                    <h3>Hello, {props.wax_account}</h3>
+                    <ul>
+                        <li><Link to="/account">Account Info</Link></li>
+                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
+                    </ul>
+                </div>
                 <div className="account-info-table">
                     <div className="row">
                         <Link className="header-edit-button" to="edit">Edit</Link>

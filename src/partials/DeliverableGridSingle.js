@@ -78,15 +78,17 @@ export default function RenderDeliverableGrid(props){
     }
     
     return (
-        <div className="proposal-grid-single">
+        <div className="deliverables-grid-single">
+            <div className="image">
+                <img src="https://via.placeholder.com/245x90?text=Cover+Image"  />
+            </div>
             <div className="information">
-                Proposal: <Link to={"/proposals/" + deliverable.proposal_id}>{deliverable.proposal_title}</Link>
-                Deliverable: {deliverable.deliverable_id_readable}
-                {deliverable.description}
+                <h4><Link to={"/proposals/" + deliverable.proposal_id}>{deliverable.proposal_title}</Link> <span className="category">(Deliverable #{deliverable.deliverable_id_readable})</span></h4>
+                <span className="description"><em>{deliverable.description}</em></span><br />
                 <a href={deliverable.report} target="_blank">View Deliverable</a>
             </div>
             <div className="actions">
-                {!show_approval_pane ?
+                {/* !show_approval_pane ?
                 <>
                 <button className="btn" onClick={toggleReviewDeliverable}>Review</button>
                 </>
@@ -94,7 +96,7 @@ export default function RenderDeliverableGrid(props){
                 <>
                 <button className="btn" onClick={toggleReviewDeliverable}>X</button>
                 </>
-                }
+                */}
                 <Link className="btn" to={"/proposals/"+ deliverable.proposal_id}>View Proposal</Link>
                 <div className={show_approval_pane ? "approval-pane" : "approval-pane hide"}>
                     <input type="text" name="memo" onChange={handleInputChange} />

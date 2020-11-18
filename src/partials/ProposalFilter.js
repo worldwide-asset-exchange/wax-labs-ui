@@ -50,8 +50,8 @@ export default function RenderProposalFilter(props) {
             :
             <></>
             }
-                <li><Link to="/proposals" className="btn">Active Proposals</Link></li>
-                <li><Link to="/proposals/archived" className="btn">Archived Proposals</Link></li>
+                <li><Link to="/proposals" className={props.status === "active" ? "current-page btn" : "btn" }>Active Proposals</Link></li>
+                <li><Link to="/proposals/archived" className={props.status === "archived" ? "current-page btn" : "btn" }>Archived Proposals</Link></li>
             </ul>
         </div>
         <div className="sort-dropdown row">

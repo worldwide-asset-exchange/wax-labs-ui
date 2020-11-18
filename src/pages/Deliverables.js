@@ -75,36 +75,21 @@ export default function RenderDeliverables(props) {
     if (props.activeUser && deliverables != []) {
         return (
             <div className="deliverables">
-                <h2>Deliverables In Review</h2>
-                <div className="deliverables-menu">
-                    <ul>
-                        <li><Link to="/deliverables" className="btn">Deliverables</Link></li>
-                        <li><Link to="assigned" className="btn">Assigned to Me</Link></li>
-                    </ul>
-                </div>
-                <div className="deliverables-body">
-                    <Routes>
-                        <Route path="/" element={<RenderDeliverablesInReview activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
-                        <Route path="assigned" element={<RenderAssignedDeliverables activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
-                    </Routes>
-                </div>
+                <h2>Deliverables</h2>
+                <Routes>
+                    <Route path="/" element={<RenderDeliverablesInReview status="all" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
+                    <Route path="assigned" element={<RenderAssignedDeliverables status="assigned" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
+                </Routes>
             </div>
         );
     } else {
         return (
             <div className="deliverables">
-                <div className="deliverables-menu">
-                    <ul>
-                        <li><Link to="/deliverables">Deliverables</Link></li>
-                        <li><Link to="assigned">Assigned to Me</Link></li>
-                    </ul>
-                </div>
-                <div className="deliverables-body">
-                    <div className="filtered-proposals archived">
-                        <h3>Deliverables In Review</h3>
-                        <p>There are currently no deliverables to review.</p>
-                    </div>
-                </div>
+                <h2>Deliverables</h2>
+                <Routes>
+                    <Route path="/" element={<RenderDeliverablesInReview status="all" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="assigned" element={<RenderAssignedDeliverables status="assigned" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                </Routes>
             </div>
         );
     }

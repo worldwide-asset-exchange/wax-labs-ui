@@ -590,6 +590,15 @@ main {
   text-align: center;
 }
 
+.proposals-menu ul li a.current-page {
+  background-color: #FA7B21;
+}
+
+.deliverables-menu ul li a.current-page {
+  background-color: #999;
+  border-color: #999;
+}
+
 .category-filter ul li {
   text-transform: capitalize;
 }

@@ -29,12 +29,8 @@ export default function RenderProposalFilter(props) {
         :
         <></>
         }
-            <li><Link to="/proposals">All Active Proposals</Link></li>
-            <li><Link to="/proposals/vote">In Vote Proposals</Link></li>
-            <li><Link to="/proposals/in-progress">In Progress Proposals</Link></li>
-            <li><Link to="/proposals/archived">All Archived Proposals</Link></li>
-            <li><Link to="/proposals/archived/completed">Completed Proposals</Link></li>
-            <li><Link to="/proposals/archived/rejected">Rejected Proposals</Link></li>
+            <li><Link to="/proposals">Active Proposals</Link></li>
+            <li><Link to="/proposals/archived">Archived Proposals</Link></li>
         </ul>
     </div>
     );

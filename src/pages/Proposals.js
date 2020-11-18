@@ -6,11 +6,7 @@ Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-import RenderVotingProposals from '../partials/VotingProposals.js';
 import RenderInReviewProposals from '../partials/InReviewProposals.js'
-import RenderInProgressProposals from '../partials/InProgressProposals.js';
-import RenderCompletedProposals from '../partials/CompletedProposals.js';
-import RenderRejectedProposals from '../partials/RejectedProposals.js';
 import RenderActiveProposals from '../partials/ActiveProposals.js';
 import RenderArchivedProposals from '../partials/ArchivedProposals.js';
 import RenderEditDraftProposal from '../partials/EditDraftProposal.js'
@@ -51,12 +47,8 @@ export default function RenderProposals(props) {
         <div className="proposals">
                 <Routes>
                     <Route path="/" element={<RenderActiveProposals />} />
-                    <Route path="vote" element={<RenderVotingProposals />} />
                     <Route path="in-review" element={<RenderInReviewProposals />} />
-                    <Route path="in-progress" element={<RenderInProgressProposals />} />
                     <Route path="archived" element={<RenderArchivedProposals />} />
-                    <Route path="archived/rejected" element={<RenderRejectedProposals />} />
-                    <Route path="archived/completed" element={<RenderCompletedProposals />} />
                     <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} />} />
                     <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} />} />
                     <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} />} />

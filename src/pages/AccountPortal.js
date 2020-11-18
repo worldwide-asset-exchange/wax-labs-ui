@@ -62,32 +62,32 @@ export default function RenderAccountPortal(props) {
     }
 
     if (props.accountName) {
-    return(
-    <div className="account-portal">
-        <div className="account-body">
-            {userProfile.full_name ?
-            <div>
-            <Routes>
-                <Route path="/" element={<RenderAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                <Route path=":account" element={<RenderPublicAccount />} />
-            </Routes>
+        return(
+        <div className="account-portal">
+            <div className="account-body">
+                {userProfile.full_name ?
+                    <div>
+                        <Routes>
+                            <Route path="/" element={<RenderAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
+                            <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
+                            <Route path=":account" element={<RenderPublicAccount />} />
+                        </Routes>
+                    </div>
+                    :
+                    <div>
+                        <Routes>
+                            <Route path="/" element={<RenderAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
+                            <Route path="edit" element={<RenderEditAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
+                            <Route path=":accName" element={<RenderPublicAccount  />} />
+                        </Routes>
+                    </div>
+                    }
             </div>
-                :
-            <div>
-            <Routes>
-                <Route path="/" element={<RenderAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
-                <Route path="edit" element={<RenderEditAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
-                <Route path=":accName" element={<RenderPublicAccount  />} />
-            </Routes>
-            </div>
-                }
         </div>
-    </div>
-    );
+        );
     } else {
     return (
-            <div className="account-portal">>
+            <div className="account-portal">
                 <div className="account-body">
                     <Routes>
                         <Route path="/" element={<RenderAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" />} />

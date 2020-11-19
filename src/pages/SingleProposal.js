@@ -4,6 +4,7 @@ Link,
 useParams,
 useNavigate
 } from 'react-router-dom';
+import moment from 'moment';
 import * as waxjs from "@waxio/waxjs/dist";
 
 export default function RenderSingleProposal(props){
@@ -46,6 +47,9 @@ export default function RenderSingleProposal(props){
     const [show_reviewal_pane, setReviewalPaneVis] = useState(false);
     const [end_time, setEndTime] = useState('');
     const new_deliverable_id = deliverables.length + 1;
+    const votingEndsIn = moment(end_time, "YYYY-MM-DDTHH:mm:ss[Z]").fromNow();
+    const readableEndTime = moment(end_time).format("MMMM d, YYYY [at] h:mm:ss a [UTC]");
+
 
     useEffect(() => {
         async function getProposal() {
@@ -1089,7 +1093,7 @@ export default function RenderSingleProposal(props){
                 <div className="voting">
                     <RenderVoteTotals />
                     <RenderVoteButtons />
-                    <strong>Voting ends:</strong> {end_time}
+                    <strong>Voting {votingEndsIn.includes('ago') ? 'ended:' : 'ends:' }</strong> {votingEndsIn} on {readableEndTime}
                 </div>
             </div>
             <div className="deliverables">

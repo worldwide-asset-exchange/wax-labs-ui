@@ -723,17 +723,17 @@ export default function RenderSingleProposal(props){
 
         function RenderReadableDeliverableStatus() {
             if (deliverable.status){
-                if (proposal.status === "drafting"){
+                if (deliverable.status === "drafting"){
                     return <span>Draft</span>
-                } else if (proposal.status === "submitted") {
+                } else if (deliverable.status === "submitted") {
                     return <span>In Review</span>
-                } else if (proposal.status === "approved") {
+                } else if (deliverable.status === "approved") {
                     return <span>Approved</span>
-                } else if (proposal.status === "completed") {
-                    return <span>Complete</span>
-                } else if (proposal.status === "cancelled") {
+                } else if (deliverable.status === "claimed") {
+                    return <span>Claimed</span>
+                } else if (deliverable.status === "cancelled") {
                     return <span>Cancelled</span>
-                } else if (proposal.status === "inprogress") { 
+                } else if (deliverable.status === "inprogress") { 
                     return <span>In Progress</span>
                 } else {
                     return null
@@ -778,43 +778,7 @@ export default function RenderSingleProposal(props){
             setDeliverables(newDelivState);
         }
 
-
-
-        if (activeUser && activeUser.accountName === proposal.reviewer && !props.isAdmin){
-            const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
-            
-            return (
-                <div className="single">
-                    <div className="number"><h4>Deliverable {deliverable.deliverable_id}</h4></div>
-                    <div className="amount"><strong>Amount:</strong> {readableDeliverableAmount}</div>
-                    <div className="status"><strong>Status:</strong> <RenderReadableDeliverableStatus /></div>
-                    { deliverable.report === null ?
-                    <div className="report">No Report Submitted</div>
-                    :
-                    <>
-                    <div className="report"><a href={deliverable.report} target="_blank">View Deliverable Report</a></div>
-                    </>
-                    }
-                    <div className="actions">
-                        {deliverable.status === "drafting"  ?
-                        <>
-                            <button className="btn" onClick={deliverableReviewerDecision}>Review</button>
-                        </>
-                        :
-                        <>
-                        </>
-                        }
-                    </div>
-                    <div className={!deliverable.review_options ? 'hide reviewer-options' : 'reviewer-options' }>
-                        <input type="text" name="memo" onChange={handleInputChange} />
-                        <button className="btn" onClick={approveDeliverable}>Approve</button>
-                        <button className="btn" onClick={rejectDeliverable}>Reject</button> 
-                    </div>
-                
-
-                </div>
-            );
-        } else if (activeUser && activeUser.accountName === proposal.proposer) {
+        if (activeUser && activeUser.accountName === proposal.proposer) {
             const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
             return (
                 <div className="single">
@@ -829,7 +793,7 @@ export default function RenderSingleProposal(props){
                         <input type="text" id="edit-recipient" className={!deliverable.editable ? 'hide': ''} name="new_recipient" onChange={handleInputChange} />
                     </div>
                     <div className="report">
-                        {deliverable.status === "inprogress" || deliverable.status === "completed" || deliverable.status === "rejected" ?
+                        {deliverable.status === "inprogress" || deliverable.status === "completed" || deliverable.status === "rejected" || deliverable.status === "claimed" && deliverable.report ?
                         <>
                             <a href={deliverable.report} target="_blank">View Deliverable Report</a>
                         </>

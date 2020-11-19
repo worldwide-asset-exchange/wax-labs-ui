@@ -64,23 +64,26 @@ export default function RenderProposalFilter(props) {
                 <option>WAX Requested: Lowest to Highest</option>
             </select>
         </div>
-        <div className="status-filter row">
-            <strong>Status</strong>
             {props.status === "active" ?
-                <ul>
-                    <li><input type="checkbox" name="voting" /> In Vote</li>
-                    <li><input type="checkbox" name="inprogress" /> In Progress</li>
-                </ul>
+                <div className="status-filter row">
+                    <strong>Status</strong>
+                    <ul>
+                        <li><input type="checkbox" name="voting" /> In Vote</li>
+                        <li><input type="checkbox" name="inprogress" /> In Progress</li>
+                    </ul>
+                </div>
             : props.status === "archived" ?
-                <ul>
-                    <li><input type="checkbox" name="completed" /> Completed</li>
-                    <li><input type="checkbox" name="rejected" /> Rejected</li>
-                    <li><input type="checkbox" name="cancelled" /> Cancelled</li>
-                </ul>
+                <div className="status-filter row">
+                    <strong>Status</strong>
+                    <ul>
+                        <li><input type="checkbox" name="completed" /> Completed</li>
+                        <li><input type="checkbox" name="rejected" /> Rejected</li>
+                        <li><input type="checkbox" name="cancelled" /> Cancelled</li>
+                    </ul>
+                </div>
             :
             ''
             }
-        </div>
         <div className="category-filter row">
             <strong>Category</strong>
             <ul>

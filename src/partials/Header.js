@@ -22,7 +22,6 @@ export default function RenderHeader(props) {
 
     useEffect(() => {
         async function getNotifications(){
-            console.log('run')
             try {
                 let resp = await wax.rpc.get_table_rows({             
                     code: 'labs',
@@ -74,7 +73,7 @@ export default function RenderHeader(props) {
                         const now = new Date().toISOString();
 
                         element.end_time = ballots.rows[0].end_time
-                        if (element.end_time < now && element.status === 'inprogress'){
+                        if (element.end_time < now && element.status === 'voting'){
 
                         endVoteCount = endVoteCount + 1;
 
@@ -93,12 +92,30 @@ export default function RenderHeader(props) {
                     });
                 }
 
-                    let delivsCount = 0;
-                    let proposalCount = 0;
+                let proposalCount = 0;
+
+                if (props.isAdmin) {
+                    let submittedResp = await wax.rpc.get_table_rows({             
+                        code: 'labs',
+                        scope: 'labs',
+                        table: 'proposals',
+                        json: true,
+                        index_position: 'fourth', //status
+                        lower_bound: 'submitted',
+                        upper_bound: 'submitted',
+                        key_type: 'name'
+                    });
+
+                    proposalCount = submittedResp.rows.length;
+
+                    setProposals(proposalCount);
+                }
+
+                
+                let delivsCount = 0;
 
 
                 resp.rows.forEach(filteredProposal => {
-                    proposalCount = proposalCount + 1;
                     async function getAssignedDelivs() {
                         try {
                                 let delivsResp = await wax.rpc.get_table_rows({             
@@ -117,7 +134,7 @@ export default function RenderHeader(props) {
                                     element.proposal_title = filteredProposal.title;
                                     element.reviewer = filteredProposal.reviewer;
                                     console.log(activeUser)
-                                    if (filteredProposal.reviewer === activeUser.accountName && element.status === "drafting"){
+                                    if (filteredProposal.reviewer === activeUser.accountName && element.status === "submitted"){
                                     delivsCount = delivsCount + 1;
                                     setDeliverables(delivsCount);
                                     }
@@ -130,7 +147,6 @@ export default function RenderHeader(props) {
                     }
                     getAssignedDelivs()
                 });
-                setProposals(proposalCount);
             } catch(e) {
                 console.log(e);
             }
@@ -148,28 +164,28 @@ export default function RenderHeader(props) {
                 <ul className="notifications-submenu">
                     {proposals ?
                     <>
-                        <li><span>{proposals} proposals to review</span></li>
+                        <li><Link to="/proposals/in-review"><span className="count">{proposals}</span> <span className="label">proposals to review</span></Link></li>
                     </>
                     :
                     ''
                     }
                     {deliverables ?
                     <>
-                        <li><span>{deliverables} deliverables to review</span></li>
+                        <li><Link to="/deliverables/assigned"><span className="count">{deliverables}</span> <span className="label">deliverables to review</span></Link></li>
                     </>
                     :
                     ''
                     }
                     {end_voting_proposal ?
                     <>
-                        <li><span>{end_voting_proposal} proposals to end voting</span></li>
+                        <li><Link to="/proposals/my-proposals"><span className="count">{end_voting_proposal}</span> <span className="label">proposals to end voting</span></Link></li>
                     </>
                     :
                     ''
                     }
                     {approved_proposals ?
                     <>
-                        <li><span>{proposals} proposals to begin</span></li>
+                        <li><Link to="/proposals/my-proposals"><span className="count">{proposals}</span> <span className="label">proposals to begin voting</span></Link></li>
                     </>
                     :
                     ''

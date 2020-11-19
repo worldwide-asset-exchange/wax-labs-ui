@@ -15,7 +15,7 @@ export default function RenderDevliverablesInReview(props) {
                         <li><Link to="assigned" className={props.status === "assigned" ? "current-page btn" : "btn" }>Assigned to Me</Link></li>
                     </ul>
                 </div>
-                <div className="filtered-proposals archived">
+                <div className="filtered-deliverables">
                     <h3>Deliverables In Review</h3>
                     <p>There are currently no deliverables to review.</p>
                 </div>
@@ -31,7 +31,7 @@ export default function RenderDevliverablesInReview(props) {
                         <li><Link to="assigned" className={props.status === "assigned" ? "current-page btn" : "btn" }>Assigned to Me</Link></li>
                     </ul>
                 </div>
-                <div className="filtered-proposals archived">
+                <div className="filtered-deliverables">
                     <h3>All Deliverables</h3>
                     {props.deliverables.map((deliverable) =>
                     <RenderDeliverableGrid deliverable={deliverable} activeUser={props.activeUser} key={deliverable.deliverable_id} />)}

@@ -210,6 +210,10 @@ header .notifications .bell.has-notifications {
 
 }
 
+header .notifications .bell.has-notifications {
+  visibility: visible;
+}
+
 header .notifications .bell:hover {
   cursor: pointer;
 }
@@ -220,6 +224,7 @@ header .notifications .bell .count {
   right: 5px;
   color: #fff;
   font-size: 10px;
+  visibility: hidden;
 }
 
 header .notifications .notifications-submenu {
@@ -234,28 +239,59 @@ header .notifications .notifications-submenu {
   border-bottom: 1px solid #000;
   color: #000;
   margin-top: 1px;
+  z-index: 10;
+  padding: 0;
 }
 
 header .notifications .notifications-submenu li {
-  min-width: 200px;
-  padding: 8px;
+  min-width: 175px;
   font-size: 0.8em;
+  position: relative;
+  z-index: 12;
+  padding: 0;
 }
 
-header .notifications .notifications-submenu li span {
+header .notifications .notifications-submenu li a {
+  background:#85b1bb;
+  padding: 18px;
   display: block;
-  border: 1px solid #000;
-  border-radius: 25px;
-  padding: 20px 10px;
-  background: #fff;
+  transition: background 0.4s, color 0.4s, border 0.4s;
+}
+
+header .notifications .notifications-submenu li a:hover {
+  background:#fff;
+}
+
+header .notifications .notifications-submenu li a span.label {
+  color: #fff;
+  position: relative;
+  z-index: 12;
+  top: 7px;
+  right: 4px;
+  opacity: 0.7;
+}
+
+header .notifications .notifications-submenu li a:hover span.label {
+  color: #000;
+}
+
+header .notifications .notifications-submenu li a span.count {
+  display: block;
+  position: absolute;
+  color: #426C76;
+  font-size: 3em;
+  right: 10px;
+  top: 5px;
+  font-weight: 700;
+  z-index: 11;
+}
+
+header .notifications .notifications-submenu li a:hover span.count {
+  color: #85b1bb;
 }
 
 button:focus {
   outline: 0 !important;
-}
-
-header .notifications .notifications-submenu li span:hover {
-  background: #666;
 }
 
 header .login-li button:focus {
@@ -650,7 +686,7 @@ main {
   border: 0;
 }
 
-.admin-menu {
+.admin-portal .admin-menu {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax( 32% , 1fr));
   grid-template-rows: repeat(auto-fill, 1fr);

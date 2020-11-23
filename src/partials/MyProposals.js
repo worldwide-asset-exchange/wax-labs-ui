@@ -37,13 +37,13 @@ export default function RenderMyProposals(props) {
             }
         }
         getMyProposals();
-        }, [props.accountName, wax.rpc]);
+        }, [props.accountName]);
 
     if (!proposals){
         return (
             <div className="proposals-body">
                 <h2>Proposals</h2>
-                <RenderProposalFilter />
+                <RenderProposalFilter activeUser={props.activeUser} isAdmin={props.isAdmin} />
                 <div className="filtered-proposals my-proposals">
                     <h3>My Proposals</h3>
                     <p>You currently have no proposals. <Link to="/proposals/new">Create a proposal.</Link></p>
@@ -54,7 +54,7 @@ export default function RenderMyProposals(props) {
         return (
             <div className="proposals-body">
                 <h2>Proposals</h2>
-                <RenderProposalFilter activeUser={props.activeUser} />
+                <RenderProposalFilter activeUser={props.activeUser} isAdmin={props.isAdmin} />
                 <div className="filtered-proposals my-proposals">
                     <h3>My Proposals</h3>
                     {proposals.map((proposal) =>

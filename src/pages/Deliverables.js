@@ -75,20 +75,20 @@ export default function RenderDeliverables(props) {
     if (props.activeUser && deliverables != []) {
         return (
             <div className="deliverables">
-                <h2>Deliverables</h2>
                 <Routes>
                     <Route path="/" element={<RenderDeliverablesInReview status="all" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
-                    <Route path="assigned" element={<RenderAssignedDeliverables status="assigned" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
+                    <Route path="assigned" element={<RenderAssignedDeliverables status="assigned" from_admin="false" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
+                    <Route path="assigned/from_admin=true" element={<RenderAssignedDeliverables status="assigned" from_admin="true" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
                 </Routes>
             </div>
         );
     } else {
         return (
             <div className="deliverables">
-                <h2>Deliverables</h2>
                 <Routes>
                     <Route path="/" element={<RenderDeliverablesInReview status="all" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="assigned" element={<RenderAssignedDeliverables status="assigned" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="assigned" element={<RenderAssignedDeliverables status="assigned" from_admin="false" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="assigned/from_admin=true" element={<RenderAssignedDeliverables status="assigned" from_admin="true" activeUser={props.activeUser} isAdmin={props.isAdmin} deliverables={deliverables} />} />
                 </Routes>
             </div>
         );

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {
 Routes,
 Route,
-Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
@@ -46,14 +45,15 @@ export default function RenderProposals(props) {
     return (
         <div className="proposals">
                 <Routes>
-                    <Route path="/" element={<RenderActiveProposals />} />
-                    <Route path="in-review" element={<RenderInReviewProposals />} />
-                    <Route path="archived" element={<RenderArchivedProposals />} />
-                    <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} />} />
-                    <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} />} />
-                    <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} />} />
+                    <Route path="/" element={<RenderActiveProposals activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="in-review" element={<RenderInReviewProposals from_admin="false" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="in-review/from_admin=true" element={<RenderInReviewProposals from_admin="true" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="archived" element={<RenderArchivedProposals activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
                     <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} />} />
+                    <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="Edit" />} />
                 </Routes>
         </div>
     );

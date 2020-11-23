@@ -4,7 +4,7 @@ import * as waxjs from "@waxio/waxjs/dist";
 import RenderProposalGrid from "./ProposalGridSingle.js";
 import RenderProposalFilter from "./ProposalFilter.js";
 
-export default function RenderArchivedProposals() {
+export default function RenderArchivedProposals(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
 
@@ -61,7 +61,7 @@ export default function RenderArchivedProposals() {
             return (
                 <div className="proposals-body">
                     <h2>Proposals</h2>
-                    <RenderProposalFilter status="archived" />
+                    <RenderProposalFilter activeUser={props.activeUser} status="archived" isAdmin={props.isAdmin} />
                     <div className="filtered-proposals archived">
                         <h3>Archived Proposals</h3>
                         <p>There are currently no archived proposals.</p>
@@ -72,7 +72,7 @@ export default function RenderArchivedProposals() {
             return (
                 <div className="proposals-body">
                     <h2>Proposals</h2>
-                    <RenderProposalFilter status="archived" />
+                    <RenderProposalFilter activeUser={props.activeUser} status="archived" isAdmin={props.isAdmin} />
                     <div className="filtered-proposals archived">
                         <h3>Archived Proposals</h3>
                         {proposals.map((proposal) =>

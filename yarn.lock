@@ -10879,9 +10879,9 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
 simple-react-validator@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/simple-react-validator/-/simple-react-validator-1.5.1.tgz#0dd889fd45b6de6268a9316b03d40b1175bd5f8f"
-  integrity sha512-sVFjv1if53IVnuYqqqVKse57tHJYPpV1bXKEwE2iDKZK8Tx9Ffuntf14Hu8QyFJvzBpAOOVdIxnIzN6Z2eBxNA==
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/simple-react-validator/-/simple-react-validator-1.6.0.tgz#df3a0c32b6160945d36aefe65cc30f1b9e48d2a1"
+  integrity sha512-A4DZwxUqB1oddoiuJ7TTVDS2ZY/yQteCcUw9rwLk81SnVFYg2uqSbU37vBkP9klfVWaoEaiczRiQlWQNNVx5Kg==
 
 simple-swizzle@^0.2.2:
   version "0.2.2"

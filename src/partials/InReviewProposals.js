@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { Link, Routes, Route, useParams } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 import RenderProposalFilter from "./ProposalFilter.js";
 
-export default function RenderInReviewProposals() {
+export default function RenderInReviewProposals(props) {
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
+    const from_admin = props.from_admin;
 
     useEffect(() => {
         async function getInReviewProposals() {
@@ -34,13 +36,23 @@ export default function RenderInReviewProposals() {
             }
         }
         getInReviewProposals();
-        }, [wax.rpc]);
+        }, []);
+
+        function RenderBreadcrumbs(){
+            if (from_admin === "true") {
+                return <Link to="/admin">{'< Back to Admin'}</Link>;
+            } else {
+                return null;
+            }
+        }
 
         if (!proposals){
+            console.log(from_admin);
             return (
                 <div className="proposals-body">
+                    <RenderBreadcrumbs />
                     <h2>Proposals</h2>
-                    <RenderProposalFilter />
+                    <RenderProposalFilter activeUser={props.activeUser} isAdmin={props.isAdmin} />
                     <div className="filtered-proposals review-proposals">
                         <h3>Proposals Under Review</h3>
                         <p>There are currently no proposals to review.</p>
@@ -50,8 +62,9 @@ export default function RenderInReviewProposals() {
         } else {
             return (
                 <div className="proposals-body">
+                    <RenderBreadcrumbs />
                     <h2>Proposals</h2>
-                    <RenderProposalFilter />
+                    <RenderProposalFilter activeUser={props.activeUser} isAdmin={props.isAdmin} />
                     <div className="filtered-proposals review-proposals">
                         <h3>Proposals Under Review</h3>
                         {proposals.map((proposal) =>

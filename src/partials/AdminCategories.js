@@ -60,7 +60,7 @@ export default function RenderAdminCategories(props){
             }
         }
         getCategories();
-     }, [wax.rpc]);
+     }, []);
 
 
     return (

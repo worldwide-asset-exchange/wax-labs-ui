@@ -60,7 +60,7 @@ export default function RenderActiveProposals(props) {
         return (
             <div className="proposals-body">
                 <h2>Proposals</h2>
-                <RenderProposalFilter status="active" />
+                <RenderProposalFilter activeUser={props.activeUser} status="active" isAdmin={props.isAdmin} />
                 <div className="filtered-proposals active">
                     <h3>Active Proposals</h3>
                     <p>There are currently no active proposals.</p>
@@ -71,7 +71,7 @@ export default function RenderActiveProposals(props) {
         return (
             <div className="proposals-body">
                 <h2>Proposals</h2>
-                <RenderProposalFilter status="active" />
+                <RenderProposalFilter activeUser={props.activeUser} status="active" isAdmin={props.isAdmin} />
                 <div className="filtered-proposals active">
                     <h3>Active Proposals</h3>
                     {proposals.map((proposal) =>

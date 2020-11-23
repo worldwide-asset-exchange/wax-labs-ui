@@ -58,7 +58,7 @@ export default function RenderVoteDuration(props){
             }
         }
         getDuration();
-     }, [wax.rpc]);
+     }, []);
 
     return (
         <div className="admin-content-wrapper">

@@ -9,6 +9,7 @@ export default function RenderDevliverablesInReview(props) {
         console.log('no delivs');
         return (
             <div className="deliverables-body">
+                <h2>Deliverables</h2>
                 <div className="deliverables-menu">
                     <ul>
                         <li><Link to="/deliverables" className={props.status === "all" ? "current-page btn" : "btn" }>Deliverables</Link></li>
@@ -25,6 +26,7 @@ export default function RenderDevliverablesInReview(props) {
         console.log(props.deliverables)
         return (
             <div className="deliverables-body">
+                <h2>Deliverables</h2>
                 <div className="deliverables-menu">
                     <ul>
                         <li><Link to="/deliverables" className={props.status === "all" ? "current-page btn" : "btn" }>Deliverables</Link></li>

@@ -29,23 +29,19 @@ export default function RenderProposalFilter(props) {
     return (
     <div className="proposals-menu">
         <div className="proposal-type-filter row">
-            {props.activeUser ?
-            <Link to="/proposals/new">New Proposal</Link>
-            :
-            <></>
-            }
             <ul>
             {props.activeUser ?
             <>    
-                <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
-                <li><Link to="/proposals/my-drafts">My Draft Proposals</Link></li>
+                <li><Link className={props.status === "active" ? "current-page btn" : "btn" } to="/proposals/new">New Proposal</Link></li>
+                <li><Link className={props.status === "active" ? "current-page btn" : "btn" } to="/proposals/my-proposals">My Proposals</Link></li>
+                <li><Link className={props.status === "active" ? "current-page btn" : "btn" } to="/proposals/my-drafts">My Draft Proposals</Link></li>
             </>
             :
             <></>
             }
             {props.activeUser && props.isAdmin ?
             <>
-                <li><Link to="/proposals/in-review">In Review Proposals</Link></li>
+                <li><Link className={props.status === "active" ? "current-page btn" : "btn" } to="/proposals/in-review">In Review Proposals</Link></li>
             </>
             :
             <></>

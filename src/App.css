@@ -658,6 +658,57 @@ main {
   width: 60%;
 }
 
+.edit-proposal {
+  max-width: 600px;
+  width: 100%;
+}
+
+.edit-proposal-table .row {
+  padding: 10px 0;
+}
+
+.edit-proposal-table .row.submit-form {
+  text-align: right;
+}
+
+.edit-proposal-table .row.submit-form .btn {
+  margin-left: 5px;
+}
+
+.edit-proposal-table .row.submit-form .btn.draft {
+  background-color: #ebebeb;
+  border-color: #ebebeb;
+}
+
+.edit-proposal-table .row.submit-form .btn.draft:hover {
+  background-color: #999;
+  border-color: #999;
+}
+
+.edit-proposal-table .row input, .edit-proposal-table .row textarea, .edit-proposal-table .row select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.edit-proposal-table .row input, .edit-proposal-table .row select {
+  height: 1.5em;
+  font-size: 1.25em;
+  text-transform: capitalize;
+}
+
+.edit-proposal-table .row input {
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.edit-proposal-table .row textarea {
+  height: 300px;
+  font-size: 1.25em;
+  font-family: 'Muli', sans-serif;
+  padding: 4px;
+}
+
 .single-proposal .deliverables {
   padding-top: 10px;
 }

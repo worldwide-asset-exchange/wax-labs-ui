@@ -957,7 +957,7 @@ export default function RenderSingleProposal(props){
             return (
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer Menu</h3>
-                    <Link to="edit">Edit Proposal</Link>
+                    <Link className="btn" to="edit">Edit Proposal</Link>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
                 </div>
@@ -1054,11 +1054,15 @@ export default function RenderSingleProposal(props){
                     <strong>Description:</strong>
                     <p>{proposal.content}</p>
                 </div>
+                {proposal.status !== "drafting" ?
                 <div className="voting">
                     <RenderVoteTotals />
                     <RenderVoteButtons />
                     <strong>Voting {votingEndsIn.includes('ago') ? 'ended:' : 'ends:' }</strong> {votingEndsIn} on {readableEndTime}
                 </div>
+                :
+                ''
+                }
             </div>
             <div className="deliverables">
                 <h3>Deliverables</h3>

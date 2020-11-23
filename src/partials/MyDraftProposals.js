@@ -34,14 +34,14 @@ export default function RenderMyDraftProposals(props) {
             }
         }
         getMyDraftProposals();
-        }, [wax.rpc]);
+        }, []);
 
     
         if (!proposals){
             return (
                 <div className="proposals-body">
                     <h2>Proposals</h2>
-                    <RenderProposalFilter />
+                    <RenderProposalFilter activeUser={props.activeUser} isAdmin={props.isAdmin} />
                     <div className="filtered-proposals my-drafts">
                         <h3>Draft Proposals</h3>
                         <p>You do not have any saved draft proposals.</p>
@@ -52,7 +52,7 @@ export default function RenderMyDraftProposals(props) {
             return (
                 <div className="proposals-body">
                     <h2>Proposals</h2>
-                    <RenderProposalFilter activeUser={props.activeUser} />
+                    <RenderProposalFilter activeUser={props.activeUser} isAdmin={props.isAdmin} />
                     <div className="filtered-proposals my-drafts">
                         <h3>Draft Proposals</h3>
                         {proposals.filter(proposal => proposal.proposer === props.accountName).map((filteredProposal) =>

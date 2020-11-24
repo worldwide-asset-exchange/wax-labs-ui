@@ -61,7 +61,7 @@ export default function RenderAccountPortal(props) {
         }
     }
 
-    if (props.accountName) {
+    if (props.accountName && userProfile) {
         return(
         <div className="account-portal">
             <div className="account-body">

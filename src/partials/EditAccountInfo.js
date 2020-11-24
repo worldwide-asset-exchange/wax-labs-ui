@@ -25,7 +25,7 @@ export default function RenderEditAccountInfo(props){
             }
         }
         ifProfileExists();
-        }, [userProfile]);
+        }, []);
     
     async function submitProfile() {
         try {
@@ -95,13 +95,13 @@ export default function RenderEditAccountInfo(props){
     if (!userProfile.isNew){
         return (
             <div className="account-info">
+                <h2>Edit Profile</h2>
                 <div className="account-menu">
-                    <h3>Hello, {props.wax_account}</h3>
                     <ul>
-                        <li><Link to="/account">Account Info</Link></li>
-                        <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
+                        <li><Link className="btn" to="/account">Back</Link></li>
                     </ul>
                 </div>
+                <h3>Information</h3>
                 <div className="row">
                     <div className="col label">
                         <strong>Name:</strong>
@@ -398,15 +398,23 @@ export default function RenderEditAccountInfo(props){
                         <input type="text" name="contact" value={userProfile.contact} onChange={handleInputChange} />              
                     </div>                         
                 </div>
-                <div className="row">
-                    <button className="submit" onClick={submitProfile}>Update Profile</button>
+                <div className="row submit-form">
+                    <Link to="/account" className="btn cancel">Cancel</Link>
+                    <button className="submit btn" onClick={submitProfile}>Update Profile</button>
                 </div>
             </div>
         );
     } else {
         console.log('blank');
         return (
-            <div className="filtered-proposals edit-proposal">
+            <div className="account-info">
+                <h2>Edit Profile</h2>
+                <div className="account-menu">
+                    <ul>
+                        <li><Link className="btn" to="/account">Back</Link></li>
+                    </ul>
+                </div>
+                <h3>Information</h3>
             <div className="row">
                 <div className="col label">
                     <strong>Name:</strong>
@@ -703,8 +711,9 @@ export default function RenderEditAccountInfo(props){
                     <input type="text" name="contact" value="" onChange={handleInputChange} />              
                 </div>                         
             </div>
-            <div className="row">
-                <button className="submit" onClick={submitProfile }>Update Profile</button>
+            <div className="row submit-form">
+                <button className="submit btn" onClick={submitProfile }>Update Profile</button>
+                <Link to="/account" className="btn cancel">Cancel</Link>
             </div>
         </div>
         );

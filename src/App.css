@@ -504,20 +504,20 @@ main {
   padding: 10px;
 }
 
-.deliverables .deliverables-menu {
+.deliverables .deliverables-menu, .account-info .account-menu {
   padding: 15px 0;
 }
 
-.deliverables .deliverables-menu ul {
+.deliverables .deliverables-menu ul, .account-info .account-menu ul {
   list-style: none;
 }
 
-.deliverables .deliverables-menu ul li {
+.deliverables .deliverables-menu ul li, .account-info .account-menu ul li {
   display: inline-block;
   margin-right: 8px;
 }
 
-.deliverables .deliverables-menu ul li a {
+.deliverables .deliverables-menu ul li a, .account-info .account-menu ul li a {
   text-decoration: none;
   padding: 5px 8px;
   background-color: #ebebeb;
@@ -525,12 +525,10 @@ main {
   color: #000;
 }
 
-.deliverables .deliverables-menu ul li a:hover {
+.deliverables .deliverables-menu ul li a:hover, .account-info .account-menu ul li a:hover {
   background-color: #999999;
   border-color: #999;
 }
-
-
 
 .proposal-grid-single .title .proposal-id {
   font-size: 0.75em;
@@ -658,6 +656,37 @@ main {
   width: 60%;
 }
 
+.account-info .row {
+  padding: 10px 0;
+}
+
+.account-info {
+  max-width: 600px;
+  width: 100%;
+}
+
+.account-info .profile-picture {
+  display: inline-block;
+}
+
+.account-info .account-info-table {
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.account-info .row .value {
+  padding: 4px 0;
+}
+
+.account-info .row input {
+  padding: 4px 0;
+  box-sizing: border-box;
+}
+
+.account-info .row.submit-form {
+  text-align: right;
+}
+
 .edit-proposal {
   max-width: 600px;
   width: 100%;
@@ -671,29 +700,32 @@ main {
   text-align: right;
 }
 
-.edit-proposal-table .row.submit-form .btn {
+.edit-proposal-table .row.submit-form .btn, .account-info .row.submit-form .btn {
   margin-left: 5px;
 }
 
-.edit-proposal-table .row.submit-form .btn.draft {
+.edit-proposal-table .row.submit-form .btn.draft, .account-info .row.submit-form .btn.cancel {
   background-color: #ebebeb;
   border-color: #ebebeb;
 }
 
-.edit-proposal-table .row.submit-form .btn.draft:hover {
+.edit-proposal-table .row.submit-form .btn.draft:hover, .account-info .row.submit-form .btn.cancel:hover {
   background-color: #999;
   border-color: #999;
 }
 
-.edit-proposal-table .row input, .edit-proposal-table .row textarea, .edit-proposal-table .row select {
+.edit-proposal-table .row input, .edit-proposal-table .row textarea, .edit-proposal-table .row select, .account-info .row input, .account-info .row textarea, .account-info .row select {
   display: block;
   width: 100%;
   margin-top: 5px;
 }
 
-.edit-proposal-table .row input, .edit-proposal-table .row select {
+.edit-proposal-table .row input, .edit-proposal-table .row select, .account-info .row input, .account-info .row select {
   height: 1.5em;
   font-size: 1.25em;
+}
+
+.edit-proposal-table .row select:not(.country) {
   text-transform: capitalize;
 }
 
@@ -702,7 +734,7 @@ main {
   box-sizing: border-box;
 }
 
-.edit-proposal-table .row textarea {
+.edit-proposal-table .row textarea, .account-info .row textarea {
   height: 300px;
   font-size: 1.25em;
   font-family: 'Muli', sans-serif;

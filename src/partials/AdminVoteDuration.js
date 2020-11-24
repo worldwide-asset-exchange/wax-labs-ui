@@ -62,7 +62,11 @@ export default function RenderVoteDuration(props){
 
     return (
         <div className="admin-content-wrapper">
-            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-submenu">
+                <ul>
+                    <li><Link className="btn" to="/admin">Back to Admin Menu</Link></li>
+                </ul>
+            </div>
             <div className="admin-content">
                 <h3>Change Voting Period Duration</h3>
                 <div className="current_duration"><strong>Current Duration:</strong> {vote_duration}</div>

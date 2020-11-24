@@ -65,7 +65,11 @@ export default function RenderAdminCategories(props){
 
     return (
         <div className="admin-content-wrapper">
-            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-submenu">
+                <ul>
+                    <li><Link className="btn" to="/admin">Back to Admin Menu</Link></li>
+                </ul>
+            </div>
             <div className="admin-content">
                 <h3>Add or Remove Category</h3>
                 <div className="add-cat">

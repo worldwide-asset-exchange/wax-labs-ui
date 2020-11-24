@@ -504,20 +504,20 @@ main {
   padding: 10px;
 }
 
-.deliverables .deliverables-menu, .account-info .account-menu {
+.deliverables .deliverables-menu, .account-info .account-menu, .admin-content-wrapper .admin-submenu {
   padding: 15px 0;
 }
 
-.deliverables .deliverables-menu ul, .account-info .account-menu ul {
+.deliverables .deliverables-menu ul, .account-info .account-menu ul, .admin-content-wrapper .admin-submenu ul {
   list-style: none;
 }
 
-.deliverables .deliverables-menu ul li, .account-info .account-menu ul li {
+.deliverables .deliverables-menu ul li, .account-info .account-menu ul li, .admin-content-wrapper .admin-submenu ul li {
   display: inline-block;
   margin-right: 8px;
 }
 
-.deliverables .deliverables-menu ul li a, .account-info .account-menu ul li a {
+.deliverables .deliverables-menu ul li a, .account-info .account-menu ul li a, .admin-content-wrapper .admin-submenu ul li a {
   text-decoration: none;
   padding: 5px 8px;
   background-color: #ebebeb;
@@ -525,7 +525,7 @@ main {
   color: #000;
 }
 
-.deliverables .deliverables-menu ul li a:hover, .account-info .account-menu ul li a:hover {
+.deliverables .deliverables-menu ul li a:hover, .account-info .account-menu ul li a:hover, .admin-content-wrapper .admin-submenu ul li a:hover {
   background-color: #999999;
   border-color: #999;
 }
@@ -700,7 +700,7 @@ main {
   text-align: right;
 }
 
-.edit-proposal-table .row.submit-form .btn, .account-info .row.submit-form .btn {
+.edit-proposal-table .row.submit-form .btn, .account-info .row.submit-form .btn, .admin-content-wrapper .row.submit-form {
   margin-left: 5px;
 }
 

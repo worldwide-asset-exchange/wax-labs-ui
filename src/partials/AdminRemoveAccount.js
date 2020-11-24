@@ -65,7 +65,11 @@ export default function RenderRemoveAccount(props){
 
     return (
         <div className="admin-content-wrapper">
-            <Link to="/admin">Back to Admin Menu</Link>
+            <div className="admin-submenu">
+                <ul>
+                    <li><Link className="btn" to="/admin">Back to Admin Menu</Link></li>
+                </ul>
+            </div>
             <div className="admin-content">
                 <h3>Remove Profile</h3>
                 <div>

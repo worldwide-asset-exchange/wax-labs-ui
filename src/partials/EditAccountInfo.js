@@ -38,7 +38,7 @@ export default function RenderEditAccountInfo(props){
                         name: 'newprofile',
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             full_name: userProfile.full_name,
@@ -62,7 +62,7 @@ export default function RenderEditAccountInfo(props){
                             name: 'editprofile',
                             authorization: [{
                                 actor: activeUser.accountName,
-                                permission: 'active',
+                                permission: activeUser.requestPermission,
                             }],
                             data: {
                                 full_name: userProfile.full_name,

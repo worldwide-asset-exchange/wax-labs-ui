@@ -443,6 +443,7 @@ main {
   display: inline-block;
   width: 75%;
   padding: 10px;
+  vertical-align: top;
 }
 
 .proposal-grid-single .body .row {

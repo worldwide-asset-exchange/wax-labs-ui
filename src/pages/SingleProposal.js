@@ -4,6 +4,7 @@ Link,
 useParams,
 useNavigate
 } from 'react-router-dom';
+import Modal from 'react-modal';
 import moment from 'moment';
 import * as waxjs from "@waxio/waxjs/dist";
 
@@ -49,6 +50,32 @@ export default function RenderSingleProposal(props){
     const new_deliverable_id = deliverables.length + 1;
     const votingEndsIn = moment(end_time, "YYYY-MM-DDTHH:mm:ss[Z]").fromNow();
     const readableEndTime = moment(end_time).format("MMMM d, YYYY [at] h:mm:ss a [UTC]");
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+
+    const customModalStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)'
+        }
+      };
+    
+    Modal.setAppElement('#root');
+    
+    function openModal() {
+      setIsOpen(true);
+    }
+  
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+    }
+  
+    function closeModal(){
+      setIsOpen(false);
+    }
 
 
     useEffect(() => {
@@ -802,30 +829,14 @@ export default function RenderSingleProposal(props){
                             No Report Submitted
                         </>
                         }
-                        <input type="text" autoFocus id="submit-report" className={!deliverable.report_editable ? 'hide': ''} name="report" value={new_deliverable_report.report} onChange={handleInputChange} />
+                        
                     </div>
                     <div className="actions">
                         {deliverable.status === "inprogress" || deliverable.status === "reported"  || deliverable.status === "rejected" ?
                         <>
-                            {deliverable.editable ? 
-                            <>
-                            <button className="btn level-two" id={"submit-edits-" + deliverable.deliverable_id} onClick={submitEdits}>Submit</button>
-                            <button className="btn level-two cancel" onClick={makeEditable}>X</button>
-                            </>
-                            : 
-                            ''
-                            }
-                            {deliverable.report_editable ? 
-                            <>
-                            <button className="btn level-two" onClick={submitReport}>Submit</button>
-                            <button className="btn level-two cancel" onClick={makeEditableReport}>X</button>
-                            </>
-                            :
-                            ''
-                            }
                             {!deliverable.editable && !deliverable.report_editable ?
                             <>
-                            <button className="btn level-one" onClick={makeEditableReport}>Submit Report</button>
+                            <button className="btn level-one" onClick={openModal}>Submit Report</button>
                             <button className="btn level-one" onClick={deleteDeliverable}>Delete</button>
                             </>
                             :
@@ -841,6 +852,30 @@ export default function RenderSingleProposal(props){
                         </>
                         }
                     </div>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={customModalStyles}
+                        contentLabel="Edit Deliverable Panel"
+                        >
+                        <div className="edit-panel">
+                            <button className="btn" onClick={closeModal}>Submit Report</button>
+                        </div>
+                    </Modal>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={customModalStyles}
+                        contentLabel="Report Panel"
+                        >
+                        <div className="submit-report-panel">
+                            <button className="btn" onClick={closeModal}>X</button>
+                            <input type="text" autoFocus id="submit-report" name="report" value={new_deliverable_report.report} onChange={handleInputChange} />
+                            <button className="btn level-two" onClick={submitReport}>Submit</button>
+                        </div>
+                    </Modal>
                 </div>
             );
         } else {
@@ -897,7 +932,7 @@ export default function RenderSingleProposal(props){
                     }
                     { proposal.status !== "cancelled" ?
                     <>
-                    <button className="btn" onClick={toggleNewReviewer}>Set Reviewer</button>
+                    <button className="btn" onClick={openModal}>Set Reviewer</button>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     </>
                     :
@@ -905,32 +940,49 @@ export default function RenderSingleProposal(props){
                     }
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
                     </div>
-                    <div className={show_reviewal_pane ? 'reviewal-panel' : 'reviewal-panel hide'}>
-                        <input type="text" onChange={handleInputChange} name="memo" />
-                        { proposal.status === "submitted" ?
-                        <>
-                        <button className="btn" onClick={approveProposal} >Approve Proposal</button>
-                        </>
-                        :
-                        ''
-                        }
-                        { proposal.status === "submitted" && proposal.status !== "cancelled" ?
-                        <>
-                        <button className="btn" onClick={rejectProposal} >Reject Proposal</button>
-                        </>
-                        :
-                        ''
-                        }
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={customModalStyles}
+                        contentLabel="Reviewal Panel"
+                        >
+                    <div className="reviewal-panel">
+                            <button className="modal-close" onClick={closeModal}>X</button>
+                            <textarea onChange={handleInputChange} name="memo"></textarea>
+                            { proposal.status === "submitted" ?
+                            <>
+                            <button className="btn" onClick={approveProposal} >Approve Proposal</button>
+                            </>
+                            :
+                            ''
+                            }
+                            { proposal.status === "submitted" && proposal.status !== "cancelled" ?
+                            <>
+                            <button className="btn" onClick={rejectProposal} >Reject Proposal</button>
+                            </>
+                            :
+                            ''
+                            }
                     </div>
-                    <div className={show_new_reviewer ? 'new-reviewer-panel' : 'new-reviewer-panel hide'}>
-                        <div>
-                            <strong>Set Reviewer</strong>
-                            <p>The reviewer is the account that evaluates the quality of deliverables.</p>
+                    </Modal>
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={customModalStyles}
+                        contentLabel="Reviewer Panel"
+                        >
+                        <div className="new-reviewer-panel">
+                            <button className="close" onClick={closeModal}>X</button>
+                            <div>
+                                <strong>Set Reviewer</strong>
+                                <p>The reviewer is the account that evaluates the quality of deliverables.</p>
+                            </div>
+                            <input type="text" autoFocus name="reviewer_name" value={reviewer.reviewer_name} onChange={handleInputChange} />
+                            <button className="btn" onClick={newReviewer}>Submit</button>
                         </div>
-                        <input type="text" autoFocus name="reviewer_name" value={reviewer.reviewer_name} onChange={handleInputChange} />
-                        <button className="btn" onClick={newReviewer}>Submit</button>
-                        <button className="btn" onCLick={toggleNewReviewer}>X</button>
-                    </div>
+                    </Modal>
                 </div>
             );
         } else {

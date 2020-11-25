@@ -35,7 +35,7 @@ export default function RenderProposalGrid(props){
     return (
         <Link to={'/proposals/' + proposal.proposal_id} className="proposal-grid-single">
             <div className="image">
-                <img src="https://via.placeholder.com/245x90?text=Cover+Image"  />
+                <img src="https://via.placeholder.com/245x245?text=Cover+Image"  />
             </div>
             <div className="body">
                 <div className="title">

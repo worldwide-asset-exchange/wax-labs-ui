@@ -2,13 +2,40 @@ import React, { useState } from 'react';
 import {
 Link
 } from 'react-router-dom';
+import Modal from 'react-modal';
 
 
 export default function RenderDeliverableGrid(props){
     const [show_approval_pane, setApprovalVis] = useState(false);
     const [memo, setMemo] = useState('');
+    const [modalIsOpen,setIsOpen] = React.useState(false);
     const deliverable = props.deliverable;
     const activeUser = props.activeUser;
+
+    const customModalStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)'
+        }
+      };
+    
+    Modal.setAppElement('#root');
+    
+    function openModal() {
+      setIsOpen(true);
+    }
+  
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+    }
+  
+    function closeModal(){
+      setIsOpen(false);
+    }
 
     async function approveDeliverable(){
         try {
@@ -80,7 +107,7 @@ export default function RenderDeliverableGrid(props){
     return (
         <div className="deliverables-grid-single">
             <div className="image">
-                <img src="https://via.placeholder.com/245x90?text=Cover+Image"  />
+                <img src="https://via.placeholder.com/245x245?text=Cover+Image"  />
             </div>
             <div className="information">
                 <h4><Link to={"/proposals/" + deliverable.proposal_id}>{deliverable.proposal_title}</Link> <span className="category">(Deliverable #{deliverable.deliverable_id_readable})</span></h4>
@@ -88,21 +115,22 @@ export default function RenderDeliverableGrid(props){
                 <a href={deliverable.report} target="_blank">View Deliverable</a>
             </div>
             <div className="actions">
-                {/* !show_approval_pane ?
-                <>
-                <button className="btn" onClick={toggleReviewDeliverable}>Review</button>
-                </>
-                :
-                <>
-                <button className="btn" onClick={toggleReviewDeliverable}>X</button>
-                </>
-                */}
+                <button className="btn" onClick={openModal}>Review</button>
                 <Link className="btn" to={"/proposals/"+ deliverable.proposal_id}>View Proposal</Link>
-                <div className={show_approval_pane ? "approval-pane" : "approval-pane hide"}>
-                    <input type="text" name="memo" onChange={handleInputChange} />
-                    <button className="btn" onClick={approveDeliverable}>Approve</button>
-                    <button className="btn" onClick={rejectDeliverable}>Reject</button>
-                </div>
+                <Modal
+                        isOpen={modalIsOpen}
+                        onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={customModalStyles}
+                        contentLabel="Deliverable Approval Panel"
+                        >
+                    <div className="approval-pane">
+                        <button className="btn" onClick={closeModal}>X</button>
+                        <input type="text" name="memo" onChange={handleInputChange} />
+                        <button className="btn" onClick={approveDeliverable}>Approve</button>
+                        <button className="btn" onClick={rejectDeliverable}>Reject</button>
+                    </div>
+                </Modal>
             </div>
         </div>
     );

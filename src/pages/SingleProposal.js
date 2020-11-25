@@ -69,10 +69,6 @@ export default function RenderSingleProposal(props){
       setIsOpen(true);
     }
   
-    function afterOpenModal() {
-      // references are now sync'd and can be accessed.
-    }
-  
     function closeModal(){
       setIsOpen(false);
     }
@@ -826,7 +822,6 @@ export default function RenderSingleProposal(props){
                     </div>
                     <Modal
                         isOpen={modalIsOpen}
-                        onAfterOpen={afterOpenModal}
                         onRequestClose={closeModal}
                         style={customModalStyles}
                         contentLabel="Edit Deliverable Panel"
@@ -837,7 +832,6 @@ export default function RenderSingleProposal(props){
                     </Modal>
                     <Modal
                         isOpen={modalIsOpen}
-                        onAfterOpen={afterOpenModal}
                         onRequestClose={closeModal}
                         style={customModalStyles}
                         contentLabel="Report Panel"
@@ -914,7 +908,6 @@ export default function RenderSingleProposal(props){
                     </div>
                     <Modal
                         isOpen={modalIsOpen}
-                        onAfterOpen={afterOpenModal}
                         onRequestClose={closeModal}
                         style={customModalStyles}
                         contentLabel="Reviewal Panel"
@@ -940,7 +933,6 @@ export default function RenderSingleProposal(props){
                     </Modal>
                     <Modal
                         isOpen={modalIsOpen}
-                        onAfterOpen={afterOpenModal}
                         onRequestClose={closeModal}
                         style={customModalStyles}
                         contentLabel="Reviewer Panel"

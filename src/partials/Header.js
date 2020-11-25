@@ -236,7 +236,7 @@ export default function RenderHeader(props) {
                 <div className="nav-wrapper">
                     <div className="logo">
                         <Link className="header-link" to="/">
-                            <img src={logo} alt="WAX Logo" width="235px" />
+                            <img src={logo} alt="WAX Logo" width="201px" />
                         </Link>
                     </div>
                     <div className="menu-wrapper">
@@ -248,9 +248,8 @@ export default function RenderHeader(props) {
                         <nav>
                             <button id="menu-icon"></button>
                             <ul>
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/proposals">Proposals</Link></li>
-                                <li><Link to="/proposals/my-proposals">My Proposals</Link></li>
+                            <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
+                                <li><Link to="/proposals"><img src={proposalsIcon} alt="Icon"/><span>Proposals</span></Link></li>
                                 <li className="notifications"><span className="count">{deliverables + end_voting_proposal + approved_proposals}</span></li>
                                 <li className="login-li">
                                     <span className="accHeader">Account</span>
@@ -269,15 +268,15 @@ export default function RenderHeader(props) {
                 <div className="nav-wrapper">
                     <div className="logo">
                         <Link className="header-link" to="/">
-                            <img src={logo} alt="WAX Logo" width="235px" />
+                            <img src={logo} alt="WAX Logo" width="201px" />
                         </Link>
                     </div>
                     <div className="menu-wrapper">
                         <nav>
                             <button id="menu-icon"></button>
                             <ul>
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/proposals">Proposals</Link></li>
+                            <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
+                                <li><Link to="/proposals"><img src={proposalsIcon} alt="Icon"/><span>Proposals</span></Link></li>
                                 <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}>Login</button></li>
                             </ul>
                         </nav>

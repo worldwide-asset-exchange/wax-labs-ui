@@ -2,8 +2,8 @@ import React, { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderVoteDuration(props){
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [ vote_duration , setDuration ] = useState('');
     const [ new_vote_duration , setNewDuration ] = useState('');
     const activeUser = props.activeUser;

@@ -2,14 +2,14 @@ import React, { useState, useEffect} from 'react';
 import {
 Link,
 useParams,
-useNavigate
+// useNavigate
 } from 'react-router-dom';
 import Modal from 'react-modal';
 import moment from 'moment';
 import * as waxjs from "@waxio/waxjs/dist";
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderSingleProposal(props){
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const { id } = useParams();
     const activeUser = props.activeUser;
     const [ proposal, setProposal ] = useState({
@@ -27,6 +27,7 @@ export default function RenderSingleProposal(props){
         ballot_name: '',
         ballot_results: []
     });
+    // eslint-disable-next-line
     const [ profile, setProfile ] = useState({
         full_name: '',
         country: '',
@@ -630,7 +631,7 @@ export default function RenderSingleProposal(props){
                 console.log(e);
             }
         }
-   
+   // eslint-disable-next-line
         async function approveDeliverable(){
            try {
               await activeUser.signTransaction({
@@ -657,7 +658,7 @@ export default function RenderSingleProposal(props){
                console.log(e);
            }
        }
-   
+   // eslint-disable-next-line
        async function rejectDeliverable(){
            try {
               await activeUser.signTransaction({
@@ -794,16 +795,16 @@ export default function RenderSingleProposal(props){
             setDeliverables(newDelivState);
          } 
 
-        function deliverableReviewerDecision(){
-            const newDelivState = [...deliverables];
-            const index = deliverable.deliverable_id - 1;
-            if (deliverable.review_options !== undefined) {
-            newDelivState[index] = {...newDelivState[index], review_options: !newDelivState[index].review_options}
-            } else {
-            newDelivState[index] = {...newDelivState[index], review_options: true}
-            }
-            setDeliverables(newDelivState);
-        }
+        // function deliverableReviewerDecision(){
+        //     const newDelivState = [...deliverables];
+        //     const index = deliverable.deliverable_id - 1;
+        //     if (deliverable.review_options !== undefined) {
+        //     newDelivState[index] = {...newDelivState[index], review_options: !newDelivState[index].review_options}
+        //     } else {
+        //     newDelivState[index] = {...newDelivState[index], review_options: true}
+        //     }
+        //     setDeliverables(newDelivState);
+        // }
 
         if (activeUser && activeUser.accountName === proposal.proposer) {
             const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
@@ -820,9 +821,9 @@ export default function RenderSingleProposal(props){
                         <input type="text" id="edit-recipient" className={!deliverable.editable ? 'hide': ''} name="new_recipient" onChange={handleInputChange} />
                     </div>
                     <div className="report">
-                        {deliverable.status === "inprogress" || deliverable.status === "completed" || deliverable.status === "rejected" || deliverable.status === "claimed" && deliverable.report ?
+                        {(deliverable.status === "inprogress" || deliverable.status === "completed" || deliverable.status === "rejected" || deliverable.status === "claimed") && deliverable.report ?
                         <>
-                            <a href={deliverable.report} target="_blank">View Deliverable Report</a>
+                            <a href={deliverable.report} target="_blank" rel="noopener noreferrer">View Deliverable Report</a>
                         </>
                         :
                         <>
@@ -895,7 +896,7 @@ export default function RenderSingleProposal(props){
                     <div className="report">
                         {deliverable.status !== "drafting" ?
                         <>
-                            <a href={deliverable.report} target="_blank">View Deliverable Report</a>
+                            <a href={deliverable.report} target="_blank" rel="noopener noreferrer">View Deliverable Report</a>
                         </>
                         :
                         <>
@@ -1087,7 +1088,7 @@ export default function RenderSingleProposal(props){
                     <RenderReviewerMenu />
                     <RenderProposerMenu />
                 </div>
-                <div className="header-image"><img src="https://via.placeholder.com/980x360?text=Cover+Image" /></div>
+                <div className="header-image"><img src="https://via.placeholder.com/980x360?text=Cover+Image" alt="Cover" /></div>
                 <h2>{proposal.title} - <span className="category">{proposal.category}</span></h2>
                 <p className="short-description"><em>{proposal.description}</em></p>
                 <div className="core-information">

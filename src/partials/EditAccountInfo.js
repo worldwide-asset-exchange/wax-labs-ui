@@ -25,6 +25,7 @@ export default function RenderEditAccountInfo(props){
             }
         }
         ifProfileExists();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
     
     async function submitProfile() {

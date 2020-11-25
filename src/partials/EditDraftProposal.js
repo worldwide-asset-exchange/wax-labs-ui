@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-Link,
+/*Link,*/
 useParams
 } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
 import * as waxjs from "@waxio/waxjs/dist";
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderEditProposal(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const { id } = useParams();
     const activeUser = props.activeUser;
     const [total_requested_funds, setTotalRequestedFunds] = useState([]);
@@ -29,8 +29,8 @@ export default function RenderEditProposal(props) {
     });
     const validator = new SimpleReactValidator();
 
-    let cleanAmount = 0;
     useEffect(() => {
+        let cleanAmount = 0;
         async function getProposalDetails() {
             if (id) {
                 try {

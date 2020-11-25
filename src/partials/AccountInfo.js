@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState/*, useEffect*/} from 'react';
 import {
 Link
 } from 'react-router-dom';
-import * as waxjs from "@waxio/waxjs/dist";
+// import * as waxjs from "@waxio/waxjs/dist";
 
+// const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderInReviewProposals(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [donation, setDonationAmount] = useState('0');
     const activeUser = props.activeUser;
 
@@ -20,7 +20,7 @@ export default function RenderInReviewProposals(props) {
 
     async function donateWAX(){
         try {
-            await activeUser.signTransaction({
+            await props.activeUser.signTransaction({
                 actions: [
                     {
                         account: 'eosio.token',
@@ -87,7 +87,7 @@ export default function RenderInReviewProposals(props) {
                         <strong>Website:</strong>   
                     </div>
                     <div className="value">
-                        <a href={props.website} target="_blank">{props.website}</a>   
+                        <a href={props.website} target="_blank" rel="noopener noreferrer">{props.website}</a>   
                     </div>                         
                 </div>
                 <div className="row">

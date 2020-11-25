@@ -2,17 +2,17 @@ import React, { useState, useEffect} from 'react';
 import {
 Routes,
 Route,
-Link
+// Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderDeliverablesInReview from '../partials/DeliverablesInReview.js';
 import RenderAssignedDeliverables from '../partials/AssignedDeliverables.js';
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderDeliverables(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [deliverables, setDeliverables ] = useState();
-    const activeUser = props.activeUser;
+    // const activeUser = props.activeUser;
 
     useEffect(() => {
         async function getDeliverablesInReview(){
@@ -72,7 +72,7 @@ export default function RenderDeliverables(props) {
     getDeliverablesInReview();
     }, []);
 
-    if (props.activeUser && deliverables != []) {
+    if (props.activeUser && deliverables !== []) {
         return (
             <div className="deliverables">
                 <Routes>

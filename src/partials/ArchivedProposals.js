@@ -4,56 +4,59 @@ import * as waxjs from "@waxio/waxjs/dist";
 import RenderProposalGrid from "./ProposalGridSingle.js";
 import RenderProposalFilter from "./ProposalFilter.js";
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+
 export default function RenderArchivedProposals(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
 
-    let proposalsArray = [];
+
 
     useEffect(() => {
+        
         async function getArchivedProposals() {
-        try {
-            let completedResp = await wax.rpc.get_table_rows({             
-                  code: 'labs',
-                  scope: 'labs',
-                  table: 'proposals',
-                  json: true,
-                  index_position: 'fourth', //status
-                  lower_bound: 'completed',
-                  upper_bound: 'completed',
-                  key_type: 'name'
-              });
-            
-            
-            if (completedResp.rows.length) {
-                completedResp.rows.forEach(function (element) {
-                    proposalsArray = [...proposalsArray, element];
-                    setProposals(proposalsArray);
-                    });
-            }
-            
-            let rejectedResp = await wax.rpc.get_table_rows({             
-                code: 'labs',
-                scope: 'labs',
-                table: 'proposals',
-                json: true,
-                index_position: 'fourth', //status
-                lower_bound: 'cancelled',
-                upper_bound: 'cancelled',
-                key_type: 'name'
-            });
+            let proposalsArray = [];
+            try {
+                let completedResp = await wax.rpc.get_table_rows({             
+                    code: 'labs',
+                    scope: 'labs',
+                    table: 'proposals',
+                    json: true,
+                    index_position: 'fourth', //status
+                    lower_bound: 'completed',
+                    upper_bound: 'completed',
+                    key_type: 'name'
+                });
+                
+                
+                if (completedResp.rows.length) {
+                    completedResp.rows.forEach(function (element) {
+                        proposalsArray = [...proposalsArray, element];
+                        setProposals(proposalsArray);
+                        });
+                }
+                
+                let rejectedResp = await wax.rpc.get_table_rows({             
+                    code: 'labs',
+                    scope: 'labs',
+                    table: 'proposals',
+                    json: true,
+                    index_position: 'fourth', //status
+                    lower_bound: 'cancelled',
+                    upper_bound: 'cancelled',
+                    key_type: 'name'
+                });
 
-            if (rejectedResp.rows.length) {
-                rejectedResp.rows.forEach(function (element) {
-                    proposalsArray = [...proposalsArray, element];
-                    setProposals(proposalsArray);
-                    });
+                if (rejectedResp.rows.length) {
+                    rejectedResp.rows.forEach(function (element) {
+                        proposalsArray = [...proposalsArray, element];
+                        setProposals(proposalsArray);
+                        });
+                }
+                
+                } catch(e) {
+                console.log(e);
+                }
             }
-            
-            } catch(e) {
-              console.log(e);
-            }
-        }
         getArchivedProposals();
         }, []);
 

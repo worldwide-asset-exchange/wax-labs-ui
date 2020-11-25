@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {
-Link,
+/*Link,*/
 useParams
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from '../partials/ProposalGridSingle.js';
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderProposals(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [account, setAccount] = useState();
     const [proposals, setProposals] = useState([]);
     const { accName } = useParams();
@@ -46,7 +46,7 @@ export default function RenderProposals(props) {
             }
         }
         getAccount();
-     }, []);
+     }, [accName]);
 
     if (account){
         console.log(account);

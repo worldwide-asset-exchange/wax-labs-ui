@@ -7,8 +7,8 @@ import * as waxjs from "@waxio/waxjs/dist";
 import RenderProposalGrid from "./ProposalGridSingle.js";
 import RenderProposalFilter from "./ProposalFilter.js";
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderMyProposals(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
 
     useEffect(() => {

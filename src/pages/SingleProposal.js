@@ -45,12 +45,14 @@ export default function RenderSingleProposal(props){
     });
     const [new_deliverable_report, setReportUrl] = useState('');
     const [show_new_deliverable, showNewDeliverable] = useState(false);
-    const [show_reviewal_pane, setReviewalPaneVis] = useState(false);
     const [end_time, setEndTime] = useState('');
     const new_deliverable_id = deliverables.length + 1;
     const votingEndsIn = moment(end_time, "YYYY-MM-DDTHH:mm:ss[Z]").fromNow();
     const readableEndTime = moment(end_time).format("MMMM d, YYYY [at] h:mm:ss a [UTC]");
-    const [modalIsOpen,setIsOpen] = React.useState(false);
+    const [reviewerModalIsOpen,setReviewerIsOpen] = React.useState(false);
+    const [reviewalModalIsOpen,setReviewalIsOpen] = React.useState(false);
+    const [deliverablesEditModalIsOpen,setDeliverablesEditIsOpen] = React.useState(false);
+    const [deliverablesReportModalIsOpen,setDeliverablesReportIsOpen] = React.useState(false);
 
     const customModalStyles = {
         content : {
@@ -65,13 +67,38 @@ export default function RenderSingleProposal(props){
     
     Modal.setAppElement('#root');
     
-    function openModal() {
-      setIsOpen(true);
+    function openReviewerModal() {
+        setReviewerIsOpen(true);
     }
   
-    function closeModal(){
-      setIsOpen(false);
+    function closeReviewerModal(){
+        setReviewerIsOpen(false);
     }
+
+    function openReviewalModal() {
+        setReviewalIsOpen(true);
+    }
+    
+      function closeReviewalModal(){
+        setReviewalIsOpen(false);
+    }
+
+    function openDeliverablesReportModal() {
+        setDeliverablesReportIsOpen(true);
+    }
+    
+    function closeDeliverablesReportModal(){
+        setDeliverablesReportIsOpen(false);
+      }
+
+    function openDeliverablesEditModal() {
+        setDeliverablesEditIsOpen(true);
+    }
+    
+    function closeDeliverablesEditModal(){
+        setDeliverablesEditIsOpen(false);
+    }
+
 
 
     useEffect(() => {
@@ -804,7 +831,7 @@ export default function RenderSingleProposal(props){
                         <>
                             {!deliverable.editable && !deliverable.report_editable ?
                             <>
-                            <button className="btn level-one" onClick={openModal}>Submit Report</button>
+                            <button className="btn level-one" onClick={openDeliverablesReportModal}>Submit Report</button>
                             <button className="btn level-one" onClick={deleteDeliverable}>Delete</button>
                             </>
                             :
@@ -821,23 +848,24 @@ export default function RenderSingleProposal(props){
                         }
                     </div>
                     <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
+                        isOpen={deliverablesEditModalIsOpen}
+                        onRequestClose={closeDeliverablesReportModal}
                         style={customModalStyles}
                         contentLabel="Edit Deliverable Panel"
                         >
                         <div className="edit-panel">
-                            <button className="btn" onClick={closeModal}>Submit Report</button>
+                            <button className="btn" onClick={closeDeliverablesEditModal}>X</button>
+                            <button className="btn" onClick={openDeliverablesEditModal}>Submit Report</button>
                         </div>
                     </Modal>
                     <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
+                        isOpen={deliverablesReportModalIsOpen}
+                        onRequestClose={closeDeliverablesReportModal}
                         style={customModalStyles}
                         contentLabel="Report Panel"
                         >
                         <div className="submit-report-panel">
-                            <button className="btn" onClick={closeModal}>X</button>
+                            <button className="btn" onClick={closeDeliverablesReportModal}>X</button>
                             <input type="text" autoFocus id="submit-report" name="report" value={new_deliverable_report.report} onChange={handleInputChange} />
                             <button className="btn level-two" onClick={submitReport}>Submit</button>
                         </div>
@@ -875,30 +903,22 @@ export default function RenderSingleProposal(props){
         }
     }
 
-    function toggleReviewProposal() {
-        setReviewalPaneVis(!show_reviewal_pane);
-    }
-
     function RenderAdminMenu(){
         if (props.isAdmin === true && proposal.status !== "completed"){
             return (
                 <div className="admin-menu backend-menu">
                     <h3>Admin Menu</h3>
                     <div>
-                    { proposal.status === "submitted" && show_reviewal_pane ?
+                    {proposal.status === "submitted" ?
                     <>
-                    <button className="btn" onClick={toggleReviewProposal}></button>
-                    </>
-                    : proposal.status === "submitted" ?
-                    <>
-                    <button className="btn" onClick={toggleReviewProposal}>Review</button>
+                    <button className="btn" onClick={openReviewalModal}>Review</button>
                     </>
                     :
                     ''
                     }
                     { proposal.status !== "cancelled" ?
                     <>
-                    <button className="btn" onClick={openModal}>Set Reviewer</button>
+                    <button className="btn" onClick={openReviewerModal}>Set Reviewer</button>
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     </>
                     :
@@ -907,13 +927,13 @@ export default function RenderSingleProposal(props){
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
                     </div>
                     <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
+                        isOpen={reviewalModalIsOpen}
+                        onRequestClose={closeReviewalModal}
                         style={customModalStyles}
                         contentLabel="Reviewal Panel"
                         >
                     <div className="reviewal-panel">
-                            <button className="modal-close" onClick={closeModal}>X</button>
+                            <button className="modal-close" onClick={closeReviewalModal}>X</button>
                             <textarea onChange={handleInputChange} name="memo"></textarea>
                             { proposal.status === "submitted" ?
                             <>
@@ -932,13 +952,13 @@ export default function RenderSingleProposal(props){
                     </div>
                     </Modal>
                     <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
+                        isOpen={reviewerModalIsOpen}
+                        onRequestClose={closeReviewerModal}
                         style={customModalStyles}
                         contentLabel="Reviewer Panel"
                         >
                         <div className="new-reviewer-panel">
-                            <button className="close" onClick={closeModal}>X</button>
+                            <button className="close" onClick={closeReviewerModal}>X</button>
                             <div>
                                 <strong>Set Reviewer</strong>
                                 <p>The reviewer is the account that evaluates the quality of deliverables.</p>

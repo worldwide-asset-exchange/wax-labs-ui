@@ -249,16 +249,19 @@ export default function RenderHeader(props) {
                         <nav>
                             <button id="menu-icon"></button>
                             <ul>
-                            <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
+                                <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
                                 <li><Link to="/proposals"><img src={proposalsIcon} alt="Icon"/><span>Proposals</span></Link></li>
-                                <li className="notifications"><span className="count">{deliverables + end_voting_proposal + approved_proposals}</span></li>
-                                <li className="login-li">
-                                    <span className="accHeader">Account</span>
-                                    <span className="accName">{props.accountName}</span>
-                                    <span className='logoutBtn' onClick={props.logout}>{'Logout'}</span>
+                                <li className="notifications"><button className={deliverables + proposals + end_voting_proposal + approved_proposals !== 0 ? "bell has-notifications" : "bell"} onClick={toggleNotificationsSubMenu}><span className="count">{deliverables + proposals + end_voting_proposal + approved_proposals}</span></button>
+                                    <RenderNotificationsSubMenu />
                                 </li>
                             </ul>
                         </nav>
+                        <div className="login-wrapper">
+                            <span className="accHeader">Account</span>
+                            <span className="accName">{props.accountName}</span>
+                            <Link className="accProfile" to="/account">Profile</Link>&nbsp;&bull;&nbsp;
+                            <span className='logoutBtn' onClick={props.logout}>{'Logout'}</span>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -278,7 +281,7 @@ export default function RenderHeader(props) {
                             <ul>
                             <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
                                 <li><Link to="/proposals"><img src={proposalsIcon} alt="Icon"/><span>Proposals</span></Link></li>
-                                <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}><img src={loginIcon} alt="Icon" style={{fill: '#fff'}}/><span>Login</span></button></li>
+                                <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}><img src={loginIcon} alt="Icon"/><span>Login</span></button></li>
                             </ul>
                         </nav>
                     </div>

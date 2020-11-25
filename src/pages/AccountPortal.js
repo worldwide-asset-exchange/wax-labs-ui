@@ -23,6 +23,8 @@ export default function RenderAccountPortal(props) {
     // const activeUser = props.activeUser;
 
     useEffect(() => {
+        console.log(props.accountName)
+        if (props.accountName) {
         async function getAccountInfo() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
@@ -45,7 +47,8 @@ export default function RenderAccountPortal(props) {
                   console.log(e);
             }
         }
-        getAccountInfo();
+        getAccountInfo(); 
+        }
      }, [props.accountName]);
 
     // function RenderDynamicBreadcrumbs() {

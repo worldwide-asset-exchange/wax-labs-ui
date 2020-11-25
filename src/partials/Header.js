@@ -9,6 +9,7 @@ import homeIcon from "../assets/bee-box-home.png";
 import proposalsIcon from "../assets/certificate-proposals.png";
 import deliverablesIcon from "../assets/honey-deliverables.png";
 import adminIcon from "../assets/beekeeper-admin.png";
+import loginIcon from "../assets/user.svg";
 
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -162,7 +163,7 @@ export default function RenderHeader(props) {
         if (show_notifcations) {
             return (
                 <ul className="notifications-submenu">
-                    {proposals ?
+                    {proposals && props.isAdmin ?
                     <>
                         <li><Link to="/proposals/in-review"><span className="count">{proposals}</span> <span className="label">proposals to review</span></Link></li>
                     </>
@@ -277,7 +278,7 @@ export default function RenderHeader(props) {
                             <ul>
                             <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
                                 <li><Link to="/proposals"><img src={proposalsIcon} alt="Icon"/><span>Proposals</span></Link></li>
-                                <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}>Login</button></li>
+                                <li className="login-li"><button id="login" className="login-btn" onClick={props.showModal}><img src={loginIcon} alt="Icon" style={{fill: '#fff'}}/><span>Login</span></button></li>
                             </ul>
                         </nav>
                     </div>

@@ -92,7 +92,6 @@ header .menu-wrapper {
   grid-column-start: nav;
   grid-column-end: span accName;
   text-align: right;
-  margin-right: 10px;
 }
 
 header nav {
@@ -177,7 +176,7 @@ header .login-wrapper.mobile {
 }
 
 header .login-li button {
-  font-size: 1.2em;
+  font-size: 0.9em;
   color: #fff;
   padding: 8px;
   display: inline-block;
@@ -210,7 +209,7 @@ header .notifications .bell.has-notifications {
 
 }
 
-header .notifications .bell.has-notifications {
+header .notifications .bell.has-notifications .count {
   visibility: visible;
 }
 

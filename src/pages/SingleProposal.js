@@ -441,7 +441,7 @@ export default function RenderSingleProposal(props){
         }
      }
 
-     async function submitEdits(deliverable){
+     /* async function submitEdits(deliverable){
         try {
             await activeUser.signTransaction({
                 actions: [
@@ -466,7 +466,7 @@ export default function RenderSingleProposal(props){
          } catch(e){
              console.log(e);
          }
-     }
+     } */
 
     async function newReviewer(deliverable){
         try {
@@ -523,10 +523,6 @@ export default function RenderSingleProposal(props){
 
     function toggleNewDeliverable(){
         showNewDeliverable(!show_new_deliverable);
-    }
-
-    function toggleNewReviewer(){
-        showNewReviewer(!show_new_reviewer);
     }
 
     function handleInputChange(event) {
@@ -770,30 +766,6 @@ export default function RenderSingleProposal(props){
                 return null;
             }
         }
-
-
-        function makeEditable(){
-            const newDelivState = [...deliverables];
-            const index = deliverable.deliverable_id - 1;
-            if (deliverable.editable !== undefined) {
-            newDelivState[index] = {...newDelivState[index], editable: !newDelivState[index].editable, report_editable: false}
-            } else {
-            newDelivState[index] = {...newDelivState[index], editable: true, report_editable: false}
-            }
-            setDeliverables(newDelivState);
-            console.log(deliverable.editable);
-         }
-         
-         function makeEditableReport(){
-            const newDelivState = [...deliverables];
-            const index = deliverable.deliverable_id - 1;
-            if (deliverable.report_editable !== undefined) {
-            newDelivState[index] = {...newDelivState[index], report_editable: !newDelivState[index].report_editable, editable: false}
-            } else {
-            newDelivState[index] = {...newDelivState[index], report_editable: true, editable: false}
-            }
-            setDeliverables(newDelivState);
-         } 
 
         // function deliverableReviewerDecision(){
         //     const newDelivState = [...deliverables];

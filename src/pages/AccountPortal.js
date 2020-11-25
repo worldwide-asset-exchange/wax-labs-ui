@@ -12,14 +12,7 @@ import RenderPublicAccount from '../pages/PublicAccount.js';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderAccountPortal(props) {
-    const [ userProfile, setProfile ] = useState({
-        full_name: '',
-        bio: '',
-        image_url: '',
-        country: '',
-        website: '',
-        contact: ''
-    });
+    const [ userProfile, setProfile ] = useState();
     // const activeUser = props.activeUser;
 
     useEffect(() => {
@@ -61,28 +54,18 @@ export default function RenderAccountPortal(props) {
     //     }
     // }
 
-    if (props.accountName) {
-        console.log('bruh')
+    if (props.accountName && userProfile) {
         return(
+        
         <div className="account-portal">
             <div className="account-body">
-                {userProfile.full_name ?
                     <div>
                         <Routes>
                             <Route path="/" element={<RenderAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
                             <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                            <Route path=":account" element={<RenderPublicAccount />} />
+                            <Route path=":accName" element={<RenderPublicAccount />} />
                         </Routes>
                     </div>
-                    :
-                    <div>
-                        <Routes>
-                            <Route path="/" element={<RenderAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
-                            <Route path="edit" element={<RenderEditAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" activeUser={props.activeUser} />} />
-                            <Route path=":accName" element={<RenderPublicAccount  />} />
-                        </Routes>
-                    </div>
-                    }
             </div>
         </div>
         );
@@ -91,8 +74,9 @@ export default function RenderAccountPortal(props) {
             <div className="account-portal">
                 <div className="account-body">
                     <Routes>
-                        <Route path="/" element={<RenderAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" />} />
-                        <Route path="edit" element={<RenderEditAccountInfo full_name="" bio="" image_url="" country="" website="" contact="" wax_account="" />} />
+                        <Route path="/" element={<RenderAccountInfo  />} />
+                        <Route path="edit" element={<RenderEditAccountInfo  />} />
+                        <Route path=":accName" element={<RenderPublicAccount />} />
                     </Routes>
                 </div>
             </div>

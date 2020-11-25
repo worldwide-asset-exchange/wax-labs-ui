@@ -108,11 +108,7 @@ export default function RenderDeliverableGrid(props){
     return (
         <div className="deliverables-grid-single">
             <div className="image">
-<<<<<<< HEAD
-                <img src="https://via.placeholder.com/245x245?text=Cover+Image"  />
-=======
                 <img src="https://via.placeholder.com/245x90?text=Cover+Image"  alt="Cover thingy" />
->>>>>>> 0ddfb6e098abc7af894df9b2c3f782ab5efb8e98
             </div>
             <div className="information">
                 <h4><Link to={"/proposals/" + deliverable.proposal_id}>{deliverable.proposal_title}</Link> <span className="category">(Deliverable #{deliverable.deliverable_id_readable})</span></h4>

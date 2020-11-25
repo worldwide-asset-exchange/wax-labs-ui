@@ -45,7 +45,6 @@ export default function RenderSingleProposal(props){
     });
     const [new_deliverable_report, setReportUrl] = useState('');
     const [show_new_deliverable, showNewDeliverable] = useState(false);
-    const [show_new_reviewer, showNewReviewer] = useState(false);
     const [show_reviewal_pane, setReviewalPaneVis] = useState(false);
     const [end_time, setEndTime] = useState('');
     const new_deliverable_id = deliverables.length + 1;

@@ -23,8 +23,6 @@ export default function RenderAccountPortal(props) {
     // const activeUser = props.activeUser;
 
     useEffect(() => {
-        console.log(props.accountName)
-        if (props.accountName) {
         async function getAccountInfo() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
@@ -32,12 +30,12 @@ export default function RenderAccountPortal(props) {
                       scope: 'labs',
                       table: 'profiles',
                       json: true,
-                      lower_limit: props.accountName,
-                      upper_limit: props.accountName,
+                      lower_bound: props.accountName,
+                      upper_bound: props.accountName,
                       limit: 1
                   });
                   console.log(resp.rows[0]);
-                  if (resp.rows.length){
+                  if (resp.rows.length && resp.rows[0].wax_account === props.accountName){
                   setProfile(resp.rows[0]);
                   }
                   else{
@@ -48,7 +46,6 @@ export default function RenderAccountPortal(props) {
             }
         }
         getAccountInfo(); 
-        }
      }, [props.accountName]);
 
     // function RenderDynamicBreadcrumbs() {
@@ -64,7 +61,8 @@ export default function RenderAccountPortal(props) {
     //     }
     // }
 
-    if (props.accountName && userProfile) {
+    if (props.accountName) {
+        console.log('bruh')
         return(
         <div className="account-portal">
             <div className="account-body">

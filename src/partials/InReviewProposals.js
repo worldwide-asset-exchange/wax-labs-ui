@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Routes, Route, useParams } from 'react-router-dom';
+import { Link/*, Routes, Route, useParams*/ } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
 import RenderProposalFilter from "./ProposalFilter.js";
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderInReviewProposals(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [proposals, setProposals ] = useState();
     const from_admin = props.from_admin;
 

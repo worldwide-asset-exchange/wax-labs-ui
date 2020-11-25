@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
 Routes,
 Route,
-Link
+// Link
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
@@ -10,8 +10,8 @@ import RenderAccountInfo from '../partials/AccountInfo.js';
 import RenderEditAccountInfo from '../partials/EditAccountInfo.js';
 import RenderPublicAccount from '../pages/PublicAccount.js';
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderAccountPortal(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [ userProfile, setProfile ] = useState({
         full_name: '',
         bio: '',
@@ -20,7 +20,7 @@ export default function RenderAccountPortal(props) {
         website: '',
         contact: ''
     });
-    const activeUser = props.activeUser;
+    // const activeUser = props.activeUser;
 
     useEffect(() => {
         async function getAccountInfo() {
@@ -48,18 +48,18 @@ export default function RenderAccountPortal(props) {
         getAccountInfo();
      }, [props.accountName]);
 
-    function RenderDynamicBreadcrumbs() {
-        if (props.fromProposal){
-            return (
-                <>
-                    <Link to={"/proposals/" + props.fromProposal}>{'< Back to Proposal'}</Link>
-                </>
-            );
+    // function RenderDynamicBreadcrumbs() {
+    //     if (props.fromProposal){
+    //         return (
+    //             <>
+    //                 <Link to={"/proposals/" + props.fromProposal}>{'< Back to Proposal'}</Link>
+    //             </>
+    //         );
 
-        } else {
-            return null;
-        }
-    }
+    //     } else {
+    //         return null;
+    //     }
+    // }
 
     if (props.accountName && userProfile) {
         return(

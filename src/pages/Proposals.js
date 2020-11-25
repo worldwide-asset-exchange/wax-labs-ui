@@ -13,8 +13,8 @@ import RenderMyDraftProposals from '../partials/MyDraftProposals.js';
 import RenderMyProposals from '../partials/MyProposals.js';
 import RenderSingleProposal from './SingleProposal.js';
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderProposals(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {

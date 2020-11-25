@@ -11,8 +11,8 @@ import deliverablesIcon from "../assets/honey-deliverables.png";
 import adminIcon from "../assets/beekeeper-admin.png";
 
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderHeader(props) {
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [deliverables, setDeliverables] = useState(0);
     const [proposals, setProposals] = useState(0);
     const [end_voting_proposal, setEndVotingProposals] = useState(0);
@@ -34,7 +34,7 @@ export default function RenderHeader(props) {
                     key_type: 'name'
                 });
 
-                let approvedResp = await wax.rpc.get_table_rows({             
+                /*let approvedResp =*/ await wax.rpc.get_table_rows({             
                     code: 'labs',
                     scope: 'labs',
                     table: 'proposals',
@@ -152,7 +152,7 @@ export default function RenderHeader(props) {
             }
         }
     getNotifications();
-    }, [activeUser]);
+    }, [activeUser, props.isAdmin]);
     
     function toggleNotificationsSubMenu() {
         setShowNotifications(!show_notifcations);
@@ -211,10 +211,10 @@ export default function RenderHeader(props) {
                         <nav>
                             <button id="menu-icon"></button>
                             <ul>
-                                <li><Link to="/"><img src={homeIcon} /><span>Home</span></Link></li>
-                                <li><Link to="/proposals"><img src={proposalsIcon} /><span>Proposals</span></Link></li>
-                                <li><Link to="/deliverables"><img src={deliverablesIcon} /><span>Deliverables</span></Link></li>
-                                <li><Link to="/admin"><img src={adminIcon} /><span>Admin</span></Link></li>
+                                <li><Link to="/"><img src={homeIcon} alt="Icon"/><span>Home</span></Link></li>
+                                <li><Link to="/proposals"><img src={proposalsIcon} alt="Icon"/><span>Proposals</span></Link></li>
+                                <li><Link to="/deliverables"><img src={deliverablesIcon} alt="Icon"/><span>Deliverables</span></Link></li>
+                                <li><Link to="/admin"><img src={adminIcon} alt="Icon"/><span>Admin</span></Link></li>
                                 <li className="notifications"><button className={deliverables + proposals + end_voting_proposal + approved_proposals !== 0 ? "bell has-notifications" : "bell"} onClick={toggleNotificationsSubMenu}><span className="count">{deliverables + proposals + end_voting_proposal + approved_proposals}</span></button>
                                     <RenderNotificationsSubMenu />
                                 </li>

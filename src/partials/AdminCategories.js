@@ -6,8 +6,8 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderCategoryList from './CategoryListSingle.js';
 
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderAdminCategories(props){
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     const [ categories, setCategories ] = useState([]);
     const [ add_category, setNewCategory ] = useState('');
     const activeUser = props.activeUser;

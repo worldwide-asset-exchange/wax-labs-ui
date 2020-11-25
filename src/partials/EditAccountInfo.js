@@ -421,7 +421,7 @@ export default function RenderEditAccountInfo(props){
                     <strong>Name:</strong>
                 </div>
                 <div className="col value">
-                    <input type="text" name="full_name" value="" onChange={handleInputChange} />
+                    <input type="text" name="full_name" value={userProfile.full_name} onChange={handleInputChange} />
                 </div>
             </div>
             <div className="row">
@@ -429,7 +429,7 @@ export default function RenderEditAccountInfo(props){
                     <strong>Biography:</strong>
                 </div>
                 <div className="col value">
-                <textarea name="bio" value="" onChange={handleInputChange}></textarea>
+                <textarea name="bio" value={userProfile.bio} onChange={handleInputChange}></textarea>
                 </div>
             </div>
             <div className="row">
@@ -437,7 +437,7 @@ export default function RenderEditAccountInfo(props){
                     <strong>Image (url):</strong>
                 </div>
                 <div className="col value">
-                    <input type="text" name="image_url" value="" onChange={handleInputChange} />
+                    <input type="text" name="image_url" value={userProfile.image_url} onChange={handleInputChange} />
                 </div>        
             </div>
             <div className="row">
@@ -445,9 +445,9 @@ export default function RenderEditAccountInfo(props){
                     <strong>Country:</strong>    
                 </div>
                 <div className="col value">
-                    <select id="country" name="country" value="" onChange={handleInputChange}>
+                    <select id="country" name="country" value={userProfile.country} onChange={handleInputChange}>
                         <option value=""></option>
-                        <option value="Afganistan">Afghanistan</option>
+                        <option value="Afghanistan">Afghanistan</option>
                         <option value="Albania">Albania</option>
                         <option value="Algeria">Algeria</option>
                         <option value="American Samoa">American Samoa</option>
@@ -701,7 +701,7 @@ export default function RenderEditAccountInfo(props){
                     <strong>Website:</strong>   
                 </div>
                 <div className="col value">
-                    <input type="text" name="website" value="" onChange={handleInputChange} />               
+                    <input type="text" name="website" value={userProfile.website} onChange={handleInputChange} />               
                 </div>                         
             </div>
             <div className="row">
@@ -709,7 +709,7 @@ export default function RenderEditAccountInfo(props){
                     <strong>Telegram Handle:</strong>   
                 </div>
                 <div className="col value">
-                    <input type="text" name="contact" value="" onChange={handleInputChange} />              
+                    <input type="text" name="contact" value={userProfile.contact} onChange={handleInputChange} />              
                 </div>                         
             </div>
             <div className="row submit-form">

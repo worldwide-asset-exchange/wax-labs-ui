@@ -27,16 +27,17 @@ export default function RenderProposals(props) {
                       json: true,
                       lower_limit: props.accountName,
                       upper_limit: props.accountName,
-                      limit: 1
-                  });
-                  if (resp.rows.length){
-                  setCategories(resp.rows[0].categories);
-                  }
-                  else{
-                      return null;
-                  }
-                } catch(e) {
-                  console.log(e);
+                      limit: 100
+                });
+                if (resp.rows.length){
+                    console.log(resp.rows)
+                    setCategories(resp.rows[0].categories);
+                }
+                else{
+                    return null;
+                }
+            } catch(e) {
+                console.log(e);
             }
         }
         getCategories();

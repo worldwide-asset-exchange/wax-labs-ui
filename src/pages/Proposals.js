@@ -12,7 +12,7 @@ import RenderEditDraftProposal from '../partials/EditDraftProposal.js'
 // import RenderMyDraftProposals from '../partials/MyDraftProposals.js';
 // import RenderMyProposals from '../partials/MyProposals.js';
 import RenderSingleProposal from './SingleProposal.js';
-import RenderGenericProposal from '../partials/GenericProposal';
+import RenderGenericProposals from '../partials/GenericProposals';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderProposals(props) {
@@ -51,7 +51,7 @@ export default function RenderProposals(props) {
                     <Route
                         path="/"
                         element={
-                            <RenderGenericProposal
+                            <RenderGenericProposals
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 queryArgs={[{bound: "inprogress", indexPosition: "fourth"}, {bound: "voting", indexPosition: "fourth"}]}
@@ -65,7 +65,7 @@ export default function RenderProposals(props) {
                     <Route
                         path="in-review"
                         element={
-                            <RenderGenericProposal
+                            <RenderGenericProposals
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 from_admin="false"
@@ -81,7 +81,7 @@ export default function RenderProposals(props) {
                     <Route
                         path="in-review/from_admin=true"
                         element={
-                            <RenderGenericProposal
+                            <RenderGenericProposals
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 from_admin="true"
@@ -98,7 +98,7 @@ export default function RenderProposals(props) {
                     <Route 
                         path="archived"
                         element={
-                            <RenderGenericProposal
+                            <RenderGenericProposals
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 queryArgs={[{bound: "completed", indexPosition: "fourth"}]}
@@ -114,7 +114,7 @@ export default function RenderProposals(props) {
                     <Route 
                         path="my-drafts"
                         element={
-                            <RenderGenericProposal
+                            <RenderGenericProposals
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 queryArgs={[{bound: "drafting", indexPosition: "fourth"}]}
@@ -129,7 +129,7 @@ export default function RenderProposals(props) {
                     <Route 
                         path="my-proposals" 
                         element={
-                            <RenderGenericProposal  
+                            <RenderGenericProposals  
                                 activeUser={props.activeUser} 
                                 isAdmin={props.isAdmin} 
                                 queryArgs={[{bound: props.accountName, indexPosition: "secondary"}]}

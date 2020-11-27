@@ -28,12 +28,11 @@ export default function RenderGenericProposal(props) {
                         upper_bound: arg.bound,
                         key_type: 'name'
                     });                  
-                    // console.log(resp);                    
-                    if (!resp.rows.length) {
-                        return null
-                    } else {                      
-                        proposalsArray = [...proposalsArray, ...resp.rows]
-                    }  
+                    console.log(resp);                    
+                    
+                                         
+                    proposalsArray = [...proposalsArray, ...resp.rows]
+                   
                 }
                 setProposals(proposalsArray);                            
             } catch(e) {

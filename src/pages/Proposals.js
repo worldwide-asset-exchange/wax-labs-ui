@@ -86,7 +86,7 @@ export default function RenderProposals(props) {
                             <RenderGenericProposals
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
-                                queryArgs={[{bound: "completed", indexPosition: "fourth"}]}
+                                queryArgs={[{bound: "completed", indexPosition: "fourth"},{bound: "cancelled", indexPosition: "fourth"}, {bound: "rejected", indexPosition: "fourth"}]}
                                 title="Archived proposals"
                                 status="archived"
                                 noProposalsMessage="There are currently no archived proposals."

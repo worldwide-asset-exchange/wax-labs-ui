@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link/*, Routes, Route, useParams*/ } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderProposalGrid from "./ProposalGridSingle.js";

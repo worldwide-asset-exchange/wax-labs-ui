@@ -5,12 +5,7 @@ Route,
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-// import RenderInReviewProposals from '../partials/InReviewProposals.js'
-// import RenderActiveProposals from '../partials/ActiveProposals.js';
-// import RenderArchivedProposals from '../partials/ArchivedProposals.js';
 import RenderEditDraftProposal from '../partials/EditDraftProposal.js'
-// import RenderMyDraftProposals from '../partials/MyDraftProposals.js';
-// import RenderMyProposals from '../partials/MyProposals.js';
 import RenderSingleProposal from './SingleProposal.js';
 import RenderGenericProposals from '../partials/GenericProposals';
 

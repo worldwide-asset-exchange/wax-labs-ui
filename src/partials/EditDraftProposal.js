@@ -11,7 +11,7 @@ const validator = new SimpleReactValidator();
 export default function RenderEditProposal(props) {
     const { id } = useParams();
     const activeUser = props.activeUser;
-    const [total_requested_funds, setTotalRequestedFunds] = useState([]);
+    // const [total_requested_funds, setTotalRequestedFunds] = useState([]);
     const [tries, setTries] = useState(0);
     const [ proposal, setProposal ] = useState({
         proposer: '',
@@ -34,7 +34,7 @@ export default function RenderEditProposal(props) {
  
 
     useEffect(() => {
-        let cleanAmount = 0;
+        // let cleanAmount = 0;
         async function getProposalDetails() {
             if (id) {
                 try {
@@ -48,7 +48,7 @@ export default function RenderEditProposal(props) {
                     });
 
                     resp.rows[0].total_requested_funds = resp.rows[0].total_requested_funds.slice(0,-13);
-                    setTotalRequestedFunds(cleanAmount);
+                    // setTotalRequestedFunds(cleanAmount);
 
                     setProposal(resp.rows[0]);
                 } catch(e) {

@@ -47,8 +47,7 @@ export default function RenderProposals(props) {
     return (
         <div className="proposals">
                 <Routes>
-                    {/* <Route path="/" element={<RenderActiveProposals activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
-                    <Route
+                     <Route
                         path="/"
                         element={
                             <RenderGenericProposals
@@ -60,8 +59,6 @@ export default function RenderProposals(props) {
                             />
                         }
                     />
-
-                    {/* <Route path="in-review" element={<RenderInReviewProposals from_admin="false" activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
                     <Route
                         path="in-review"
                         element={
@@ -70,14 +67,11 @@ export default function RenderProposals(props) {
                                 isAdmin={props.isAdmin}
                                 from_admin="false"
                                 queryArgs={[{bound: "submitted", indexPosition: "fourth"}]}
-                                // bound="submitted"
-                                // indexPosition="fourth"
                                 title="Proposals under review"
                                 noProposalsMessage="There are currently no proposals under review."
                             />
                         }
                     />                       
-                    {/* <Route path="in-review/from_admin=true" element={<RenderInReviewProposals from_admin="true" activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
                     <Route
                         path="in-review/from_admin=true"
                         element={
@@ -86,15 +80,11 @@ export default function RenderProposals(props) {
                                 isAdmin={props.isAdmin}
                                 from_admin="true"
                                 queryArgs={[{bound: "submitted", indexPosition: "fourth"}]}
-                                // bound="submitted"
-                                // indexPosition="fourth"
                                 title="Proposals under review"
                                 noProposalsMessage="There are currently no proposals under review."
                             />
                         }
                     />
-
-                    {/* <Route path="archived" element={<RenderArchivedProposals activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
                     <Route 
                         path="archived"
                         element={
@@ -102,15 +92,12 @@ export default function RenderProposals(props) {
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 queryArgs={[{bound: "completed", indexPosition: "fourth"}]}
-                                // bound="completed"
-                                // indexPosition="fourth"
                                 title="Archived proposals"
                                 status="archived"
                                 noProposalsMessage="There are currently no archived proposals."
                             />
                         }     
-                    />                   
-                    {/* <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
+                    />
                     <Route 
                         path="my-drafts"
                         element={
@@ -118,14 +105,11 @@ export default function RenderProposals(props) {
                                 activeUser={props.activeUser}
                                 isAdmin={props.isAdmin}
                                 queryArgs={[{bound: "drafting", indexPosition: "fourth"}]}
-                                // bound="drafting"
-                                // indexPosition="fourth"
                                 noProposalsMessage="You do not have any saved draft proposals."
                                 title="Draft proposals"
                             />
                         }
                     />
-                    {/* <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
                     <Route 
                         path="my-proposals" 
                         element={
@@ -133,8 +117,6 @@ export default function RenderProposals(props) {
                                 activeUser={props.activeUser} 
                                 isAdmin={props.isAdmin} 
                                 queryArgs={[{bound: props.accountName, indexPosition: "secondary"}]}
-                                // bound={props.accountName}
-                                // indexPosition="secondary"
                                 noProposalsMessage="You currently have no proposals."
                                 title="My proposals"
                             />

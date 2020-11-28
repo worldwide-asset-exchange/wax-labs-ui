@@ -47,13 +47,13 @@ export default function RenderSingleProposal(props){
     const [show_new_deliverable, showNewDeliverable] = useState(false);
     const [end_time, setEndTime] = useState('');
     const new_deliverable_id = deliverables.length + 1;
-    const votingEndsIn = moment(end_time, "YYYY-MM-DDTHH:mm:ss[Z]").fromNow();
-    const readableEndTime = moment(end_time).format("MMMM d, YYYY [at] h:mm:ss a [UTC]");
+    const votingEndsIn = moment(end_time, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
+    const readableEndTime = moment(end_time).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
     const [reviewerModalIsOpen,setReviewerIsOpen] = React.useState(false);
     const [reviewalModalIsOpen,setReviewalIsOpen] = React.useState(false);
     const [deliverablesEditModalIsOpen,setDeliverablesEditIsOpen] = React.useState(false);
     const [deliverablesReportModalIsOpen,setDeliverablesReportIsOpen] = React.useState(false);
-
+    console.log(end_time);
     const customModalStyles = {
         content : {
           top                   : '50%',
@@ -157,6 +157,7 @@ export default function RenderSingleProposal(props){
                                     scope: id,
                                     table: 'deliverables',
                                     json: true,
+                                    limit: 1000,
                                 });
                                 console.log(delivs.rows);
                                 setDeliverables(delivs.rows);
@@ -393,6 +394,7 @@ export default function RenderSingleProposal(props){
 
      async function beginVoting() {
         try {    
+            console.log(activeUser.accountName);
             let resp = await wax.rpc.get_table_rows({             
                 code: 'labs',
                 scope: activeUser.accountName,
@@ -400,29 +402,34 @@ export default function RenderSingleProposal(props){
                 json: true,
                 limit: 1
             });
+            console.log(resp);
+            let amount = '0';
+            if(resp.rows.length){
+                const balance = resp.rows[0].balance;
+              
+                amount = balance.replace(' WAX', '');
+            }
 
-            const balance = resp.rows[0].balance;
-            const amount = balance.replace(' WAX', '');
-        
+            amount = parseFloat(amount);
             if (amount >= 10.00000000){
-            await activeUser.signTransaction({
-                actions: [
-                    {
-                        account: 'labs',
-                        name: 'beginvoting',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: id,
-                            ballot_name: 'wlabs' + id,
+                await activeUser.signTransaction({
+                    actions: [
+                        {
+                            account: 'labs',
+                            name: 'beginvoting',
+                            authorization: [{
+                                actor: activeUser.accountName,
+                                permission: 'active',
+                            }],
+                            data: {
+                                proposal_id: id,
+                                ballot_name: 'wlabs' + id,
+                            },
                         },
-                    },
-                ]} , {
-                blocksBehind: 3,
-                expireSeconds: 30
-            });
+                    ]} , {
+                    blocksBehind: 3,
+                    expireSeconds: 30
+                });
             } else {
                 await activeUser.signTransaction({
                     actions: [
@@ -597,7 +604,7 @@ export default function RenderSingleProposal(props){
      }
 
      function RenderVoteButtons(){
-        if (activeUser && proposal.status === "voting"){ 
+        if (activeUser && proposal.status === "voting" && votingEndsIn.includes('in')){ 
             return (
                 <div className="vote-buttons">
                     <button className="btn" name="yes" onClick={castVote}>Vote Yes</button>
@@ -742,6 +749,7 @@ export default function RenderSingleProposal(props){
     }
 
         async function submitReport(){
+            console.log("deliverable id: " + deliverable.deliverable_id)
             try {
                 await activeUser.signTransaction({
                     actions: [
@@ -779,6 +787,8 @@ export default function RenderSingleProposal(props){
                     return <span>Claimed</span>
                 } else if (deliverable.status === "cancelled") {
                     return <span>Cancelled</span>
+                } else if (deliverable.status === "reported") {
+                    return <span>Reported</span>
                 } else if (deliverable.status === "inprogress") { 
                     return <span>In Progress</span>
                 } else {
@@ -799,9 +809,11 @@ export default function RenderSingleProposal(props){
         //     }
         //     setDeliverables(newDelivState);
         // }
-
+        
         if (activeUser && activeUser.accountName === proposal.proposer) {
             const readableDeliverableAmount = deliverable.requested.slice(0,-13) + ' WAX';
+
+            console.log(deliverable.report);
             return (
                 <div className="single">
                     <div className="number"><h4>Deliverable {deliverable.deliverable_id}</h4></div>
@@ -815,9 +827,10 @@ export default function RenderSingleProposal(props){
                         <input type="text" id="edit-recipient" className={!deliverable.editable ? 'hide': ''} name="new_recipient" onChange={handleInputChange} />
                     </div>
                     <div className="report">
-                        {(deliverable.status === "inprogress" || deliverable.status === "completed" || deliverable.status === "rejected" || deliverable.status === "claimed") && deliverable.report ?
+                        {(deliverable.status === "inprogress" || deliverable.status === "completed" || deliverable.status === "rejected" || deliverable.status === "claimed" || deliverable.status === "reported") && deliverable.report ?
                         <>
-                            <a href={deliverable.report} target="_blank" rel="noopener noreferrer">View Deliverable Report</a>
+                            {console.log(deliverable.report)}
+                            <a href={"//" + deliverable.report} target="_blank" rel="noopener noreferrer">View Deliverable Report</a>
                         </>
                         :
                         <>
@@ -889,7 +902,7 @@ export default function RenderSingleProposal(props){
                     <div className="report">
                         {deliverable.status !== "drafting" ?
                         <>
-                            <a href={deliverable.report} target="_blank" rel="noopener noreferrer">View Deliverable Report</a>
+                            <a href={"//" + deliverable.report} target="_blank" rel="noopener noreferrer">View Deliverable Report</a>
                         </>
                         :
                         <>
@@ -1011,7 +1024,7 @@ export default function RenderSingleProposal(props){
             return (
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer Menu</h3>
-                    <button className="btn" onClick={endVoting}>End Voting</button>
+                    {votingEndsIn.includes('ago') ? <button className="btn" onClick={endVoting}>End Voting</button>:""}
                     <button className="btn" onClick={cancelProposal}>Cancel Proposal</button>
                     <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
                 </div>
@@ -1031,6 +1044,7 @@ export default function RenderSingleProposal(props){
     }
 
     function RenderReadableProposalStatus() {
+        console.log(proposal.status)
         if (proposal.status){
             if (proposal.status === "drafting"){
                 return <span>Draft</span>
@@ -1046,6 +1060,8 @@ export default function RenderSingleProposal(props){
                 return <span>Cancelled</span>
             } else if (proposal.status === "inprogress") { 
                 return <span>In Progress</span>
+            } else if (proposal.status === "failed"){
+                return <span>Failed</span>
             } else {
                 return null
             }

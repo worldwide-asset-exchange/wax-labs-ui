@@ -22,6 +22,8 @@ export default function RenderProposalGrid(props){
                 return <span>Cancelled</span>
             } else if (proposal.status === "inprogress") { 
                 return <span>In Progress</span>
+            } else if (proposal.status === "failed"){
+                return <span>Failed</span>
             } else {
                 return null
             }

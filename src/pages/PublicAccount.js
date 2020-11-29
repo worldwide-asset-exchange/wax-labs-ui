@@ -12,7 +12,7 @@ export default function RenderProposals(props) {
     const [account, setAccount] = useState();
     const [proposals, setProposals] = useState([]);
     const { accName } = useParams();
-
+    console.log(accName);
     useEffect(() => {
         async function getAccount() {
             try {
@@ -21,10 +21,11 @@ export default function RenderProposals(props) {
                       scope: 'labs',
                       table: 'profiles',
                       json: true,
-                      lower_limit: accName,
-                      upper_limit: accName,
+                      lower_bound: accName,
+                      upper_bound: accName,
                       limit: 1
                   });
+                  console.log(resp);
                   if (resp.rows.length){
                     setAccount(resp.rows[0]);
                     let proposalResp = await wax.rpc.get_table_rows({             

@@ -100,8 +100,7 @@ export default function RenderSingleProposal(props){
     }
 
 
-
-    useEffect(() => {
+   useEffect(() => {
         async function getProposal() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
@@ -112,7 +111,6 @@ export default function RenderSingleProposal(props){
                     lower_bound: id,
                     upper_bound: id,
                 });
-
                 setProposal(resp.rows[0]);
 
                 const proposerAcct = resp.rows[0].proposer;
@@ -230,41 +228,41 @@ export default function RenderSingleProposal(props){
                             blocksBehind: 3,
                             expireSeconds: 30
                         });
-                    } else {
-                        await activeUser.signTransaction({
-                            actions: [
-                                {
-                                    account: 'decide',
-                                    name: 'sync',
-                                    authorization: [{
-                                        actor: activeUser.accountName,
-                                        permission: 'active',
-                                    }],
-                                    data: {
-                                        voter: activeUser.accountName,
-                                        },
-                                    },
-                                {
-                                    account: 'decide',
-                                    name: 'castvote',
-                                        authorization: [{
-                                            actor: activeUser.accountName,
-                                            permission: 'active',
-                                        }],
-                                    data: {
-                                        voter: activeUser.accountName,
-                                        options: [voteOption],
-                                        ballot_name: proposal.ballot_name
-                                        },
-                                    }
-                                ]}, {
-                                    blocksBehind: 3,
-                                    expireSeconds: 30
-                                });
-                    }
-                } catch(e) {
-                    console.log(e);
+            } else {
+                await activeUser.signTransaction({
+                    actions: [
+                        {
+                            account: 'decide',
+                            name: 'sync',
+                            authorization: [{
+                                actor: activeUser.accountName,
+                                permission: 'active',
+                            }],
+                            data: {
+                                voter: activeUser.accountName,
+                                },
+                            },
+                        {
+                            account: 'decide',
+                            name: 'castvote',
+                                authorization: [{
+                                    actor: activeUser.accountName,
+                                    permission: 'active',
+                                }],
+                            data: {
+                                voter: activeUser.accountName,
+                                options: [voteOption],
+                                ballot_name: proposal.ballot_name
+                                },
+                            }
+                        ]}, {
+                            blocksBehind: 3,
+                            expireSeconds: 30
+                        });
             }
+        } catch(e) {
+            console.log(e);
+    }
         }  
 
     async function rejectProposal() {
@@ -652,6 +650,7 @@ export default function RenderSingleProposal(props){
                    blocksBehind: 3,
                    expireSeconds: 30
                });
+               console.log("success");
             } catch(e){
                 console.log(e);
             }

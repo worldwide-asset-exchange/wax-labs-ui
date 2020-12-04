@@ -41,18 +41,6 @@ export default function RenderAccountPortal(props) {
         getAccountInfo(); 
      }, [props.accountName]);
 
-    // function RenderDynamicBreadcrumbs() {
-    //     if (props.fromProposal){
-    //         return (
-    //             <>
-    //                 <Link to={"/proposals/" + props.fromProposal}>{'< Back to Proposal'}</Link>
-    //             </>
-    //         );
-
-    //     } else {
-    //         return null;
-    //     }
-    // }
 
     if (props.accountName && userProfile) {
         return(
@@ -74,9 +62,9 @@ export default function RenderAccountPortal(props) {
             <div className="account-portal">
                 <div className="account-body">
                     <Routes>
-                        <Route path="/" element={<RenderAccountInfo  />} />
-                        <Route path="edit" element={<RenderEditAccountInfo  />} />
-                        <Route path=":accName" element={<RenderPublicAccount />} />
+                        <Route path="/" element={<RenderAccountInfo activeUser={props.activeUser} />} />
+                        <Route path="edit" element={<RenderEditAccountInfo activeUser={props.activeUser} />} />
+                        <Route path=":accName" element={<RenderPublicAccount activeUser={props.activeUser} />} />
                     </Routes>
                 </div>
             </div>

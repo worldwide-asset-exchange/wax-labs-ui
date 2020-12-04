@@ -134,7 +134,7 @@ export default function RenderHeader(props) {
                                     element.deliverable_id = filteredProposal.proposal_id+'.'+element.deliverable_id;
                                     element.proposal_title = filteredProposal.title;
                                     element.reviewer = filteredProposal.reviewer;
-                                    console.log(activeUser)
+                                    // console.log(activeUser)
                                     if (filteredProposal.reviewer === activeUser.accountName && element.status === "submitted"){
                                     delivsCount = delivsCount + 1;
                                     setDeliverables(delivsCount);

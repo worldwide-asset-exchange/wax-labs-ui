@@ -8,6 +8,7 @@ import * as waxjs from "@waxio/waxjs/dist";
 import RenderEditDraftProposal from '../partials/EditDraftProposal.js'
 import RenderSingleProposal from './SingleProposal.js';
 import RenderGenericProposals from '../partials/GenericProposals';
+import RenderProposalPage from './ProposalPage.js';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderProposals(props) {
@@ -26,7 +27,7 @@ export default function RenderProposals(props) {
                       limit: 100
                 });
                 if (resp.rows.length){
-                    console.log(resp.rows)
+                    // console.log(resp.rows)
                     setCategories(resp.rows[0].categories);
                 }
                 else{
@@ -38,7 +39,7 @@ export default function RenderProposals(props) {
         }
         getCategories();
      }, [props.accountName]);
-    
+    // console.log("proposals");
     return (
         <div className="proposals">
                 <Routes>
@@ -118,7 +119,16 @@ export default function RenderProposals(props) {
                         }
                     />
                     <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
-                    <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
+                    {/* <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} /> */}
+                    <Route 
+                        path=":id"
+                        element={
+                            <RenderProposalPage
+                                activeUser={props.activeUser}
+                                isAdmin={props.isAdmin}
+                            />
+                        }
+                    /> 
                     <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="Edit" />} />
                 </Routes>
         </div>

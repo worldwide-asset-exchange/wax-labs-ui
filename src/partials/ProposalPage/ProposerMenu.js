@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
+
+import {randomEosioName} from "../../utils/util";
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -17,8 +19,9 @@ export default function RenderProposerMenu(props){
         rerunProposalQuery: PropTypes.func.isRequired,
     }
     const {id} = useParams();
-    
+    // console.log(props);
     async function cancelProposal(){
+        let activeUser = props.activeUser;
         try {        
             await activeUser.signTransaction({
                 actions: [
@@ -41,8 +44,8 @@ export default function RenderProposerMenu(props){
             let alertObj = {
                 title: "Proposal cancelled!",
                 body: "Proposal was successfully cancelled.", 
-                variant: "primary",
-                dismissable: true,
+                variant: "success",
+                dismissible: true,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
@@ -52,13 +55,13 @@ export default function RenderProposerMenu(props){
                 body: "Cancel encountered an error.",
                 details: e.message, 
                 variant: "danger",
-                dismissable: true,
+                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);
         }     
     }
-
+    
     async function beginVoting() {
         try {
             let activeUser = props.activeUser;
@@ -95,6 +98,9 @@ export default function RenderProposerMenu(props){
                     },
                 }]
             }
+            console.log('wlabs' + id);
+            let ballotName = randomEosioName(12);
+            console.log(ballotName);
             await activeUser.signTransaction({
                 actions: [
                     ...transferAction,
@@ -107,7 +113,7 @@ export default function RenderProposerMenu(props){
                         }],
                         data: {
                             proposal_id: id,
-                            ballot_name: 'wlabs' + id,
+                            ballot_name: ballotName,
                         },
                     },
                 ]} , {
@@ -118,8 +124,8 @@ export default function RenderProposerMenu(props){
             let alertObj = {
                 title: "Begin voting success!",
                 body: "Proposal is now in the voting stage.", 
-                variant: "primary",
-                dismissable: true,
+                variant: "success",
+                dismissible: true,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
@@ -131,14 +137,174 @@ export default function RenderProposerMenu(props){
                 body: "An error ocurred when trying to call the begin voting action.",
                 details: e.message, 
                 variant: "danger",
-                dismissable: true,
+                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);
         }
 
     }
+    async function magic(){
+        let activeUser = props.activeUser
+        try{
 
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'newdeliv',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: 24,
+                            deliverable_id: 10,
+                            requested_amount: "1000.00000000 WAX",
+                            recipient: "ancientsofia"
+                        },
+                    },
+                    {
+                        account: 'labs',
+                        name: 'rmvdeliv',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: 24,
+                            deliverable_id: 2,
+                        },
+                    },
+                    {
+                        account: 'labs',
+                        name: 'newdeliv',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: 24,
+                            deliverable_id: 3,
+                            requested_amount: "1000.00000000 WAX",
+                            recipient: "ancientsofia"
+                        },
+                    },
+                    {
+                        account: 'labs',
+                        name: 'rmvdeliv',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: 24,
+                            deliverable_id: 10,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+            let alertObj = {
+                title: "Magic success!",
+                body: "Magic was performed.", 
+                variant: "success",
+                dismissible: true,
+            }
+            props.showAlert(alertObj);
+            props.rerunProposalQuery();
+        } catch (e){
+            let alertObj = {
+                title: "Magic error!",
+                body: "Magic actions error.",
+                details: e.message, 
+                variant: "danger",
+                dismissible: true,
+            }
+            props.showAlert(alertObj);
+            console.log(e);
+        }
+    }
+    async function endVoting (){
+        let activeUser = props.activeUser;
+        try {        
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'endvoting',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: id,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+            let alertObj = {
+                title: "End voting success!",
+                body: "Proposal voting was ended.", 
+                variant: "success",
+                dismissible: true,
+            }
+            props.showAlert(alertObj);
+            props.rerunProposalQuery();
+        } catch(e) {
+            let alertObj = {
+                title: "End voting error!",
+                body: "An error ocurred when trying to call the end voting action.",
+                details: e.message, 
+                variant: "danger",
+                dismissible: true,
+            }
+            props.showAlert(alertObj);
+            console.log(e);
+        }
+    }
+    async function deleteProposal(){
+        let activeUser = props.activeUser;
+        try {        
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: 'labs',
+                        name: 'deleteprop',
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: 'active',
+                        }],
+                        data: {
+                            proposal_id: id,
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+            let alertObj = {
+                title: "Delete proposal success!",
+                body: "Proposal was deleted.", 
+                variant: "success",
+                dismissible: true,
+            }
+            props.showAlert(alertObj);
+        } catch(e) {
+            let alertObj = {
+                title: "Delete proposal error!",
+                body: "An error ocurred when trying to call the delete proposal action.",
+                details: e.message, 
+                variant: "danger",
+                dismissible: true,
+            }
+            props.showAlert(alertObj);
+            console.log(e);
+        }
+    }
 
     if(props.activeUser && props.activeUser.accountName === props.proposal.proposer)
     {   
@@ -148,6 +314,7 @@ export default function RenderProposerMenu(props){
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer menu</h3>
                     <Link className="btn" to="edit">Edit proposal</Link>
+                    <button className="btn" onClick={magic}>Magic</button>
                     <button className="btn" onClick={cancelProposal}>Cancel proposal</button>                
                 </div>
             )

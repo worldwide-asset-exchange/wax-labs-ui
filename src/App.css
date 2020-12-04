@@ -346,7 +346,7 @@ header nav button#menu-icon {
 }
 
 .show {
-    display: initial;
+    /* display: initial; */
 }
 
 .btn {

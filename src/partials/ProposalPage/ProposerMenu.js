@@ -11,13 +11,7 @@ const BEGIN_VOTING_AMOUNT = 10;
 
 
 export default function RenderProposerMenu(props){
-    RenderProposerMenu.propTypes = {
-        activeUser: PropTypes.any.isRequired,
-        proposal: PropTypes.any.isRequired,
-        votingEndsIn: PropTypes.any.isRequired,
-        showAlert: PropTypes.func.isRequired,
-        rerunProposalQuery: PropTypes.func.isRequired,
-    }
+   
     const {id} = useParams();
     // console.log(props);
     async function cancelProposal(){

@@ -25,11 +25,7 @@ const readableProposalStatus = {
     failed: "Failed",
 }
 
-export default function RenderProposalPage(props){
-    RenderProposalPage.propTypes = {
-        activeUser: PropTypes.any.isRequired,
-        isAdmin: PropTypes.any.isRequired,
-    }
+export default function RenderProposalPage(props){    
     const {id} = useParams();    
     const [proposal, setProposal] = useState({
         proposer: '',
@@ -80,7 +76,7 @@ export default function RenderProposalPage(props){
         }
     }
    
-    console.log(proposal);
+    // console.log(proposal);
     function RenderProposalInfo(){
         /*  
         Render title

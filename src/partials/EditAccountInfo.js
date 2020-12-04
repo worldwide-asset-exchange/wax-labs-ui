@@ -30,6 +30,7 @@ export default function RenderEditAccountInfo(props){
     
     async function submitProfile() {
         try {
+            console.log(activeUser);
             if (userProfile.isNew) {
             await activeUser.signTransaction({
                 actions: [

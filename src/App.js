@@ -36,7 +36,7 @@ export default function App(props)  {
         if (props.ual.activeUser.accountName && props.ual.activeUser.accountName === adminAccount){
           setIsAdmin(true);
         } else {
-          return null;
+          setIsAdmin(false);
         }
 
       } catch(e) {

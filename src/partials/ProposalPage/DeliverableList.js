@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Link, useParams} from 'react-router-dom';
+import ReactTags from 'react-tag-autocomplete';
 import * as waxjs from "@waxio/waxjs/dist";
 import RenderSingleDeliverable from "./SingleDeliverable"
 
+import './ReactTags.css'
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 const statusList = [
@@ -22,19 +24,37 @@ const readableStatusName = {
     rejected: "Rejected",
 }
 
+
+const tagsObject = {};
+const allTag = {id: "all", name: "All"};
+const suggestions = [];
+
+function addEntriesToList(list){
+    Object.entries(tagsObject).forEach(([key, value]) => {
+        list.push(value);
+    }); 
+};
+
+function setup(){
+    Object.entries(readableStatusName).forEach(([id, name]) => {
+        tagsObject[id] = {id: id, name: name};
+    });    
+
+    addEntriesToList(suggestions);
+
+    suggestions.push(allTag);
+
+}
+setup();
+
+
 export default function RenderDeliverableList(props){
     const {id} = useParams();
     const [deliverables, setDeliverables] = useState([]);
     const [displayDeliverables, setDisplayDeliverables] = useState([]);
+    const [tags, setTags] = useState([allTag]);
+    const inputRef = useRef(null);
 
-    const [filtersChecked, setFiltersChecked] = useState({
-        drafting: true,
-        reported: true,
-        accepted: true,
-        inprogress: true,
-        claimed: true,
-        rejected: true,
-    });
     async function getDeliverablesData(){
         try{
             let delivs = await wax.rpc.get_table_rows({
@@ -44,7 +64,6 @@ export default function RenderDeliverableList(props){
                 json: true,
                 limit: 1000,
             });
-            console.log(delivs.rows);
             setDeliverables(delivs.rows);
         } catch (e){
             console.log(e);
@@ -55,39 +74,62 @@ export default function RenderDeliverableList(props){
         getDeliverablesData();
     },[props.proposal]);
 
-    function handleCheckBoxChange(event){
-        console.log(event.target.checked);
-        let currentStatus = event.target.checked;
-        let currentFiltersChecked = {...filtersChecked};
-        currentFiltersChecked[event.target.name] = currentStatus;
-        setFiltersChecked(currentFiltersChecked);
+    function onTagAddition(tag){
+        let tempTags = tags.slice(0);
+        if(tempTags.includes(allTag)){
+            // If all is in there, remove it.
+            tempTags.splice(tempTags.indexOf(allTag), 1);
+        }
+        if(tag.id === "all"){
+            // If the tag all was added, remove all other tags from the list.
+            tempTags = [tag];
+        }
+        // Only add tag, if it is not inside the array.
+        else if(!tags.includes(tag)){
+            tempTags = [].concat(tempTags, tag);
+        }
+        else {
+            return;
+        }
+        setTags(tempTags);
+    }
+    function onDeleteTag(index){
+        let tempTags = tags.slice(0);
+        if(tempTags[index].id === "all"){
+            // If the tag all was removed, add all other tags to the list.
+            tempTags = [];
+            addEntriesToList(tempTags, readableStatusName);  
+        }
+        else {
+            tempTags.splice(index, 1);
+        }
+        setTags(tempTags);
+    }
+
+    function filterDeliverables(deliverable){
+        if(tags.includes(allTag)){
+            return true
+        }
+        return tags.includes(tagsObject[deliverable.status])
     }
 
 
-    let filteredDeliverables = deliverables.filter(deliverable => filtersChecked[deliverable.status])
+    let filteredDeliverables = deliverables.filter(filterDeliverables);
     
-    console.log(filtersChecked);
+    // console.log(filtersChecked);
 
     return (
         <div className="deliverable-list">
             <h1>Deliverables ({props.proposal.deliverables_completed}/{props.proposal.deliverables})</h1>
-            <p><strong>Filters:</strong></p>
-
-            {statusList.map((status, index) => {
-                console.log(filtersChecked[status]);
-                return(
-                    <div key={index}>
-                        <label>{readableStatusName[status]}</label>
-                        <input 
-                            type="checkbox" 
-                            name={status}
-                            onChange={handleCheckBoxChange}
-                            checked={filtersChecked[status]}
-                        />
-                    </div>           
-                )
-
-            })}
+            <ReactTags
+                ref={inputRef}
+                tags={tags}
+                suggestions={suggestions}
+                onDelete={onDeleteTag}
+                onAddition={onTagAddition}
+                minQueryLength={1}
+                allowNew={false}
+            />
             
 
             {filteredDeliverables.map((deliverable) => {

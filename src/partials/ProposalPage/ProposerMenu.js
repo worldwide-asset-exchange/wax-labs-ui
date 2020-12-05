@@ -66,16 +66,16 @@ export default function RenderProposerMenu(props){
                 limit: 1
             });
 
-            let amount = '0';
+            let balanceAmount = '0';
             if(resp.rows.length){
                 const balance = resp.rows[0].balance;
               
-                amount = balance.replace(' WAX', '');
+                balanceAmount = balance.replace(' WAX', '');
             }
 
-            amount = parseFloat(amount);
+            balanceAmount = parseFloat(balanceAmount);
             let transferAction = []
-            if(amount < BEGIN_VOTING_AMOUNT){
+            if(balanceAmount < BEGIN_VOTING_AMOUNT){
                 transferAction = [{
                     account: 'eosio.token',
                     name: 'transfer',
@@ -91,9 +91,10 @@ export default function RenderProposerMenu(props){
                     },
                 }]
             }
-            console.log('wlabs' + id);
+            // If balanceAmount was lesser than BEGIN_VOTING_AMOUNT
+            // transferAction is empty, so the spread has no effect.
+            // This is so that we don't have to replicate signTransaction code.
             let ballotName = randomEosioName(12);
-            console.log(ballotName);
             await activeUser.signTransaction({
                 actions: [
                     ...transferAction,
@@ -137,88 +138,96 @@ export default function RenderProposerMenu(props){
         }
 
     }
-    async function magic(){
-        let activeUser = props.activeUser
-        try{
 
-            await activeUser.signTransaction({
-                actions: [
-                    {
-                        account: 'labs',
-                        name: 'newdeliv',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: 24,
-                            deliverable_id: 10,
-                            requested_amount: "1000.00000000 WAX",
-                            recipient: "ancientsofia"
-                        },
-                    },
-                    {
-                        account: 'labs',
-                        name: 'rmvdeliv',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: 24,
-                            deliverable_id: 2,
-                        },
-                    },
-                    {
-                        account: 'labs',
-                        name: 'newdeliv',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: 24,
-                            deliverable_id: 3,
-                            requested_amount: "1000.00000000 WAX",
-                            recipient: "ancientsofia"
-                        },
-                    },
-                    {
-                        account: 'labs',
-                        name: 'rmvdeliv',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: 24,
-                            deliverable_id: 10,
-                        },
-                    },
-                ]} , {
-                blocksBehind: 3,
-                expireSeconds: 30
-            });
-            let alertObj = {
-                title: "Magic success!",
-                body: "Magic was performed.", 
-                variant: "success",
-                dismissible: true,
-            }
-            props.showAlert(alertObj);
-            props.rerunProposalQuery();
-        } catch (e){
-            let alertObj = {
-                title: "Magic error!",
-                body: "Magic actions error.",
-                details: e.message, 
-                variant: "danger",
-                dismissible: true,
-            }
-            props.showAlert(alertObj);
-            console.log(e);
-        }
-    }
+    // I'm leaving this here, it was a test that I did to validate my strategy
+    // For the edit proposal code me and Karyne have in mind. We will do something
+    // similar there (when user wants to update deliverables). I will add a stub
+    // deliverable, so that I can remove all of them, then add them in the 
+    // new order, lastly I will remove the stub deliverable. (if you just try
+    // to remove all then add them back, it will fail because you need at 
+    // least one deliverable at any point).
+    // async function magic(){
+    //     let activeUser = props.activeUser
+    //     try{
+
+    //         await activeUser.signTransaction({
+    //             actions: [
+    //                 {
+    //                     account: 'labs',
+    //                     name: 'newdeliv',
+    //                     authorization: [{
+    //                         actor: activeUser.accountName,
+    //                         permission: 'active',
+    //                     }],
+    //                     data: {
+    //                         proposal_id: 24,
+    //                         deliverable_id: 10,
+    //                         requested_amount: "1000.00000000 WAX",
+    //                         recipient: "ancientsofia"
+    //                     },
+    //                 },
+    //                 {
+    //                     account: 'labs',
+    //                     name: 'rmvdeliv',
+    //                     authorization: [{
+    //                         actor: activeUser.accountName,
+    //                         permission: 'active',
+    //                     }],
+    //                     data: {
+    //                         proposal_id: 24,
+    //                         deliverable_id: 2,
+    //                     },
+    //                 },
+    //                 {
+    //                     account: 'labs',
+    //                     name: 'newdeliv',
+    //                     authorization: [{
+    //                         actor: activeUser.accountName,
+    //                         permission: 'active',
+    //                     }],
+    //                     data: {
+    //                         proposal_id: 24,
+    //                         deliverable_id: 3,
+    //                         requested_amount: "1000.00000000 WAX",
+    //                         recipient: "ancientsofia"
+    //                     },
+    //                 },
+    //                 {
+    //                     account: 'labs',
+    //                     name: 'rmvdeliv',
+    //                     authorization: [{
+    //                         actor: activeUser.accountName,
+    //                         permission: 'active',
+    //                     }],
+    //                     data: {
+    //                         proposal_id: 24,
+    //                         deliverable_id: 10,
+    //                     },
+    //                 },
+    //             ]} , {
+    //             blocksBehind: 3,
+    //             expireSeconds: 30
+    //         });
+    //         let alertObj = {
+    //             title: "Magic success!",
+    //             body: "Magic was performed.", 
+    //             variant: "success",
+    //             dismissible: true,
+    //         }
+    //         props.showAlert(alertObj);
+    //         props.rerunProposalQuery();
+    //     } catch (e){
+    //         let alertObj = {
+    //             title: "Magic error!",
+    //             body: "Magic action error.",
+    //             details: e.message, 
+    //             variant: "danger",
+    //             dismissible: true,
+    //         }
+    //         props.showAlert(alertObj);
+    //         console.log(e);
+    //     }
+    // }
     async function endVoting (){
         let activeUser = props.activeUser;
         try {        
@@ -298,7 +307,7 @@ export default function RenderProposerMenu(props){
             console.log(e);
         }
     }
-
+    // check if activeUser is the same as the proposal's proposer.
     if(props.activeUser && props.activeUser.accountName === props.proposal.proposer)
     {   
         if(props.proposal.status === "drafting")
@@ -307,7 +316,6 @@ export default function RenderProposerMenu(props){
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer menu</h3>
                     <Link className="btn" to="edit">Edit proposal</Link>
-                    <button className="btn" onClick={magic}>Magic</button>
                     <button className="btn" onClick={cancelProposal}>Cancel proposal</button>                
                 </div>
             )
@@ -366,5 +374,6 @@ export default function RenderProposerMenu(props){
         }
 
     }
+    // If none of the returns was reached, return null.
     return null
 }

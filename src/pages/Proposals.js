@@ -6,7 +6,6 @@ Route,
 import * as waxjs from "@waxio/waxjs/dist";
 
 import RenderEditDraftProposal from '../partials/EditDraftProposal.js'
-import RenderSingleProposal from './SingleProposal.js';
 import RenderGenericProposals from '../partials/GenericProposals';
 import RenderProposalPage from './ProposalPage.js';
 

@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
-import * as waxjs from "@waxio/waxjs/dist";
+import React, {useState} from 'react';
+import {useParams} from 'react-router-dom';
 
 import { Modal } from 'react-bootstrap';
-
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 const readableStatusName = {
     drafting: "Draft",

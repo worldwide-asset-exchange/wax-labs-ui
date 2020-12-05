@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import {Link, useParams} from 'react-router-dom';
 
@@ -79,17 +78,15 @@ export default function RenderProposalPage(props){
     // console.log(proposal);
     function RenderProposalInfo(){
         /*  
-        Render title
-        Render category 
-        Render status
-        Render reviewer
-        Render proposer
-        Render requested funds
-        Render description
-        Render VotesDisplay
-        */
-        // console.log(proposal);
-        // console.log(props.activeUser);
+            Render title
+            Render category 
+            Render status
+            Render reviewer
+            Render proposer
+            Render requested funds
+            Render description
+            Render VotesDisplay
+        */       
         return (
             <div className="proposal-details">
                 <div className="proposal-header">
@@ -128,17 +125,25 @@ export default function RenderProposalPage(props){
     },[id, proposalQueryCount])
 
     async function rerunProposalQuery(){
-        await sleep(1000);
+        // Wait a second before repulling data from the chain
+        // to avoid getting unupdated state.
+        await sleep(600);
         setProposalQueryCount(proposalQueryCount + 1);
     }
     function showAlert(alertObj){
+        // Make a copy.
         let alerts = alertList.slice(0);
+        // Push new alert to the copied list
         alerts.push(alertObj);
+        // Update the list.
         setAlertList(alerts);
     }
     function removeAlert(index){
+        // Make a copy.
         let alerts = alertList.slice(0);
+        // remove alert at index.
         alerts.splice(index,1);
+        // Update the list.
         setAlertList(alerts);
     }
     function updateVotes(voteObj){

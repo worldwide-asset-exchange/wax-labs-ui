@@ -1,9 +1,6 @@
 import React, {useState}from 'react';
 import {useParams} from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
-import * as waxjs from "@waxio/waxjs/dist";
-
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderAdminMenu(props){
     const [showReviewerModal, setShowReviewerModal] = useState(false);

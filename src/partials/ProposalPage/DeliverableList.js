@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import ReactTags from 'react-tag-autocomplete';
 import * as waxjs from "@waxio/waxjs/dist";
 import RenderSingleDeliverable from "./SingleDeliverable"
@@ -7,14 +7,7 @@ import RenderSingleDeliverable from "./SingleDeliverable"
 import './ReactTags.css'
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-const statusList = [
-    "drafting",
-    "reported",
-    "accepted",
-    "inprogress",
-    "claimed",
-    "rejected"
-]
+
 const readableDeliverableStatus = {
     drafting: "Draft",
     reported: "Reported",
@@ -49,7 +42,6 @@ setup();
 export default function RenderDeliverableList(props){
     const {id} = useParams();
     const [deliverables, setDeliverables] = useState([]);
-    const [displayDeliverables, setDisplayDeliverables] = useState([]);
     const [tags, setTags] = useState([]);
     const inputRef = useRef(null);
 
@@ -70,6 +62,7 @@ export default function RenderDeliverableList(props){
 
     useEffect(()=>{
         getDeliverablesData();
+        // eslint-disable-next-line
     },[props.proposal]);
 
     function onTagAddition(tag){

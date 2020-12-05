@@ -177,7 +177,7 @@ export default function RenderAdminMenu(props){
                 dismissible: true,
             }
             props.showAlert(alertObj);
-             console.log(e);
+            console.log(e);
          }
     }
 

@@ -5,13 +5,13 @@ Route,
 } from 'react-router-dom'
 import * as waxjs from "@waxio/waxjs/dist";
 
-import './App.css';
+import './App.scss';
 import RenderHome from './pages/Home.js';
 import RenderErrorPage from './pages/ErrorPage.js';
 import RenderAccountPortal from './pages/AccountPortal.js';
 import RenderProposals from './pages/Proposals.js';
 import RenderDeliverables from './pages/Deliverables.js';
-import RenderAdminPortal from './pages/AdminPortal.js'; 
+import RenderAdminPortal from './pages/AdminPortal.js';
 
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header.js';
@@ -23,7 +23,7 @@ export default function App(props)  {
 
     async function checkAdmin(){
       try {
-        let resp = await wax.rpc.get_table_rows({             
+        let resp = await wax.rpc.get_table_rows({
             code: 'labs',
             scope: 'labs',
             table: 'config',
@@ -32,7 +32,7 @@ export default function App(props)  {
         });
 
         const adminAccount = resp.rows[0].admin_acct;
-        
+
         if (props.ual.activeUser.accountName && props.ual.activeUser.accountName === adminAccount){
           setIsAdmin(true);
         } else {
@@ -45,7 +45,7 @@ export default function App(props)  {
     }
 
   if (props.ual.activeUser) {
-    checkAdmin(); 
+    checkAdmin();
     return (
       <div className="App">
         <div className="wrapper">
@@ -56,7 +56,7 @@ export default function App(props)  {
               <Route path="/" element={<RenderHome/>} />
               <Route path="proposals/*" accountName={props.ual.activeUser.accountName} element={<RenderProposals accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
               <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
-              <Route path="account/*" element={<RenderAccountPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} /> } />  
+              <Route path="account/*" element={<RenderAccountPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} /> } />
               <Route path="admin/*" element={<RenderAdminPortal accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
               <Route path="*" element={<RenderErrorPage />} />
               </Routes>

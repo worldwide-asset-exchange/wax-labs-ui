@@ -3,12 +3,12 @@ import {
 Link
 } from 'react-router-dom';
 
-import categories from '../assets/categories.svg';
-import removeAccount from '../assets/remove-user.svg';
-import reviewProposals from '../assets/review-proposal.svg';
-import tokens from '../assets/coins.svg';
-import key from '../assets/key.svg';
-import stopwatch from '../assets/stopwatch.svg';
+import categories from '../images/categories.svg';
+import removeAccount from '../images/remove-user.svg';
+import reviewProposals from '../images/review-proposal.svg';
+import tokens from '../images/coins.svg';
+import key from '../images/key.svg';
+import stopwatch from '../images/stopwatch.svg';
 
 export default function RenderAdminMenu() {
 

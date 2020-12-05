@@ -15,7 +15,7 @@ const statusList = [
     "claimed",
     "rejected"
 ]
-const readableStatusName = {
+const readableDeliverableStatus = {
     drafting: "Draft",
     reported: "Reported",
     accepted: "Accepted",
@@ -36,7 +36,7 @@ function addEntriesToList(list){
 };
 
 function setup(){
-    Object.entries(readableStatusName).forEach(([id, name]) => {
+    Object.entries(readableDeliverableStatus).forEach(([id, name]) => {
         tagsObject[id] = {id: id, name: name};
     });    
 
@@ -99,7 +99,7 @@ export default function RenderDeliverableList(props){
         if(tempTags[index].id === "all"){
             // If the tag all was removed, add all other tags to the list.
             tempTags = [];
-            addEntriesToList(tempTags, readableStatusName);  
+            addEntriesToList(tempTags, readableDeliverableStatus);  
         }
         else {
             tempTags.splice(index, 1);

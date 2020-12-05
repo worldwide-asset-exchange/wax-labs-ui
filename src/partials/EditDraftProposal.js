@@ -34,7 +34,6 @@ export default function RenderEditProposal(props) {
  
 
     useEffect(() => {
-        // let cleanAmount = 0;
         async function getProposalDetails() {
             if (id) {
                 try {
@@ -58,7 +57,7 @@ export default function RenderEditProposal(props) {
             }
         }
         getProposalDetails();
-        }, [id]);
+    }, [id]);
 
     function handleInputChange(event) {
         const value = event.target.value;

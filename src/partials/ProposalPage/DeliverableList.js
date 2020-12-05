@@ -41,9 +41,7 @@ function setup(){
     });    
 
     addEntriesToList(suggestions);
-
     suggestions.push(allTag);
-
 }
 setup();
 
@@ -52,7 +50,7 @@ export default function RenderDeliverableList(props){
     const {id} = useParams();
     const [deliverables, setDeliverables] = useState([]);
     const [displayDeliverables, setDisplayDeliverables] = useState([]);
-    const [tags, setTags] = useState([allTag]);
+    const [tags, setTags] = useState([]);
     const inputRef = useRef(null);
 
     async function getDeliverablesData(){
@@ -93,8 +91,11 @@ export default function RenderDeliverableList(props){
         }
         setTags(tempTags);
     }
-    function onDeleteTag(index){
+    function onDeleteTag(index){        
         let tempTags = tags.slice(0);
+        if(!tempTags[index]){
+            return
+        }
         if(tempTags[index].id === "all"){
             // If the tag all was removed, add all other tags to the list.
             tempTags = [];
@@ -107,6 +108,9 @@ export default function RenderDeliverableList(props){
     }
 
     function filterDeliverables(deliverable){
+        if(tags.length === 0){
+            return true;
+        }
         if(tags.includes(allTag)){
             return true
         }
@@ -129,6 +133,8 @@ export default function RenderDeliverableList(props){
                 onAddition={onTagAddition}
                 minQueryLength={1}
                 allowNew={false}
+                placeholderText="Add status to filter the deliverables"
+                noSuggestionsText="Invalid status"
             />
             
 

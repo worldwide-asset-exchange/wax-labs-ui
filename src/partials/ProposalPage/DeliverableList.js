@@ -68,11 +68,11 @@ export default function RenderDeliverableList(props){
     function onTagAddition(tag){
         let tempTags = tags.slice(0);
         if(tempTags.includes(allTag)){
-            // If all is in there, remove it.
+            // If allTag is in there, remove it.
             tempTags.splice(tempTags.indexOf(allTag), 1);
         }
         if(tag.id === "all"){
-            // If the tag all was added, remove all other tags from the list.
+            // If the allTag was added, remove all other tags from the list.
             tempTags = [tag];
         }
         // Only add tag, if it is not inside the array.
@@ -90,7 +90,7 @@ export default function RenderDeliverableList(props){
             return
         }
         if(tempTags[index].id === "all"){
-            // If the tag all was removed, add all other tags to the list.
+            // If the allTag was removed, add all other tags to the list.
             tempTags = [];
             addEntriesToList(tempTags, readableDeliverableStatus);  
         }
@@ -101,19 +101,22 @@ export default function RenderDeliverableList(props){
     }
 
     function filterDeliverables(deliverable){
+        // If no tags where added, it means no filters.
         if(tags.length === 0){
             return true;
         }
+        // If tags includes the allTag, it also means no filters.
         if(tags.includes(allTag)){
             return true
         }
+        // If there is at least one tag in the list, 
+        // return true if it is included in the tags list, false otherwise.
         return tags.includes(tagsObject[deliverable.status])
     }
 
 
     let filteredDeliverables = deliverables.filter(filterDeliverables);
-    
-    // console.log(filtersChecked);
+ 
 
     return (
         <div className="deliverable-list">
@@ -128,8 +131,7 @@ export default function RenderDeliverableList(props){
                 allowNew={false}
                 placeholderText="Add status to filter the deliverables"
                 noSuggestionsText="Invalid status"
-            />
-            
+            />            
 
             {filteredDeliverables.map((deliverable) => {
                 return(

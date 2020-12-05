@@ -55,7 +55,6 @@ export default function RenderSingleDeliverable(props){
                         data: {
                             proposal_id: id,
                             deliverable_id: deliverable.deliverable_id,
-                            // reviewer should be a state.
                             accept: accept,                               
                             memo: reviewMemo,                         
                         },
@@ -76,7 +75,7 @@ export default function RenderSingleDeliverable(props){
          } catch(e){
             let alertObj = {
                 title: "Review report error!",
-                body: `An error ocurred when trying to call the submit report action.`,
+                body: `An error ocurred when trying to call the reviewdeliv action.`,
                 details: e.message, 
                 variant: "danger",
                 dismissible: true,
@@ -100,7 +99,6 @@ export default function RenderSingleDeliverable(props){
                         data: {
                             proposal_id: id,
                             deliverable_id: deliverable.deliverable_id,
-                            // reviewer should be a state.
                             report: reportLink,
                         },
                     },
@@ -216,7 +214,6 @@ export default function RenderSingleDeliverable(props){
         if(!props.proposal){
             return null
         }
-        // console.log(props.activeUser);
         if(!(props.proposal.reviewer === props.activeUser.accountName)){
             return null
         }
@@ -240,7 +237,6 @@ export default function RenderSingleDeliverable(props){
         if(!props.proposal){
             return null
         }
-        // console.log(props.activeUser);
         if(!(props.proposal.proposer === props.activeUser.accountName)){
             return null
         }

@@ -47,7 +47,6 @@ export default function RenderVoteDisplay(props){
     async function castVote(event){
         
         const voteOption = event.target.name;
-        console.log(props);
         let activeUser = props.activeUser;
         let proposal = props.proposal;
         try{

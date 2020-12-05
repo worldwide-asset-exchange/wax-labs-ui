@@ -26,11 +26,10 @@ export default function RenderProposals(props) {
                       limit: 100
                 });
                 if (resp.rows.length){
-                    // console.log(resp.rows)
                     setCategories(resp.rows[0].categories);
                 }
                 else{
-                    return null;
+                    setCategories(null);
                 }
             } catch(e) {
                 console.log(e);
@@ -38,7 +37,6 @@ export default function RenderProposals(props) {
         }
         getCategories();
      }, [props.accountName]);
-    // console.log("proposals");
     return (
         <div className="proposals">
                 <Routes>

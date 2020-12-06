@@ -9,7 +9,7 @@ import './App.css';
 import RenderHome from './pages/Home.js';
 import RenderErrorPage from './pages/ErrorPage.js';
 import RenderAccountPortal from './pages/AccountPortal.js';
-import RenderProposals from './pages/Proposals.js';
+import RenderProposals from './pages/NewProposals.js';
 import RenderDeliverables from './pages/Deliverables.js';
 import RenderAdminPortal from './pages/AdminPortal.js'; 
 

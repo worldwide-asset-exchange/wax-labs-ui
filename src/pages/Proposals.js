@@ -21,15 +21,13 @@ export default function RenderProposals(props) {
                       scope: 'labs',
                       table: 'config',
                       json: true,
-                      lower_limit: props.accountName,
-                      upper_limit: props.accountName,
-                      limit: 100
+                      limit: 1
                 });
                 if (resp.rows.length){
                     setCategories(resp.rows[0].categories);
                 }
                 else{
-                    setCategories(null);
+                    setCategories([]);
                 }
             } catch(e) {
                 console.log(e);

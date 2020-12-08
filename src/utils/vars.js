@@ -6,6 +6,10 @@ export const COMPLETED_KEY = "completed"
 export const CANCELLED_KEY = "cancelled"
 export const INPROGRESS_KEY = "inprogress"
 export const FAILED_KEY = "failed"
+export const REPORTED_KEY = 'reported'
+export const ACCEPTED_KEY = "accepted"
+export const CLAIMED_KEY = "claimed"
+export const REJECTED_KEY = "rejected"
 
 export const SEARCH_QUERY_STRING_KEY = "search"
 export const STATUS_QUERY_STRING_KEY = "status"
@@ -36,6 +40,7 @@ export const LABS_CODE = 'labs'
 export const LABS_SCOPE = 'labs'
 export const ACCOUNTS_TABLE = 'accounts'
 export const CONFIG_TABLE = 'config'
+export const DELIVERABLES_TABLE = 'deliverables'
 export const PROFILES_TABLE = 'profiles'
 export const PROPOSALS_TABLE = "proposals"
 export const NAME_KEY_TYPE = 'name'
@@ -65,6 +70,15 @@ export const PROPOSALS_STATUS_KEYS = [
     FAILED_KEY,
 ]
 
+export const DELIVERABLES_STATUS_KEYS = [
+    DRAFTING_KEY,
+    REPORTED_KEY,
+    ACCEPTED_KEY,
+    INPROGRESS_KEY,
+    CLAIMED_KEY,
+    REJECTED_KEY,
+]
+
 export const READABLE_PROPOSAL_STATUS = {
     [DRAFTING_KEY]:   "Drafting",
     [SUBMITTED_KEY]:  "In Review",
@@ -75,6 +89,16 @@ export const READABLE_PROPOSAL_STATUS = {
     [INPROGRESS_KEY]: "In Progress",
     [FAILED_KEY]:     "Failed",
 }
+
+export const READABLE_DELIVERABLE_STATUS = {
+    [DRAFTING_KEY]: "Drafting",
+    [REPORTED_KEY]: "Reported",
+    [ACCEPTED_KEY]: "Accepted",
+    [INPROGRESS_KEY]: "In Progress",
+    [CLAIMED_KEY]: "Claimed",
+    [REJECTED_KEY]: "Rejected",
+}
+
 
 export const PROPOSAL_QUERY_ARGS_DICT = {
     [DRAFTING_KEY]:   {bound: DRAFTING_KEY,   indexPosition: PROPOSALS_TABLE_STATUS_INDEXPOSITION},

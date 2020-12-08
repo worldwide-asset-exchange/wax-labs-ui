@@ -2,7 +2,8 @@ import React from 'react';
 import {Link, useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-import {randomEosioName} from "../../utils/util";
+import * as globals from "../../utils/vars"
+import {randomEosioName, requestedAmountToFloat} from "../../utils/util";
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -19,11 +20,11 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'cancelprop',
+                        account: globals.LABS_CODE,
+                        name: globals.CANCEL_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -44,8 +45,8 @@ export default function RenderProposerMenu(props){
             props.rerunProposalQuery();
         } catch(e) {
             let alertObj = {
-                title: "Cancel error!",
-                body: "Cancel encountered an error.",
+                title: "Cancel proposal error!",
+                body: "Cancel proposal encountered an error.",
                 details: e.message, 
                 variant: "danger",
                 dismissible: true,
@@ -59,33 +60,32 @@ export default function RenderProposerMenu(props){
         try {
             let activeUser = props.activeUser;
             let resp = await wax.rpc.get_table_rows({             
-                code: 'labs',
+                code: globals.LABS_CODE,
                 scope: activeUser.accountName,
-                table: 'accounts',
+                table: globals.ACCOUNTS_TABLE,
                 json: true,
                 limit: 1
             });
 
-            let balanceAmount = '0';
+            let balanceAmount = '0.0 WAX';
             if(resp.rows.length){
-                const balance = resp.rows[0].balance;
-              
-                balanceAmount = balance.replace(' WAX', '');
+                balanceAmount = resp.rows[0].balance;              
             }
 
-            balanceAmount = parseFloat(balanceAmount);
+            balanceAmount = requestedAmountToFloat(balanceAmount);
             let transferAction = []
+
             if(balanceAmount < BEGIN_VOTING_AMOUNT){
                 transferAction = [{
-                    account: 'eosio.token',
-                    name: 'transfer',
+                    account: globals.EOSIO_TOKEN_CODE,
+                    name: globals.TRANSFER_ACTION,
                     authorization: [{
                         actor: activeUser.accountName,
-                        permission: 'active',
+                        permission: activeUser.requestPermission,
                     }],
                     data: {
                         from: activeUser.accountName,
-                        to: 'labs',
+                        to: globals.LABS_CODE,
                         quantity: '10.00000000 WAX',
                         memo: ''
                     },
@@ -99,11 +99,11 @@ export default function RenderProposerMenu(props){
                 actions: [
                     ...transferAction,
                     {
-                        account: 'labs',
-                        name: 'beginvoting',
+                        account: globals.LABS_CODE,
+                        name: globals.BEGIN_VOTING_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -228,17 +228,18 @@ export default function RenderProposerMenu(props){
     //         console.log(e);
     //     }
     // }
+
     async function endVoting (){
         let activeUser = props.activeUser;
         try {        
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'endvoting',
+                        account: globals.LABS_CODE,
+                        name: globals.END_VOTING_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -274,11 +275,11 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'deleteprop',
+                        account: globals.LABS_CODE,
+                        name: globals.DELETE_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -310,7 +311,7 @@ export default function RenderProposerMenu(props){
     // check if activeUser is the same as the proposal's proposer.
     if(props.activeUser && props.activeUser.accountName === props.proposal.proposer)
     {   
-        if(props.proposal.status === "drafting")
+        if(props.proposal.status === globals.DRAFTING_KEY)
         {
             return (           
                 <div className="proposer-menu backend-menu">
@@ -320,7 +321,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         }
-        else if (props.proposal.status === "submitted")
+        else if (props.proposal.status === globals.SUBMITTED_KEY)
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -329,7 +330,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         } 
-        else if (props.proposal.status === "approved")
+        else if (props.proposal.status === globals.APPROVED_KEY)
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -339,7 +340,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         } 
-        else if (props.proposal.status === "voting")
+        else if (props.proposal.status === globals.VOTING_KEY)
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -349,7 +350,8 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         }
-        else if (["cancelled", "failed", "completed"].includes(props.proposal.status))
+        
+        else if ([globals.CANCELLED_KEY, globals.FAILED_KEY, globals.COMPLETED_KEY].includes(props.proposal.status))
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -358,7 +360,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         }
-        else if (props.proposal.status === "inprogress"){
+        else if (props.proposal.status === globals.INPROGRESS_KEY){
             return (
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer menu</h3>
@@ -374,6 +376,6 @@ export default function RenderProposerMenu(props){
         }
 
     }
-    // If none of the returns was reached, return null.
+    // If none of the returns were reached, return null.
     return null
 }

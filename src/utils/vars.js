@@ -19,6 +19,9 @@ export const ASCENDANT_ORDER_BY_MODE = "asc"
 export const DESCENDANT_ORDER_BY_MODE = "desc"
 export const SEPARATOR_ORDER_BY = ":"
 
+export const EOSIO_TOKEN_CODE = "eosio.token"
+export const TRANSFER_ACTION = "transfer"
+
 export const OIG_CODE = "oig"
 export const REGISTER_VOTER_ACTION = "regvoter"
 
@@ -31,6 +34,7 @@ export const CAST_VOTE_ACTION = "castvote"
 
 export const LABS_CODE = 'labs'
 export const LABS_SCOPE = 'labs'
+export const ACCOUNTS_TABLE = 'accounts'
 export const CONFIG_TABLE = 'config'
 export const PROFILES_TABLE = 'profiles'
 export const PROPOSALS_TABLE = "proposals"
@@ -40,6 +44,8 @@ export const CANCEL_PROPOSAL_ACTION = "cancelprop"
 export const REVIEW_PROPOSAL_ACTION = "reviewprop"
 export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SET_REVIEWER_ACTION = "setreviewer"
+export const BEGIN_VOTING_ACTION = "beginvoting"
+export const END_VOTING_ACTION = "endvoting"
 
 
 // Links

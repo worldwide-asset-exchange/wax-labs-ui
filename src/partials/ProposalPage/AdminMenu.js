@@ -2,6 +2,8 @@ import React, {useState}from 'react';
 import {useParams} from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
+import * as globals from "../../utils/vars"
+
 export default function RenderAdminMenu(props){
     const [showReviewerModal, setShowReviewerModal] = useState(false);
     const [reviewerAccountName, setReviwerAccountName] = useState("");
@@ -20,11 +22,11 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'cancelprop',
+                        account: globals.LABS_CODE,
+                        name: globals.CANCEL_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -45,8 +47,8 @@ export default function RenderAdminMenu(props){
             props.rerunProposalQuery();
         } catch(e) {
             let alertObj = {
-                title: "Cancel error!",
-                body: "Cancel encountered an error.",
+                title: "Cancel proposal error!",
+                body: "Cancel proposal encountered an error.",
                 details: e.message, 
                 variant: "danger",
                 dismissible: true,
@@ -62,11 +64,11 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'reviewprop',
+                        account: globals.LABS_CODE,
+                        name: globals.REVIEW_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -104,11 +106,11 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'deleteprop',
+                        account: globals.LABS_CODE,
+                        name: globals.DELETE_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.activePermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -143,11 +145,11 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'setreviewer',
+                        account: globals.LABS_CODE,
+                        name: globals.SET_REVIEWER_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.activePermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -182,12 +184,12 @@ export default function RenderAdminMenu(props){
     }
 
     function renderOptions(){
-        if(props.proposal.status === "drafting"){         
+        if(props.proposal.status === globals.DRAFTING_KEY){         
             return(
                 <button className="btn" onClick={cancelProposal}>Cancel proposal</button>
             )   
         }
-        else if(props.proposal.status === "submitted"){
+        else if(props.proposal.status === globals.SUBMITTED_KEY){
             return (
                 <React.Fragment>
                     <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>
@@ -197,7 +199,7 @@ export default function RenderAdminMenu(props){
                 </React.Fragment>
             )            
         }
-        else if(["approved", "voting"].includes(props.proposal.status)){
+        else if([globals.APPROVED_KEY, globals.VOTING_KEY].includes(props.proposal.status)){
             return ( 
                 <React.Fragment>
                     <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>               
@@ -205,12 +207,13 @@ export default function RenderAdminMenu(props){
                 </React.Fragment>
             )
         }
-        else if(props.proposal.status === "inprogress"){
+        else if(props.proposal.status === globals.INPROGRESS_KEY){
             return(
                 <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>
             )
         }
-        else if(["cancelled", "failed", "completed"].includes(props.proposal.status)){
+        
+        else if([globals.CANCELLED_KEY, globals.FAILED_KEY, globals.COMPLETED_KEY].includes(props.proposal.status)){
             return (
                 <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
             )

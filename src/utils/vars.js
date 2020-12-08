@@ -36,6 +36,10 @@ export const PROFILES_TABLE = 'profiles'
 export const PROPOSALS_TABLE = "proposals"
 export const NAME_KEY_TYPE = 'name'
 export const PROPOSALS_TABLE_STATUS_INDEXPOSITION = "fourth"
+export const CANCEL_PROPOSAL_ACTION = "cancelprop"
+export const REVIEW_PROPOSAL_ACTION = "reviewprop"
+export const DELETE_PROPOSAL_ACTION = "deleteprop"
+export const SET_REVIEWER_ACTION = "setreviewer"
 
 
 // Links

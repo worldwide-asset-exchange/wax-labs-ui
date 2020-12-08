@@ -36,12 +36,12 @@ export default function RenderGenericProposals(props) {
 
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
-    const [categoriesList, setCategoriesList] = useQueryString("categories", null);
-    const [statusList, setStatusList] = useQueryString("status", []);
-    const [filterString, setFilterString] = useQueryString("search", "");
+    const [categoriesList, setCategoriesList] = useQueryString(globals.CATEGORIES_QUERY_STRING_KEY, null);
+    const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, [globals.VOTING_KEY]);
+    const [filterString, setFilterString] = useQueryString(globals.SEARCH_QUERY_STRING_KEY, "");
 
     // Hooks regarding ordering of the list. Automatically update query string on set.
-    const [orderByString, setOrderByString] = useQueryString("order", globals.PROPOSAL_ORDER_BY_LIST[0]);
+    const [orderByString, setOrderByString] = useQueryString(globals.ORDER_BY_QUERY_STRING_KEY, globals.PROPOSAL_ORDER_BY_LIST[0]);
     
     useEffect(()=>{
         function updateQueryArgs(){
@@ -82,9 +82,9 @@ export default function RenderGenericProposals(props) {
             return true;
         } else {
             return (
-                proposal.proposer.toLowerCase().includes(filterString) 
-                || proposal.title.toLowerCase().includes(filterString)
-                || proposal.description.toLowerCase().includes(filterString)
+                proposal.proposer.toLowerCase().includes(filterString.toLowerCase()) 
+                || proposal.title.toLowerCase().includes(filterString.toLowerCase())
+                || proposal.description.toLowerCase().includes(filterString.toLowerCase())
             )
         }
     }
@@ -135,9 +135,9 @@ export default function RenderGenericProposals(props) {
                 let proposalsArray = []
                 if(queryArgs.length === globals.PROPOSAL_ALL_QUERY_ARGS_LIST.length){
                     let resp = await wax.rpc.get_table_rows({             
-                        code: 'labs',
-                        scope: 'labs',
-                        table: 'proposals',
+                        code: globals.LABS_CODE,
+                        scope: globals.LABS_SCOPE,
+                        table: globals.PROPOSALS_TABLE,
                         json: true,
                         limit: 100000,
                     });
@@ -149,14 +149,14 @@ export default function RenderGenericProposals(props) {
                     for(let i=0; i < queryArgs.length; i++){
                         let arg = queryArgs[i];
                         let resp = await wax.rpc.get_table_rows({             
-                            code: 'labs',
-                            scope: 'labs',
-                            table: 'proposals',
+                            code: globals.LABS_CODE,
+                            scope: globals.LABS_SCOPE,
+                            table: globals.PROPOSALS_TABLE,
                             json: true,
                             index_position: arg.indexPosition,
                             lower_bound: arg.bound,
                             upper_bound: arg.bound,
-                            key_type: 'name',
+                            key_type: globals.NAME_KEY_TYPE,
                             limit: 100000,
                         });                  
                         console.log(resp);   

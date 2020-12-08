@@ -5,7 +5,12 @@ export const VOTING_KEY = "voting"
 export const COMPLETED_KEY = "completed"
 export const CANCELLED_KEY = "cancelled"
 export const INPROGRESS_KEY = "inprogress"
-export const FAILED_KEY = "failed" 
+export const FAILED_KEY = "failed"
+
+export const SEARCH_QUERY_STRING_KEY = "search"
+export const STATUS_QUERY_STRING_KEY = "status"
+export const CATEGORIES_QUERY_STRING_KEY = "categories"
+export const ORDER_BY_QUERY_STRING_KEY = "order"
 
 export const REQUESTED_ORDER_BY_FIELD = "requested"
 export const CREATED_ORDER_BY_FIELD = "created"
@@ -18,7 +23,9 @@ export const LABS_SCOPE = 'labs'
 export const CONFIG_TABLE = 'config'
 export const PROFILES_TABLE = 'profiles'
 export const PROPOSALS_TABLE = "proposals"
+export const NAME_KEY_TYPE = 'name'
 export const PROPOSALS_TABLE_STATUS_INDEXPOSITION = "fourth"
+
 
 // Links
 export const PROPOSALS_LINK = "/proposals"

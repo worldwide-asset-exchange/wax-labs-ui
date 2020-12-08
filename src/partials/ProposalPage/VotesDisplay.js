@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 
+import * as globals from "../../utils/vars"
+import { requestedAmountToFloat } from '../../utils/util';
+
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderVoteDisplay(props){
@@ -18,11 +21,10 @@ export default function RenderVoteDisplay(props){
          /*Getting vote info */
          if(props.proposal.ballot_name){
              try{
-                //  console.log(props.proposal.ballot_name);
                  let currentVote = await wax.rpc.get_table_rows({             
-                    code: 'decide',
-                    scope: 'decide',
-                    table: 'ballots',
+                    code: globals.DECIDE_CODE,
+                    scope: globals.DECIDE_SCOPE,
+                    table: globals.BALLOTS_TABLE,
                     json: true,
                     lower_bound: props.proposal.ballot_name,
                     upper_bound: props.proposal.ballot_name,
@@ -32,9 +34,9 @@ export default function RenderVoteDisplay(props){
                 let yesVotes = currentVote.rows[0].options.filter(option => option.key === "yes")[0]
                 let noVotes = currentVote.rows[0].options.filter(option => option.key === "no")[0]
                 let end_time = currentVote.rows[0].end_time;
-                /*Removing the ".00000000 VOTE" from the string, and converting to integer.*/
-                yesVotes = parseInt(yesVotes.value.slice(0, -14));
-                noVotes = parseInt(noVotes.value.slice(0, -14));
+                
+                yesVotes = requestedAmountToFloat(yesVotes.value, " VOTE");
+                noVotes = requestedAmountToFloat(noVotes.value, " VOTE");
         
                 props.updateVotes({yes: yesVotes, no: noVotes});
                 props.updateEndTime(end_time);
@@ -51,9 +53,9 @@ export default function RenderVoteDisplay(props){
         let proposal = props.proposal;
         try{
             let checkRegistry = await wax.rpc.get_table_rows({             
-                code: 'decide',
+                code: globals.DECIDE_CODE,
                 scope: activeUser.accountName,
-                table: 'voters',
+                table: globals.VOTERS_TABLE,
                 json: true
             });
             let actions = []
@@ -61,11 +63,11 @@ export default function RenderVoteDisplay(props){
             if(!checkRegistry.rows.length){
                 actions = [
                     {
-                        account: 'oig',
-                        name: 'regvoter',
+                        account: globals.OIG_CODE,
+                        name: globals.REGISTER_VOTER_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             voter: activeUser.accountName,
@@ -79,22 +81,22 @@ export default function RenderVoteDisplay(props){
                     /* Spreading nothing in case voter was in the registry, or the regvoter action. */
                     ...actions,
                     {
-                        account: 'decide',
-                        name: 'sync',
+                        account: globals.DECIDE_CODE,
+                        name: globals.SYNC_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             voter: activeUser.accountName,
                             },
                         },
                     {
-                        account: 'decide',
-                        name: 'castvote',
+                        account: globals.DECIDE_CODE,
+                        name: globals.CAST_VOTE_ACTION,
                         authorization: [{
                                 actor: activeUser.accountName,
-                                permission: 'active',
+                                permission: activeUser.requestPermission,
                         }],
                         data: {
                             voter: activeUser.accountName,

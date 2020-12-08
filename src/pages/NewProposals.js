@@ -57,7 +57,9 @@ export default function RenderProposals(props){
                 console.log(e);
             }
         }
-        getProfile();
+        if(props.activeUser){
+            getProfile();
+        }
      }, [props.activeUser])
 
      return (

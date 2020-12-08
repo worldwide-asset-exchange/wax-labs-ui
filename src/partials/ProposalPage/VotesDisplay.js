@@ -141,7 +141,7 @@ export default function RenderVoteDisplay(props){
             <div className="vote-info">
                 <p><strong>Yes: </strong> {props.votes.yes}</p>
                 <p><strong>No: </strong> {props.votes.no}</p>
-                {props.proposal.status === "voting" ? <RenderVoteButtons /> : ""}
+                {props.proposal.status === globals.VOTING_KEY ? <RenderVoteButtons /> : ""}
                 <p><strong>Voting {props.votingEndsIn.includes('ago') ? "ended" : "ends"}:</strong> {props.votingEndsIn} on {props.endTime}</p> 
             </div>
         )

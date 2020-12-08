@@ -35,7 +35,7 @@ export default function RenderAlerts(props){
     if(props.alertList){
         return (
             <div className="fixed-top">
-                {props.alertList.map((alertObj, index) => <RenderAlert key={alertObj} alertObj={alertObj} index={index} removeAlert={props.removeAlert}/>)}
+                {props.alertList.map((alertObj, index) => <RenderAlert key={index + "" + alertObj.title} alertObj={alertObj} index={index} removeAlert={props.removeAlert}/>)}
             </div>
         )
     }

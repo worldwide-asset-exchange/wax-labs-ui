@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactPaginate from 'react-paginate';
 import { setQueryStringValue } from '../utils/queryString';
 import useQueryString from '../utils/useQueryString';
 
 import {useWindowSize} from '../utils/util';
+import * as globals from "../utils/vars";
 import RenderProposalGrid from "./ProposalGridSingle.js";
 
+const reactPaginateObject = {
+    mobile: {marginPagesDisplayed:1, pageRangeDisplayed:1},
+    tablet_mobile_up : {marginPagesDisplayed:1, pageRangeDisplayed:7},
+    tablet_up: {marginPagesDisplayed:1, pageRangeDisplayed: 11},
+    tablet_landscape_up: {marginPagesDisplayed:1, pageRangeDisplayed:17},
+    desktop: {marginPagesDisplayed:1, pageRangeDisplayed:21},
+}
+const perPage = 24;
+
 export default function RenderProposalList(props){
-    const [perPage, setPerPage] = useState(24);
-    const [page, setPage] = useQueryString("page", 1);
-    const [reactPaginateObject, setReactPaginateObject] = useState({
-        mobile: {marginPagesDisplayed:1, pageRangeDisplayed:1},
-        tablet_mobile_up : {marginPagesDisplayed:1, pageRangeDisplayed:7},
-        tablet_up: {marginPagesDisplayed:1, pageRangeDisplayed: 11},
-        tablet_landscape_up: {marginPagesDisplayed:1, pageRangeDisplayed:17},
-        desktop: {marginPagesDisplayed:1, pageRangeDisplayed:21},
-    });
+   
+    const [page, setPage] = useQueryString(globals.PAGE_QUERY_STRING_KEY, 1);
+   
 
     const windowSize = useWindowSize();
 
@@ -39,10 +43,6 @@ export default function RenderProposalList(props){
     function pageChange(data) {
         let selected = data.selected;
         setPage(selected + 1);
-    }
-
-    function setSrc(){
-
     }
 
     let pagesList = []

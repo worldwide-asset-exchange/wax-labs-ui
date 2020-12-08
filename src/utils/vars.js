@@ -11,6 +11,7 @@ export const SEARCH_QUERY_STRING_KEY = "search"
 export const STATUS_QUERY_STRING_KEY = "status"
 export const CATEGORIES_QUERY_STRING_KEY = "categories"
 export const ORDER_BY_QUERY_STRING_KEY = "order"
+export const PAGE_QUERY_STRING_KEY = 'page'
 
 export const REQUESTED_ORDER_BY_FIELD = "requested"
 export const CREATED_ORDER_BY_FIELD = "created"

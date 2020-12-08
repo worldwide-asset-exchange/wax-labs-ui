@@ -1,109 +1,172 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, BrowserRouter as Router } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
-import queryString from 'query-string';
+import * as globals from '../utils/vars.js';
 
 import RenderProposalGrid from "./ProposalGridSingle.js";
-import {sleep} from '../utils/util.js'
+import {sleep, requestedAmountToFloat} from '../utils/util.js'
 import useQueryString from '../utils/useQueryString';
-import RenderProposalFilter from "./ProposalFilter.js";
+import RenderProposalList from "./ProposalList.js";
+import RenderLoadingPage from './LoadingPage.js';
+import RenderFilter from './Filter.js';
+import { Link } from 'react-router-dom';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-
-const allArgsQuery = []
-const queryArgsObject = {
-    drafting:   {bound: 'drafting',   indexPosition: "fourth"},
-    submitted:  {bound: 'submitted',  indexPosition: "fourth"},
-    approved:   {bound: 'approved',   indexPosition: "fourth"},
-    voting:     {bound: 'voting',     indexPosition: "fourth"},
-    completed:  {bound: 'completed',  indexPosition: "fourth"},
-    cancelled:  {bound: 'cancelled',  indexPosition: "fourth"},
-    inprogress: {bound: 'inprogress', indexPosition: "fourth"},
-    failed:     {bound: 'failed',     indexPosition: "fourth"},
-}
-
-function addEntriesToList(list, object){
-    Object.entries(object).forEach(([key, value]) => {
-        list.push(value);
-    })
-}
-
-function setup(){
-    addEntriesToList(allArgsQuery, queryArgsObject);
-}
-
-setup();
-
-function useQuery(){
-    return new URLSearchParams(useLocation().search);
-}
 
 export default function RenderGenericProposals(props) {
     const [categories, setCategories] = useState([]);
     // list of proposals that were got from the query. Supposed to update 
     // whenever queryArgs changes.
     const [proposals, setProposals] = useState([]);
+
+    // This is for pagination on RenderProposalList to know if a 
+    // filter was changed. It needs to change page to 1 if that happens. 
+    const [filterChanged, setFilterChanged] = useState(false);
+
+    // Flags to know when to display loading page.
+    const [querying, setQuerying] = useState(true);
+    const [filtering, setFiltering] = useState(true);
+
     // Filtered proposals is supposed to contain the filtered list of proposals.
-    // That is updated whenever proposals, or filtered args state changes.
+    // This is updated whenever proposals, categoriesList or filterString changes.
     const [filteredProposals, setFilteredProposals] = useState([]);
+
     // QueryArgs are arguments to be passed to the getProposals query.
     // Updated whenever the querystring changes.
     const [queryArgs, setQueryArgs] = useState([]);
-    // FilterArgs are supposed to assist filtering the list that was 
-    // loaded by getProposals. Updated whenever the querystring changes.
-    const [filterArgs, setFilterArgs] = useState([]);
 
-
-    const [categoriesList, setCategoriesList] = useQueryString("categories", []);
+    // Hooks regarding filtering of the query. Automatically update query string
+    // on set.
+    const [categoriesList, setCategoriesList] = useQueryString("categories", null);
     const [statusList, setStatusList] = useQueryString("status", []);
-    const [filterString, setFilterString] = useState([]);
+    const [filterString, setFilterString] = useQueryString("search", "");
 
- 
+    // Hooks regarding ordering of the list. Automatically update query string on set.
+    const [orderByString, setOrderByString] = useQueryString("order", globals.PROPOSAL_ORDER_BY_LIST[0]);
+    
     useEffect(()=>{
         function updateQueryArgs(){
             console.log(statusList);
-            let newQueryArgs = []            
+            let newQueryArgs = []    
+            // if it is not an array, it is a string, so use it as a key. 
             if(!Array.isArray(statusList)){
-                newQueryArgs.push(queryArgsObject[statusList]);
-            }else if(statusList.length === 0){
-                newQueryArgs = allArgsQuery;
-            }else {
+                newQueryArgs.push(globals.PROPOSAL_QUERY_ARGS_DICT[statusList]);
+            } else if(statusList.length === 0){
+                newQueryArgs = globals.PROPOSAL_ALL_QUERY_ARGS_LIST;
+            } else {
                 statusList.map((status) => {
-                    newQueryArgs.push(queryArgsObject[status])
+                    let newValue = globals.PROPOSAL_QUERY_ARGS_DICT[status];
+                    if(newValue){
+                        newQueryArgs.push(globals.PROPOSAL_QUERY_ARGS_DICT[status])
+                    }
                 });
             } 
-            console.log(newQueryArgs);
             setQueryArgs(newQueryArgs);
         }
         updateQueryArgs();
-    },[categoriesList, statusList, filterString]);
+    },[statusList]);
+
+    function filterByCategories(proposal){
+        if(!categoriesList){
+            return true;
+        } else if (!Array.isArray(categoriesList)){
+            return (categoriesList === proposal.category)
+        } else if (!categoriesList.length){
+            return true            
+        }else {
+            return (categoriesList.includes(proposal.category))
+        }
+    }
+
+    function filterByName(proposal){
+        if(!filterString){
+            return true;
+        } else {
+            return (
+                proposal.proposer.toLowerCase().includes(filterString) 
+                || proposal.title.toLowerCase().includes(filterString)
+                || proposal.description.toLowerCase().includes(filterString)
+            )
+        }
+    }
+
+    useEffect(()=>{
+        setFiltering(true);
+        let newFilteredProposals = []
+        newFilteredProposals = proposals.slice(0).filter(filterByCategories)
+        newFilteredProposals = newFilteredProposals.filter(filterByName)
+        newFilteredProposals.sort(proposalComparison);
+        setFilteredProposals(newFilteredProposals);
+        setFiltering(false);
+    },[categoriesList, proposals, filterString, orderByString]);
     
-    useEffect(()=>{      
-        // setStatusList(["completed","drafting"]);
-    },[]);
+    function proposalComparison(proposalA, proposalB) {
+        let [field, mode] = orderByString.split(globals.SEPARATOR_ORDER_BY)
+        if(field === globals.REQUESTED_ORDER_BY_FIELD){
+            if(mode === globals.ASCENDANT_ORDER_BY_MODE){
+                return(
+                    requestedAmountToFloat(proposalA.total_requested_funds) 
+                    - requestedAmountToFloat(proposalB.total_requested_funds)
+                )
+            } else if(mode === globals.DESCENDANT_ORDER_BY_MODE){
+                return(
+                    requestedAmountToFloat(proposalB.total_requested_funds) 
+                    - requestedAmountToFloat(proposalA.total_requested_funds)
+                )
+            }
+        } else if(field === globals.CREATED_ORDER_BY_FIELD){
+            if(mode === globals.ASCENDANT_ORDER_BY_MODE){
+                return (
+                    proposalA.proposal_id - proposalB.proposal_id
+                )
+            } else if(mode === globals.DESCENDANT_ORDER_BY_MODE){
+                return(
+                    proposalB.proposal_id - proposalA.proposal_id
+                )                
+            }
+        }
+    }
+
+
+
     useEffect(() => {
         async function getProposals() {
             try {
-                // console.log(props.queryArgs);
+                setQuerying(true);
                 let proposalsArray = []
-                for(let i=0; i < queryArgs.length; i++){
-                    let arg = queryArgs[i];
+                if(queryArgs.length === globals.PROPOSAL_ALL_QUERY_ARGS_LIST.length){
                     let resp = await wax.rpc.get_table_rows({             
                         code: 'labs',
                         scope: 'labs',
                         table: 'proposals',
                         json: true,
-                        index_position: arg.indexPosition,
-                        lower_bound: arg.bound,
-                        upper_bound: arg.bound,
-                        key_type: 'name'
-                    });                  
-                    console.log(resp);   
-                                         
-                    proposalsArray = [...proposalsArray, ...resp.rows]
-                   
+                        limit: 100000,
+                    });
+                    if(resp.rows){
+                        proposalsArray = resp.rows        
+                    }
                 }
-                setProposals(proposalsArray);                            
+                else {
+                    for(let i=0; i < queryArgs.length; i++){
+                        let arg = queryArgs[i];
+                        let resp = await wax.rpc.get_table_rows({             
+                            code: 'labs',
+                            scope: 'labs',
+                            table: 'proposals',
+                            json: true,
+                            index_position: arg.indexPosition,
+                            lower_bound: arg.bound,
+                            upper_bound: arg.bound,
+                            key_type: 'name',
+                            limit: 100000,
+                        });                  
+                        console.log(resp);   
+                        proposalsArray = [...proposalsArray, ...resp.rows]
+                    }
+                }
+                                         
+                console.log(proposalsArray);
+                setProposals(proposalsArray);
+                setQuerying(false);                            
             } catch(e) {
                 console.log(e);
             }
@@ -114,18 +177,91 @@ export default function RenderGenericProposals(props) {
     }, [queryArgs]);
 
 
+    function updateStatusList (newList){
+        setFilterChanged(true);
+        setStatusList(newList);
+    }
+
+    function updateCategoriesList (newList){
+        setFilterChanged(true);
+        setCategoriesList(newList);
+    }
         
-       
     return (
         <div className="proposals-body">
             <h2>Proposals</h2>
-            <div className="filtered-proposals review-proposals">
-                {   
-                    proposals.length ?
-                        proposals.map((proposal) =>
-                            <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)
+            <div className="filters">
+                <RenderFilter
+                    title="Status Filters"
+                    currentList={statusList}
+                    fullList={globals.PROPOSALS_STATUS_KEYS}
+                    updateCurrentList={updateStatusList}
+                    readableNameDict={globals.READABLE_PROPOSAL_STATUS}
+                />            
+                <RenderFilter
+                    title="Category Filters"
+                    currentList={categoriesList}
+                    fullList={props.categories}
+                    updateCurrentList={updateCategoriesList}                    
+                />
+
+                <div className="search-filter">
+                    <h3>Search</h3>
+                    <input
+                        value={filterString} 
+                        type="text" 
+                        onChange={
+                            (event) => {
+                                setFilterString(event.target.value);
+                                setFilterChanged(true);
+                            }
+                        }
+                        placeholder="Search for proposals"
+                    />
+                </div>
+
+                <div className="order-by-container">
+                    <select 
+                        value={orderByString} 
+                        className="order-by-select" 
+                        onChange={(event)=>setOrderByString(event.target.value)}
+                    >
+                        {globals.PROPOSAL_ORDER_BY_LIST.map((option, index) => {
+                            return(
+                                <option
+                                    key={index}
+                                    className="order-by-option"
+                                    value={option}
+                                >
+                                    {globals.PROPOSAL_ORDER_BY_OBJECT[option]}
+                                </option>
+                            )
+                        })}
+                    </select>
+                </div>
+
+            </div>
+            <div className="create-proposal">
+                {
+                    !props.activeUser ?
+                        <h5>Log in to create a proposal</h5>
                     :
-                    <p>{props.noProposalsMessage}</p>
+                    !props.profile ?
+                        <h5>To create a proposal you need to <Link to={globals.ACCOUNT_PORTAL_LINK}>create your profile</Link></h5>
+                    :
+                        <Link className="btn" to={globals.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
+                }
+            </div>
+            <div className="filtered-proposals review-proposals">
+                {  
+                    filtering || querying ?
+                    <RenderLoadingPage/>
+                    : 
+                    <RenderProposalList
+                        filterChanged = {filterChanged}
+                        proposalsList = {filteredProposals}
+                        noProposalsMessage={props.noProposalsMessage}
+                    />
                 }
             </div>
         </div>

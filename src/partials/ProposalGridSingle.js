@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
 Link
 } from 'react-router-dom';
 
+import * as globals from "../utils/vars"
+
 export default function RenderProposalGrid(props){
     const proposal = props.proposal;
+    const [imgError, setImgError] = useState(false);
 
     function RenderReadableStatus() {
         if (proposal.status){
@@ -15,7 +18,7 @@ export default function RenderProposalGrid(props){
             } else if (proposal.status === "approved") {
                 return <span>Approved</span>
             } else if (proposal.status === "voting") {
-                return <span>In Vote</span>
+                return <span>Voting</span>
             } else if (proposal.status === "completed") {
                 return <span>Complete</span>
             } else if (proposal.status === "cancelled") {
@@ -37,7 +40,7 @@ export default function RenderProposalGrid(props){
     return (
         <Link to={'/proposals/' + proposal.proposal_id} className="proposal-grid-single">
             <div className="image">
-                <img src="https://via.placeholder.com/245x90?text=Cover+Image" alt="Cover" />
+                <img onError={()=>{setImgError(true); console.log("error")}} src={imgError ? globals.DEFAULT_PROPOSAL_IMAGE_URL : proposal.image_url} alt="Cover" />
             </div>
             <div className="body">
                 <div className="title">

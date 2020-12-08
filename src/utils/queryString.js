@@ -15,7 +15,6 @@ export const getQueryStringValue = (
   queryString = window.location.search
 ) => {
   const values = qs.parse(queryString, {arrayFormat: 'comma'});
-  console.log(values);
   return values[key];
 };
 
@@ -25,9 +24,20 @@ export const setQueryStringValue = (
   queryString = window.location.search
 ) => {
   const values = qs.parse(queryString);
-  const newQsValue = qs.stringify({
-    ...values,
-    [key]: value,    
-  }, {arrayFormat: 'comma'});
+  let newQsValue = "";
+  if(!value){
+    delete values[key];
+    newQsValue = qs.stringify({
+      ...values,  
+    }, {arrayFormat: 'comma'});
+  } else {
+    newQsValue = qs.stringify({
+      ...values,
+      [key]: value,  
+    }, {arrayFormat: 'comma'});
+  }
+
+
+  
   setQueryStringWithoutPageReload(`?${newQsValue}`);
 };

@@ -4,7 +4,8 @@ import {Link, useParams} from 'react-router-dom';
 
 import * as waxjs from "@waxio/waxjs/dist";
 
-import {sleep} from "../utils/util";
+import {sleep, requestedAmountToFloat} from "../utils/util";
+import * as globals from '../utils/vars';
 import RenderProposerMenu from '../partials/ProposalPage/ProposerMenu';
 import RenderAlerts from '../partials/ProposalPage/Alerts';
 import RenderLoadingPage from '../partials/LoadingPage';
@@ -13,16 +14,9 @@ import RenderDeliverableList from '../partials/ProposalPage/DeliverableList';
 import RenderAdminMenu from '../partials/ProposalPage/AdminMenu';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-const readableProposalStatus = {
-    drafting: "Draft",
-    submitted: "In review",
-    approved: "Approved",
-    voting: "In vote",
-    completed: "Complete",
-    cancelled: "Cancelled",
-    inprogress: "In progress",
-    failed: "Failed",
-}
+
+const readableProposalStatus = globals.READABLE_PROPOSAL_STATUS;
+
 
 export default function RenderProposalPage(props){    
     const {id} = useParams();    
@@ -57,18 +51,16 @@ export default function RenderProposalPage(props){
         try{
             /* Getting Proposal info */
             let resp = await wax.rpc.get_table_rows({             
-                code: 'labs',
-                scope: 'labs',
-                table: 'proposals',
+                code: globals.LABS_CODE,
+                scope: globals.LABS_SCOPE,
+                table: globals.PROPOSALS_TABLE,
                 json: true,
                 lower_bound: id,
                 upper_bound: id,
             });
             let responseProposal = resp.rows[0]
-            /*Getting rid of the ".00000000 WAX" */
-            responseProposal.total_requested_funds = responseProposal.total_requested_funds.slice(0,-13) + ' WAX';
+            responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' WAX';
             setProposal(responseProposal);
-            console.log(responseProposal);
            
         } catch (e){
             console.log(e);
@@ -125,7 +117,7 @@ export default function RenderProposalPage(props){
     },[id, proposalQueryCount])
 
     async function rerunProposalQuery(){
-        // Wait a second before repulling data from the chain
+        // Wait 600 miliseconds before repulling data from the chain
         // to avoid getting unupdated state.
         await sleep(600);
         setProposalQueryCount(proposalQueryCount + 1);

@@ -146,7 +146,6 @@ export default function RenderEditProposal(props) {
     }
 
     async function submitProposal() {
-        console.log(id);
 
         try {
             if(validator.allValid()){
@@ -169,14 +168,16 @@ export default function RenderEditProposal(props) {
                 });                
             }
             else{
-                validator.showMessages();
+                console.log(id);
+                validator.showMessages();    
+                setTries(tries + 1);            
             }
         } catch(e) {
             console.log(e);
         }
     }
     
-    const titleErrorMessage = validator.message('title', proposal.title, 'required|alpha_num_space');
+    const titleErrorMessage = validator.message('title', proposal.title, 'required');
     const categoryErrorMessage = validator.message('category', proposal.category, 'required');
     const descriptionErrorMessage = validator.message('description', proposal.description, 'required|max:255');
     const imageUrlErrorMessage = validator.message('image_url', proposal.image_url, 'required');
@@ -184,7 +185,7 @@ export default function RenderEditProposal(props) {
     const estimatedTimeErrorMessage = validator.message('estimated_time', proposal.estimated_time, 'required|integer');
     const requestedFundsErrorMessage = validator.message('total_requested_funds', proposal.total_requested_funds, 'required|integer');
     const deliverablesErrorMessage = validator.message('deliverables', proposal.deliverables, 'required|integer');
-
+    console.log(titleErrorMessage);
     return (
             <div className="filtered-proposals edit-proposal">
                 <h2>{props.proposal_type} Proposal</h2>

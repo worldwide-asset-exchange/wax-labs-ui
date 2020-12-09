@@ -6,7 +6,7 @@ export const CANCEL_PROP_ALERT_DICT = {
     SUCCESS: 
     {
         title: "Proposal cancelled!",
-        body: "Proposal was successfully cancelled", 
+        body: "Proposal #%proposal_id% was successfully cancelled", 
         variant: SUCCESS_VARIANT, 
         dismissible: true
     },
@@ -71,18 +71,34 @@ export const SET_REVIEWER_ALERT_DICT = {
     }
 }
 
-export const ac = {
+export const BEGIN_VOTING_ALERT_DICT = {
     SUCCESS: 
     {
-        title: "",
-        body: "", 
+        title: "Begin voting success!",
+        body: "Proposal #%proposal_id% is now in the voting stage.", 
         variant: SUCCESS_VARIANT, 
         dismissible: true
     },
     ERROR:
     {
-        title: "",
-        body: "",
+        title: "Begin voting error!",
+        body: "An error ocurred when trying to call the begin voting action.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+export const END_VOTING_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "End voting success!",
+        body: "Proposal #%proposal_id% voting was ended.", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "End voting error!",
+        body: "An error ocurred when trying to call the end voting action.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }

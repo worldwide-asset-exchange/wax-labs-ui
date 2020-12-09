@@ -3,6 +3,7 @@ import {Link, useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import * as globals from "../../utils/vars"
+import * as alertGlobals from '../../utils/alerts';
 import {randomEosioName, requestedAmountToFloat} from "../../utils/util";
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -34,22 +35,19 @@ export default function RenderProposerMenu(props){
                 ]} , {
                 blocksBehind: 3,
                 expireSeconds: 30
-            });
-            let alertObj = {
-                title: "Proposal cancelled!",
-                body: "Proposal was successfully cancelled.", 
-                variant: "success",
-                dismissible: true,
+            });            
+            let body = alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%proposal_id%", id);
+            let alertObj ={
+                ...alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
         } catch(e) {
             let alertObj = {
-                title: "Cancel proposal error!",
-                body: "Cancel proposal encountered an error.",
-                details: e.message, 
-                variant: "danger",
-                dismissible: true,
+                ...alertGlobals.CANCEL_PROP_ALERT_DICT.ERROR,
+                details: e.message 
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -115,11 +113,12 @@ export default function RenderProposerMenu(props){
                 expireSeconds: 30
             });
 
+            let body = alertGlobals.BEGIN_VOTING_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%proposal_id%", id)
+
             let alertObj = {
-                title: "Begin voting success!",
-                body: "Proposal is now in the voting stage.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.BEGIN_VOTING_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
@@ -127,11 +126,8 @@ export default function RenderProposerMenu(props){
 
         } catch(e){
             let alertObj = {
-                title: "Begin voting error!",
-                body: "An error ocurred when trying to call the begin voting action.",
+                ...alertGlobals.BEGIN_VOTING_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -249,21 +245,19 @@ export default function RenderProposerMenu(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.END_VOTING_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%proposal_id%", id)
+
             let alertObj = {
-                title: "End voting success!",
-                body: "Proposal voting was ended.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.END_VOTING_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
         } catch(e) {
             let alertObj = {
-                title: "End voting error!",
-                body: "An error ocurred when trying to call the end voting action.",
-                details: e.message, 
-                variant: "danger",
-                dismissible: true,
+                ...alertGlobals.END_VOTING_ALERT_DICT.ERROR,
+                details: e.message,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -289,20 +283,17 @@ export default function RenderProposerMenu(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%proposal_id%", id);
             let alertObj = {
-                title: "Delete proposal success!",
-                body: "Proposal was deleted.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
         } catch(e) {
             let alertObj = {
-                title: "Delete proposal error!",
-                body: "An error ocurred when trying to call the delete proposal action.",
+                ...alertGlobals.DELETE_PROP_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);

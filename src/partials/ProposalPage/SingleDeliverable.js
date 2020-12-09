@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
 import * as globals from '../../utils/vars';
+import * as alertGlobals from "../../utils/alerts";
 import {requestedAmountToFloat} from '../../utils/util';
 
 const readableStatusName = globals.READABLE_DELIVERABLE_STATUS
@@ -58,22 +59,20 @@ export default function RenderSingleDeliverable(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.SUCCESS.body.slice(0)
+            body = body.replace(alertGlobals.ACCEPT_TEMPLATE, accept ? "accepted": "rejected");
+            body = body.replace(alertGlobals.DELIVERABLE_ID_TEMPLATE, deliverable.deliverable_id);
             let alertObj = {
-                title: "Review report success!",
-                body: `Proposal's report was successfuly ${accept ? "accepted" : "rejected"}.`, 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
             toggleShowReviewModal(false);
          } catch(e){
             let alertObj = {
-                title: "Review report error!",
-                body: `An error ocurred when trying to call the reviewdeliv action.`,
-                details: e.message, 
-                variant: "danger",
-                dismissible: true,
+                ...alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.ERROR,
+                details: e.message,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -101,22 +100,19 @@ export default function RenderSingleDeliverable(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.SUBMIT_REPORT_ALERT_DICT.SUCCESS.body.slice(0)
+            body = body.replace(alertGlobals.DELIVERABLE_ID_TEMPLATE, deliverable.deliverable_id);
             let alertObj = {
-                title: "Submit report success!",
-                body: "Proposal's report was updated.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.SUBMIT_REPORT_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
             toggleShowReportModal(false);            
          } catch(e){
             let alertObj = {
-                title: "Submit report error!",
-                body: "An error ocurred when trying to call the submit report action.",
+                ...alertGlobals.SUBMIT_REPORT_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -163,21 +159,19 @@ export default function RenderSingleDeliverable(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.CLAIM_FUNDS_ALERT_DICT.SUCCESS.body.slice(0)
+            body = body.replace(alertGlobals.AMOUNT_TEMPLATE, deliverable.requested);
+            body = body.replace(alertGlobals.DELIVERABLE_ID_TEMPLATE, deliverable.deliverable_id);
             let alertObj = {
-                title: "Claim funds success!",
-                body: "Proposal's funds were claimed.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.CLAIM_FUNDS_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
          } catch(e){
             let alertObj = {
-                title: "Claim funds error!",
-                body: "An error occurred when trying to call the claim funds action.",
+                ...alertGlobals.CLAIM_FUNDS_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);

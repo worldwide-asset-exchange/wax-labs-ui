@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
-
 import { Modal } from 'react-bootstrap';
+
+import * as globals from '../../utils/vars';
+import {requestedAmountToFloat} from '../../utils/util';
 
 const readableStatusName = {
     drafting: "Draft",
@@ -22,9 +24,9 @@ export default function RenderSingleDeliverable(props){
 
     let deliverable = {...props.deliverable};
     /* Making a copy of the requested_raw */
-    deliverable.requested_raw = deliverable.requested.slice()
-    /* Getting rid of the .00000000 WAX*/
-    deliverable.requested = deliverable.requested.slice(0, -13) + " WAX";
+    deliverable.requested_raw = deliverable.requested.slice();
+
+    deliverable.requested = requestedAmountToFloat(deliverable.requested) + " WAX";
 
     function toggleShowReportModal(show){
         setShowReportModal(show);
@@ -46,11 +48,11 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'reviewdeliv',
+                        account: globals.LABS_CODE,
+                        name: globals.REVIEW_DELIVERABLE_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -90,11 +92,11 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'submitreport',
+                        account: globals.LABS_CODE,
+                        name: globals.SUBMIT_REPORT_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -137,11 +139,11 @@ export default function RenderSingleDeliverable(props){
             if(activeUser.accountName === deliverable.recipient){
                 withdrawAction.push(
                 {
-                    account: 'labs',
-                    name: "withdraw",
+                    account: globals.LABS_CODE,
+                    name: globals.WITHDRAW_ACTION,
                     authorization: [{
                         actor: activeUser.accountName,
-                        permission: 'active',
+                        permission: activeUser.requestPermission,
                     }],
                     data: {
                         account_owner: activeUser.accountName,
@@ -152,11 +154,11 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: 'labs',
-                        name: 'claimfunds',
+                        account: globals.LABS_CODE,
+                        name: globals.CLAIM_FUNDS_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: 'active',
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -198,8 +200,8 @@ export default function RenderSingleDeliverable(props){
         if(!(props.deliverable.recipient === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === "inprogress"){
-            if(props.deliverable.status === "accepted"){
+        if(props.proposal.status === globals.INPROGRESS_KEY){
+            if(props.deliverable.status === globals.ACCEPTED_KEY){
                 return(
                     <button className="btn" onClick={claimFunds}> Claim payment </button>
                 )
@@ -217,8 +219,8 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.reviewer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === "inprogress"){
-            if(props.deliverable.status === "reported"){
+        if(props.proposal.status === globals.INPROGRESS_KEY){
+            if(props.deliverable.status === globals.REPORTED_KEY){
                 return (
                     <React.Fragment>    
                         <button className="btn" onClick={() => toggleShowReviewModal(true)}>Review report</button>                    
@@ -240,15 +242,15 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.proposer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === "inprogress"){
-            if(["inprogress", "rejected"].includes(props.deliverable.status)){
+        if(props.proposal.status === globals.INPROGRESS_KEY){            
+            if([globals.INPROGRESS_KEY, globals.REJECTED_KEY].includes(props.deliverable.status)){
                 return (
                     <React.Fragment>
                         <button className="btn" onClick={()=>toggleShowReportModal(true)}> Submit Report </button>                        
                     </React.Fragment>
                 )
             }
-            if(props.deliverable.status === "accepted"){
+            if(props.deliverable.status === globals.ACCEPTED_KEY){
                 return (
                     <button className="btn" onClick={claimFunds}> Claim payment </button>
                 )

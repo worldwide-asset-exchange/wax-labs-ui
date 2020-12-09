@@ -51,6 +51,10 @@ export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SET_REVIEWER_ACTION = "setreviewer"
 export const BEGIN_VOTING_ACTION = "beginvoting"
 export const END_VOTING_ACTION = "endvoting"
+export const REVIEW_DELIVERABLE_ACTION = "reviewdeliv"
+export const SUBMIT_REPORT_ACTION = 'submitreport'
+export const WITHDRAW_ACTION = "withdraw"
+export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 
 // Links

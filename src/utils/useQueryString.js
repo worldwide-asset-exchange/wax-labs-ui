@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { getQueryStringValue, setQueryStringValue } from "./queryString";
 
 function useQueryString(key, initialValue) {

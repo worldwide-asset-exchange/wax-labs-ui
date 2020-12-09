@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import ReactTags from 'react-tag-autocomplete';
 import * as waxjs from "@waxio/waxjs/dist";
 import RenderSingleDeliverable from "./SingleDeliverable"
 
@@ -16,8 +15,6 @@ const readableDeliverableStatus = globals.READABLE_DELIVERABLE_STATUS
 export default function RenderDeliverableList(props){
     const {id} = useParams();
     const [deliverables, setDeliverables] = useState([]);
-    const [tags, setTags] = useState([]);
-    const inputRef = useRef(null);
 
     const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, []);
 

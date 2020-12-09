@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect} from 'react';
 import ReactPaginate from 'react-paginate';
-import { setQueryStringValue } from '../utils/queryString';
 import useQueryString from '../utils/useQueryString';
 
 import {useWindowSize} from '../utils/util';
@@ -30,7 +29,8 @@ export default function RenderProposalList(props){
         if(props.filterChanged){
             setPage(1);
         }
-    }, [props.proposalsList])
+        //eslint-disable-next-line
+    }, [props.proposalsList, props.filterChanged])
 
 
     function calculateNumberOfPages() {

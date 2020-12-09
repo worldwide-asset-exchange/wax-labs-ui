@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 import * as globals from '../utils/vars.js';
 
-import RenderProposalGrid from "./ProposalGridSingle.js";
-import {sleep, requestedAmountToFloat} from '../utils/util.js'
+import {requestedAmountToFloat} from '../utils/util.js'
 import useQueryString from '../utils/useQueryString';
 import RenderProposalList from "./ProposalList.js";
 import RenderLoadingPage from './LoadingPage.js';
@@ -13,7 +12,6 @@ import { Link } from 'react-router-dom';
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderGenericProposals(props) {
-    const [categories, setCategories] = useState([]);
     // list of proposals that were got from the query. Supposed to update 
     // whenever queryArgs changes.
     const [proposals, setProposals] = useState([]);
@@ -58,6 +56,7 @@ export default function RenderGenericProposals(props) {
                     if(newValue){
                         newQueryArgs.push(globals.PROPOSAL_QUERY_ARGS_DICT[status])
                     }
+                    return null;
                 });
             } 
             setQueryArgs(newQueryArgs);
@@ -97,6 +96,7 @@ export default function RenderGenericProposals(props) {
         newFilteredProposals.sort(proposalComparison);
         setFilteredProposals(newFilteredProposals);
         setFiltering(false);
+        //eslint-disable-next-line
     },[categoriesList, proposals, filterString, orderByString]);
     
     function proposalComparison(proposalA, proposalB) {

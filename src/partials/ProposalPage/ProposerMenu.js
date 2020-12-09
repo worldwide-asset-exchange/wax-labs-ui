@@ -37,7 +37,7 @@ export default function RenderProposerMenu(props){
                 expireSeconds: 30
             });            
             let body = alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS.body.slice(0);
-            body = body.replace("%proposal_id%", id);
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id);
             let alertObj ={
                 ...alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS,
                 body: body,
@@ -114,7 +114,7 @@ export default function RenderProposerMenu(props){
             });
 
             let body = alertGlobals.BEGIN_VOTING_ALERT_DICT.SUCCESS.body.slice(0);
-            body = body.replace("%proposal_id%", id)
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id)
 
             let alertObj = {
                 ...alertGlobals.BEGIN_VOTING_ALERT_DICT.SUCCESS,
@@ -246,7 +246,7 @@ export default function RenderProposerMenu(props){
                 expireSeconds: 30
             });
             let body = alertGlobals.END_VOTING_ALERT_DICT.SUCCESS.body.slice(0);
-            body = body.replace("%proposal_id%", id)
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id)
 
             let alertObj = {
                 ...alertGlobals.END_VOTING_ALERT_DICT.SUCCESS,
@@ -284,7 +284,7 @@ export default function RenderProposerMenu(props){
                 expireSeconds: 30
             });
             let body = alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS.body.slice(0);
-            body = body.replace("%proposal_id%", id);
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id);
             let alertObj = {
                 ...alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS,
                 body: body,

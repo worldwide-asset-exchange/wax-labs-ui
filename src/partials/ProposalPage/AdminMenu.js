@@ -39,7 +39,7 @@ export default function RenderAdminMenu(props){
                 expireSeconds: 30
             });
             let body = alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS.body.slice(0);
-            body = body.replace("%proposal_id%", id);
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id);
             let alertObj ={
                 ...alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS,
                 body: body,
@@ -80,7 +80,7 @@ export default function RenderAdminMenu(props){
             });
             let alertObj = {
                 ...alertGlobals.REVIEW_PROP_ALERT_DICT.SUCCESS,
-                body: alertGlobals.REVIEW_PROP_ALERT_DICT.SUCCESS.body.slice().replace("%approve%", approve ? "aproved" : "rejected")
+                body: alertGlobals.REVIEW_PROP_ALERT_DICT.SUCCESS.body.slice().replace(alertGlobals.APPROVE_TEMPLATE, approve ? "aproved" : "rejected")
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
@@ -115,7 +115,7 @@ export default function RenderAdminMenu(props){
                 expireSeconds: 30
             });
             let body = alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS.body.slice(0);
-            body = body.replace("%proposal_id%", id);
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id);
             let alertObj = {
                 ...alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS,
                 body: body,

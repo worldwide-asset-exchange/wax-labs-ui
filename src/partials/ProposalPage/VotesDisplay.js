@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import * as globals from "../../utils/vars"
+import * as alertGlobals from '../../utils/alerts'
 import { requestedAmountToFloat } from '../../utils/util';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -109,22 +110,19 @@ export default function RenderVoteDisplay(props){
                     expireSeconds: 30
                 }
             );
+            let body = alertGlobals.CAST_VOTE_ALERT_DICT.SUCCESS.body.slice(0)
+            body = body.replace(alertGlobals.VOTE_OPTION_TEMPLATE, voteOption);
             let alertObj = {
-                title: "Voted " + voteOption + " successfully!",
-                body: "Vote was cast successfully", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.CAST_VOTE_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
 
         } catch(e){
             let alertObj = {
-                title: "Voting error!",
-                body: "Voting encountered an error.",
+                ...alertGlobals.CAST_VOTE_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);

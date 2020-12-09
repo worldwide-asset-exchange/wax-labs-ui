@@ -7,6 +7,7 @@ export const APPROVE_TEMPLATE = "%approve%"
 export const DELIVERABLE_ID_TEMPLATE = "%deliverable_id%"
 export const PROPOSAL_ID_TEMPLATE = "%proposal_id%"
 export const REVIEWER_NAME_TEMPLATE = "%reviewer_name%"
+export const VOTE_OPTION_TEMPLATE = "%vote_option%"
 
 export const CANCEL_PROP_ALERT_DICT = {
     SUCCESS: 
@@ -155,6 +156,23 @@ export const CLAIM_FUNDS_ALERT_DICT = {
     {
         title: "Claim funds error!",
         body: "An error occurred when trying to call the claim funds action.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+export const CAST_VOTE_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Cast vote success!",
+        body: `Voted ${VOTE_OPTION_TEMPLATE} successfully.`, 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Voting error!",
+        body: "An error ocurred when trying to call the castvote action.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }

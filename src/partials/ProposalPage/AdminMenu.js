@@ -2,7 +2,8 @@ import React, {useState}from 'react';
 import {useParams} from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
-import * as globals from "../../utils/vars"
+import * as globals from "../../utils/vars";
+import * as alertGlobals from '../../utils/alerts';
 
 export default function RenderAdminMenu(props){
     const [showReviewerModal, setShowReviewerModal] = useState(false);
@@ -37,21 +38,15 @@ export default function RenderAdminMenu(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
-            let alertObj = {
-                title: "Proposal cancelled!",
-                body: "Proposal was successfully cancelled.", 
-                variant: "success",
-                dismissible: true,
+            let alertObj ={
+                ...alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
         } catch(e) {
             let alertObj = {
-                title: "Cancel proposal error!",
-                body: "Cancel proposal encountered an error.",
-                details: e.message, 
-                variant: "danger",
-                dismissible: true,
+                ...alertGlobals.CANCEL_PROP_ALERT_DICT.ERROR,
+                details: e.message 
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -81,20 +76,16 @@ export default function RenderAdminMenu(props){
                 expireSeconds: 30
             });
             let alertObj = {
-                title: "Review proposal success!",
-                body: "Proposal was reviewed.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.REVIEW_PROP_ALERT_DICT.SUCCESS,
+                body: alertGlobals.REVIEW_PROP_ALERT_DICT.SUCCESS.body.slice().replace("%approve%", approve ? "aproved" : "rejected")
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
         } catch(e) {
             let alertObj = {
-                title: "Review proposal error!",
-                body: "An error ocurred when trying to call the review proposal action.",
-                details: e.message, 
-                variant: "danger",
-                dismissible: true,
+                ...alertGlobals.REVIEW_PROP_ALERT_DICT.ERROR,
+                details: e.message,
+
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -120,20 +111,17 @@ export default function RenderAdminMenu(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%proposal_id%", id);
             let alertObj = {
-                title: "Delete proposal success!",
-                body: "Proposal was deleted.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
         } catch(e) {
             let alertObj = {
-                title: "Delete proposal error!",
-                body: "An error ocurred when trying to call the delete proposal action.",
+                ...alertGlobals.DELETE_PROP_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -162,21 +150,19 @@ export default function RenderAdminMenu(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.SET_REVIEWER_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%reviewer_name%", reviewerAccountName);
+            body = body.replace("%proposal_id%", id);
             let alertObj = {
-                title: "Set reviewer success!",
-                body: "Proposal's reviewer was updated.", 
-                variant: "success",
-                dismissible: true,
+                ...alertGlobals.SET_REVIEWER_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
          } catch(e){
             let alertObj = {
-                title: "Set reviewer error!",
-                body: "An error ocurred when trying to call the set reviewer action.",
+                ...alertGlobals.SET_REVIEWER_ALERT_DICT.ERROR,
                 details: e.message, 
-                variant: "danger",
-                dismissible: true,
             }
             props.showAlert(alertObj);
             console.log(e);

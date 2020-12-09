@@ -38,8 +38,11 @@ export default function RenderAdminMenu(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
+            let body = alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace("%proposal_id%", id);
             let alertObj ={
-                ...alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS
+                ...alertGlobals.CANCEL_PROP_ALERT_DICT.SUCCESS,
+                body: body,
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();

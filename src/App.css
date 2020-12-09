@@ -345,10 +345,6 @@ header nav button#menu-icon {
     display: none;
 }
 
-.show {
-    /* display: initial; */
-}
-
 .btn {
   background: #F78E1E;
   color: #fff;

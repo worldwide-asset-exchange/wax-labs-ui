@@ -22,7 +22,7 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.CANCEL_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -64,7 +64,7 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.REVIEW_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -106,7 +106,7 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.DELETE_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -145,7 +145,7 @@ export default function RenderAdminMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.SET_REVIEWER_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,

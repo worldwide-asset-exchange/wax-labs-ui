@@ -21,7 +21,7 @@ export default function RenderDeliverableList(props){
     async function getDeliverablesData(){
         try{
             let delivs = await wax.rpc.get_table_rows({
-                code: globals.LABS_CODE,
+                code: globals.LABS_CONTRACT_ACCOUNT,
                 scope: id,
                 table: globals.DELIVERABLES_TABLE,
                 json: true,

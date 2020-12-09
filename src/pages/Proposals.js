@@ -18,8 +18,8 @@ export default function RenderProposals(props){
         async function getCategories() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
-                      code: globals.LABS_CODE,
-                      scope: globals.LABS_SCOPE,
+                      code: globals.LABS_CONTRACT_ACCOUNT,
+                      scope: globals.LABS_CONTRACT_ACCOUNT,
                       table: globals.CONFIG_TABLE,
                       json: true,
                       limit: 1
@@ -41,8 +41,8 @@ export default function RenderProposals(props){
             // console.log(props.activeUser);
             try {
                 let resp = await wax.rpc.get_table_rows({             
-                      code: globals.LABS_CODE,
-                      scope: globals.LABS_SCOPE,
+                      code: globals.LABS_CONTRACT_ACCOUNT,
+                      scope: globals.LABS_CONTRACT_ACCOUNT,
                       table: globals.PROFILES_TABLE,
                       lower_bound: props.activeUser.accountName,
                       upper_bound: props.activeUser.accountName,

@@ -20,7 +20,7 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.CANCEL_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -60,7 +60,7 @@ export default function RenderProposerMenu(props){
         try {
             let activeUser = props.activeUser;
             let resp = await wax.rpc.get_table_rows({             
-                code: globals.LABS_CODE,
+                code: globals.LABS_CONTRACT_ACCOUNT,
                 scope: activeUser.accountName,
                 table: globals.ACCOUNTS_TABLE,
                 json: true,
@@ -85,7 +85,7 @@ export default function RenderProposerMenu(props){
                     }],
                     data: {
                         from: activeUser.accountName,
-                        to: globals.LABS_CODE,
+                        to: globals.LABS_CONTRACT_ACCOUNT,
                         quantity: globals.BEGIN_VOTING_AMOUNT,
                         memo: ''
                     },
@@ -99,7 +99,7 @@ export default function RenderProposerMenu(props){
                 actions: [
                     ...transferAction,
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.BEGIN_VOTING_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -235,7 +235,7 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.END_VOTING_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -275,7 +275,7 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.DELETE_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,

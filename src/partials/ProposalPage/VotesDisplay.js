@@ -22,8 +22,8 @@ export default function RenderVoteDisplay(props){
          if(props.proposal.ballot_name){
              try{
                  let currentVote = await wax.rpc.get_table_rows({             
-                    code: globals.DECIDE_CODE,
-                    scope: globals.DECIDE_SCOPE,
+                    code: globals.DECIDE_CONTRACT_ACCOUNT,
+                    scope: globals.DECIDE_CONTRACT_ACCOUNT,
                     table: globals.BALLOTS_TABLE,
                     json: true,
                     lower_bound: props.proposal.ballot_name,
@@ -53,7 +53,7 @@ export default function RenderVoteDisplay(props){
         let proposal = props.proposal;
         try{
             let checkRegistry = await wax.rpc.get_table_rows({             
-                code: globals.DECIDE_CODE,
+                code: globals.DECIDE_CONTRACT_ACCOUNT,
                 scope: activeUser.accountName,
                 table: globals.VOTERS_TABLE,
                 json: true
@@ -81,7 +81,7 @@ export default function RenderVoteDisplay(props){
                     /* Spreading nothing in case voter was in the registry, or the regvoter action. */
                     ...actions,
                     {
-                        account: globals.DECIDE_CODE,
+                        account: globals.DECIDE_CONTRACT_ACCOUNT,
                         name: globals.SYNC_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -92,7 +92,7 @@ export default function RenderVoteDisplay(props){
                             },
                         },
                     {
-                        account: globals.DECIDE_CODE,
+                        account: globals.DECIDE_CONTRACT_ACCOUNT,
                         name: globals.CAST_VOTE_ACTION,
                         authorization: [{
                                 actor: activeUser.accountName,

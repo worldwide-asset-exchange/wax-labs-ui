@@ -41,7 +41,7 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.REVIEW_DELIVERABLE_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -85,7 +85,7 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.SUBMIT_REPORT_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
@@ -132,7 +132,7 @@ export default function RenderSingleDeliverable(props){
             if(activeUser.accountName === deliverable.recipient){
                 withdrawAction.push(
                 {
-                    account: globals.LABS_CODE,
+                    account: globals.LABS_CONTRACT_ACCOUNT,
                     name: globals.WITHDRAW_ACTION,
                     authorization: [{
                         actor: activeUser.accountName,
@@ -147,7 +147,7 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CODE,
+                        account: globals.LABS_CONTRACT_ACCOUNT,
                         name: globals.CLAIM_FUNDS_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,

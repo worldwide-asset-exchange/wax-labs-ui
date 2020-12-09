@@ -29,15 +29,13 @@ export const TRANSFER_ACTION = "transfer"
 export const OIG_CODE = "oig"
 export const REGISTER_VOTER_ACTION = "regvoter"
 
-export const DECIDE_CODE = "decide"
-export const DECIDE_SCOPE = "decide"
+export const DECIDE_CONTRACT_ACCOUNT = "decide"
 export const BALLOTS_TABLE = "ballots"
 export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"
 export const CAST_VOTE_ACTION = "castvote"
 
-export const LABS_CODE = 'labs'
-export const LABS_SCOPE = 'labs'
+export const LABS_CONTRACT_ACCOUNT = 'labs'
 export const ACCOUNTS_TABLE = 'accounts'
 export const CONFIG_TABLE = 'config'
 export const DELIVERABLES_TABLE = 'deliverables'

@@ -136,8 +136,8 @@ export default function RenderGenericProposals(props) {
                 let proposalsArray = []
                 if(queryArgs.length === globals.PROPOSAL_ALL_QUERY_ARGS_LIST.length){
                     let resp = await wax.rpc.get_table_rows({             
-                        code: globals.LABS_CODE,
-                        scope: globals.LABS_SCOPE,
+                        code: globals.LABS_CONTRACT_ACCOUNT,
+                        scope: globals.LABS_CONTRACT_ACCOUNT,
                         table: globals.PROPOSALS_TABLE,
                         json: true,
                         limit: 100000,
@@ -150,8 +150,8 @@ export default function RenderGenericProposals(props) {
                     for(let i=0; i < queryArgs.length; i++){
                         let arg = queryArgs[i];
                         let resp = await wax.rpc.get_table_rows({             
-                            code: globals.LABS_CODE,
-                            scope: globals.LABS_SCOPE,
+                            code: globals.LABS_CONTRACT_ACCOUNT,
+                            scope: globals.LABS_CONTRACT_ACCOUNT,
                             table: globals.PROPOSALS_TABLE,
                             json: true,
                             index_position: arg.indexPosition,

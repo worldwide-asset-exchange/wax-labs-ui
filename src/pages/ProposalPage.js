@@ -51,8 +51,8 @@ export default function RenderProposalPage(props){
         try{
             /* Getting Proposal info */
             let resp = await wax.rpc.get_table_rows({             
-                code: globals.LABS_CODE,
-                scope: globals.LABS_SCOPE,
+                code: globals.LABS_CONTRACT_ACCOUNT,
+                scope: globals.LABS_CONTRACT_ACCOUNT,
                 table: globals.PROPOSALS_TABLE,
                 json: true,
                 lower_bound: id,

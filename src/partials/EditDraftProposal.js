@@ -6,11 +6,13 @@ useParams
 import SimpleReactValidator from 'simple-react-validator';
 import * as waxjs from "@waxio/waxjs/dist";
 
+const WAX_ASSET_FORMAT = '.00000000 WAX';
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+const validator = new SimpleReactValidator();
 export default function RenderEditProposal(props) {
     const { id } = useParams();
     const activeUser = props.activeUser;
-    const [total_requested_funds, setTotalRequestedFunds] = useState([]);
+    const [tries, setTries] = useState(0);
     const [ proposal, setProposal ] = useState({
         proposer: '',
         category: '',
@@ -18,19 +20,20 @@ export default function RenderEditProposal(props) {
         title: '',
         description: '',
         content: '',
-        total_requested_funds: 0,
+        image_url: '',
+        total_requested_funds: '',
         remaining_funds: 0,
-        deliverables: 0,
+        estimated_time: '',
+        deliverables: '',
         deliverables_count: 0,
         deliverables_completed: 0,
         reviewer: '',
         ballot_name: '',
         ballot_results: []
     });
-    const validator = new SimpleReactValidator();
+ 
 
     useEffect(() => {
-        let cleanAmount = 0;
         async function getProposalDetails() {
             if (id) {
                 try {
@@ -42,10 +45,9 @@ export default function RenderEditProposal(props) {
                         lower_bound: id,
                         upper_bound: id,
                     });
-
-                    cleanAmount = resp.rows[0].total_requested_funds.slice(0,-13);
-                    setTotalRequestedFunds(cleanAmount);
-
+                    /* Getting rid of the dot, decimals and WAX from the value*/
+                    resp.rows[0].total_requested_funds = resp.rows[0].total_requested_funds.slice(0,-13);
+                    
                     setProposal(resp.rows[0]);
                 } catch(e) {
                     console.log(e);
@@ -55,29 +57,30 @@ export default function RenderEditProposal(props) {
             }
         }
         getProposalDetails();
-        }, [id,]);
+    }, [id]);
 
     function handleInputChange(event) {
         const value = event.target.value;
         const name = event.target.name;
 
-        if (name === "total_requested_funds") {
-            setTotalRequestedFunds(prevState => 
-                [value]
-              , () => {} 
-            );
-            console.log(total_requested_funds)
-        } else {
         setProposal(prevState => ({
             ...proposal, [name]: value 
-          }), () => {} 
+          })
         );
-        }
+        
     }
 
-    const transactionRequestedFunds = total_requested_funds + '.00000000 WAX';
+    const transactionRequestedFunds = proposal.total_requested_funds + WAX_ASSET_FORMAT;
 
-    async function saveDraftProposal() {
+    async function saveDraftProposal() {  
+        console.log(validator.allValid());
+
+        if(!validator.allValid()){
+            
+            validator.showMessages();
+            setTries(tries + 1);
+            return
+        }
         if (props.proposal_type === "New") {
             try {
                 await activeUser.signTransaction({
@@ -94,6 +97,8 @@ export default function RenderEditProposal(props) {
                                 category: proposal.category,
                                 title: proposal.title,
                                 description: proposal.description,
+                                image_url: proposal.image_url,
+                                estimated_time: proposal.estimated_time,
                                 content: proposal.content,
                                 total_requested_funds: transactionRequestedFunds,
                                 deliverables_count: proposal.deliverables,
@@ -122,6 +127,8 @@ export default function RenderEditProposal(props) {
                                 proposer: activeUser.accountName,
                                 category: proposal.category,
                                 title: proposal.title,
+                                estimated_time: proposal.estimated_time,
+                                image_url: proposal.image_url,
                                 description: proposal.description,
                                 content: proposal.content,
                                 deliverables_count: proposal.deliverables,
@@ -139,47 +146,46 @@ export default function RenderEditProposal(props) {
     }
 
     async function submitProposal() {
-        console.log(id);
+
         try {
-            await activeUser.signTransaction({
-                actions: [
-                    /* {
-                        account: 'labs',
-                        name: 'draftprop',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposer: activeUser.accountName,
-                            category: proposal.category,
-                            title: proposal.title,
-                            description: proposal.description,
-                            content: proposal.content,
-                            total_requested_funds: transactionRequestedFunds,
-                            deliverables_count: proposal.deliverables,
+            if(validator.allValid()){
+                await activeUser.signTransaction({
+                    actions: [                       
+                        {
+                            account: 'labs',
+                            name: 'submitprop',
+                            authorization: [{
+                                actor: activeUser.accountName,
+                                permission: 'active',
+                            }],
+                            data: {
+                                proposal_id: id
+                            },
                         },
-                    }, */
-                    {
-                        account: 'labs',
-                        name: 'submitprop',
-                        authorization: [{
-                            actor: activeUser.accountName,
-                            permission: 'active',
-                        }],
-                        data: {
-                            proposal_id: id
-                        },
-                    },
-                ]} , {
-                blocksBehind: 3,
-                expireSeconds: 30
-        });
+                    ]} , {
+                    blocksBehind: 3,
+                    expireSeconds: 30
+                });                
+            }
+            else{
+                console.log(id);
+                validator.showMessages();    
+                setTries(tries + 1);            
+            }
         } catch(e) {
             console.log(e);
         }
     }
-
+    
+    const titleErrorMessage = validator.message('title', proposal.title, 'required');
+    const categoryErrorMessage = validator.message('category', proposal.category, 'required');
+    const descriptionErrorMessage = validator.message('description', proposal.description, 'required|max:255');
+    const imageUrlErrorMessage = validator.message('image_url', proposal.image_url, 'required');
+    const contentErrorMessage = validator.message('content', proposal.content, 'required');
+    const estimatedTimeErrorMessage = validator.message('estimated_time', proposal.estimated_time, 'required|integer');
+    const requestedFundsErrorMessage = validator.message('total_requested_funds', proposal.total_requested_funds, 'required|integer');
+    const deliverablesErrorMessage = validator.message('deliverables', proposal.deliverables, 'required|integer');
+    console.log(titleErrorMessage);
     return (
             <div className="filtered-proposals edit-proposal">
                 <h2>{props.proposal_type} Proposal</h2>
@@ -188,7 +194,7 @@ export default function RenderEditProposal(props) {
                         <div className="col label">
                             <strong>Proposal Title:</strong>
                             <input type="text" name="title" value={proposal.title} onChange={handleInputChange} />
-                            {validator.message('title', proposal.title, 'required|alpha')}
+                            {titleErrorMessage}
                         </div>
                     </div>
                     <div className="row">
@@ -206,10 +212,11 @@ export default function RenderEditProposal(props) {
                                 :
                                 ''
                                 }
-                                {props.categories.filter(x => proposal.category !== x).map((category) =>
+                                {props.categories/*.filter(x => proposal.category !== x)*/.map((category) =>
                                     <option key={category}>{category}</option>
                                 )}
                             </select>
+                            {categoryErrorMessage}
                         </div>
                     </div>
                     <div className="row">
@@ -217,26 +224,44 @@ export default function RenderEditProposal(props) {
                             <strong>Description:</strong>
                             <input name="description" value={proposal.description} onChange={handleInputChange} />
                             <span>A one sentence summary or tagline.</span>
-                            {validator.message('description', proposal.description, 'required|alpha')}
+                            {descriptionErrorMessage}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col label">
+                            <strong>Image Url:</strong>
+                            <input name="image_url" value={proposal.image_url} onChange={handleInputChange} />
+                            <span>Url to the cover image of your proposal.</span>
+                            {imageUrlErrorMessage}
                         </div>
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Content:</strong>
                             <textarea name="content" value={proposal.content} onChange={handleInputChange} ></textarea>
-                            {validator.message('content', proposal.content, 'required|alpha')}
+                            {contentErrorMessage}
                         </div>     
                     </div>
                     <div className="row">
                         <div className="col label">
+                            <strong>Estimated time (days):</strong>
+                            <input type="number" name="estimated_time" value={proposal.estimated_time} onChange={handleInputChange} />
+                            <span>The estimated time it will take to complete all the deliverables.</span>
+                            {estimatedTimeErrorMessage}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col label">
                             <strong>Total Requested Amount (WAX):</strong>
-                            <input type="number" name="total_requested_funds" value={total_requested_funds} onChange={handleInputChange} />
+                            <input type="number" name="total_requested_funds" value={proposal.total_requested_funds} onChange={handleInputChange} />
+                            {requestedFundsErrorMessage}
                         </div>
                     </div>
                     <div className="row">
                         <div className="col label">
                             <strong>Number of Deliverables:</strong>
                             <input type="number" name="deliverables" value={proposal.deliverables} onChange={handleInputChange} />
+                            {deliverablesErrorMessage}
                         </div>
                     </div>
                     <div className="row submit-form">

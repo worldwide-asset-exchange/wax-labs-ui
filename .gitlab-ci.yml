@@ -28,4 +28,4 @@ build-test-deploy-mainnet:
     paths:
       - build/
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH != "testnet"'

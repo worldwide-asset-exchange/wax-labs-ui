@@ -1,60 +1,98 @@
-import React, {useState, useEffect} from 'react';
-import {
-Routes,
-Route,
-} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
+import * as globals from "../utils/vars";
 
-import RenderInReviewProposals from '../partials/InReviewProposals.js'
-import RenderActiveProposals from '../partials/ActiveProposals.js';
-import RenderArchivedProposals from '../partials/ArchivedProposals.js';
-import RenderEditDraftProposal from '../partials/EditDraftProposal.js'
-import RenderMyDraftProposals from '../partials/MyDraftProposals.js';
-import RenderMyProposals from '../partials/MyProposals.js';
-import RenderSingleProposal from './SingleProposal.js';
+import RenderGenericProposals from '../partials/GenericProposals';
+import RenderProposalPage from './ProposalPage';
+import RenderEditDraftProposal from '../partials/EditDraftProposal';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-export default function RenderProposals(props) {
-    const [categories, setCategories] = useState([]);
 
+export default function RenderProposals(props){
+    const [categories, setCategories] = useState([]);
+    const [profile, setProfile] = useState(null);
+
+    console.log(props.activeUser);
     useEffect(() => {
         async function getCategories() {
             try {
                 let resp = await wax.rpc.get_table_rows({             
-                      code: 'labs',
-                      scope: 'labs',
-                      table: 'config',
+                      code: globals.LABS_CONTRACT_ACCOUNT,
+                      scope: globals.LABS_CONTRACT_ACCOUNT,
+                      table: globals.CONFIG_TABLE,
                       json: true,
-                      lower_limit: props.accountName,
-                      upper_limit: props.accountName,
                       limit: 1
-                  });
-                  if (resp.rows.length){
-                  setCategories(resp.rows[0].categories);
-                  }
-                  else{
-                      return null;
-                  }
-                } catch(e) {
-                  console.log(e);
+                });
+                if (resp.rows.length){
+                    setCategories(resp.rows[0].categories);
+                }
+                else{
+                    setCategories([]);
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }      
+        getCategories();
+     }, []);
+     useEffect(()=>{
+        async function getProfile(){
+            // console.log(props.activeUser);
+            try {
+                let resp = await wax.rpc.get_table_rows({             
+                      code: globals.LABS_CONTRACT_ACCOUNT,
+                      scope: globals.LABS_CONTRACT_ACCOUNT,
+                      table: globals.PROFILES_TABLE,
+                      lower_bound: props.activeUser.accountName,
+                      upper_bound: props.activeUser.accountName,
+                      json: true,
+                      limit: 1
+                });
+                if (resp.rows.length){
+                    setProfile(resp.rows[0]);
+                }
+                else{
+                    setProfile(null);
+                }
+            } catch(e) {
+                console.log(e);
             }
         }
-        getCategories();
-     }, [props.accountName]);
-    
-    return (
-        <div className="proposals">
-                <Routes>
-                    <Route path="/" element={<RenderActiveProposals activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="in-review" element={<RenderInReviewProposals from_admin="false" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="in-review/from_admin=true" element={<RenderInReviewProposals from_admin="true" activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="archived" element={<RenderArchivedProposals activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="my-drafts" element={<RenderMyDraftProposals accountName={props.accountName} activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="my-proposals" element={<RenderMyProposals accountName={props.accountName} activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
-                    <Route path=":id" element={<RenderSingleProposal activeUser={props.activeUser} isAdmin={props.isAdmin} />} />
-                    <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="Edit" />} />
-                </Routes>
-        </div>
-    );
+        if(props.activeUser){
+            getProfile();
+        }
+     }, [props.activeUser])
+
+     return (
+         <div className="proposals">
+            <Routes>
+                <Route 
+                    path="/" 
+                    element={
+                        <RenderGenericProposals 
+                            noProposalsMessage="Nope"
+                            categories={categories}
+                            profile={profile}
+                            activeUser={props.activeUser}
+                        />
+                    }
+                />
+                <Route 
+                    path="/:id" 
+                    element={
+                        <RenderProposalPage
+                            activeUser={props.activeUser}
+                            isAdmin={props.isAdmin}
+                        />
+                    }
+                />
+                <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
+                <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="Edit" />} />
+               
+            </Routes>
+
+         </div>
+     )
+
 }

@@ -4,7 +4,6 @@ import ReactTags from 'react-tag-autocomplete';
 import * as waxjs from "@waxio/waxjs/dist";
 import RenderSingleDeliverable from "./SingleDeliverable"
 
-import './ReactTags.css'
 
 import * as globals from "../../utils/vars";
 import RenderFilter from '../Filter';

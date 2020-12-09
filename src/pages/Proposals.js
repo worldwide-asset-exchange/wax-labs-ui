@@ -13,6 +13,7 @@ export default function RenderProposals(props){
     const [categories, setCategories] = useState([]);
     const [profile, setProfile] = useState(null);
 
+    console.log(props.activeUser);
     useEffect(() => {
         async function getCategories() {
             try {

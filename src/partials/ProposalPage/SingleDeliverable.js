@@ -5,14 +5,7 @@ import { Modal } from 'react-bootstrap';
 import * as globals from '../../utils/vars';
 import {requestedAmountToFloat} from '../../utils/util';
 
-const readableStatusName = {
-    drafting: "Draft",
-    reported: "Reported",
-    accepted: "Accepted",
-    inprogress: "In progress",
-    claimed: "Claimed",
-    rejected: "Rejected",
-}
+const readableStatusName = globals.READABLE_DELIVERABLE_STATUS
 
 export default function RenderSingleDeliverable(props){
     

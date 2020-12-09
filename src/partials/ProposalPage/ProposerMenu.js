@@ -86,15 +86,15 @@ export default function RenderProposerMenu(props){
                     data: {
                         from: activeUser.accountName,
                         to: globals.LABS_CODE,
-                        quantity: '10.00000000 WAX',
+                        quantity: globals.BEGIN_VOTING_AMOUNT,
                         memo: ''
                     },
                 }]
             }
+            let ballotName = randomEosioName(12);
             // If balanceAmount was lesser than BEGIN_VOTING_AMOUNT
             // transferAction is empty, so the spread has no effect.
             // This is so that we don't have to replicate signTransaction code.
-            let ballotName = randomEosioName(12);
             await activeUser.signTransaction({
                 actions: [
                     ...transferAction,
@@ -369,7 +369,7 @@ export default function RenderProposerMenu(props){
                         "Submit report" button, and enter a link that proves the deliverable 
                         is complete, so that the assigned reviewer can approve your work. 
                         You will be able to claim the requested funds of each individual
-                        deliverable separetely, as soon as each is approved.
+                        deliverable separetely, as soon as each is accepted.
                     </h5>
                 </div>
             )

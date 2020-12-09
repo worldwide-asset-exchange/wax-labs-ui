@@ -24,8 +24,9 @@ export default function RenderProposalList(props){
 
     useEffect(()=>{
         // Only set to 1 if user changed the filters.
-        // ,
-        //
+        // This is needed because when the user loads a queryString
+        // props.proposalsList changes, but we don't want the page to be
+        // set to 1 in that case.
         if(props.filterChanged){
             setPage(1);
         }

@@ -5,36 +5,10 @@ Link
 
 import * as globals from "../utils/vars"
 
-export default function RenderProposalGrid(props){
-    const proposal = props.proposal;
+export default function RenderProposalGrid(props){    
     const [imgError, setImgError] = useState(false);
-
-    function RenderReadableStatus() {
-        if (proposal.status){
-            if (proposal.status === "drafting"){
-                return <span>Draft</span>
-            } else if (proposal.status === "submitted") {
-                return <span>In Review</span>
-            } else if (proposal.status === "approved") {
-                return <span>Approved</span>
-            } else if (proposal.status === "voting") {
-                return <span>Voting</span>
-            } else if (proposal.status === "completed") {
-                return <span>Complete</span>
-            } else if (proposal.status === "cancelled") {
-                return <span>Cancelled</span>
-            } else if (proposal.status === "inprogress") { 
-                return <span>In Progress</span>
-            } else if (proposal.status === "failed"){
-                return <span>Failed</span>
-            } else {
-                return null
-            }
-        } else {
-            return null;
-        }
-    }
-
+    
+    const proposal = props.proposal;
     const readableAmount = proposal.total_requested_funds.slice(0,-13) + ' WAX';
 
     return (
@@ -48,8 +22,8 @@ export default function RenderProposalGrid(props){
                     <div className="description"><em>{proposal.description}</em></div>
                 </div>
                 <div className="row">
-                    <div className="cell"><strong>Status:</strong> <RenderReadableStatus /></div>
-                    <div className="cell"><strong>Category:</strong> <span className="category">{proposal.category}</span></div>
+                    <div className="cell"><strong>Status:</strong> {globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
+                    <div className="cell"><strong>Category:</strong> <span>{proposal.category}</span></div>
                 </div>
                 <div className="row">
                     <div className="cell"><strong>Proposer:</strong> {proposal.proposer}</div>

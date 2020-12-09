@@ -110,7 +110,7 @@ export default function RenderAdminMenu(props){
                         name: globals.DELETE_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: activeUser.activePermission,
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,
@@ -149,7 +149,7 @@ export default function RenderAdminMenu(props){
                         name: globals.SET_REVIEWER_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
-                            permission: activeUser.activePermission,
+                            permission: activeUser.requestPermission,
                         }],
                         data: {
                             proposal_id: id,

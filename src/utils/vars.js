@@ -56,6 +56,8 @@ export const SUBMIT_REPORT_ACTION = 'submitreport'
 export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
+export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
+
 
 // Links
 export const PROPOSALS_LINK = "/proposals"

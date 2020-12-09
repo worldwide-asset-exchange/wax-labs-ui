@@ -39,8 +39,6 @@ export default function RenderDeliverableList(props){
     },[props.proposal]);
  
     function filterDeliverables(deliverable){
-        console.log(statusList);
-        console.log(deliverable);
         if(!statusList){
             return true;
         } else if (!Array.isArray(statusList)){

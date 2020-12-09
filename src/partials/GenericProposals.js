@@ -25,7 +25,8 @@ export default function RenderGenericProposals(props) {
     const [filtering, setFiltering] = useState(true);
 
     // Filtered proposals is supposed to contain the filtered list of proposals.
-    // This is updated whenever proposals, categoriesList or filterString changes.
+    // This is updated whenever proposals, categoriesList, filterString 
+    // or orderByString changes.
     const [filteredProposals, setFilteredProposals] = useState([]);
 
     // QueryArgs are arguments to be passed to the getProposals query.

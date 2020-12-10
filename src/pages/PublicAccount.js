@@ -5,7 +5,7 @@ useParams
 } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-import RenderProposalGrid from '../partials/ProposalGridSingle.js';
+import RenderProposalCard from '../partials/ProposalCard.js';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderProposals(props) {
@@ -15,7 +15,7 @@ export default function RenderProposals(props) {
     useEffect(() => {
         async function getAccount() {
             try {
-                let resp = await wax.rpc.get_table_rows({             
+                let resp = await wax.rpc.get_table_rows({
                       code: 'labs',
                       scope: 'labs',
                       table: 'profiles',
@@ -26,7 +26,7 @@ export default function RenderProposals(props) {
                   });
                   if (resp.rows.length){
                     setAccount(resp.rows[0]);
-                    let proposalResp = await wax.rpc.get_table_rows({             
+                    let proposalResp = await wax.rpc.get_table_rows({
                         code: 'labs',
                         scope: 'labs',
                         table: 'proposals',
@@ -70,20 +70,20 @@ export default function RenderProposals(props) {
                                 <p>{account.bio}</p>
                         </div>
                         <div className="row">
-                                <strong>Country:</strong>    
-                                <p>{account.country}</p>                           
+                                <strong>Country:</strong>
+                                <p>{account.country}</p>
                         </div>
                         <div className="row">
                             <div className="col label">
-                                <strong>Website:</strong>   
-                                <p>{account.website}</p>           
-                            </div>                         
+                                <strong>Website:</strong>
+                                <p>{account.website}</p>
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col label">
-                                <strong>Telegram Handle:</strong>   
-                                <p>{account.contact}</p>              
-                            </div>                         
+                                <strong>Telegram Handle:</strong>
+                                <p>{account.contact}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ export default function RenderProposals(props) {
                         { proposals ?
                         <>
                         {proposals.map((proposal) =>
-                        <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)}
+                        <RenderProposalCard proposal={proposal} key={proposal.proposal_id} />)}
                         </>
                         :
                         <p>{account.full_name} has not submitted any proposals.</p>

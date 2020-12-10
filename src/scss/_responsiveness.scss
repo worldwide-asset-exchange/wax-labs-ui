@@ -1,6 +1,7 @@
 $breakpoints: (
   max: (
-    mobile-only: 576px
+    mobile-only: 576px,
+    large-mobile-only: 767px,
   ),
   min: (
     large-mobile-up: 577px,

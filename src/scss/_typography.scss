@@ -10,10 +10,12 @@ $baseFontSize: 16px;
 @mixin headline-font-face {
     font-face: 'Montserrat', 'Roboto', 'sans-serif';
     opacity: 0.9;
+    color: #FFFFFF;
 }
 @mixin body-font-face {
     font-face: 'Open Sans', 'Roboto', 'sans-serif';
     opacity: 0.65;
+    color: #FFFFFF;
 }
 
 @mixin h1 {

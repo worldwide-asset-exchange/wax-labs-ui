@@ -1,0 +1,30 @@
+@import '../typography';
+@import '../variables';
+
+.tag {
+    @include h4;
+    padding: 4px 12px;
+    border-radius: 25px;
+
+    &--category {
+        @include p--bold;
+        background-color: $overlay-01;
+        color: #FFFFFF;
+    }
+    &--negative {
+        background-color: $red-background;
+        color: $red-light;
+    }
+    &--positive {
+        background-color: $green-background;
+        color: $green-light;
+    }
+    &--neutral {
+        background-color: $blue-background;
+        color: $blue-light;
+    }
+    &--attention {
+        background-color: $orange-background;
+        color: $orange-light;
+    }
+}

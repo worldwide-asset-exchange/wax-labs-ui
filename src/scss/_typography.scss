@@ -1,4 +1,5 @@
 @import './responsiveness';
+@import './variables';
 
 $baseFontSize: 16px;
 
@@ -9,13 +10,11 @@ $baseFontSize: 16px;
 
 @mixin headline-font-face {
     font-face: 'Montserrat', 'Roboto', 'sans-serif';
-    opacity: 0.9;
-    color: #FFFFFF;
+    color: $typography-01;
 }
 @mixin body-font-face {
     font-face: 'Open Sans', 'Roboto', 'sans-serif';
-    opacity: 0.65;
-    color: #FFFFFF;
+    color: $typography-02;
 }
 
 @mixin h1 {
@@ -74,5 +73,6 @@ $baseFontSize: 16px;
 
 @mixin p--tiny {
     @include p;
+    color: $typography-tiny;
     font-size: pxToRem(14px);
 }

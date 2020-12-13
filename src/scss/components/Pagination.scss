@@ -1,0 +1,46 @@
+@import "../variables";
+@import "../typography";
+@import "../responsiveness";
+
+.pagination {
+    .page-item,
+    .page-link {
+        @include p;
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+
+        background-color: $gray-dark;
+        color: $typography-01;
+        border: none;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: $orange-medium;
+            color: $gray-dark;
+            border: none;
+        }
+    }
+
+    .disabled {
+        cursor: default;
+        &:hover {
+            background-color: $gray-dark;
+        }
+        .page-link {
+            color: $typography-03;
+            background-color: $gray-dark;
+            border: none;
+        }
+    }
+
+    .active {
+        @include p--bold;
+        .page-link {
+            background-color: #FFFFFF9C;
+            color: $gray-dark;
+            &:hover {
+                background-color: $orange-medium;
+            }
+        }
+    }
+}

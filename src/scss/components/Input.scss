@@ -1,0 +1,33 @@
+@import "../variables";
+@import "../typography";
+@import "../responsiveness";
+
+
+.input {
+    @include p;
+    background-color: $gray-dark;
+    border-radius: 8px;
+    padding: $spacing-xxs;
+    border: 1px solid $overlay-02;
+
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+
+    &::placeholder {
+        color: $typography-03;
+    }
+    &:active,
+    &:focus {
+      border: 1px solid $orange-gradient;
+    }
+}
+
+.input__label {
+    @include p--tiny;
+    color: $typography-02;
+        margin-bottom: $spacing-xxs;
+
+        white-space: nowrap;
+
+}

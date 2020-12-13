@@ -1,0 +1,5 @@
+@import './variables';
+
+@mixin mainPadding {
+    padding: 0 $spacing-s;
+}

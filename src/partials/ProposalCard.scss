@@ -29,6 +29,13 @@
         align-items: stretch;
     }
 
+    &:hover {
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        background-color: $overlay-04;
+    }
+
     &__content{
         display: flex;
         flex-direction: column;

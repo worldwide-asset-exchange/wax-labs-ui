@@ -1,3 +1,7 @@
+
+@import './scss/variables';
+@import './scss/typography';
+
 * {
   padding: 0;
   margin: 0;
@@ -9,6 +13,10 @@ html {
 
 ::-webkit-scrollbar {
   display:none;
+}
+
+h2 {
+  @include h2;
 }
 
 body {
@@ -385,10 +393,11 @@ header nav button#menu-icon {
 }
 
 main {
-  display: grid;
-  grid-template-columns: [start-gutter]auto[main-content]980px[end-gutter]auto[end];
-  grid-template-rows: [start]auto[end];
-  padding: 10px;
+  background-color: $gray-dark;
+  // display: grid;
+  // grid-template-columns: [start-gutter]auto[main-content]980px[end-gutter]auto[end];
+  // grid-template-rows: [start]auto[end];
+  // padding: 10px;
 }
 
 .content {
@@ -634,8 +643,10 @@ main {
 }
 
 .filtered-proposals {
-  display: inline-block;
-  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .proposal-body {

@@ -1,0 +1,14 @@
+@import '../typography';
+@import '../variables';
+
+.inlineLink {
+    @include p--bold;
+    color: $orange-medium;
+    text-decoration: none;
+    transition: color 0.2s ease-in;
+
+    &:hover {
+        color: $orange-light;
+        text-decoration: underline;
+    }
+}

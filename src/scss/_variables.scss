@@ -20,15 +20,24 @@ $blue-medium: #526382;
 $blue-light: #88A2D1;
 
 $overlay-01: rgba(255, 255, 255, 0.05);
+$overlay-02: rgba(255, 255, 255, 0.07);
+$overlay-03: rgba(255, 255, 255, 0.08);
+$overlay-04: rgba(255, 255, 255, 0.09);
 
 $red-background: #A14F5E30;
 $green-background: #59825830;
 $blue-background: #2E394F30;
 $orange-background: #D26D0030;
 
+$typography-01: #FFFFFFE8;
+$typography-02: #FFFFFFBA;
+$typography-03: #FFFFFF9C;
+$typography-tiny: #FFFFFFF0;
+
+
 // Gradients
-$button-gradient: linear-gradient(90.08deg, #F78E1E 0%, #FFDC51 236.03%);
-$button-gradient--hover: linear-gradient(275.91deg, #F78E1E 8.43%, #FFDC51 174.56%);
+$orange-gradient: linear-gradient(90.08deg, #F78E1E 0%, #FFDC51 236.03%);
+$orange-gradient--reverse: linear-gradient(275.91deg, #F78E1E 8.43%, #FFDC51 174.56%);
 
 // Spacing (padding and margin)
 $spacing-xxxs: 4px;
@@ -41,3 +50,4 @@ $spacing-xl: 48px;
 $spacing-xxl: 64px;
 $spacing-xxxl: 80px;
 
+$max-screen-width: 1440px;

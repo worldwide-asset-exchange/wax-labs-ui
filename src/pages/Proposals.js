@@ -17,7 +17,7 @@ export default function RenderProposals(props){
     useEffect(() => {
         async function getCategories() {
             try {
-                let resp = await wax.rpc.get_table_rows({             
+                let resp = await wax.rpc.get_table_rows({
                       code: globals.LABS_CONTRACT_ACCOUNT,
                       scope: globals.LABS_CONTRACT_ACCOUNT,
                       table: globals.CONFIG_TABLE,
@@ -33,14 +33,14 @@ export default function RenderProposals(props){
             } catch(e) {
                 console.log(e);
             }
-        }      
+        }
         getCategories();
      }, []);
      useEffect(()=>{
         async function getProfile(){
             // console.log(props.activeUser);
             try {
-                let resp = await wax.rpc.get_table_rows({             
+                let resp = await wax.rpc.get_table_rows({
                       code: globals.LABS_CONTRACT_ACCOUNT,
                       scope: globals.LABS_CONTRACT_ACCOUNT,
                       table: globals.PROFILES_TABLE,
@@ -67,10 +67,10 @@ export default function RenderProposals(props){
      return (
          <div className="proposals">
             <Routes>
-                <Route 
-                    path="/" 
+                <Route
+                    path="/"
                     element={
-                        <RenderGenericProposals 
+                        <RenderGenericProposals
                             noProposalsMessage="The list for this filters is empty. Try changing the filters."
                             categories={categories}
                             profile={profile}
@@ -78,8 +78,8 @@ export default function RenderProposals(props){
                         />
                     }
                 />
-                <Route 
-                    path="/:id" 
+                <Route
+                    path="/:id"
                     element={
                         <RenderProposalPage
                             activeUser={props.activeUser}
@@ -89,7 +89,7 @@ export default function RenderProposals(props){
                 />
                 <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
                 <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="Edit" />} />
-               
+
             </Routes>
 
          </div>

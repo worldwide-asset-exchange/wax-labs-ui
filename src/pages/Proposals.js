@@ -71,7 +71,7 @@ export default function RenderProposals(props){
                     path="/" 
                     element={
                         <RenderGenericProposals 
-                            noProposalsMessage="Nope"
+                            noProposalsMessage="The list for this filters is empty. Try changing the filters."
                             categories={categories}
                             profile={profile}
                             activeUser={props.activeUser}

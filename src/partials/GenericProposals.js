@@ -27,44 +27,28 @@ export default function RenderGenericProposals(props) {
     // Filtered proposals is supposed to contain the filtered list of proposals.
     // This is updated whenever proposals, categoriesList, filterString 
     // or orderByString changes.
-    const [filteredProposals, setFilteredProposals] = useState([]);
-
-    // QueryArgs are arguments to be passed to the getProposals query.
-    // Updated whenever the querystring changes.
-    const [queryArgs, setQueryArgs] = useState([]);
+    const [filteredProposals, setFilteredProposals] = useState([]);    
 
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
     const [categoriesList, setCategoriesList] = useQueryString(globals.CATEGORIES_QUERY_STRING_KEY, null);
-    const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, [globals.VOTING_KEY]);
+    const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, []);
     const [filterString, setFilterString] = useQueryString(globals.SEARCH_QUERY_STRING_KEY, "");
 
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(globals.ORDER_BY_QUERY_STRING_KEY, globals.PROPOSAL_ORDER_BY_LIST[0]);
     
-    useEffect(()=>{
-        function updateQueryArgs(){
-            console.log(statusList);
-            let newQueryArgs = []    
-            // if it is not an array, it is a string, so use it as a key. 
-            if(!Array.isArray(statusList)){
-                newQueryArgs.push(globals.PROPOSAL_QUERY_ARGS_DICT[statusList]);
-            } else if(statusList.length === 0){
-                newQueryArgs = globals.PROPOSAL_ALL_QUERY_ARGS_LIST;
-            } else {
-                statusList.map((status) => {
-                    let newValue = globals.PROPOSAL_QUERY_ARGS_DICT[status];
-                    if(newValue){
-                        newQueryArgs.push(globals.PROPOSAL_QUERY_ARGS_DICT[status])
-                    }
-                    return null;
-                });
-            } 
-            setQueryArgs(newQueryArgs);
+    function filterByStatus(proposal){
+        if(!statusList){
+            return true;
+        } else if (!Array.isArray(statusList)){
+            return (statusList === proposal.status)
+        } else if (!statusList.length){
+            return true            
+        }else {
+            return (statusList.includes(proposal.status))
         }
-        updateQueryArgs();
-    },[statusList]);
-
+    }
     function filterByCategories(proposal){
         if(!categoriesList){
             return true;
@@ -93,12 +77,13 @@ export default function RenderGenericProposals(props) {
         setFiltering(true);
         let newFilteredProposals = []
         newFilteredProposals = proposals.slice(0).filter(filterByCategories)
+        newFilteredProposals = newFilteredProposals.filter(filterByStatus)
         newFilteredProposals = newFilteredProposals.filter(filterByName)
         newFilteredProposals.sort(proposalComparison);
         setFilteredProposals(newFilteredProposals);
         setFiltering(false);
         //eslint-disable-next-line
-    },[categoriesList, proposals, filterString, orderByString]);
+    },[categoriesList, proposals, filterString, orderByString, statusList]);
     
     function proposalComparison(proposalA, proposalB) {
         let [field, mode] = orderByString.split(globals.SEPARATOR_ORDER_BY)
@@ -127,55 +112,49 @@ export default function RenderGenericProposals(props) {
         }
     }
 
-
-
     useEffect(() => {
+        let cancelled = false
         async function getProposals() {
-            try {
-                setQuerying(true);
-                let proposalsArray = []
-                if(queryArgs.length === globals.PROPOSAL_ALL_QUERY_ARGS_LIST.length){
-                    let resp = await wax.rpc.get_table_rows({             
-                        code: globals.LABS_CONTRACT_ACCOUNT,
-                        scope: globals.LABS_CONTRACT_ACCOUNT,
-                        table: globals.PROPOSALS_TABLE,
-                        json: true,
-                        limit: 100000,
-                    });
-                    if(resp.rows){
-                        proposalsArray = resp.rows        
-                    }
-                }
-                else {
-                    for(let i=0; i < queryArgs.length; i++){
-                        let arg = queryArgs[i];
-                        let resp = await wax.rpc.get_table_rows({             
+            let success = false;
+            do{
+                try {
+                    setQuerying(true);
+                    let proposalsArray = []
+    
+                    let nextId="0";
+                    let resp = {}
+                    do{
+                        resp = await wax.rpc.get_table_rows({             
                             code: globals.LABS_CONTRACT_ACCOUNT,
                             scope: globals.LABS_CONTRACT_ACCOUNT,
                             table: globals.PROPOSALS_TABLE,
                             json: true,
-                            index_position: arg.indexPosition,
-                            lower_bound: arg.bound,
-                            upper_bound: arg.bound,
-                            key_type: globals.NAME_KEY_TYPE,
-                            limit: 100000,
-                        });                  
-                        console.log(resp);   
-                        proposalsArray = [...proposalsArray, ...resp.rows]
+                            lower_bound: nextId,
+                            limit: 3000,
+                        });
+                        console.log(resp);
+                        if(resp.rows){
+                            proposalsArray = [...proposalsArray, ...resp.rows]        
+                        }                    
+                        nextId = resp.next_key; 
+                    }while(resp.more)         
+                                             
+                    if(!cancelled){
+                        console.log(proposalsArray);
+                        setProposals(proposalsArray);
+                        setQuerying(false);                            
                     }
+                    success = true;
+                } catch(e) {
+                    console.log(e);
+                    success = false;
                 }
-                                         
-                console.log(proposalsArray);
-                setProposals(proposalsArray);
-                setQuerying(false);                            
-            } catch(e) {
-                console.log(e);
-            }
+            }while(!success)
         }
-        if(queryArgs){
-            getProposals();
-        }
-    }, [queryArgs]);
+        getProposals();        
+        const cleanup = () => { cancelled = true }
+        return cleanup
+    }, []);
 
 
     function updateStatusList (newList){

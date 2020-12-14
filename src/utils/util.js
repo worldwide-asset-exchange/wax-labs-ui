@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-export function randomEosioName(length){
+export function randomEosioName(length=12){
     var result = '';
     var validCharacters = "12345abcdefghijklmnopqrstuvxyz"
     for(let i = 0; i < length; i++){

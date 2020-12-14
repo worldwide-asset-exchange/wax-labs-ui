@@ -27,11 +27,7 @@ export default function RenderGenericProposals(props) {
     // Filtered proposals is supposed to contain the filtered list of proposals.
     // This is updated whenever proposals, categoriesList, filterString 
     // or orderByString changes.
-    const [filteredProposals, setFilteredProposals] = useState([]);
-
-    // QueryArgs are arguments to be passed to the getProposals query.
-    // Updated whenever the querystring changes.
-    const [queryArgs, setQueryArgs] = useState([]);
+    const [filteredProposals, setFilteredProposals] = useState([]);    
 
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
@@ -115,63 +111,6 @@ export default function RenderGenericProposals(props) {
             }
         }
     }
-
-
-
-    // useEffect(() => {
-    //     let cancelled = false
-    //     async function getProposals() {
-    //         try {
-    //             setQuerying(true);
-    //             let proposalsArray = []
-    //             console.log(queryArgs);
-    //             if(queryArgs.length === globals.PROPOSAL_ALL_QUERY_ARGS_LIST.length){
-    //                 let resp = await wax.rpc.get_table_rows({             
-    //                     code: globals.LABS_CONTRACT_ACCOUNT,
-    //                     scope: globals.LABS_CONTRACT_ACCOUNT,
-    //                     table: globals.PROPOSALS_TABLE,
-    //                     json: true,
-    //                     limit: 100000,
-    //                 });
-    //                 console.log(resp);
-    //                 if(resp.rows){
-    //                     proposalsArray = resp.rows        
-    //                 }
-    //             }
-    //             else {
-    //                 for(let i=0; i < queryArgs.length; i++){
-    //                     let arg = queryArgs[i];
-    //                     let resp = await wax.rpc.get_table_rows({             
-    //                         code: globals.LABS_CONTRACT_ACCOUNT,
-    //                         scope: globals.LABS_CONTRACT_ACCOUNT,
-    //                         table: globals.PROPOSALS_TABLE,
-    //                         json: true,
-    //                         index_position: arg.indexPosition,
-    //                         lower_bound: arg.bound,
-    //                         upper_bound: arg.bound,
-    //                         key_type: globals.NAME_KEY_TYPE,
-    //                         limit: 100000,
-    //                     });                  
-    //                     console.log(resp);   
-    //                     proposalsArray = [...proposalsArray, ...resp.rows]
-    //                 }
-    //             }
-                                         
-    //             if(!cancelled){
-    //                 console.log(proposalsArray);
-    //                 setProposals(proposalsArray);
-    //                 setQuerying(false);                            
-    //             }
-    //         } catch(e) {
-    //             console.log(e);
-    //         }
-    //     }
-    //     if(queryArgs){
-    //         getProposals();
-    //     }
-    //     const cleanup = () => { cancelled = true }
-    //     return cleanup
-    // }, [queryArgs]);
 
     useEffect(() => {
         let cancelled = false

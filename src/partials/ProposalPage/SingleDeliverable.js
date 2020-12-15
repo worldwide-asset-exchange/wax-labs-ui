@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import { Modal } from 'react-bootstrap';
 
-import * as globals from '../../utils/vars';
+import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
 import {requestedAmountToFloat} from '../../utils/util';
 
-const readableStatusName = globals.READABLE_DELIVERABLE_STATUS
+const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS
 
 export default function RenderSingleDeliverable(props){
     
-    const [showReportModal, setShowReportModal] = useState(false);
-    const [showReviewModal, setShowReviewModal] = useState(false);
     const [reportLink, setReportLink] = useState("");
     const [reviewMemo, setReviewMemo] = useState("");
     const {id} = useParams();
@@ -22,13 +19,7 @@ export default function RenderSingleDeliverable(props){
 
     deliverable.requested = requestedAmountToFloat(deliverable.requested) + " WAX";
 
-    function toggleShowReportModal(show){
-        setShowReportModal(show);
-    }
-    function toggleShowReviewModal(show){
-        setShowReviewModal(show);
-    }
-
+   
     function handleReviewMemoChange(event){
         setReviewMemo(event.target.value);
     }
@@ -42,8 +33,8 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.REVIEW_DELIVERABLE_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.REVIEW_DELIVERABLE_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -68,7 +59,6 @@ export default function RenderSingleDeliverable(props){
             }
             props.showAlert(alertObj);
             props.rerunProposalQuery();
-            toggleShowReviewModal(false);
          } catch(e){
             let alertObj = {
                 ...alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.ERROR,
@@ -84,8 +74,8 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.SUBMIT_REPORT_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.SUBMIT_REPORT_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -107,8 +97,7 @@ export default function RenderSingleDeliverable(props){
                 body: body,
             }
             props.showAlert(alertObj);
-            props.rerunProposalQuery();
-            toggleShowReportModal(false);            
+            props.rerunProposalQuery();          
          } catch(e){
             let alertObj = {
                 ...alertGlobals.SUBMIT_REPORT_ALERT_DICT.ERROR,
@@ -128,8 +117,8 @@ export default function RenderSingleDeliverable(props){
             if(activeUser.accountName === deliverable.recipient){
                 withdrawAction.push(
                 {
-                    account: globals.LABS_CONTRACT_ACCOUNT,
-                    name: globals.WITHDRAW_ACTION,
+                    account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    name: GLOBAL_VARS.WITHDRAW_ACTION,
                     authorization: [{
                         actor: activeUser.accountName,
                         permission: activeUser.requestPermission,
@@ -143,8 +132,8 @@ export default function RenderSingleDeliverable(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.CLAIM_FUNDS_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.CLAIM_FUNDS_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -187,8 +176,8 @@ export default function RenderSingleDeliverable(props){
         if(!(props.deliverable.recipient === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === globals.INPROGRESS_KEY){
-            if(props.deliverable.status === globals.ACCEPTED_KEY){
+        if(props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){
+            if(props.deliverable.status === GLOBAL_VARS.ACCEPTED_KEY){
                 return(
                     <button className="btn" onClick={claimFunds}> Claim payment </button>
                 )
@@ -206,11 +195,21 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.reviewer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === globals.INPROGRESS_KEY){
-            if(props.deliverable.status === globals.REPORTED_KEY){
+        if(props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){
+            if(props.deliverable.status === GLOBAL_VARS.REPORTED_KEY){
                 return (
-                    <React.Fragment>    
-                        <button className="btn" onClick={() => toggleShowReviewModal(true)}>Review report</button>                    
+                    <React.Fragment>  
+                        <p>Enter a review link:</p>
+                        <input
+                            type="text"
+                            name="reportLink"
+                            placeholder="Enter a review link"
+                            value={reviewMemo}
+                            onChange={handleReviewMemoChange}
+                        />
+                        <button className="btn" onClick={() => reviewReport(true)}>Approve report</button>  
+                        <button className="btn" onClick={() => reviewReport(false)}>Reject report</button>
+                        
                     </React.Fragment>
                 )
             }
@@ -219,7 +218,6 @@ export default function RenderSingleDeliverable(props){
     }
 
     function getProposerActions(){
-
         if(!props.activeUser){
             return null
         }
@@ -229,15 +227,28 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.proposer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === globals.INPROGRESS_KEY){            
-            if([globals.INPROGRESS_KEY, globals.REJECTED_KEY].includes(props.deliverable.status)){
+        if(props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){            
+            if([GLOBAL_VARS.INPROGRESS_KEY, GLOBAL_VARS.REJECTED_KEY].includes(props.deliverable.status)){
                 return (
                     <React.Fragment>
-                        <button className="btn" onClick={()=>toggleShowReportModal(true)}> Submit Report </button>                        
+                        <p>Enter the report link:</p>
+                        <input
+                            type="text"
+                            name="reportLink"
+                            placeholder="Enter a report link"
+                            value={reportLink}
+                            onChange={handleReportLinkChange}
+                        />
+                        <button
+                            className="btn"
+                            onClick={submitReport}
+                        >
+                            Submit report
+                        </button>
                     </React.Fragment>
                 )
             }
-            if(props.deliverable.status === globals.ACCEPTED_KEY){
+            if(props.deliverable.status === GLOBAL_VARS.ACCEPTED_KEY){
                 return (
                     <button className="btn" onClick={claimFunds}> Claim payment </button>
                 )
@@ -259,6 +270,20 @@ export default function RenderSingleDeliverable(props){
                 <p><strong>Amount requested:</strong> {deliverable.requested}</p>
                 <p><strong>Recipient:</strong> {deliverable.recipient}</p>
                 <p><strong>Last reviewed:</strong> {deliverable.review_time}</p>
+                {
+                    deliverable.status_comment ?
+                    <a 
+                        href={"//" + deliverable.status_comment} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                    >
+                        View review report
+                    </a>
+                    : ""
+                }
+                <div>
+                    
+                </div>
                 {
                     deliverable.report ? 
                     <a 
@@ -297,46 +322,7 @@ export default function RenderSingleDeliverable(props){
                         </div>
                     </React.Fragment>
                     : ""
-                }
-                <Modal
-                    show={showReviewModal}
-                    centered='true'
-                    onHide={()=>toggleShowReviewModal(false)}
-                >
-                    <Modal.Body>
-                        <h1>Enter a review memo:</h1>
-                        <input
-                            type="text"
-                            name="reportLink"
-                            value={reviewMemo}
-                            onChange={handleReviewMemoChange}
-                        />
-                        <button className="btn" onClick={() => reviewReport(false)}>Reject report</button>
-                        <button className="btn" onClick={() => reviewReport(true)}>Approve report</button>
-                    </Modal.Body>
-
-                </Modal>
-                <Modal
-                    show={showReportModal}
-                    centered='true'
-                    onHide={()=>toggleShowReportModal(false)}
-                >
-                    <Modal.Body>
-                        <h1>Enter the report link:</h1>
-                        <input
-                            type="text"
-                            name="reportLink"
-                            value={reportLink}
-                            onChange={handleReportLinkChange}
-                        />
-                        <button
-                            className="btn"
-                            onClick={submitReport}
-                        >
-                            Submit report
-                        </button>
-                    </Modal.Body>
-                </Modal>
+                }    
             </div>
         </React.Fragment>
     )

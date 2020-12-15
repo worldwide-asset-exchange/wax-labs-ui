@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
-import * as globals from "../../utils/vars"
+import * as GLOBAL_VARS from "../../utils/vars"
 import * as alertGlobals from '../../utils/alerts';
 import {randomEosioName, requestedAmountToFloat} from "../../utils/util";
 
@@ -21,8 +21,8 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.CANCEL_PROPOSAL_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.CANCEL_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -53,14 +53,53 @@ export default function RenderProposerMenu(props){
             console.log(e);
         }     
     }
+
+    async function submitProp(){
+        try {
+            let activeUser = props.activeUser;
+            await activeUser.signTransaction({
+                actions: [                       
+                    {
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.SUBMIT_PROPOSAL_ACTION,
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: activeUser.requestPermission,
+                        }],
+                        data: {
+                            proposal_id: id
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });                
+            let body = alertGlobals.SUBMIT_PROP_ALERT_DICT.SUCCESS.body.slice(0);
+            body = body.replace(alertGlobals.PROPOSAL_ID_TEMPLATE, id);
+            let alertObj ={
+                ...alertGlobals.SUBMIT_PROP_ALERT_DICT.SUCCESS,
+                body: body,
+            }
+            props.showAlert(alertObj);
+            props.rerunProposalQuery();
+                        
+        } catch(e) {
+            let alertObj = {
+                ...alertGlobals.SUBMIT_PROP_ALERT_DICT.ERROR,
+                details: e.message 
+            }
+            props.showAlert(alertObj);
+            console.log(e);
+        }
+    }
     
     async function beginVoting() {
         try {
             let activeUser = props.activeUser;
             let resp = await wax.rpc.get_table_rows({             
-                code: globals.LABS_CONTRACT_ACCOUNT,
+                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                 scope: activeUser.accountName,
-                table: globals.ACCOUNTS_TABLE,
+                table: GLOBAL_VARS.ACCOUNTS_TABLE,
                 json: true,
                 limit: 1
             });
@@ -75,16 +114,16 @@ export default function RenderProposerMenu(props){
 
             if(balanceAmount < BEGIN_VOTING_AMOUNT){
                 transferAction = [{
-                    account: globals.EOSIO_TOKEN_CODE,
-                    name: globals.TRANSFER_ACTION,
+                    account: GLOBAL_VARS.EOSIO_TOKEN_CODE,
+                    name: GLOBAL_VARS.TRANSFER_ACTION,
                     authorization: [{
                         actor: activeUser.accountName,
                         permission: activeUser.requestPermission,
                     }],
                     data: {
                         from: activeUser.accountName,
-                        to: globals.LABS_CONTRACT_ACCOUNT,
-                        quantity: globals.BEGIN_VOTING_AMOUNT,
+                        to: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        quantity: GLOBAL_VARS.BEGIN_VOTING_AMOUNT,
                         memo: ''
                     },
                 }]
@@ -97,8 +136,8 @@ export default function RenderProposerMenu(props){
                 actions: [
                     ...transferAction,
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.BEGIN_VOTING_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.BEGIN_VOTING_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -231,8 +270,8 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.END_VOTING_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.END_VOTING_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -269,8 +308,8 @@ export default function RenderProposerMenu(props){
             await activeUser.signTransaction({
                 actions: [
                     {
-                        account: globals.LABS_CONTRACT_ACCOUNT,
-                        name: globals.DELETE_PROPOSAL_ACTION,
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.DELETE_PROPOSAL_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -302,17 +341,18 @@ export default function RenderProposerMenu(props){
     // check if activeUser is the same as the proposal's proposer.
     if(props.activeUser && props.activeUser.accountName === props.proposal.proposer)
     {   
-        if(props.proposal.status === globals.DRAFTING_KEY)
+        if(props.proposal.status === GLOBAL_VARS.DRAFTING_KEY)
         {
             return (           
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer menu</h3>
                     <Link className="btn" to="edit">Edit proposal</Link>
+                    <button className="btn" onClick={submitProp}> Submit Proposal</button>
                     <button className="btn" onClick={cancelProposal}>Cancel proposal</button>                
                 </div>
             )
         }
-        else if (props.proposal.status === globals.SUBMITTED_KEY)
+        else if (props.proposal.status === GLOBAL_VARS.SUBMITTED_KEY)
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -321,7 +361,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         } 
-        else if (props.proposal.status === globals.APPROVED_KEY)
+        else if (props.proposal.status === GLOBAL_VARS.APPROVED_KEY)
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -331,7 +371,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         } 
-        else if (props.proposal.status === globals.VOTING_KEY)
+        else if (props.proposal.status === GLOBAL_VARS.VOTING_KEY)
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -342,7 +382,7 @@ export default function RenderProposerMenu(props){
             )
         }
         
-        else if ([globals.CANCELLED_KEY, globals.FAILED_KEY, globals.COMPLETED_KEY].includes(props.proposal.status))
+        else if ([GLOBAL_VARS.CANCELLED_KEY, GLOBAL_VARS.FAILED_KEY, GLOBAL_VARS.COMPLETED_KEY].includes(props.proposal.status))
         {
             return (
                 <div className="proposer-menu backend-menu">
@@ -351,7 +391,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         }
-        else if (props.proposal.status === globals.INPROGRESS_KEY){
+        else if (props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){
             return (
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer menu</h3>

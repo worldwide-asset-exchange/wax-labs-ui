@@ -4,7 +4,7 @@ import {Carousel} from 'react-bootstrap';
 
 import * as GLOBAL_VARS from '../utils/vars';
 import {requestedAmountToFloat, numberWithCommas} from '../utils/util'
-import RenderCarouselItem from '../partials/CarouselItem';
+import { Link } from 'react-router-dom';
 
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -22,6 +22,8 @@ export default function RenderHome() {
 
     const [queryingSubmitted, setQueryingSubmitted] = useState(true);
     const [submittedProposals, setSubmittedProposals] = useState([]);
+
+    const [imagesWithErrors, setImagesWithErrors] = useState({});
 
     useEffect(()=>{
         async function getInVotingProposals(){
@@ -166,15 +168,40 @@ export default function RenderHome() {
 
     return (
         <div>
+            <div>
+                <h1>
+                    Choose how to add value to the community
+                </h1>
+                <p>Growing the WAX Blockchain through decentralization and innovation</p>
+                <Link to="/proposals?status=voting" className="btn">Vote for the latest proposals</Link>
+            </div>
             {
                 queryingVoting ?
                     <h1>loading ...</h1>
                 :
                     <Carousel
+                        touch={true}
+                        interval={null}
                     >
                         {inVotingProposals.map((proposal, index) => {
                             return (
-                                <RenderCarouselItem proposal={proposal} key={index}/>
+                                <Carousel.Item>
+                                    <img 
+                                        src={imagesWithErrors[proposal.proposal_id] ? GLOBAL_VARS.DEFAULT_PROPOSAL_IMAGE_URL : proposal.image_url} 
+                                        alt={proposal.title} 
+                                        className="d-block w-100" 
+                                        onError={
+                                            () =>{
+                                                let errorDict = {...imagesWithErrors}
+                                                errorDict[proposal.proposal_id] = true
+                                                setImagesWithErrors(errorDict);
+                                            } 
+                                        }
+                                    />
+                                    <Carousel.Caption>
+                                        <p>{proposal.title}</p>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
                             )
                         })}
                     </Carousel>

@@ -178,6 +178,23 @@ export const CAST_VOTE_ALERT_DICT = {
     }
 }
 
+export const SUBMIT_PROP_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Submit prop success!",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was submitted`, 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Submit prop error!",
+        body: "An error ocurred when trying to call the submit prop action.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
 
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {

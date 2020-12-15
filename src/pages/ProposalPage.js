@@ -5,7 +5,7 @@ import {Link, useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import {sleep, requestedAmountToFloat} from "../utils/util";
-import * as globals from '../utils/vars';
+import * as GLOBAL_VARS from '../utils/vars';
 import RenderProposerMenu from '../partials/ProposalPage/ProposerMenu';
 import RenderAlerts from '../partials/ProposalPage/Alerts';
 import RenderLoadingPage from '../partials/LoadingPage';
@@ -15,7 +15,7 @@ import RenderAdminMenu from '../partials/ProposalPage/AdminMenu';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
-const readableProposalStatus = globals.READABLE_PROPOSAL_STATUS;
+const readableProposalStatus = GLOBAL_VARS.READABLE_PROPOSAL_STATUS;
 
 
 export default function RenderProposalPage(props){    
@@ -51,9 +51,9 @@ export default function RenderProposalPage(props){
         try{
             /* Getting Proposal info */
             let resp = await wax.rpc.get_table_rows({             
-                code: globals.LABS_CONTRACT_ACCOUNT,
-                scope: globals.LABS_CONTRACT_ACCOUNT,
-                table: globals.PROPOSALS_TABLE,
+                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                table: GLOBAL_VARS.PROPOSALS_TABLE,
                 json: true,
                 lower_bound: id,
                 upper_bound: id,

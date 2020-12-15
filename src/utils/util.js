@@ -13,6 +13,10 @@ export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export function numberWithCommas(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export function requestedAmountToFloat(requestedAmount, symbol=" WAX"){
     return parseFloat(requestedAmount.slice(0, -symbol.length))
 }

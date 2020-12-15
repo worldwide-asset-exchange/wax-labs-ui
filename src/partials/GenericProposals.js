@@ -9,15 +9,19 @@ import RenderLoadingPage from './LoadingPage.js';
 import RenderFilter from './Filter.js';
 import { Link } from 'react-router-dom';
 
+import { Accordion } from 'react-bootstrap';
+
+import './GenericProposals.scss';
+
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderGenericProposals(props) {
-    // list of proposals that were got from the query. Supposed to update 
+    // list of proposals that were got from the query. Supposed to update
     // whenever queryArgs changes.
     const [proposals, setProposals] = useState([]);
 
-    // This is for pagination on RenderProposalList to know if a 
-    // filter was changed. It needs to change page to 1 if that happens. 
+    // This is for pagination on RenderProposalList to know if a
+    // filter was changed. It needs to change page to 1 if that happens.
     const [filterChanged, setFilterChanged] = useState(false);
 
     // Flags to know when to display loading page.
@@ -25,9 +29,9 @@ export default function RenderGenericProposals(props) {
     const [filtering, setFiltering] = useState(true);
 
     // Filtered proposals is supposed to contain the filtered list of proposals.
-    // This is updated whenever proposals, categoriesList, filterString 
+    // This is updated whenever proposals, categoriesList, filterString
     // or orderByString changes.
-    const [filteredProposals, setFilteredProposals] = useState([]);    
+    const [filteredProposals, setFilteredProposals] = useState([]);
 
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
@@ -37,14 +41,14 @@ export default function RenderGenericProposals(props) {
 
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(globals.ORDER_BY_QUERY_STRING_KEY, globals.PROPOSAL_ORDER_BY_LIST[0]);
-    
+
     function filterByStatus(proposal){
         if(!statusList){
             return true;
         } else if (!Array.isArray(statusList)){
             return (statusList === proposal.status)
         } else if (!statusList.length){
-            return true            
+            return true
         }else {
             return (statusList.includes(proposal.status))
         }
@@ -55,7 +59,7 @@ export default function RenderGenericProposals(props) {
         } else if (!Array.isArray(categoriesList)){
             return (categoriesList === proposal.category)
         } else if (!categoriesList.length){
-            return true            
+            return true
         }else {
             return (categoriesList.includes(proposal.category))
         }
@@ -66,7 +70,7 @@ export default function RenderGenericProposals(props) {
             return true;
         } else {
             return (
-                proposal.proposer.toLowerCase().includes(filterString.toLowerCase()) 
+                proposal.proposer.toLowerCase().includes(filterString.toLowerCase())
                 || proposal.title.toLowerCase().includes(filterString.toLowerCase())
                 || proposal.description.toLowerCase().includes(filterString.toLowerCase())
             )
@@ -84,18 +88,18 @@ export default function RenderGenericProposals(props) {
         setFiltering(false);
         //eslint-disable-next-line
     },[categoriesList, proposals, filterString, orderByString, statusList]);
-    
+
     function proposalComparison(proposalA, proposalB) {
         let [field, mode] = orderByString.split(globals.SEPARATOR_ORDER_BY)
         if(field === globals.REQUESTED_ORDER_BY_FIELD){
             if(mode === globals.ASCENDANT_ORDER_BY_MODE){
                 return(
-                    requestedAmountToFloat(proposalA.total_requested_funds) 
+                    requestedAmountToFloat(proposalA.total_requested_funds)
                     - requestedAmountToFloat(proposalB.total_requested_funds)
                 )
             } else if(mode === globals.DESCENDANT_ORDER_BY_MODE){
                 return(
-                    requestedAmountToFloat(proposalB.total_requested_funds) 
+                    requestedAmountToFloat(proposalB.total_requested_funds)
                     - requestedAmountToFloat(proposalA.total_requested_funds)
                 )
             }
@@ -107,7 +111,7 @@ export default function RenderGenericProposals(props) {
             } else if(mode === globals.DESCENDANT_ORDER_BY_MODE){
                 return(
                     proposalB.proposal_id - proposalA.proposal_id
-                )                
+                )
             }
         }
     }
@@ -120,11 +124,11 @@ export default function RenderGenericProposals(props) {
                 try {
                     setQuerying(true);
                     let proposalsArray = []
-    
+
                     let nextId="0";
                     let resp = {}
                     do{
-                        resp = await wax.rpc.get_table_rows({             
+                        resp = await wax.rpc.get_table_rows({
                             code: globals.LABS_CONTRACT_ACCOUNT,
                             scope: globals.LABS_CONTRACT_ACCOUNT,
                             table: globals.PROPOSALS_TABLE,
@@ -134,15 +138,15 @@ export default function RenderGenericProposals(props) {
                         });
                         console.log(resp);
                         if(resp.rows){
-                            proposalsArray = [...proposalsArray, ...resp.rows]        
-                        }                    
-                        nextId = resp.next_key; 
-                    }while(resp.more)         
-                                             
+                            proposalsArray = [...proposalsArray, ...resp.rows]
+                        }
+                        nextId = resp.next_key;
+                    }while(resp.more)
+
                     if(!cancelled){
                         console.log(proposalsArray);
                         setProposals(proposalsArray);
-                        setQuerying(false);                            
+                        setQuerying(false);
                     }
                     success = true;
                 } catch(e) {
@@ -151,7 +155,7 @@ export default function RenderGenericProposals(props) {
                 }
             }while(!success)
         }
-        getProposals();        
+        getProposals();
         const cleanup = () => { cancelled = true }
         return cleanup
     }, []);
@@ -166,51 +170,74 @@ export default function RenderGenericProposals(props) {
         setFilterChanged(true);
         setCategoriesList(newList);
     }
-        
-    return (
-        <div className="proposals-body">
-            <h2>Proposals</h2>
-            <div className="filters">
-                <RenderFilter
-                    title="Status Filters"
-                    currentList={statusList}
-                    fullList={globals.PROPOSALS_STATUS_KEYS}
-                    updateCurrentList={updateStatusList}
-                    readableNameDict={globals.READABLE_PROPOSAL_STATUS}
-                />            
-                <RenderFilter
-                    title="Category Filters"
-                    currentList={categoriesList}
-                    fullList={props.categories}
-                    updateCurrentList={updateCategoriesList}                    
-                />
 
-                <div className="search-filter">
-                    <h3>Search</h3>
+    return (
+        <div className="genericProposals">
+            <h2>Proposals</h2>
+            <div className="genericProposals__filters">
+                <div className="genericProposals__search">
+                    <div className="input__label">Search</div>
                     <input
-                        value={filterString} 
-                        type="text" 
+                        value={filterString}
+                        type="text"
                         onChange={
                             (event) => {
                                 setFilterString(event.target.value);
                                 setFilterChanged(true);
                             }
                         }
-                        placeholder="Search for proposals"
+                        placeholder="Proposal's name"
+                        className="input"
                     />
                 </div>
-
-                <div className="order-by-container">
-                    <select 
-                        value={orderByString} 
-                        className="order-by-select" 
+                <div className="genericProposals__filter">
+                    <Accordion>
+                        <Accordion.Toggle eventKey="1" className="button button--secondary">
+                            More filters
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="1">
+                            <div>
+                                <RenderFilter
+                                    title="Status Filters"
+                                    currentList={statusList}
+                                    fullList={globals.PROPOSALS_STATUS_KEYS}
+                                    updateCurrentList={updateStatusList}
+                                    readableNameDict={globals.READABLE_PROPOSAL_STATUS}
+                                />
+                                <RenderFilter
+                                    title="Category Filters"
+                                    currentList={categoriesList}
+                                    fullList={props.categories}
+                                    updateCurrentList={updateCategoriesList}
+                                />
+                            </div>
+                        </Accordion.Collapse>
+                    </Accordion>
+                </div>
+            </div>
+            <div className="genericProposals__actions">
+                <div className="genericProposals__createProposal">
+                    {
+                        !props.activeUser ?
+                            <p>Log in to create a proposal</p>
+                        :
+                        !props.profile ?
+                            <p>To create a proposal you need to <Link className="inlineLink" to={globals.ACCOUNT_PORTAL_LINK}>create your profile</Link></p>
+                        :
+                            <Link className="button button-primary" to={globals.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
+                    }
+                </div>
+                <div className="genericProposals__orderBy">
+                    <select
+                        value={orderByString}
+                        className="select"
                         onChange={(event)=>setOrderByString(event.target.value)}
                     >
                         {globals.PROPOSAL_ORDER_BY_LIST.map((option, index) => {
                             return(
                                 <option
                                     key={index}
-                                    className="order-by-option"
+                                    className="select__option"
                                     value={option}
                                 >
                                     {globals.PROPOSAL_ORDER_BY_OBJECT[option]}
@@ -219,24 +246,12 @@ export default function RenderGenericProposals(props) {
                         })}
                     </select>
                 </div>
-
-            </div>
-            <div className="create-proposal">
-                {
-                    !props.activeUser ?
-                        <h5>Log in to create a proposal</h5>
-                    :
-                    !props.profile ?
-                        <h5>To create a proposal you need to <Link to={globals.ACCOUNT_PORTAL_LINK}>create your profile</Link></h5>
-                    :
-                        <Link className="btn" to={globals.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
-                }
             </div>
             <div className="filtered-proposals review-proposals">
-                {  
+                {
                     filtering || querying ?
                     <RenderLoadingPage/>
-                    : 
+                    :
                     <RenderProposalList
                         filterChanged = {filterChanged}
                         proposalsList = {filteredProposals}
@@ -246,5 +261,5 @@ export default function RenderGenericProposals(props) {
             </div>
         </div>
     );
-        
+
     }

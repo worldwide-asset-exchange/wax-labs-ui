@@ -1,0 +1,50 @@
+@import '../scss/variables';
+@import '../scss/responsiveness';
+@import '../scss/typography';
+
+.filter {
+    margin: $spacing-xs 0;
+    &__label {
+        @include p--tiny;
+        margin-bottom: $spacing-xxs;
+    }
+    &__group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .active {
+            border: 1px solid $orange-gradient;
+            color: $orange-light;
+            background-color: $orange-background;
+        }
+    }
+    &__item {
+        /* removes default checkbox/radio element */
+        input[type="checkbox"],
+        input[type="radio"] {
+            position: absolute;
+            clip: rect(0,0,0,0);
+            pointer-events: none;
+        }
+
+        padding: $spacing-xxxs $spacing-xs;
+        border: 1px solid $overlay-01;
+        border-radius: 20px;
+
+        color: $typography-02;
+        text-align: center;
+
+        cursor: pointer;
+
+        margin-left: $spacing-xxs;
+        transition: all 0.2s ease-in;
+
+    }
+}

@@ -1,0 +1,53 @@
+// Colors
+$gray-dark: #1B1B1B;
+$gray-medium: #3A3837;
+$gray-light: #7A7671;
+
+$orange-dark: #D26D00;
+$orange-medium: #F78E1E;
+$orange-light: #FFAC54;
+
+$red-dark: #A14F5E;
+$red-medium: #CF6679;
+$red-light: #CF6679;
+
+$green-dark: #598258;
+$green-medium: #72A671;
+$green-light: #98CC97;
+
+$blue-dark: #2E394F;
+$blue-medium: #526382;
+$blue-light: #88A2D1;
+
+$overlay-01: rgba(255, 255, 255, 0.05);
+$overlay-02: rgba(255, 255, 255, 0.07);
+$overlay-03: rgba(255, 255, 255, 0.08);
+$overlay-04: rgba(255, 255, 255, 0.09);
+
+$red-background: #A14F5E30;
+$green-background: #59825830;
+$blue-background: #2E394F30;
+$orange-background: #D26D0030;
+
+$typography-01: #FFFFFFE8;
+$typography-02: #FFFFFFBA;
+$typography-03: #FFFFFF9C;
+$typography-tiny: #FFFFFFF0;
+
+
+// Gradients
+$orange-gradient: linear-gradient(90.08deg, #F78E1E 0%, #FFDC51 236.03%);
+$orange-gradient--reverse: linear-gradient(275.91deg, #F78E1E 8.43%, #FFDC51 174.56%);
+
+// Spacing (padding and margin)
+$spacing-xxxs: 4px;
+$spacing-xxs: 8px;
+$spacing-xs: 16px;
+$spacing-s: 24px;
+$spacing-m: 32px;
+$spacing-l: 40px;
+$spacing-xl: 48px;
+$spacing-xxl: 64px;
+$spacing-xxxl: 80px;
+
+$max-screen-width: 1440px;

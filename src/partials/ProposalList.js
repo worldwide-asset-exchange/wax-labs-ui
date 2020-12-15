@@ -4,7 +4,7 @@ import useQueryString from '../utils/useQueryString';
 
 import {useWindowSize} from '../utils/util';
 import * as globals from "../utils/vars";
-import RenderProposalGrid from "./ProposalGridSingle.js";
+import RenderProposalCard from "./ProposalCard.js";
 
 const reactPaginateObject = {
     mobile: {marginPagesDisplayed:1, pageRangeDisplayed:1},
@@ -16,9 +16,9 @@ const reactPaginateObject = {
 const perPage = 10;
 
 export default function RenderProposalList(props){
-   
+
     const [page, setPage] = useQueryString(globals.PAGE_QUERY_STRING_KEY, 1);
-   
+
 
     const windowSize = useWindowSize();
 
@@ -58,13 +58,13 @@ export default function RenderProposalList(props){
     let paginatedProperties = props.proposalsList.slice(indexOfFirstAsset, indexOfLastAsset);
 
     let paginateObject = reactPaginateObject[windowSize.breakpoint];
-    
+
     return (
         <React.Fragment>
             {
                 paginatedProperties.length ?
                 paginatedProperties.map((proposal) =>
-                    <RenderProposalGrid proposal={proposal} key={proposal.proposal_id} />)
+                    <RenderProposalCard proposal={proposal} key={proposal.proposal_id} />)
                 :
                 <p>{props.noProposalsMessage}</p>
             }

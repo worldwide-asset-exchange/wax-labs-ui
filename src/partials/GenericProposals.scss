@@ -1,0 +1,54 @@
+@import '../scss/variables';
+@import '../scss/responsiveness';
+@import '../scss/typography';
+@import '../scss/layout';
+
+@import '../scss/components/Input';
+@import '../scss/components/Select';
+@import '../scss/components/Button';
+@import '../scss/components/Link';
+@import '../scss/components/Pagination';
+
+.genericProposals {
+    @include mainPadding;
+    max-width: $max-screen-width;
+    margin: 0 auto;
+
+    &__filters {
+        display: flex;
+        flex-direction: column;
+
+        .button {
+            margin: $spacing-xs auto;
+        }
+    }
+    &__filter {
+        @include breakpoint (mobile-only) {
+            text-align: center;
+        }
+    }
+    &__search {
+        max-width: 500px;
+    }
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        margin: $spacing-xs 0;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+    &__orderBy {
+        align-self: flex-end;
+        margin: $spacing-xxs 0;
+    }
+    &__createProposal {
+        p {
+            @include p;
+            margin: 0;
+            color: $typography-02;
+        }
+    }
+}

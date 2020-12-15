@@ -1,0 +1,78 @@
+@import './responsiveness';
+@import './variables';
+
+$baseFontSize: 16px;
+
+@function pxToRem($size) {
+  $remSize: $size / $baseFontSize;
+  @return #{$remSize}rem;
+}
+
+@mixin headline-font-face {
+    font-face: 'Montserrat', 'Roboto', 'sans-serif';
+    color: $typography-01;
+}
+@mixin body-font-face {
+    font-face: 'Open Sans', 'Roboto', 'sans-serif';
+    color: $typography-02;
+}
+
+@mixin h1 {
+    @include headline-font-face();
+    font-size: pxToRem(33px);
+    font-weight: 800;
+    line-height: 130%;
+
+    @include breakpoint (desktop-up) {
+        font-size: pxToRem(39px);
+    }
+}
+
+@mixin h2 {
+    @include headline-font-face();
+    font-size: pxToRem(27px);
+    font-weight: 700;
+    line-height: 130%;
+
+    @include breakpoint (desktop-up) {
+        font-size: pxToRem(31px);
+    }
+}
+
+@mixin h3 {
+    @include headline-font-face();
+    font-size: pxToRem(23px);
+    font-weight: 600;
+    line-height: 130%;
+    @include breakpoint (desktop-up) {
+        font-size: pxToRem(25px);
+    }
+}
+
+@mixin h4 {
+    @include headline-font-face();
+    font-size: pxToRem(18px);
+    font-weight: 600;
+    line-height: 130%;
+    @include breakpoint (desktop-up) {
+        font-size: pxToRem(20px);
+    }
+}
+
+@mixin p {
+    @include body-font-face();
+    font-size: pxToRem(16px);
+    font-weight: 400;
+    line-height: 150%;
+}
+
+@mixin p--bold {
+    @include p;
+    font-weight: 800;
+}
+
+@mixin p--tiny {
+    @include p;
+    color: $typography-tiny;
+    font-size: pxToRem(14px);
+}

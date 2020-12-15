@@ -1,0 +1,111 @@
+@import '../scss/variables';
+@import '../scss/typography';
+@import '../scss/responsiveness';
+
+@import '../scss/components/Tag';
+
+.proposalCard {
+    display: block;
+
+    width: 100%;
+    min-height: 300px;
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    border-radius: 15px;
+    margin-bottom: $spacing-l;
+
+    background-size: cover;
+    background-position: center;
+    padding: $spacing-xxs;
+
+    background-color: $overlay-01;
+
+    @include breakpoint(tablet-up) {
+        flex-direction: row;
+        background-image: none !important;
+        padding: 0;
+        align-items: stretch;
+    }
+
+    &:hover {
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        background-color: $overlay-04;
+    }
+
+    &__content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+
+        background-size: cover;
+        background-position: center;
+        padding: $spacing-s;
+        border-radius: 15px;
+
+        @include breakpoint(large-mobile-only) {
+            background-image: none !important;
+        }
+    }
+    &__id,
+    &__label {
+        @include p--tiny;
+    }
+    &__title {
+        @include h2;
+        margin-bottom: $spacing-xxs;
+
+        @include breakpoint(tablet-up) {
+            margin-bottom: $spacing-xs;
+        }
+    }
+    &__description {
+        @include p;
+        margin-bottom: $spacing-s;
+    }
+    &__details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+        }
+    }
+    &__author {
+        @include p--bold;
+        margin-bottom: $spacing-xs;
+    }
+    &__requestedAmount {
+        @include h3;
+    }
+    &__status {
+        width: 400px;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: $spacing-s 0 0 0;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: column;
+        }
+    }
+    &__deliverablesAmount {
+        @include p--bold;
+        display: none;
+        @include breakpoint(tablet-up) {
+            display: block;
+            margin: $spacing-m 0;
+        }
+    }
+    .tag--category {
+        margin-bottom: $spacing-xs;
+    }
+}

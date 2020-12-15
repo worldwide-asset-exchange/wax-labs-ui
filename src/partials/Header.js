@@ -4,12 +4,12 @@ import {
 } from "react-router-dom";
 import * as waxjs from "@waxio/waxjs/dist";
 
-import logo from "../assets/wax_labs_logo.svg";
-import homeIcon from "../assets/bee-box-home.png";
-import proposalsIcon from "../assets/certificate-proposals.png";
-import deliverablesIcon from "../assets/honey-deliverables.png";
-import adminIcon from "../assets/beekeeper-admin.png";
-import loginIcon from "../assets/user.svg";
+import logo from "../images/wax_labs_logo.svg";
+import homeIcon from "../images/bee-box-home.png";
+import proposalsIcon from "../images/certificate-proposals.png";
+import deliverablesIcon from "../images/honey-deliverables.png";
+import adminIcon from "../images/beekeeper-admin.png";
+import loginIcon from "../images/user.svg";
 
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -24,7 +24,7 @@ export default function RenderHeader(props) {
     useEffect(() => {
         async function getNotifications(){
             try {
-                let resp = await wax.rpc.get_table_rows({             
+                let resp = await wax.rpc.get_table_rows({
                     code: 'labs',
                     scope: 'labs',
                     table: 'proposals',
@@ -35,7 +35,7 @@ export default function RenderHeader(props) {
                     key_type: 'name'
                 });
 
-                /*let approvedResp =*/ await wax.rpc.get_table_rows({             
+                /*let approvedResp =*/ await wax.rpc.get_table_rows({
                     code: 'labs',
                     scope: 'labs',
                     table: 'proposals',
@@ -50,7 +50,7 @@ export default function RenderHeader(props) {
                 let approvedCount = 0;
 
                 if (activeUser) {
-                    let myProposalsResp = await wax.rpc.get_table_rows({             
+                    let myProposalsResp = await wax.rpc.get_table_rows({
                         code: 'labs',
                         scope: 'labs',
                         table: 'proposals',
@@ -62,7 +62,7 @@ export default function RenderHeader(props) {
                     });
                     myProposalsResp.rows.forEach(function (element) {
                         async function getBallots(){
-                        let ballots = await wax.rpc.get_table_rows({             
+                        let ballots = await wax.rpc.get_table_rows({
                             code: 'decide',
                             scope: 'decide',
                             table: 'ballots',
@@ -89,14 +89,14 @@ export default function RenderHeader(props) {
                         }
                     }
                     getBallots()
-                    
+
                     });
                 }
 
                 let proposalCount = 0;
 
                 if (props.isAdmin) {
-                    let submittedResp = await wax.rpc.get_table_rows({             
+                    let submittedResp = await wax.rpc.get_table_rows({
                         code: 'labs',
                         scope: 'labs',
                         table: 'proposals',
@@ -112,19 +112,19 @@ export default function RenderHeader(props) {
                     setProposals(proposalCount);
                 }
 
-                
+
                 let delivsCount = 0;
 
 
                 resp.rows.forEach(filteredProposal => {
                     async function getAssignedDelivs() {
                         try {
-                                let delivsResp = await wax.rpc.get_table_rows({             
+                                let delivsResp = await wax.rpc.get_table_rows({
                                     code: 'labs',
                                     scope: filteredProposal.proposal_id,
                                     table: 'deliverables',
                                     json: true,
-                                })                        
+                                })
 
 
                                 if (activeUser){
@@ -153,7 +153,7 @@ export default function RenderHeader(props) {
         }
     getNotifications();
     }, [activeUser, props.isAdmin]);
-    
+
     function toggleNotificationsSubMenu() {
         setShowNotifications(!show_notifcations);
     }

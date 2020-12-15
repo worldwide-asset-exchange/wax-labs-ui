@@ -61,7 +61,7 @@ export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
 export const PROPOSALS_LINK = "/proposals"
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/draft"
 export const ACCOUNT_PORTAL_LINK = "/account"
-export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.io/uploads/press-assets/wax-primary-logo.png'
+export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 
 export const PROPOSALS_STATUS_KEYS = [
     DRAFTING_KEY,

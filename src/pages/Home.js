@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
+import {Carousel} from 'react-bootstrap';
 
 import * as GLOBAL_VARS from '../utils/vars';
 import {requestedAmountToFloat, numberWithCommas} from '../utils/util'
+import RenderCarouselItem from '../partials/CarouselItem';
+
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -163,6 +166,19 @@ export default function RenderHome() {
 
     return (
         <div>
+            {
+                queryingVoting ?
+                    <h1>loading ...</h1>
+                :
+                    <Carousel
+                    >
+                        {inVotingProposals.map((proposal, index) => {
+                            return (
+                                <RenderCarouselItem proposal={proposal} key={index}/>
+                            )
+                        })}
+                    </Carousel>
+            }
             <div>
                 in voting 
                 {queryingVoting ? " loading..." : " " + inVotingProposals.length}

@@ -49,7 +49,7 @@ export default function RenderProposalCard(props){
             <div className="proposalCard__status">
                 {/* TODO: map status to tag variant */}
                 <div className="tag tag--attention">{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
-                <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables > 1 ? " deliverables" : " deliverable" }
+                <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables === "1" ? " deliverables" : " deliverable" }
                 </div>
                 <div className="tag tag--category">{proposal.category}</div>
             </div>

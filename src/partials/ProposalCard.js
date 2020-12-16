@@ -20,7 +20,7 @@ export default function RenderProposalCard(props){
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
                                     url(${imgError ? globals.DEFAULT_PROPOSAL_IMAGE_URL : proposal.image_url})`
             }}>
-            <img onError={()=>{setImgError(true); console.log("error")}}
+            <img onError={()=>{setImgError(true);}}
                 src={proposal.image_url}
                 style={{display: 'none'}}
                 alt=""/>

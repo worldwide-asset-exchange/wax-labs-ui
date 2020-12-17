@@ -48,6 +48,8 @@ export const REVIEW_PROPOSAL_ACTION = "reviewprop"
 export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SUBMIT_PROPOSAL_ACTION = "submitprop"
 export const SET_REVIEWER_ACTION = "setreviewer"
+export const REMOVE_DELIVERABLE_ACTION = "rmvdeliv"
+export const NEW_DELIVERABLE_ACTION = "newdeliv"
 export const BEGIN_VOTING_ACTION = "beginvoting"
 export const END_VOTING_ACTION = "endvoting"
 export const REVIEW_DELIVERABLE_ACTION = "reviewdeliv"
@@ -56,6 +58,7 @@ export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
+export const MAX_DELIVERABLES = 20
 
 
 // Links

@@ -5,6 +5,7 @@ import * as globals from "../utils/vars";
 
 import RenderGenericProposals from '../partials/GenericProposals';
 import RenderProposalPage from './ProposalPage';
+import RenderEditProposal from '../partials/EditPage/EditProposal';
 import RenderEditDraftProposal from '../partials/EditDraftProposal';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -88,7 +89,7 @@ export default function RenderProposals(props){
                     }
                 />
                 <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
-                <Route path=":id/edit" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="Edit" />} />
+                <Route path=":id/edit" element={<RenderEditProposal activeUser={props.activeUser} categories={categories}/>} />
 
             </Routes>
 

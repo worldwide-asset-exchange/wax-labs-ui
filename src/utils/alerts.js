@@ -1,3 +1,4 @@
+import * as GLOBAL_VARS from './vars'
 
 export const SUCCESS_VARIANT = "success"
 export const ERROR_VARIANT = "danger"
@@ -194,6 +195,35 @@ export const SUBMIT_PROP_ALERT_DICT = {
         dismissible: true,
     }
 }
+
+export const SAVE_DRAFT_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Save draft success!",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was saved. If after the reload, the data in the page does not reflect what you saved, refresh the page after a small delay.`, 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Save draft error!",
+        body: "An error occurred when trying to sign the transaction for the save draft action",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
+    WARN: 
+    {
+        title: "Too many deliverables!",
+        body: `Can't have more than ${GLOBAL_VARS.MAX_DELIVERABLES} deliverables`, 
+        variant: ERROR_VARIANT, 
+        dismissible: true
+    },
+}
+
+
 
 
 // Please copy and paste this if you are creating a new ALERT_DICT

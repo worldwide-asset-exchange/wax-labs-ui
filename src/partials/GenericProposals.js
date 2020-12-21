@@ -186,7 +186,7 @@ export default function RenderGenericProposals(props) {
                                 setFilterChanged(true);
                             }
                         }
-                        placeholder="Proposal's name"
+                        placeholder="Proposal's title, description or proposer"
                         className="input"
                     />
                 </div>
@@ -224,7 +224,7 @@ export default function RenderGenericProposals(props) {
                         !props.profile ?
                             <p>To create a proposal you need to <Link className="inlineLink" to={globals.ACCOUNT_PORTAL_LINK}>create your profile</Link></p>
                         :
-                            <Link className="button button-primary" to={globals.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
+                            <Link className="button button--primary" to={globals.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
                     }
                 </div>
                 <div className="genericProposals__orderBy">

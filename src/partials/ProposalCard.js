@@ -6,6 +6,27 @@ Link
 import * as globals from "../utils/vars"
 import './ProposalCard.scss'
 
+function tagStyle(proposalState) {
+    let tagClass;
+    switch(proposalState) {
+        case globals.FAILED_KEY:
+        case globals.CANCELLED_KEY:
+            tagClass='tag--negative';
+            break;
+        case globals.VOTING_KEY:
+        case globals.INPROGRESS_KEY:
+            tagClass='tag--attention';
+            break;
+        case globals.APPROVED_KEY:
+        case globals.COMPLETED_KEY:
+            tagClass='tag--positive';
+            break;
+        default:
+            tagClass='tag--neutral';
+    }
+    return tagClass;
+}
+
 export default function RenderProposalCard(props){
     const [imgError, setImgError] = useState(false);
 
@@ -47,8 +68,7 @@ export default function RenderProposalCard(props){
                 </div>
             </div>
             <div className="proposalCard__status">
-                {/* TODO: map status to tag variant */}
-                <div className="tag tag--attention">{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
+                <div className={`tag ${tagStyle(proposal.status)}`}>{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
                 <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables === 1 ? " deliverable" : " deliverables" }
                 </div>
                 <div className="tag tag--category">{proposal.category}</div>

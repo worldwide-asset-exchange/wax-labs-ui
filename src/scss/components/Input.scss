@@ -2,16 +2,15 @@
 @import "../typography";
 @import "../responsiveness";
 
-
-.input {
+@mixin user-input {
     @include p;
     background-color: $gray-dark;
     border-radius: 8px;
-    padding: $spacing-xxs;
     border: 1px solid $overlay-02;
+    padding: $spacing-xxs;
 
-    outline: none;
     box-shadow: none;
+    outline: none;
     width: 100%;
 
     &::placeholder {
@@ -19,15 +18,22 @@
     }
     &:active,
     &:focus {
-      border: 1px solid $orange-gradient;
+        border: 1px solid $overlay-06;
     }
+}
+
+.input {
+    @include user-input;
+}
+
+.textarea {
+    @include user-input;
+    min-height: 150px;
 }
 
 .input__label {
     @include p--tiny;
     color: $typography-02;
-        margin-bottom: $spacing-xxs;
-
-        white-space: nowrap;
-
+    margin-bottom: $spacing-xxs;
+    white-space: nowrap;
 }

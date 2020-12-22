@@ -26,6 +26,10 @@ export const RenderDeliverablesContainer = (props) => {
     // Another set for the editable ones (the ones the user will update/re order).
     const [editableDeliverables, setEditableDeliverables] = useState([]);
 
+    // dict to keep track of validation. The reason I did not go for a list
+    // is that since deliverables can get reordered, I was afraid having to
+    // also reorder this list every time the other one got reorded
+    // could get messy/hard to maintain.
     const [deliverablesValidation, setDeliverablesValidation] = useState({});
 
     useEffect(()=>{
@@ -40,10 +44,13 @@ export const RenderDeliverablesContainer = (props) => {
             let copyDeliverables = [...deliverables];
             let deliverablesValidation = {};
             copyDeliverables = copyDeliverables.map((deliverable, index)=>{
+                // we create/store a unique (at least very hard to collide) id.
                 deliverable.id = randomEosioName();
+                // we use this id as key, in the deliverablesValidation dict. 
                 deliverablesValidation[deliverable.id] = true;
                 return deliverable
             });
+            // we set the deliverablesValidation dict.
             setDeliverablesValidation(deliverablesValidation);
             setEditableDeliverables(copyDeliverables);
         }
@@ -51,16 +58,20 @@ export const RenderDeliverablesContainer = (props) => {
     }, [deliverables])
 
     useEffect(()=>{
+        // We update the parent state with local deliverables information (we are removing the old ones
+        // adding the new ones)
         props.updateDeliverablesLists({toAdd:[...editableDeliverables], toRemove:[...deliverables]})
         // eslint-disable-next-line
     },[editableDeliverables]);
 
     useEffect(()=>{
         let allValid = true;
-        console.log(deliverablesValidation);
+        // If any of them is false, all valid will be false
+        // because of agregating &&
         for(var [,value] of Object.entries(deliverablesValidation)){
             allValid = allValid && value;
         }
+        // update parent state
         props.updateDeliverablesValidation(allValid);
         // eslint-disable-next-line
     }, [deliverablesValidation])
@@ -84,7 +95,7 @@ export const RenderDeliverablesContainer = (props) => {
         let deliverable = {
             id: randomEosioName(),
             recipient: props.activeUser.accountName,
-            requested_amount: (deliverables.length + 1)
+            requested_amount: ""
         }
         deliverables.push(deliverable);
         setEditableDeliverables(deliverables);
@@ -115,18 +126,17 @@ export const RenderDeliverablesContainer = (props) => {
 
 
     function updateDeliverable(event, index){
-        const deliverable = {...editableDeliverables[index]};
-        deliverable[event.target.name] = event.target.value;
-        // console.log(parseFloat(event.target.value))
+        const updatedDeliverable = {...editableDeliverables[index]};
+        updatedDeliverable[event.target.name] = event.target.value;
         if(event.target.type === "number"){
             if(event.target.value !== ""){
-                deliverable[event.target.name] = parseFloat(event.target.value);
+                updatedDeliverable[event.target.name] = parseFloat(event.target.value);
             }
         }
-
+        // chang it for his updated version
         setEditableDeliverables(update(editableDeliverables, {
             $splice: [
-                [index, 1, deliverable],
+                [index, 1, updatedDeliverable],
             ],
         }));
     }
@@ -148,7 +158,7 @@ export const RenderDeliverablesContainer = (props) => {
             ],
         }));
     }, [editableDeliverables]);
-    
+
     const renderCard = (deliverable, index) => {
         return (
             <RenderDeliverableCard

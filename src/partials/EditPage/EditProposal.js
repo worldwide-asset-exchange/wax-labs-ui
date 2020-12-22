@@ -8,7 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderAlerts from '../ProposalPage/Alerts';
-import {requestedAmountToFloat, sleep} from '../../utils/util';
+import {sleep} from '../../utils/util';
 import {RenderDeliverablesContainer} from './DeliverablesContainer';
 import RenderProposalInputContainer from './ProposalInputContainer';
 import RenderLoadingPage from '../LoadingPage';
@@ -44,7 +44,6 @@ export default function RenderEditProposal(props){
                 upper_bound: id,
             });
             let responseProposal = resp.rows[0]
-            responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' WAX';
             setProposal(responseProposal);
            
         } catch (e){
@@ -71,11 +70,11 @@ export default function RenderEditProposal(props){
     }
 
     async function rerunProposalQuery(){
-        // Wait 3000 miliseconds before repulling data from the chain
-        // to avoid getting unupdated state.
+        // Wait 5000 miliseconds before repulling data from the chain
+        // to try and avoid getting unupdated state.
         setQueryingProposal(true);
         setQueryingDeliverables(true);
-        await sleep(3000);
+        await sleep(5000);
         setProposalQueryCount(proposalQueryCount + 1);
     }
 
@@ -157,13 +156,15 @@ export default function RenderEditProposal(props){
         actionList.push(createEditProposalAction());
         // Remove all deliverables that are on the chain
         let removeDelivActions = deliverablesObject.toRemove.map((deliverable) => {
+            // deliverable_id is the on chain id.
             return createRemoveDeliverableAction(deliverable.deliverable_id);
         });
         // Add the potential new deliverables, in the current order.
         let newDelivActions = deliverablesObject.toAdd.map((deliverable, index)=>{
+            // creating deliverables 1-(deliverablesObject.toAdd.length)
             return createNewDeliverableAction(deliverable, index + 1);
         })
-        // Removes come first in the array.
+        // Removes come before new delivs in the array.
         actionList = [...actionList, ...removeDelivActions, ...newDelivActions]
         try {
             await activeUser.signTransaction({
@@ -172,6 +173,7 @@ export default function RenderEditProposal(props){
                     blocksBehind: 3,
                     expireSeconds: 30
             });
+            // Make a copy of the success dict.
             let body = GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.SUCCESS.body.slice(0);
             body = body.replace(GLOBAL_ALERTS.PROPOSAL_ID_TEMPLATE, id);
             let alertObj ={
@@ -251,11 +253,6 @@ export default function RenderEditProposal(props){
             />
             <DndProvider 
                 backend={HTML5Backend}
-                options={{
-                    enableMouseEvents: true,
-                    ignoreContextMenu: true,
-                }
-                }
             >
                 <RenderDeliverablesContainer 
                     proposal={proposal} 

@@ -7,6 +7,7 @@ import { RenderDeliverableCard } from './DeliverableCard';
 import { randomEosioName, requestedAmountToFloat } from '../../utils/util'; 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
+import RenderLoadingPage from '../LoadingPage';
 
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
@@ -178,7 +179,7 @@ export const RenderDeliverablesContainer = (props) => {
     return (
         <div>
             {props.queryingDeliverables ? 
-                "Loading..."
+                <RenderLoadingPage/>
             :
                 <>                
                     <div style={style}>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>

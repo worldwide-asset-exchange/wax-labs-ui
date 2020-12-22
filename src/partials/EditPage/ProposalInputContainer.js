@@ -38,7 +38,7 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
     useEffect(()=>{
         updateValidatorData(validator.allValid());
         // eslint-disable-next-line
-    }, [editableProposal, totalRequestedFunds])
+    }, [editableProposal, totalRequested])
 
     useEffect(()=>{
         if(showValidatorMessages){
@@ -131,7 +131,7 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
                 </div>                 
             </div>
             <div>
-                estimated time
+                estimated time (days)
                 <input
                     type="number" 
                     value={editableProposal.estimated_time}

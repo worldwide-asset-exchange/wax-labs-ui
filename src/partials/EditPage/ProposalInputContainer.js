@@ -5,7 +5,7 @@ import RenderLoadingPage from '../LoadingPage';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProposalInputContainer ({proposal, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories}) {
+export default function RenderProposalInputContainer ({proposal, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories}) {
 
     const [editableProposal, setEditableProposal] = useState({
         title:"",
@@ -44,7 +44,6 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
     }, [showValidatorMessages])
 
     useEffect(()=>{
-        console.log({...editableProposal, ...proposal});
         setEditableProposal({...editableProposal, ...proposal});
         // eslint-disable-next-line
     }, [proposal]);
@@ -64,7 +63,7 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
     if(queryingProposal){
         return <RenderLoadingPage/>
     }
-
+    
     const totalRequestedErrorMessage = validator.message('total requested', totalRequested, 'min:1000,num|max:500000,num') 
     const titleErrorMessage = validator.message('title', editableProposal.title, "required|max:256");
     const descriptionErrorMessage = validator.message('description', editableProposal.description, "required|max:500");
@@ -75,12 +74,16 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
     
     return(
         <div style={{color:"white"}}>
-            <div>
-                Total Requested: {totalRequested} 
-                <div style={{backgroundColor: "red"}}>
-                    {totalRequestedErrorMessage}
-                </div>  
-            </div>
+            {
+                !hideTotalRequested ? 
+                <div>
+                    Total Requested: {totalRequested} 
+                    <div style={{backgroundColor: "red"}}>
+                        {totalRequestedErrorMessage}
+                    </div>  
+                </div>
+                : ""
+            }
             <div>
                 title {editableProposal.title.length}
                 <input 

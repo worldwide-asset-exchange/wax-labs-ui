@@ -44,6 +44,7 @@ export const PROPOSALS_TABLE = "proposals"
 export const NAME_KEY_TYPE = 'name'
 export const PROPOSALS_TABLE_STATUS_INDEXPOSITION = "fourth"
 export const CANCEL_PROPOSAL_ACTION = "cancelprop"
+export const DRAFT_PROPOSAL_ACTION = "draftprop"
 export const REVIEW_PROPOSAL_ACTION = "reviewprop"
 export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SUBMIT_PROPOSAL_ACTION = "submitprop"
@@ -64,7 +65,7 @@ export const MAX_DELIVERABLES = 20
 
 // Links
 export const PROPOSALS_LINK = "/proposals"
-export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/draft"
+export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 export const ACCOUNT_PORTAL_LINK = "/account"
 export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 

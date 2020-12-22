@@ -213,6 +213,23 @@ export const SAVE_DRAFT_ALERT_DICT = {
     }
 }
 
+export const DRAFT_PROP_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Create prop success!",
+        body: `Proposal was created.`, 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Create prop error!",
+        body: "An error ocurred when trying to call the draft prop action",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
 export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
     WARN: 
     {

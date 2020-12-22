@@ -11,6 +11,9 @@ export const ACCEPTED_KEY = "accepted"
 export const CLAIMED_KEY = "claimed"
 export const REJECTED_KEY = "rejected"
 
+export const TESTNET_CHAIN_ID = "f16b1833c747c43682f4386fca9cbb327929334a762755ebec17f6f23c9b8a12"
+export const MAIN_NET_CHAIN_ID = "1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4"
+
 export const SEARCH_QUERY_STRING_KEY = "search"
 export const STATUS_QUERY_STRING_KEY = "status"
 export const CATEGORIES_QUERY_STRING_KEY = "categories"
@@ -44,10 +47,14 @@ export const PROPOSALS_TABLE = "proposals"
 export const NAME_KEY_TYPE = 'name'
 export const PROPOSALS_TABLE_STATUS_INDEXPOSITION = "fourth"
 export const CANCEL_PROPOSAL_ACTION = "cancelprop"
+export const DRAFT_PROPOSAL_ACTION = "draftprop"
 export const REVIEW_PROPOSAL_ACTION = "reviewprop"
 export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SUBMIT_PROPOSAL_ACTION = "submitprop"
+export const EDIT_PROPOSAL_ACTION = "editprop"
 export const SET_REVIEWER_ACTION = "setreviewer"
+export const REMOVE_DELIVERABLE_ACTION = "rmvdeliv"
+export const NEW_DELIVERABLE_ACTION = "newdeliv"
 export const BEGIN_VOTING_ACTION = "beginvoting"
 export const END_VOTING_ACTION = "endvoting"
 export const REVIEW_DELIVERABLE_ACTION = "reviewdeliv"
@@ -56,11 +63,12 @@ export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
+export const MAX_DELIVERABLES = 20
 
 
 // Links
 export const PROPOSALS_LINK = "/proposals"
-export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/draft"
+export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 export const ACCOUNT_PORTAL_LINK = "/account"
 export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 

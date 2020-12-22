@@ -100,7 +100,7 @@ export default function RenderCreateProposalPage(props){
                     Proposal created successfully
                 </div>
                 Transaction link:
-                <a href={`https://wax.bloks.io/transaction/${transactionId}`}>{transactionId.slice(0,8)}</a>
+                <a href={`https://wax${props.activeUser.chainId === GLOBAL_VARS.TESTNET_CHAIN_ID ? "-test" : ""}.bloks.io/transaction/${transactionId}`}>{transactionId.slice(0,8)}</a>
             </div>
         )
     }

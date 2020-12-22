@@ -11,6 +11,9 @@ export const ACCEPTED_KEY = "accepted"
 export const CLAIMED_KEY = "claimed"
 export const REJECTED_KEY = "rejected"
 
+export const TESTNET_CHAIN_ID = "f16b1833c747c43682f4386fca9cbb327929334a762755ebec17f6f23c9b8a12"
+export const MAIN_NET_CHAIN_ID = "1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4"
+
 export const SEARCH_QUERY_STRING_KEY = "search"
 export const STATUS_QUERY_STRING_KEY = "status"
 export const CATEGORIES_QUERY_STRING_KEY = "categories"

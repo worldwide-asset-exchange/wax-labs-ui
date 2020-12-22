@@ -86,6 +86,7 @@ export const RenderDeliverableCard = ({
             <div>
                 Requested WAX
                 <input 
+                    className={`${requestedErrorMessage ? "input-with-error" : ""}`}
                     type="number"
                     name="requested_amount"
                     placeholder="0"
@@ -100,6 +101,7 @@ export const RenderDeliverableCard = ({
                 Recipient
                 <input 
                     type="text"
+                    className={`${recipientErrorMessage ? "input-with-error" : ""}`}
                     name="recipient"
                     value={deliverable.recipient}
                     onChange={(event)=>updateCard(event, index)}

@@ -14,7 +14,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
         proposer:"",
         image_url:"",
         estimated_time:"",
-        category: "dev.tools",
+        category: "",
     });
 
     const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(8) + ' WAX')
@@ -77,7 +77,9 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             {
                 !hideTotalRequested ? 
                 <div>
-                    Total Requested: {totalRequested} 
+                    <div className={`${totalRequestedErrorMessage ? "with-error" : ""}`}>
+                        Total Requested: {totalRequested} 
+                    </div>                    
                     <div style={{backgroundColor: "red"}}>
                         {totalRequestedErrorMessage}
                     </div>  
@@ -87,6 +89,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             <div>
                 title {editableProposal.title.length}
                 <input 
+                    className={`${titleErrorMessage ? "input-with-error" : ""}`}
                     value={editableProposal.title}
                     name="title" 
                     onChange={handleInputChange}  
@@ -98,6 +101,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             <div>
                 description {editableProposal.description.length}
                 <input 
+                    className={`${descriptionErrorMessage ? "input-with-error" : ""}`}
                     value={editableProposal.description}
                     name="description" 
                     onChange={handleInputChange}  
@@ -109,6 +113,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             <div>
                 Image URL
                 <input 
+                    className={`${imageUrlErrorMessage ? "input-with-error" : ""}`}
                     value={editableProposal.image_url}
                     name="image_url" 
                     onChange={handleInputChange}  
@@ -120,6 +125,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             <div>
                 content {editableProposal.content.length}
                 <textarea 
+                    className={`${contentErrorMessage ? "text-area-with-error" : ""}`}
                     value={editableProposal.content}
                     name="content" 
                     onChange={handleInputChange}  
@@ -131,6 +137,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             <div>
                 estimated time (days)
                 <input
+                    className={`${estimatedTimeErrorMessage ? "input-with-error" : ""}`}
                     type="number" 
                     value={editableProposal.estimated_time}
                     name="estimated_time" 
@@ -142,7 +149,14 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             </div>
             <div>
                 category
-                <select style={{color:"white"}} value={editableProposal.category} name="category" onChange={handleInputChange}>
+                <select
+                    className={`${categoryErrorMessage ? "select-with-error" : ""}`} 
+                    style={{color:"white"}} 
+                    value={editableProposal.category} 
+                    name="category" 
+                    onChange={handleInputChange}
+                >
+                    <option value={""}></option>
                     {categories.map((category) =>{
                         return <option style={{color:"black"}} key={category} value={category}>{category}</option>
                     })}

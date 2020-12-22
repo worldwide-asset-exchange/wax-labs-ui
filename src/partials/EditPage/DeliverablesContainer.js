@@ -4,7 +4,7 @@ import update from 'immutability-helper';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import { RenderDeliverableCard } from './DeliverableCard';
-import { randomEosioName } from '../../utils/util'; 
+import { randomEosioName, requestedAmountToFloat } from '../../utils/util'; 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
@@ -26,6 +26,8 @@ export const RenderDeliverablesContainer = (props) => {
     // Another set for the editable ones (the ones the user will update/re order).
     const [editableDeliverables, setEditableDeliverables] = useState([]);
 
+    const [deliverablesValidation, setDeliverablesValidation] = useState({});
+
     useEffect(()=>{
         if(props.proposal){
             getDeliverablesData();
@@ -36,10 +38,13 @@ export const RenderDeliverablesContainer = (props) => {
     useEffect(()=>{
         if(deliverables){
             let copyDeliverables = [...deliverables];
+            let deliverablesValidation = {};
             copyDeliverables = copyDeliverables.map((deliverable, index)=>{
                 deliverable.id = randomEosioName();
+                deliverablesValidation[deliverable.id] = true;
                 return deliverable
             });
+            setDeliverablesValidation(deliverablesValidation);
             setEditableDeliverables(copyDeliverables);
         }
         // eslint-disable-next-line
@@ -47,13 +52,27 @@ export const RenderDeliverablesContainer = (props) => {
 
     useEffect(()=>{
         props.updateDeliverablesLists({toAdd:[...editableDeliverables], toRemove:[...deliverables]})
-        
         // eslint-disable-next-line
-    },[editableDeliverables])
+    },[editableDeliverables]);
+
+    useEffect(()=>{
+        let allValid = true;
+        console.log(deliverablesValidation);
+        for(var [,value] of Object.entries(deliverablesValidation)){
+            allValid = allValid && value;
+        }
+        props.updateDeliverablesValidation(allValid);
+        // eslint-disable-next-line
+    }, [deliverablesValidation])
 
     function alertMaxDeliverables(){
         props.showAlert({...GLOBAL_ALERTS.TOO_MANY_DELIVERABLES_ALERT_DICT.WARN})
+    }
 
+    function updateDeliverablesValidation(id, isValid){
+        let deliverablesValidationCopy = {...deliverablesValidation};
+        deliverablesValidationCopy[id] = isValid;
+        setDeliverablesValidation(deliverablesValidationCopy);
     }
 
     function createNewDeliv(){
@@ -65,7 +84,7 @@ export const RenderDeliverablesContainer = (props) => {
         let deliverable = {
             id: randomEosioName(),
             recipient: props.activeUser.accountName,
-            requested: (deliverables.length + 1).toFixed(8) + " WAX"
+            requested_amount: (deliverables.length + 1)
         }
         deliverables.push(deliverable);
         setEditableDeliverables(deliverables);
@@ -82,11 +101,34 @@ export const RenderDeliverablesContainer = (props) => {
                 json: true,
                 limit: 1000,
             });
-            setDeliverables(delivs.rows);
+            let deliverables = [...delivs.rows];
+            deliverables = deliverables.map(deliverable => {
+                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
+                return deliverable 
+            })
+            setDeliverables(deliverables);
         } catch (e){
             console.log(e);
         }
         props.runningQuery(false);
+    }
+
+
+    function updateDeliverable(event, index){
+        const deliverable = {...editableDeliverables[index]};
+        deliverable[event.target.name] = event.target.value;
+        // console.log(parseFloat(event.target.value))
+        if(event.target.type === "number"){
+            if(event.target.value !== ""){
+                deliverable[event.target.name] = parseFloat(event.target.value);
+            }
+        }
+
+        setEditableDeliverables(update(editableDeliverables, {
+            $splice: [
+                [index, 1, deliverable],
+            ],
+        }));
     }
 
     const removeCard = useCallback((index)=>{
@@ -98,23 +140,28 @@ export const RenderDeliverablesContainer = (props) => {
     }, [editableDeliverables]);
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
-        const dragCard = editableDeliverables[dragIndex];
+        const deliverable = editableDeliverables[dragIndex];
         setEditableDeliverables(update(editableDeliverables, {
             $splice: [
                 [dragIndex, 1],
-                [hoverIndex, 0, dragCard],
+                [hoverIndex, 0, deliverable],
             ],
         }));
     }, [editableDeliverables]);
+    
     const renderCard = (deliverable, index) => {
         return (
-            <RenderDeliverableCard 
-                key={deliverable.id} 
+            <RenderDeliverableCard
+                key={deliverable.id}
+                isLast={index === (editableDeliverables.length - 1)} 
                 index={index} 
                 id={deliverable.id} 
-                text={(index + 1) + ") " + deliverable.requested} 
+                text={(index + 1) + ") " + deliverable.requested}
+                showValidatorMessages={props.showValidatorMessages} 
                 deliverable={deliverable} 
-                removeCard={removeCard} 
+                removeCard={removeCard}
+                updateDeliverablesValidation={updateDeliverablesValidation}
+                updateCard={updateDeliverable} 
                 moveCard={moveCard}
             />);
     };

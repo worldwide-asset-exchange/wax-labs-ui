@@ -89,7 +89,15 @@ export default function RenderProposals(props){
                     }
                 />
                 <Route path="new" element={<RenderEditDraftProposal activeUser={props.activeUser} categories={categories} proposal_type="New" />} />
-                <Route path=":id/edit" element={<RenderEditProposal activeUser={props.activeUser} categories={categories}/>} />
+                <Route 
+                    path=":id/edit" 
+                    element={
+                        <RenderEditProposal 
+                            activeUser={props.activeUser} 
+                            categories={categories}
+                        />
+                    } 
+                />
 
             </Routes>
 

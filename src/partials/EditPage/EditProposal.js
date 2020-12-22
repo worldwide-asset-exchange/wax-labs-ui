@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import { DndProvider } from 'react-dnd';
@@ -9,17 +10,26 @@ import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderAlerts from '../ProposalPage/Alerts';
 import {requestedAmountToFloat, sleep} from '../../utils/util';
 import {RenderDeliverablesContainer} from './DeliverablesContainer';
+import RenderProposalInputContainer from './ProposalInputContainer';
+import RenderLoadingPage from '../LoadingPage';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderEditProposal(props){
     const {id} = useParams();
     const [proposal, setProposal] = useState(null);
+    const [editableProposal, setEditableProposal] = useState(null);
     const [deliverableLists, setDeliverablesLists] = useState({});
     const [alertList, setAlertList] = useState([]);
     const [proposalQueryCount, setProposalQueryCount] = useState(1);
-    const [queryingDeliverables, setQueryingDeliverables] = useState(true);
+    const [queryingDeliverables, setQueryingDeliverables] = useState(false);
     const [queryingProposal, setQueryingProposal] = useState(true);
+    const [totalRequested, setTotalRequested] = useState(0);
+    const [validProposalData, setValidProposalData] = useState(true);
+    const [validDeliverablesData, setValidDeliverablesData] = useState(true);
+    const navigate = useNavigate();
+
+    const [showValidatorMessages, setShowValidatorMessages] = useState(0);
 
     async function getProposalData(){
         setQueryingProposal(true);
@@ -73,6 +83,10 @@ export default function RenderEditProposal(props){
         setDeliverablesLists(deliverablesObject);
     }
 
+    function updateEditableProposal(editableProposal){
+        setEditableProposal(editableProposal);
+    }
+
     function createRemoveDeliverableAction(deliverableId){
         let activeUser = props.activeUser;
         return {
@@ -89,6 +103,7 @@ export default function RenderEditProposal(props){
         }
     }
     function createNewDeliverableAction(deliverable, deliverableId){
+
         let activeUser = props.activeUser;
         return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
@@ -100,9 +115,30 @@ export default function RenderEditProposal(props){
             data: {
                 proposal_id: id,
                 deliverable_id: deliverableId,
-                requested_amount: deliverable.requested,
+                requested_amount: deliverable.requested_amount.toFixed(8) + " WAX",
                 recipient: deliverable.recipient,                   
             },
+        }
+    }
+    function createEditProposalAction(){
+        let activeUser = props.activeUser
+
+        return {            
+            account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+            name: GLOBAL_VARS.EDIT_PROPOSAL_ACTION,
+            authorization: [{
+                actor: activeUser.accountName,
+                permission: activeUser.requestPermission,
+            }],
+            data: {
+                proposal_id: id,
+                title: editableProposal.title,
+                description: editableProposal.description,
+                content: editableProposal.content,
+                category: editableProposal.category,
+                image_url: editableProposal.image_url,
+                estimated_time: editableProposal.estimated_time,
+            },        
         }
     }
 
@@ -111,6 +147,14 @@ export default function RenderEditProposal(props){
         let activeUser = props.activeUser;
         let actionList = [];
         let deliverablesObject = {...deliverableLists};
+
+        if(!validProposalData || !validDeliverablesData){
+            showAlert(GLOBAL_ALERTS.INVALID_DATA_ALERT_DICT.WARN);
+            setShowValidatorMessages(showValidatorMessages + 1);
+            return
+        }
+
+        actionList.push(createEditProposalAction());
         // Remove all deliverables that are on the chain
         let removeDelivActions = deliverablesObject.toRemove.map((deliverable) => {
             return createRemoveDeliverableAction(deliverable.deliverable_id);
@@ -120,7 +164,7 @@ export default function RenderEditProposal(props){
             return createNewDeliverableAction(deliverable, index + 1);
         })
         // Removes come first in the array.
-        actionList = [...removeDelivActions, ...newDelivActions]
+        actionList = [...actionList, ...removeDelivActions, ...newDelivActions]
         try {
             await activeUser.signTransaction({
                 actions: actionList
@@ -147,15 +191,46 @@ export default function RenderEditProposal(props){
             console.log(e);
         }
     }
-    
+
+    function updateDeliverablesValidationData(isValid){
+        setValidDeliverablesData(isValid);
+    }
+    function updateProposalValidationData(isValid){
+        setValidProposalData(isValid);
+    }
+
+    function runningDeliverableQuery(bool){
+        setQueryingDeliverables(bool);
+    }    
+    useEffect(()=>{
+        // Updating total requested as a sum of deliverables requested.
+        if(deliverableLists.toAdd){
+            let total = 0;
+            deliverableLists.toAdd.map((deliverable, index)=>{
+                if((typeof deliverable.requested_amount) === "number"){
+                    total += deliverable.requested_amount
+                }
+                return ""
+            })
+            setTotalRequested(total);
+        }
+    },[deliverableLists])
 
     useEffect(()=>{
         getProposalData();
         // eslint-disable-next-line
     }, [proposalQueryCount]);
+
+    if(!queryingProposal && proposal){
+        // If querying for proposal is done, and proposal is not null
+        if((!props.activeUser) || (proposal.proposer !== props.activeUser.accountName)){
+            // if there is no active user or proposer is not active user, go back to last page.
+            navigate(-1, {replace: true});
+        }
+    }
     
-    function runningDeliverableQuery(bool){
-        setQueryingDeliverables(bool);
+    if(queryingProposal){
+        return <RenderLoadingPage/>
     }
 
     return(
@@ -164,11 +239,30 @@ export default function RenderEditProposal(props){
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
-            <DndProvider backend={HTML5Backend}>
+            <RenderProposalInputContainer 
+                proposal={proposal}
+                categories={props.categories}
+                queryingProposal={queryingProposal} 
+                totalRequestedFunds={totalRequested}
+                updateEditableProposal={updateEditableProposal}
+                activeUser={props.activeUser}
+                showValidatorMessages={showValidatorMessages}
+                updateValidatorData={updateProposalValidationData}
+            />
+            <DndProvider 
+                backend={HTML5Backend}
+                options={{
+                    enableMouseEvents: true,
+                    ignoreContextMenu: true,
+                }
+                }
+            >
                 <RenderDeliverablesContainer 
                     proposal={proposal} 
                     updateDeliverablesLists={updateDeliverablesLists}
                     activeUser={props.activeUser}
+                    showValidatorMessages={showValidatorMessages}
+                    updateDeliverablesValidation={updateDeliverablesValidationData}
                     queryingDeliverables={queryingDeliverables}
                     runningQuery={runningDeliverableQuery}
                     showAlert={showAlert}
@@ -179,6 +273,7 @@ export default function RenderEditProposal(props){
                 onClick={updateProposal}
                 disabled={(queryingDeliverables || queryingProposal)}
             >
+                {/* Can't save before querying deliverables and proposal  */}
                 {(queryingDeliverables || queryingProposal) ? "Loading..." : "Save draft"}
             </button>
         </div>

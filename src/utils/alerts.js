@@ -223,6 +223,16 @@ export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
     },
 }
 
+export const INVALID_DATA_ALERT_DICT = {
+    WARN:
+    {
+        title: "Invalid data!",
+        body: "There is some invalid data, fix it before attempting to save draft again.",
+        variant: ERROR_VARIANT,
+        dismissible: true
+    }
+}
+
 
 
 

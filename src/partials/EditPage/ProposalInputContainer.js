@@ -17,7 +17,7 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
         category: "dev.tools",
     });
 
-    const [totalRequested, setTotalRequested] = useState('0.00000000 WAX')
+    const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(8) + ' WAX')
 
     const [refreshPage, setRefreshPage] = useState(0);
 
@@ -26,11 +26,6 @@ export default function RenderProposalInputContainer ({proposal, showValidatorMe
         let name = event.target.name;
         let proposalCopy = {...editableProposal};
         proposalCopy[name] = value;
-        if(event.target.type === "number"){
-            if(value !== ""){
-                proposalCopy[name] = parseFloat(value)
-            }
-        }
         setEditableProposal(proposalCopy);
 
     }

@@ -339,6 +339,7 @@ export default function RenderProposerMenu(props){
         }
     }
     // check if activeUser is the same as the proposal's proposer.
+    console.log(props.proposal.status);
     if(props.activeUser && props.activeUser.accountName === props.proposal.proposer)
     {   
         if(props.proposal.status === GLOBAL_VARS.DRAFTING_KEY)
@@ -391,7 +392,7 @@ export default function RenderProposerMenu(props){
                 </div>
             )
         }
-        else if (props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){
+        else if (props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             return (
                 <div className="proposer-menu backend-menu">
                     <h3>Proposer menu</h3>

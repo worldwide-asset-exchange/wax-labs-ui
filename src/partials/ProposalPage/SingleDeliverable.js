@@ -176,7 +176,7 @@ export default function RenderSingleDeliverable(props){
         if(!(props.deliverable.recipient === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){
+        if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             if(props.deliverable.status === GLOBAL_VARS.ACCEPTED_KEY){
                 return(
                     <button className="btn" onClick={claimFunds}> Claim payment </button>
@@ -195,7 +195,7 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.reviewer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){
+        if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             if(props.deliverable.status === GLOBAL_VARS.REPORTED_KEY){
                 return (
                     <React.Fragment>  
@@ -227,8 +227,8 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.proposer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === GLOBAL_VARS.INPROGRESS_KEY){            
-            if([GLOBAL_VARS.INPROGRESS_KEY, GLOBAL_VARS.REJECTED_KEY].includes(props.deliverable.status)){
+        if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){            
+            if([GLOBAL_VARS.DELIVERABLE_INPROGRESS_KEY, GLOBAL_VARS.REJECTED_KEY].includes(props.deliverable.status)){
                 return (
                     <React.Fragment>
                         <p>Enter the report link:</p>

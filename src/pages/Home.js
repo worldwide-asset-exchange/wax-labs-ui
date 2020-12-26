@@ -108,8 +108,8 @@ export default function RenderHome() {
                         table: GLOBAL_VARS.PROPOSALS_TABLE,
                         json: true,
                         index_position: GLOBAL_VARS.PROPOSALS_TABLE_STATUS_INDEXPOSITION,
-                        lower_bound: GLOBAL_VARS.INPROGRESS_KEY,
-                        upper_bound: GLOBAL_VARS.INPROGRESS_KEY,
+                        lower_bound: GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY,
+                        upper_bound: GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY,
                         key_type: GLOBAL_VARS.NAME_KEY_TYPE,
                         limit: 3000,
                     });

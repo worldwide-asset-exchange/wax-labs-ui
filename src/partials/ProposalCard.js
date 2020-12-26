@@ -14,7 +14,7 @@ function tagStyle(proposalState) {
             tagClass='tag--negative';
             break;
         case globals.VOTING_KEY:
-        case globals.INPROGRESS_KEY:
+        case globals.PROPOSAL_INPROGRESS_KEY:
             tagClass='tag--attention';
             break;
         case globals.APPROVED_KEY:

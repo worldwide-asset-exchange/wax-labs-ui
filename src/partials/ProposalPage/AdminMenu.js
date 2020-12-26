@@ -196,7 +196,7 @@ export default function RenderAdminMenu(props){
                 </React.Fragment>
             )
         }
-        else if(props.proposal.status === globals.INPROGRESS_KEY){
+        else if(props.proposal.status === globals.PROPOSAL_INPROGRESS_KEY){
             return(
                 <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>
             )

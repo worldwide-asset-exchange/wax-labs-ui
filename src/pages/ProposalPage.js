@@ -40,6 +40,7 @@ export default function RenderProposalPage(props){
     const [endTime, setEndTime] = useState(null);
     const [votes, setVotes] = useState({});
     const [proposalQueryCount, setProposalQueryCount] = useState(1);
+    const [body, setBody] = useState(null);
 
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
@@ -61,6 +62,25 @@ export default function RenderProposalPage(props){
             let responseProposal = resp.rows[0]
             responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' WAX';
             setProposal(responseProposal);
+           
+        } catch (e){
+            console.log(e);
+        }
+    }
+
+    async function getContentData(){
+        try{
+            /* Getting Proposal info */
+            let resp = await wax.rpc.get_table_rows({             
+                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                table: GLOBAL_VARS.MD_BODIES_TABLE,
+                json: true,
+                lower_bound: id,
+                upper_bound: id,
+            });
+            let responseBody = resp.rows[0].content
+            setBody(responseBody);
            
         } catch (e){
             console.log(e);
@@ -94,7 +114,7 @@ export default function RenderProposalPage(props){
                     <p><strong>Total Requested Funds:</strong> {proposal.total_requested_funds}</p>
                 </div>
                 <div className="proposal-content">
-                    <p>{proposal.content}</p>
+                    <p>{body}</p>
                 </div>
                 <RenderVotesDisplay
                     proposal={proposal}
@@ -113,6 +133,7 @@ export default function RenderProposalPage(props){
 
     useEffect(()=>{
         getProposalData();
+        getContentData();
         //eslint-disable-next-line
     },[id, proposalQueryCount])
 

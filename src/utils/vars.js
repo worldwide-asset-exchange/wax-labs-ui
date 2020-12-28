@@ -42,6 +42,7 @@ export const CAST_VOTE_ACTION = "castvote"
 export const LABS_CONTRACT_ACCOUNT = 'labs'
 export const ACCOUNTS_TABLE = 'accounts'
 export const CONFIG_TABLE = 'config'
+export const MD_BODIES_TABLE = 'mdbodies'
 export const DELIVERABLES_TABLE = 'deliverables'
 export const PROFILES_TABLE = 'profiles'
 export const PROPOSALS_TABLE = "proposals"

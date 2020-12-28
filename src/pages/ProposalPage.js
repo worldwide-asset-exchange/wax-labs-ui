@@ -83,7 +83,7 @@ export default function RenderProposalPage(props){
             <div className="proposal-details">
                 <div className="proposal-header">
                     <h1>{proposal.title}</h1>
-                    <h3>- {proposal.category}</h3>
+                    <h3>- {props.categories[proposal.category]}</h3>
                     <p>{proposal.description}</p>
                 </div>
                 <hr />

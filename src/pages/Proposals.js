@@ -85,6 +85,7 @@ export default function RenderProposals(props){
                         <RenderProposalPage
                             activeUser={props.activeUser}
                             isAdmin={props.isAdmin}
+                            categories={categories}
                         />
                     }
                 />

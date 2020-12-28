@@ -42,6 +42,7 @@ export default function RenderGenericProposals(props) {
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(globals.ORDER_BY_QUERY_STRING_KEY, globals.PROPOSAL_ORDER_BY_LIST[0]);
 
+    console.log(statusList);
     function filterByStatus(proposal){
         if(!statusList){
             return true;
@@ -57,11 +58,11 @@ export default function RenderGenericProposals(props) {
         if(!categoriesList){
             return true;
         } else if (!Array.isArray(categoriesList)){
-            return (categoriesList === proposal.category)
+            return (categoriesList === props.categories[proposal.category])
         } else if (!categoriesList.length){
             return true
         }else {
-            return (categoriesList.includes(proposal.category))
+            return (categoriesList.includes(props.categories[proposal.category]))
         }
     }
 
@@ -255,6 +256,7 @@ export default function RenderGenericProposals(props) {
                     <RenderProposalList
                         filterChanged = {filterChanged}
                         proposalsList = {filteredProposals}
+                        categories = {props.categories}
                         noProposalsMessage={props.noProposalsMessage}
                     />
                 }

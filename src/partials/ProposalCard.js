@@ -71,7 +71,7 @@ export default function RenderProposalCard(props){
                 <div className={`tag ${tagStyle(proposal.status)}`}>{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
                 <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables === 1 ? " deliverable" : " deliverables" }
                 </div>
-                <div className="tag tag--category">{proposal.category}</div>
+                <div className="tag tag--category">{props.categories[proposal.category]}</div>
             </div>
         </Link>
     );

@@ -64,7 +64,7 @@ export default function RenderProposalList(props){
             {
                 paginatedProperties.length ?
                 paginatedProperties.map((proposal) =>
-                    <RenderProposalCard proposal={proposal} key={proposal.proposal_id} />)
+                    <RenderProposalCard proposal={proposal} key={proposal.proposal_id} categories={props.categories} />)
                 :
                 <p>{props.noProposalsMessage}</p>
             }

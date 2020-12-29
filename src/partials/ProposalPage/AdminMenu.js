@@ -179,9 +179,10 @@ export default function RenderAdminMenu(props){
             )   
         }
         else if(props.proposal.status === globals.SUBMITTED_KEY){
+            console.log(props.proposal);
             return (
                 <React.Fragment>
-                    <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>
+                    <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
                     <button className="btn" onClick={()=>reviewProposal(true)}>Approve proposal</button>
                     <button className="btn" onClick={()=>reviewProposal(false)}>Reject proposal</button>
                     <button className="btn" onClick={cancelProposal}>Cancel proposal</button>
@@ -191,14 +192,14 @@ export default function RenderAdminMenu(props){
         else if([globals.APPROVED_KEY, globals.VOTING_KEY].includes(props.proposal.status)){
             return ( 
                 <React.Fragment>
-                    <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>               
+                    <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`}  reviewer</button>               
                     <button className="btn" onClick={cancelProposal}>Cancel proposal</button>
                 </React.Fragment>
             )
         }
         else if(props.proposal.status === globals.PROPOSAL_INPROGRESS_KEY){
             return(
-                <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>Set reviewer</button>
+                <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`}  reviewer</button>
             )
         }
         

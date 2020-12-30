@@ -180,6 +180,7 @@ export default function RenderProposalPage(props){
                 isAdmin={props.isAdmin}
                 proposal={proposal}
                 showAlert={showAlert}
+                votingEndsIn={votingEndsIn}
                 rerunProposalQuery={rerunProposalQuery}
             />
             <RenderProposerMenu 

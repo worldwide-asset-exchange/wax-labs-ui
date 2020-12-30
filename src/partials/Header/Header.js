@@ -12,10 +12,8 @@ export default function RenderHeader(props){
             <RenderLoggedOutHeader loginModal={props.loginModal}/>
         )
     }
-    if(!props.isAdmin){
-        return (
+    return (
             <RenderLoggedInHeader logout={props.logout} activeUser={props.activeUser}/>
-        )
-    }
-    return "";
+    )
+    
 }

@@ -36,7 +36,7 @@ export default function RenderGenericProposals(props) {
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
     const [categoriesList, setCategoriesList] = useQueryString(globals.CATEGORIES_QUERY_STRING_KEY, null);
-    const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, [1,5]);
+    const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, [globals.VOTING_KEY,globals.PROPOSAL_INPROGRESS_KEY]);
     const [filterString, setFilterString] = useQueryString(globals.SEARCH_QUERY_STRING_KEY, "");
 
     // Hooks regarding ordering of the list. Automatically update query string on set.

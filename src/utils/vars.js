@@ -12,6 +12,67 @@ export const ACCEPTED_KEY = 4
 export const CLAIMED_KEY = 6
 export const REJECTED_KEY = 5
 
+export const I64 = 'i64'
+export const I128 = 'i128'
+
+export const STATUS_KEY = 'status'
+export const PROPOSAL_ID_KEY = 'proposal_id'
+export const CATEGORY_KEY = 'category'
+export const PROPOSER_KEY = 'proposer'
+export const REVIEWER_KEY = 'reviewer'
+export const BALLOT_KEY = 'ballot_name'
+
+export const PROPOSAL_INDEXES = {
+    INDEX_POSITION: {
+        DEFAULT: 1,
+        BY_STAT_CAT: 2,
+        BY_CAT_STAT: 3,
+        BY_PROPOSER_STAT: 4,
+        BY_REVIEW_STAT: 5,
+        BY_BALLOT: 6,
+    },
+    BYTE_SIZE: {
+        DEFAULT: 8,
+        BY_STAT_CAT: 8,
+        BY_CAT_STAT: 8,
+        BY_PROPOSER_STAT: 16,
+        BY_REVIEW_STAT: 16,
+        BY_BALLOT: 8,
+    },
+    KEY_TYPE: {
+        DEFAULT: I64,
+        BY_STAT_CAT: I64,
+        BY_CAT_STAT: I64,
+        BY_PROPOSER_STAT: I128,
+        BY_REVIEW_STAT: I128,
+        BY_BALLOT: I64,
+    },
+    PATTERN: {
+        DEFAULT: [{key:PROPOSAL_ID_KEY, byte_size: 8}],
+        BY_STAT_CAT: [{key:STATUS_KEY, byte_size:1}, {key:CATEGORY_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
+        BY_CAT_STAT: [{key:CATEGORY_KEY, byte_size:1}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
+        BY_PROPOSER_STAT: [{key:PROPOSER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        BY_REVIEW_STAT: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        BY_BALLOT: [{key:BALLOT_KEY, byte_size: 8}],
+    }
+}
+
+export const NOTIFICATIONS_DICT = {
+    END_VOTING: {
+        text: 'End voting action required',
+    },
+    START_VOTING: {
+        text: 'Start voting action required',
+    },
+    CLAIM_DELIVERABLE: {
+        text: 'Unclaimed approved deliverables'
+    },
+    REJECTED_DELIVERABLE: {
+        text: 'A deliverable report was rejected'
+    }
+}
+
+
 export const TESTNET_CHAIN_ID = "f16b1833c747c43682f4386fca9cbb327929334a762755ebec17f6f23c9b8a12"
 export const MAIN_NET_CHAIN_ID = "1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4"
 

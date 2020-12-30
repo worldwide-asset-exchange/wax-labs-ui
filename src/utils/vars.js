@@ -28,7 +28,7 @@ export const PROPOSAL_INDEXES = {
         BY_STAT_CAT: 2,
         BY_CAT_STAT: 3,
         BY_PROPOSER_STAT: 4,
-        BY_REVIEW_STAT: 5,
+        BY_REVIEWER_STAT: 5,
         BY_BALLOT: 6,
     },
     BYTE_SIZE: {
@@ -36,7 +36,7 @@ export const PROPOSAL_INDEXES = {
         BY_STAT_CAT: 8,
         BY_CAT_STAT: 8,
         BY_PROPOSER_STAT: 16,
-        BY_REVIEW_STAT: 16,
+        BY_REVIEWER_STAT: 16,
         BY_BALLOT: 8,
     },
     KEY_TYPE: {
@@ -44,7 +44,7 @@ export const PROPOSAL_INDEXES = {
         BY_STAT_CAT: I64,
         BY_CAT_STAT: I64,
         BY_PROPOSER_STAT: I128,
-        BY_REVIEW_STAT: I128,
+        BY_REVIEWER_STAT: I128,
         BY_BALLOT: I64,
     },
     PATTERN: {
@@ -52,7 +52,7 @@ export const PROPOSAL_INDEXES = {
         BY_STAT_CAT: [{key:STATUS_KEY, byte_size:1}, {key:CATEGORY_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
         BY_CAT_STAT: [{key:CATEGORY_KEY, byte_size:1}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
         BY_PROPOSER_STAT: [{key:PROPOSER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
-        BY_REVIEW_STAT: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        BY_REVIEWER_STAT: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
         BY_BALLOT: [{key:BALLOT_KEY, byte_size: 8}],
     }
 }
@@ -69,6 +69,9 @@ export const NOTIFICATIONS_DICT = {
     },
     REJECTED_DELIVERABLE: {
         text: 'A deliverable report was rejected'
+    },
+    DELIVERABLES_TO_REVIEW: {
+        text: 'A deliverable was reported'
     }
 }
 

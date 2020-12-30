@@ -294,12 +294,12 @@ export default function RenderLoggedInHeader(props){
             // Promise.all([])
             .then(values =>{
                 let notifications = []
-                console.log(values);
+                // console.log(values);
                 values.forEach(list => {
                     notifications = [...notifications, ...list]
                 })
                 if(!cancelled){
-                    console.log(props.isAdmin);
+                    console.log(notifications);
                     setNotifications(notifications);
                 }
             })

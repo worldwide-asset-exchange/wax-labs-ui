@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom'
 import {Serialize} from 'eosjs';
+import {Uint64LE} from 'int64-buffer';
 import * as waxjs from "@waxio/waxjs/dist";
 import moment from 'moment';
 
@@ -17,27 +18,25 @@ export default function RenderLoggedInHeader(props){
 
     function getStatBounds(statusKey){
         let reversedArray = new Uint8Array(8);
-        reversedArray.set([statusKey]);
+        reversedArray.set([statusKey], 7);
 
-        const lowerHexIndex = Buffer.from(reversedArray).toString('hex');
-        let lowerBound = '0x' + lowerHexIndex;
-
+        let lowerBound = new Uint64LE(reversedArray).toString(10);
         console.log(lowerBound);
-
-        for(let i=1; i<8; i++){
+        for(let i=0; i<7; i++){
             reversedArray.set([0xff], i);
         }
-        const upperHexIndex = Buffer.from(reversedArray).toString('hex');
-        const upperBound = '0x' + upperHexIndex;
+
+        const upperBound = new Uint64LE(reversedArray).toString(10);
 
         console.log(upperBound);
+
         return {
             lowerBound: lowerBound,
             upperBound: upperBound,
         }
     }
 
-    function getNameBounds(name, statusKey){
+    function getNameBounds(statusKey, name){
         const sb = new Serialize.SerialBuffer({
             textEncoder: new TextEncoder(),
             textDecoder: new TextDecoder()
@@ -52,7 +51,7 @@ export default function RenderLoggedInHeader(props){
         const lowerHexIndex = Buffer.from(reversedArray).toString('hex');
         let lowerBound = '0x' + lowerHexIndex;
 
-        // console.log(lowerBound);
+        console.log(lowerBound);
 
         for(let i=9; i<16; i++){
             reversedArray.set([0xff], i);
@@ -61,14 +60,15 @@ export default function RenderLoggedInHeader(props){
         const upperHexIndex = Buffer.from(reversedArray).toString('hex');
         const upperBound = '0x' + upperHexIndex;
 
-        // console.log(upperBound);
+        console.log(upperBound);
         return {
             lowerBound: lowerBound,
             upperBound: upperBound,
         }
     }
-    async function getProposalsByName(queryType, statusKey){
-        let {lowerBound, upperBound} = getNameBounds(props.activeUser.accountName, statusKey);
+
+    async function getProposals(queryType, statusKey, getBounds){
+        let {lowerBound, upperBound} = getBounds(statusKey, props.activeUser.accountName);
         // console.log(lowerBound);
 
         let success = false;
@@ -88,7 +88,7 @@ export default function RenderLoggedInHeader(props){
                         index_position: GLOBAL_VARS.PROPOSAL_INDEXES.INDEX_POSITION[queryType],
                         lower_bound: lowerBound,
                         upper_bound: upperBound,
-                        limit: 10,
+                        limit: 1000,
                     });
                     if(resp.rows){
                         proposalsArray = [...proposalsArray, ...resp.rows]
@@ -130,8 +130,8 @@ export default function RenderLoggedInHeader(props){
         return null;
     }
 
-    async function getEndVotingNotifications (){
-        return getProposalsByName("BY_PROPOSER_STAT", GLOBAL_VARS.VOTING_KEY).then((inVotingList) => {
+    async function getProposerEndVotingNotifications (){
+        return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.VOTING_KEY, getNameBounds).then((inVotingList) => {
             let promiseList = []
             inVotingList.forEach((proposal, index) => {
                     promiseList.push(checkIfVotingEnded(proposal));
@@ -150,7 +150,7 @@ export default function RenderLoggedInHeader(props){
     }
 
     async function getStartVotingNotifications(){
-        return getProposalsByName("BY_PROPOSER_STAT", GLOBAL_VARS.APPROVED_KEY).then(approvedList => {
+        return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.APPROVED_KEY, getNameBounds).then(approvedList => {
             return approvedList.map(proposal => {
                 return {...GLOBAL_VARS.NOTIFICATIONS_DICT.START_VOTING, id: proposal.proposal_id}
             })
@@ -191,7 +191,7 @@ export default function RenderLoggedInHeader(props){
     }
 
     async function getProposerDeliverableNotifications(){
-        return getProposalsByName("BY_PROPOSER_STAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY).then(inProgressList =>{
+        return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getNameBounds).then(inProgressList =>{
             let promiseList = []
             let statusList = [{value: GLOBAL_VARS.ACCEPTED_KEY, notification: GLOBAL_VARS.NOTIFICATIONS_DICT.CLAIM_DELIVERABLE},{value: GLOBAL_VARS.REJECTED_KEY, notification: GLOBAL_VARS.NOTIFICATIONS_DICT.REJECTED_DELIVERABLE}]
             inProgressList.forEach((proposal, index) => {
@@ -218,7 +218,7 @@ export default function RenderLoggedInHeader(props){
     }
 
     async function getReviewerDeliverableNotifications(){
-        return getProposalsByName("BY_REVIEWER_STAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY).then(inProgresProposalList => {
+        return getProposals("BY_REVIEWER_STAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getNameBounds).then(inProgresProposalList => {
             let promiseList = []
             let statusList = [{value: GLOBAL_VARS.REPORTED_KEY, notification: GLOBAL_VARS.NOTIFICATIONS_DICT.DELIVERABLES_TO_REVIEW}]
             inProgresProposalList.forEach((proposal, index) => {
@@ -236,6 +236,29 @@ export default function RenderLoggedInHeader(props){
                 });
 
                 return deliverableNotificationList;
+            });
+        })
+    }
+
+    async function getAdminToReviewNotifications(){
+        return getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds).then(submittedList => {
+            return submittedList.map(proposal => {
+                return {...GLOBAL_VARS.NOTIFICATIONS_DICT.REVIEW_PENDING, id: proposal.proposal_id}
+            })
+        });
+    }
+
+    async function getAdminEndVotingNotifications(){
+        return getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds).then((inVotingList) => {
+            let promiseList = []
+            inVotingList.forEach((proposal, index) => {
+                    promiseList.push(checkIfVotingEnded(proposal));
+                }
+            )
+            // console.log(promiseList);            
+            
+            return Promise.all(promiseList).then(notificationList => {
+                return notificationList.filter(filterNull);
             });
         })
     }
@@ -262,9 +285,10 @@ export default function RenderLoggedInHeader(props){
 
         async function getNotifications(){
             // console.log(props.isAdmin);
-            let promiseList = [getEndVotingNotifications(), getStartVotingNotifications(), getProposerDeliverableNotifications(), getReviewerDeliverableNotifications()]
+            let promiseList = [getProposerEndVotingNotifications(), getStartVotingNotifications(), getProposerDeliverableNotifications(), getReviewerDeliverableNotifications()]
             if(props.isAdmin){
-                
+                promiseList = [getAdminEndVotingNotifications(), getAdminToReviewNotifications(), ...promiseList]
+                // getStatBounds(4);
             }
             Promise.all(promiseList)
             // Promise.all([])
@@ -275,7 +299,7 @@ export default function RenderLoggedInHeader(props){
                     notifications = [...notifications, ...list]
                 })
                 if(!cancelled){
-                    // console.log(props.isAdmin)
+                    console.log(props.isAdmin);
                     setNotifications(notifications);
                 }
             })

@@ -72,6 +72,9 @@ export const NOTIFICATIONS_DICT = {
     },
     DELIVERABLES_TO_REVIEW: {
         text: 'A deliverable was reported'
+    },
+    REVIEW_PENDING: {
+        text: 'This proposal needs reviewing'
     }
 }
 

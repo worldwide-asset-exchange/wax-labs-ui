@@ -13,7 +13,6 @@ import RenderPublicAccount from '../pages/PublicAccount.js';
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderAccountPortal(props) {
     const [ userProfile, setProfile ] = useState();
-    // const activeUser = props.activeUser;
 
     useEffect(() => {
         async function getAccountInfo() {

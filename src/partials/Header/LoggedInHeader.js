@@ -18,26 +18,9 @@ export default function RenderLoggedInHeader(props){
     const [querying, setQuerying] = useState(true);
 
     useEffect(()=>{
-        // *proposals that the user is the proposer*
-        // getApprovedProposals();//proposals to start voting -> links to proposal
-        // getEndVotingProposals();//proposals to end voting, if voting period is over -> links to proposal
-        //proposals with rejected deliverables -> links to proposal
-        //proposals with accepted deliverables -> links to proposal
-        // *proposals that the user is the reviewer*
-        // proposals inprogress with reported deliverables ->  links to proposal
-        // *admin only*
-        // proposals that are submitted (in need of review) -> links to proposal
-        
-
-        // console.log(number.toString());
-        // // 3805793813294937472
-        // console.log(number - 0);
-        // // 3805793813294937600
-
         let cancelled = false;
         setQuerying(true);
         async function getNotifications(){
-            // console.log(props.isAdmin);
             let promiseList = [
                 getProposerEndVotingNotifications(props.activeUser.accountName),
                 getStartVotingNotifications(props.activeUser.accountName), 
@@ -52,15 +35,12 @@ export default function RenderLoggedInHeader(props){
                 ];
             }
             Promise.all(promiseList)
-            // Promise.all([])
             .then(values =>{
                 let notifications = []
-                // console.log(values);
                 values.forEach(list => {
                     notifications = [...notifications, ...list]
                 })
                 if(!cancelled){
-                    console.log(notifications);
                     setNotifications(notifications);
                     setQuerying(false);
                 }

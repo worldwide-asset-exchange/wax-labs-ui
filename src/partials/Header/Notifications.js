@@ -1,5 +1,8 @@
 import React from 'react';
 import DropDown from 'react-bootstrap/Dropdown'
+import { Link } from 'react-router-dom'
+
+import * as GLOBAL_VARS from '../../utils/vars'
 
 export default function RenderNotifications (props){
     return (
@@ -10,13 +13,13 @@ export default function RenderNotifications (props){
                     Notifications
                 </DropDown.Toggle>
                 <DropDown.Menu>
-                    {props.notifications.map( notification => {
+                    {props.notifications.map( (notification, index) => {
                         return (
-                            <DropDown.Item 
-                                href={"proposals/" + notification.id}
+                            <Link 
+                                to={GLOBAL_VARS.PROPOSALS_LINK + "/" + notification.id}
                             >
                                 {notification.text}
-                            </DropDown.Item>
+                            </Link>
                         )
                     })}
                 </DropDown.Menu>

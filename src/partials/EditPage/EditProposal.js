@@ -32,25 +32,68 @@ export default function RenderEditProposal(props){
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
 
     async function getProposalData(){
-        setQueryingProposal(true);
-        try{
-            /* Getting Proposal info */
-            let resp = await wax.rpc.get_table_rows({             
-                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                table: GLOBAL_VARS.PROPOSALS_TABLE,
-                json: true,
-                lower_bound: id,
-                upper_bound: id,
-            });
-            let responseProposal = resp.rows[0]
-            setProposal(responseProposal);
-           
-        } catch (e){
-            console.log(e);
+        while(true){
+            try{
+                /* Getting Proposal info */
+                let resp = await wax.rpc.get_table_rows({             
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.PROPOSALS_TABLE,
+                    json: true,
+                    lower_bound: id,
+                    upper_bound: id,
+                });
+                let responseProposal = resp.rows[0];
+    
+                return responseProposal;
+               
+            } catch (e){
+                console.log(e);
+            }
         }
-        setQueryingProposal(false);
     }
+    async function getContentData(){
+        while(true){
+            try{
+                /* Getting Proposal info */
+                let resp = await wax.rpc.get_table_rows({             
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.MD_BODIES_TABLE,
+                    json: true,
+                    lower_bound: id,
+                    upper_bound: id,
+                });
+                let responseProposal = resp.rows[0];
+    
+                return responseProposal;
+               
+            } catch (e){
+                console.log(e);
+            }
+        }
+    }
+
+    useEffect(()=>{
+        setQueryingProposal(true);
+        let promiseList = [
+            getContentData(),
+            getProposalData(),
+        ]
+        Promise.all(promiseList)
+        .then(values => {
+            let proposal = {};
+
+            values.forEach(value => {
+                proposal = {...proposal, ...value}
+            })
+
+            setProposal(proposal);
+
+            setQueryingProposal(false);
+        })
+        // eslint-disable-next-line
+    }, [proposalQueryCount]);
 
     function showAlert(alertObj){
         // Make a copy.
@@ -121,7 +164,6 @@ export default function RenderEditProposal(props){
     }
     function createEditProposalAction(){
         let activeUser = props.activeUser
-
         return {            
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.EDIT_PROPOSAL_ACTION,
@@ -133,8 +175,8 @@ export default function RenderEditProposal(props){
                 proposal_id: id,
                 title: editableProposal.title,
                 description: editableProposal.description,
-                content: editableProposal.content,
-                category: editableProposal.category,
+                mdbody: editableProposal.content,
+                category: props.categories[editableProposal.category],
                 image_url: editableProposal.image_url,
                 estimated_time: editableProposal.estimated_time,
             },        
@@ -165,11 +207,19 @@ export default function RenderEditProposal(props){
             return createNewDeliverableAction(deliverable, index + 1);
         })
         // Removes come before new delivs in the array.
+        // console.log(actionList);
         actionList = [...actionList, ...removeDelivActions, ...newDelivActions]
+        
+        let signTransaction = {
+            actions: actionList
+        }
+        
+        console.log(signTransaction);
+
         try {
-            await activeUser.signTransaction({
-                actions: actionList
-            }, {
+            await activeUser.signTransaction(
+                signTransaction
+                , {
                     blocksBehind: 3,
                     expireSeconds: 30
             });
@@ -216,12 +266,7 @@ export default function RenderEditProposal(props){
             })
             setTotalRequested(total);
         }
-    },[deliverableLists])
-
-    useEffect(()=>{
-        getProposalData();
-        // eslint-disable-next-line
-    }, [proposalQueryCount]);
+    },[deliverableLists]);
 
     if(!queryingProposal && proposal){
         // If querying for proposal is done, and proposal is not null

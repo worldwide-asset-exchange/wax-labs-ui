@@ -14,6 +14,8 @@ import RenderProposals from './pages/Proposals.js';
 import RenderDeliverables from './pages/Deliverables.js';
 import RenderAdminPortal from './pages/AdminPortal.js';
 
+import * as GLOBAL_VARS from './utils/vars';
+
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header/Header';
 
@@ -22,6 +24,8 @@ export default function App(props)  {
 
   const [isAdmin, setIsAdmin ] = useState(false);
   const [queryingAdmin, setQueryingAdmin] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [queryingCategories, setQueryingCategories] = useState(true);
 
   useEffect(()=>{
     let cancelled = false;
@@ -50,7 +54,31 @@ export default function App(props)  {
         console.log(e);
       }
     }
+    async function getCategories() {
+      setQueryingCategories(true);
+      try {
+          let resp = await wax.rpc.get_table_rows({
+                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                table: GLOBAL_VARS.CONFIG_TABLE,
+                json: true,
+                limit: 1
+          });
+          if(!cancelled){
+            if (resp.rows.length){
+                setCategories(resp.rows[0].categories);
+            }
+            else{
+                setCategories([]);
+            }
+            setQueryingCategories(false);
+          }
+      } catch(e) {
+          console.log(e);
+      }
+    }
 
+    getCategories();
     checkAdmin();
     
     const cleanup = () => {cancelled = true;}
@@ -70,12 +98,14 @@ export default function App(props)  {
           logout={props.ual.logout}
           isAdmin={isAdmin}
           queryingAdmin={queryingAdmin}
+          queryingCategories={queryingCategories}
+          categories={categories}
         />
         <main>
           <div className="content">
             <Routes>
             <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
+            <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} categories={categories} />} />
             <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
             <Route path="account/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} /> } />
             <Route path="admin/*" element={<RenderAdminPortal activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />

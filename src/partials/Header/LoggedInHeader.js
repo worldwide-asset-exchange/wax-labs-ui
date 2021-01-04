@@ -22,10 +22,10 @@ export default function RenderLoggedInHeader(props){
         setQuerying(true);
         async function getNotifications(){
             let promiseList = [
-                getProposerEndVotingNotifications(props.activeUser.accountName),
-                getStartVotingNotifications(props.activeUser.accountName), 
-                getProposerDeliverableNotifications(props.activeUser.accountName), 
-                getReviewerDeliverableNotifications(props.activeUser.accountName)
+                // getProposerEndVotingNotifications(props.activeUser.accountName),
+                // getStartVotingNotifications(props.activeUser.accountName), 
+                // getProposerDeliverableNotifications(props.activeUser.accountName), 
+                // getReviewerDeliverableNotifications(props.activeUser.accountName)
             ];
             if(props.isAdmin){
                 promiseList = [
@@ -49,12 +49,12 @@ export default function RenderLoggedInHeader(props){
         }
         // Needed because if querying admin hasn't happened yet, we might get wrong notification list...
         // Causing some weird interface behaviour (loading, x notifications => loading, y notifications)
-        if(!props.queryingAdmin){
+        if(!props.queryingAdmin && !props.queryingCategories){
             getNotifications();
         }   
         const cleanup = () => {cancelled = true;}
         return cleanup
-    },[props.activeUser, props.isAdmin, props.queryingAdmin]);
+    },[props.activeUser, props.isAdmin, props.queryingAdmin, props.queryingCategories]);
 
     return (
         <div>

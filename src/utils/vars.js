@@ -131,8 +131,12 @@ export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
-export const MAX_DELIVERABLES = 20
 
+export const MAX_DELIVERABLES = 20
+export const MAX_TITLE_LENGTH = 64
+export const MAX_DESCRIPTION_LENGTH = 160
+export const MAX_BODY_LENGTH = 4096
+export const MAX_IMGURL_LENGTH = 256
 export const PROPOSAL_MIN_REQUESTED = 1000
 export const PROPOSAL_MAX_REQUESTED = 500000
 

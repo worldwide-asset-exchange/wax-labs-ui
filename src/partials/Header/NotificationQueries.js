@@ -4,7 +4,6 @@ import moment from 'moment';
 import * as GLOBAL_VARS from '../../utils/vars';
 import {getProposals, getNameBounds, getStatBounds} from '../../utils/util';
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 
 export function filterNull(notification){
@@ -19,7 +18,8 @@ export function filterEmptyArrays(array){
 // it also contains the notification to be returned, in case they are found.
 export async function checkDeliverablesStatus(proposal, statusList){
     let notificationArray = [];
-    let foundDict = {}
+    let foundDict = {};
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     // In the begginning none was found
     statusList.forEach(status => {
         foundDict[status.value] = false
@@ -54,6 +54,8 @@ export async function checkDeliverablesStatus(proposal, statusList){
 }
 
 export async function checkIfVotingEnded(proposal){
+
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     try{
         let currentVote = await wax.rpc.get_table_rows({
             code: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,

@@ -13,7 +13,14 @@ export default function RenderHeader(props){
         )
     }
     return (
-            <RenderLoggedInHeader queryingAdmin={props.queryingAdmin} logout={props.logout} activeUser={props.activeUser} isAdmin={props.isAdmin}/>
+            <RenderLoggedInHeader 
+                queryingAdmin={props.queryingAdmin} 
+                logout={props.logout} 
+                activeUser={props.activeUser} 
+                isAdmin={props.isAdmin} 
+                categories={props.categories} 
+                queryingCategories={props.queryingCategories}
+            />
     )
     
 }

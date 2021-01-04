@@ -4,7 +4,6 @@ import {Serialize} from 'eosjs';
 import {Uint64LE} from 'int64-buffer';
 import * as waxjs from "@waxio/waxjs/dist";
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export function randomEosioName(length=12){
     var result = '';
@@ -75,6 +74,8 @@ export function getNameBounds(statusKey, name){
 }
 
 export async function getProposals(queryType, statusKey, getBounds, accountName){
+
+    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     let {lowerBound, upperBound} = getBounds(statusKey, accountName);
 
     let success = false;

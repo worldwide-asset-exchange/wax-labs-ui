@@ -11,44 +11,22 @@ import RenderCreateProposalPage from '../partials/CreateProposalPage/CreatePropo
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderProposals(props){
-    const [categories, setCategories] = useState([]);
     const [profile, setProfile] = useState(null);
 
     console.log(props.activeUser);
-    useEffect(() => {
-        async function getCategories() {
-            try {
-                let resp = await wax.rpc.get_table_rows({
-                      code: globals.LABS_CONTRACT_ACCOUNT,
-                      scope: globals.LABS_CONTRACT_ACCOUNT,
-                      table: globals.CONFIG_TABLE,
-                      json: true,
-                      limit: 1
-                });
-                if (resp.rows.length){
-                    setCategories(resp.rows[0].categories);
-                }
-                else{
-                    setCategories([]);
-                }
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        getCategories();
-     }, []);
-     useEffect(()=>{
+    let categories = props.categories;
+    useEffect(()=>{
         async function getProfile(){
             // console.log(props.activeUser);
             try {
                 let resp = await wax.rpc.get_table_rows({
-                      code: globals.LABS_CONTRACT_ACCOUNT,
-                      scope: globals.LABS_CONTRACT_ACCOUNT,
-                      table: globals.PROFILES_TABLE,
-                      lower_bound: props.activeUser.accountName,
-                      upper_bound: props.activeUser.accountName,
-                      json: true,
-                      limit: 1
+                        code: globals.LABS_CONTRACT_ACCOUNT,
+                        scope: globals.LABS_CONTRACT_ACCOUNT,
+                        table: globals.PROFILES_TABLE,
+                        lower_bound: props.activeUser.accountName,
+                        upper_bound: props.activeUser.accountName,
+                        json: true,
+                        limit: 1
                 });
                 if (resp.rows.length){
                     setProfile(resp.rows[0]);
@@ -63,7 +41,7 @@ export default function RenderProposals(props){
         if(props.activeUser){
             getProfile();
         }
-     }, [props.activeUser])
+    }, [props.activeUser])
 
      return (
          <div className="proposals">

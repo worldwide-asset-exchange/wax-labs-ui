@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
-import * as globals from '../utils/vars.js';
+import * as GLOBAL_VARS from '../utils/vars.js';
 
-import {requestedAmountToFloat} from '../utils/util.js'
+import {requestedAmountToFloat, getProposals, getStatBounds} from '../utils/util.js'
 import useQueryString from '../utils/useQueryString';
 import RenderProposalList from "./ProposalList.js";
 import RenderLoadingPage from './LoadingPage.js';
@@ -13,7 +13,6 @@ import { Accordion } from 'react-bootstrap';
 
 import './GenericProposals.scss';
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderGenericProposals(props) {
     // list of proposals that were got from the query. Supposed to update
@@ -35,12 +34,12 @@ export default function RenderGenericProposals(props) {
 
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
-    const [categoriesList, setCategoriesList] = useQueryString(globals.CATEGORIES_QUERY_STRING_KEY, null);
-    const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, [globals.VOTING_KEY,globals.PROPOSAL_INPROGRESS_KEY]);
-    const [filterString, setFilterString] = useQueryString(globals.SEARCH_QUERY_STRING_KEY, "");
+    const [categoriesList, setCategoriesList] = useQueryString(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY, null);
+    const [statusList, setStatusList] = useQueryString(GLOBAL_VARS.STATUS_QUERY_STRING_KEY, [GLOBAL_VARS.VOTING_KEY,GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]);
+    const [filterString, setFilterString] = useQueryString(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY, "");
 
     // Hooks regarding ordering of the list. Automatically update query string on set.
-    const [orderByString, setOrderByString] = useQueryString(globals.ORDER_BY_QUERY_STRING_KEY, globals.PROPOSAL_ORDER_BY_LIST[0]);
+    const [orderByString, setOrderByString] = useQueryString(GLOBAL_VARS.ORDER_BY_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST[0]);
 
     console.log(statusList);
     function filterByStatus(proposal){
@@ -91,25 +90,25 @@ export default function RenderGenericProposals(props) {
     },[categoriesList, proposals, filterString, orderByString, statusList]);
 
     function proposalComparison(proposalA, proposalB) {
-        let [field, mode] = orderByString.split(globals.SEPARATOR_ORDER_BY)
-        if(field === globals.REQUESTED_ORDER_BY_FIELD){
-            if(mode === globals.ASCENDANT_ORDER_BY_MODE){
+        let [field, mode] = orderByString.split(GLOBAL_VARS.SEPARATOR_ORDER_BY)
+        if(field === GLOBAL_VARS.REQUESTED_ORDER_BY_FIELD){
+            if(mode === GLOBAL_VARS.ASCENDANT_ORDER_BY_MODE){
                 return(
                     requestedAmountToFloat(proposalA.total_requested_funds)
                     - requestedAmountToFloat(proposalB.total_requested_funds)
                 )
-            } else if(mode === globals.DESCENDANT_ORDER_BY_MODE){
+            } else if(mode === GLOBAL_VARS.DESCENDANT_ORDER_BY_MODE){
                 return(
                     requestedAmountToFloat(proposalB.total_requested_funds)
                     - requestedAmountToFloat(proposalA.total_requested_funds)
                 )
             }
-        } else if(field === globals.CREATED_ORDER_BY_FIELD){
-            if(mode === globals.ASCENDANT_ORDER_BY_MODE){
+        } else if(field === GLOBAL_VARS.CREATED_ORDER_BY_FIELD){
+            if(mode === GLOBAL_VARS.ASCENDANT_ORDER_BY_MODE){
                 return (
                     proposalA.proposal_id - proposalB.proposal_id
                 )
-            } else if(mode === globals.DESCENDANT_ORDER_BY_MODE){
+            } else if(mode === GLOBAL_VARS.DESCENDANT_ORDER_BY_MODE){
                 return(
                     proposalB.proposal_id - proposalA.proposal_id
                 )
@@ -119,44 +118,23 @@ export default function RenderGenericProposals(props) {
 
     useEffect(() => {
         let cancelled = false
-        async function getProposals() {
-            let success = false;
-            do{
-                try {
-                    setQuerying(true);
-                    let proposalsArray = []
+        setQuerying(true);
+        let promiseList = [
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.DRAFTING_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.APPROVED_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.FAILED_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.CANCELLED_KEY, getStatBounds),
+            getProposals("BY_STAT_CAT", GLOBAL_VARS.COMPLETED_KEY, getStatBounds),
+        ];
 
-                    let nextId="0";
-                    let resp = {}
-                    do{
-                        resp = await wax.rpc.get_table_rows({
-                            code: globals.LABS_CONTRACT_ACCOUNT,
-                            scope: globals.LABS_CONTRACT_ACCOUNT,
-                            table: globals.PROPOSALS_TABLE,
-                            json: true,
-                            lower_bound: nextId,
-                            limit: 3000,
-                        });
-                        console.log(resp);
-                        if(resp.rows){
-                            proposalsArray = [...proposalsArray, ...resp.rows]
-                        }
-                        nextId = resp.next_key;
-                    }while(resp.more)
+        Promise.all(promiseList)
+        .then(values => {
+            console.log(values);
+        });
 
-                    if(!cancelled){
-                        console.log(proposalsArray);
-                        setProposals(proposalsArray);
-                        setQuerying(false);
-                    }
-                    success = true;
-                } catch(e) {
-                    console.log(e);
-                    success = false;
-                }
-            }while(!success)
-        }
-        getProposals();
         const cleanup = () => { cancelled = true }
         return cleanup
     }, []);
@@ -201,9 +179,9 @@ export default function RenderGenericProposals(props) {
                                 <RenderFilter
                                     title="Status Filters"
                                     currentList={statusList}
-                                    fullList={globals.PROPOSALS_STATUS_KEYS}
+                                    fullList={GLOBAL_VARS.PROPOSALS_STATUS_KEYS}
                                     updateCurrentList={updateStatusList}
-                                    readableNameDict={globals.READABLE_PROPOSAL_STATUS}
+                                    readableNameDict={GLOBAL_VARS.READABLE_PROPOSAL_STATUS}
                                 />
                                 <RenderFilter
                                     title="Category Filters"
@@ -223,9 +201,9 @@ export default function RenderGenericProposals(props) {
                             <p>Log in to create a proposal</p>
                         :
                         !props.profile ?
-                            <p>To create a proposal you need to <Link className="inlineLink" to={globals.ACCOUNT_PORTAL_LINK}>create your profile</Link></p>
+                            <p>To create a proposal you need to <Link className="inlineLink" to={GLOBAL_VARS.ACCOUNT_PORTAL_LINK}>create your profile</Link></p>
                         :
-                            <Link className="button button--primary" to={globals.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
+                            <Link className="button button--primary" to={GLOBAL_VARS.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
                     }
                 </div>
                 <div className="genericProposals__orderBy">
@@ -234,14 +212,14 @@ export default function RenderGenericProposals(props) {
                         className="select"
                         onChange={(event)=>setOrderByString(event.target.value)}
                     >
-                        {globals.PROPOSAL_ORDER_BY_LIST.map((option, index) => {
+                        {GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST.map((option, index) => {
                             return(
                                 <option
                                     key={index}
                                     className="select__option"
                                     value={option}
                                 >
-                                    {globals.PROPOSAL_ORDER_BY_OBJECT[option]}
+                                    {GLOBAL_VARS.PROPOSAL_ORDER_BY_OBJECT[option]}
                                 </option>
                             )
                         })}

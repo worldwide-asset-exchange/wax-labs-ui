@@ -16,6 +16,7 @@ export default function RenderNotifications (props){
                     {props.notifications.map( (notification, index) => {
                         return (
                             <Link 
+                                key={index}
                                 to={GLOBAL_VARS.PROPOSALS_LINK + "/" + notification.id}
                             >
                                 {notification.text}

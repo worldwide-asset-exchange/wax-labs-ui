@@ -21,31 +21,41 @@ export default function App(props)  {
   const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
   const [isAdmin, setIsAdmin ] = useState(false);
+  const [queryingAdmin, setQueryingAdmin] = useState(true);
 
-  async function checkAdmin(){
-    try {
-      let resp = await wax.rpc.get_table_rows({
-          code: 'labs',
-          scope: 'labs',
-          table: 'config',
-          json: true,
-          limit: 1
-      });
-
-      const adminAccount = resp.rows[0].admin_acct;
-
-      if (props.ual.activeUser && props.ual.activeUser.accountName === adminAccount){
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-
-    } catch(e) {
-      console.log(e);
-    }
-  }
   useEffect(()=>{
+    let cancelled = false;
+    async function checkAdmin(){
+      setQueryingAdmin(true);
+      try {
+        let resp = await wax.rpc.get_table_rows({
+            code: 'labs',
+            scope: 'labs',
+            table: 'config',
+            json: true,
+            limit: 1
+        });
+        const adminAccount = resp.rows[0].admin_acct;
+        // if dependency arrays changes cause useEffect to run again, we don't update state.
+        if(!cancelled){
+          if (props.ual.activeUser && props.ual.activeUser.accountName === adminAccount){
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+          setQueryingAdmin(false);
+        }
+  
+      } catch(e) {
+        console.log(e);
+      }
+    }
+
     checkAdmin();
+    
+    const cleanup = () => {cancelled = true;}
+    
+    return cleanup
     // eslint-disable-next-line
   },[props.ual.activeUser])
 
@@ -59,6 +69,7 @@ export default function App(props)  {
           loginModal={props.ual.showModal} 
           logout={props.ual.logout}
           isAdmin={isAdmin}
+          queryingAdmin={queryingAdmin}
         />
         <main>
           <div className="content">

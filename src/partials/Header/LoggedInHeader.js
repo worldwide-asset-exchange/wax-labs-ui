@@ -40,16 +40,21 @@ export default function RenderLoggedInHeader(props){
                 values.forEach(list => {
                     notifications = [...notifications, ...list]
                 })
+                // if dependency arrays changes cause useEffect to run again, we don't update state.
                 if(!cancelled){
                     setNotifications(notifications);
                     setQuerying(false);
                 }
             })
+        }
+        // Needed because if querying admin hasn't happened yet, we might get wrong notification list...
+        // Causing some weird interface behaviour (loading, x notifications => loading, y notifications)
+        if(!props.queryingAdmin){
+            getNotifications();
         }   
-        getNotifications();
-        const cleanup = () => cancelled = true;
+        const cleanup = () => {cancelled = true;}
         return cleanup
-    },[props.activeUser, props.isAdmin]);
+    },[props.activeUser, props.isAdmin, props.queryingAdmin]);
 
     return (
         <div>

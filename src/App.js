@@ -91,7 +91,6 @@ export default function App(props)  {
   return (
     <div className="App">
       <div className="wrapper">
-        {/* <RenderHeader showModal={props.ual.showModal} accountName={props.ual.activeUser.accountName} activeUser={props.ual.activeUser} activeAuthenticator={props.ual.activeAuthenticator} logout={props.ual.logout} isAdmin={isAdmin} /> */}
         <RenderHeader 
           activeUser={props.ual.activeUser} 
           loginModal={props.ual.showModal} 

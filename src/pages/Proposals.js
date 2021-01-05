@@ -11,51 +11,32 @@ import RenderCreateProposalPage from '../partials/CreateProposalPage/CreatePropo
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderProposals(props){
-    const [categories, setCategories] = useState([]);
     const [profile, setProfile] = useState(null);
 
     console.log(props.activeUser);
-    useEffect(() => {
-        async function getCategories() {
-            try {
-                let resp = await wax.rpc.get_table_rows({
-                      code: globals.LABS_CONTRACT_ACCOUNT,
-                      scope: globals.LABS_CONTRACT_ACCOUNT,
-                      table: globals.CONFIG_TABLE,
-                      json: true,
-                      limit: 1
-                });
-                if (resp.rows.length){
-                    setCategories(resp.rows[0].categories);
-                }
-                else{
-                    setCategories([]);
-                }
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        getCategories();
-     }, []);
-     useEffect(()=>{
+    let categories = props.categories;
+    useEffect(()=>{
+        let cancelled = false;
         async function getProfile(){
             // console.log(props.activeUser);
             try {
                 let resp = await wax.rpc.get_table_rows({
-                      code: globals.LABS_CONTRACT_ACCOUNT,
-                      scope: globals.LABS_CONTRACT_ACCOUNT,
-                      table: globals.PROFILES_TABLE,
-                      lower_bound: props.activeUser.accountName,
-                      upper_bound: props.activeUser.accountName,
-                      json: true,
-                      limit: 1
+                        code: globals.LABS_CONTRACT_ACCOUNT,
+                        scope: globals.LABS_CONTRACT_ACCOUNT,
+                        table: globals.PROFILES_TABLE,
+                        lower_bound: props.activeUser.accountName,
+                        upper_bound: props.activeUser.accountName,
+                        json: true,
+                        limit: 1
                 });
-                if (resp.rows.length){
-                    setProfile(resp.rows[0]);
-                }
-                else{
-                    setProfile(null);
-                }
+                if(!cancelled){
+                    if (resp.rows.length){
+                        setProfile(resp.rows[0]);
+                    }
+                    else{
+                        setProfile(null);
+                    }
+                }    
             } catch(e) {
                 console.log(e);
             }
@@ -63,7 +44,10 @@ export default function RenderProposals(props){
         if(props.activeUser){
             getProfile();
         }
-     }, [props.activeUser])
+
+        const cleanup = () => { cancelled = true }
+        return cleanup
+    }, [props.activeUser])
 
      return (
          <div className="proposals">
@@ -72,7 +56,7 @@ export default function RenderProposals(props){
                     path="/"
                     element={
                         <RenderGenericProposals
-                            noProposalsMessage="The list for this filters is empty. Try changing the filters."
+                            noProposalsMessage="The list for these filters is empty. Try changing the filters."
                             categories={categories}
                             profile={profile}
                             activeUser={props.activeUser}
@@ -85,6 +69,7 @@ export default function RenderProposals(props){
                         <RenderProposalPage
                             activeUser={props.activeUser}
                             isAdmin={props.isAdmin}
+                            categories={categories}
                         />
                     }
                 />

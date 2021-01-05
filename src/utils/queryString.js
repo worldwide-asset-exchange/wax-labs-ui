@@ -1,4 +1,5 @@
 import qs from "query-string";
+import * as GLOBAL_VARS from './vars';
 
 const setQueryStringWithoutPageReload = qsValue => {
   const newurl =
@@ -15,6 +16,14 @@ export const getQueryStringValue = (
   queryString = window.location.search
 ) => {
   const values = qs.parse(queryString, {arrayFormat: 'comma'});
+  if(key === GLOBAL_VARS.STATUS_QUERY_STRING_KEY){
+    if(Array.isArray(values[key])){
+      values[key] = values[key].map((value) => parseInt(value));
+    }
+    else{
+      values[key] = parseInt(values[key])
+    }
+  }
   return values[key];
 };
 

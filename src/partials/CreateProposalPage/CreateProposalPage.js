@@ -60,7 +60,7 @@ export default function RenderCreateProposalPage(props){
                             description: proposal.description,
                             image_url: proposal.image_url,
                             estimated_time: proposal.estimated_time,
-                            content: proposal.content,
+                            mdbody: proposal.content,
                             total_requested_funds: Number(1000).toFixed(8) + " WAX",
                             deliverables_count: proposal.deliverables,
                         },
@@ -115,7 +115,7 @@ export default function RenderCreateProposalPage(props){
                 hideTotalRequested={true} 
                 categories={props.categories}
                 //Necessary to be >= 1000 so validator won't say it is invalid
-                totalRequestedFunds={1000}
+                totalRequestedFunds={GLOBAL_VARS.PROPOSAL_MIN_REQUESTED}
                 updateEditableProposal={updateProposal}
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}

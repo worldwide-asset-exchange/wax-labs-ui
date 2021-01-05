@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 
 import SimpleReactValidator from 'simple-react-validator';
 import RenderLoadingPage from '../LoadingPage';
+import * as GLOBAL_VARS from '../../utils/vars';
 
 const validator = new SimpleReactValidator();
 
@@ -36,9 +37,12 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
     }, [editableProposal, totalRequested])
 
     useEffect(()=>{
+        setRefreshPage(refreshPage + 1);
         if(showValidatorMessages){
-            setRefreshPage(refreshPage + 1);
             validator.showMessages();
+        }
+        else{
+            validator.hideMessages();
         }
         // eslint-disable-next-line
     }, [showValidatorMessages])
@@ -64,13 +68,13 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
         return <RenderLoadingPage/>
     }
     
-    const totalRequestedErrorMessage = validator.message('total requested', totalRequested, 'min:1000,num|max:500000,num') 
-    const titleErrorMessage = validator.message('title', editableProposal.title, "required|max:256");
-    const descriptionErrorMessage = validator.message('description', editableProposal.description, "required|max:500");
-    const imageUrlErrorMessage = validator.message('image url', editableProposal.image_url, "required");
-    const contentErrorMessage = validator.message('content', editableProposal.content, "required|max:2500")
-    const categoryErrorMessage = validator.message('category', editableProposal.category, "required")
-    const estimatedTimeErrorMessage = validator.message('estimated time', editableProposal.estimated_time, "required|min:1,num")
+    const totalRequestedErrorMessage = validator.message('total requested', totalRequested, `min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num|max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num`); 
+    const titleErrorMessage = validator.message('title', editableProposal.title, `required|max:${GLOBAL_VARS.MAX_TITLE_LENGTH}`);
+    const descriptionErrorMessage = validator.message('description', editableProposal.description, `required|max:${GLOBAL_VARS.MAX_DESCRIPTION_LENGTH}`);
+    const imageUrlErrorMessage = validator.message('image url', editableProposal.image_url, `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`);
+    const contentErrorMessage = validator.message('content', editableProposal.content, `required|max:${GLOBAL_VARS.MAX_BODY_LENGTH}`);
+    const categoryErrorMessage = validator.message('category', editableProposal.category, "required");
+    const estimatedTimeErrorMessage = validator.message('estimated time', editableProposal.estimated_time, "required|min:1,num");
     
     return(
         <div style={{color:"white"}}>
@@ -111,7 +115,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
                 </div>                  
             </div>
             <div>
-                Image URL
+                Image URL {editableProposal.image_url.length}
                 <input 
                     className={`${imageUrlErrorMessage ? "input-with-error" : ""}`}
                     value={editableProposal.image_url}
@@ -152,7 +156,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
                 <select
                     className={`${categoryErrorMessage ? "select-with-error" : ""}`} 
                     style={{color:"white"}} 
-                    value={editableProposal.category} 
+                    value={categories[editableProposal.category]} 
                     name="category" 
                     onChange={handleInputChange}
                 >

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import * as waxjs from "@waxio/waxjs/dist";
 import * as GLOBAL_VARS from '../utils/vars.js';
 
 import {requestedAmountToFloat, getProposals, getStatBounds} from '../utils/util.js'

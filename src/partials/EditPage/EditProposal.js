@@ -34,7 +34,7 @@ export default function RenderEditProposal(props){
     async function getProposalData(){
         while(true){
             try{
-                /* Getting Proposal info */
+                /* Querying proposal data */
                 let resp = await wax.rpc.get_table_rows({             
                     code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                     scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
@@ -55,7 +55,7 @@ export default function RenderEditProposal(props){
     async function getContentData(){
         while(true){
             try{
-                /* Getting Proposal info */
+                /* Querying content data */
                 let resp = await wax.rpc.get_table_rows({             
                     code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                     scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,

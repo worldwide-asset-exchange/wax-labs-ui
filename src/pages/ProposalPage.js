@@ -20,8 +20,8 @@ const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 const readableProposalStatus = GLOBAL_VARS.READABLE_PROPOSAL_STATUS;
 
 
-export default function RenderProposalPage(props){    
-    const {id} = useParams();    
+export default function RenderProposalPage(props){
+    const {id} = useParams();
     const [proposal, setProposal] = useState({
         proposer: '',
         category: '',
@@ -50,7 +50,7 @@ export default function RenderProposalPage(props){
     async function getProposalData(){
         try{
             /* Getting Proposal info */
-            let resp = await wax.rpc.get_table_rows({             
+            let resp = await wax.rpc.get_table_rows({
                 code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                 scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                 table: GLOBAL_VARS.PROPOSALS_TABLE,
@@ -61,7 +61,7 @@ export default function RenderProposalPage(props){
             let responseProposal = resp.rows[0]
             responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' WAX';
             setProposal(responseProposal);
-           
+
         } catch (e){
             console.log(e);
         }
@@ -70,7 +70,7 @@ export default function RenderProposalPage(props){
     async function getContentData(){
         try{
             /* Getting Proposal info */
-            let resp = await wax.rpc.get_table_rows({             
+            let resp = await wax.rpc.get_table_rows({
                 code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                 scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                 table: GLOBAL_VARS.MD_BODIES_TABLE,
@@ -80,24 +80,24 @@ export default function RenderProposalPage(props){
             });
             let responseBody = resp.rows[0].content
             setBody(responseBody);
-           
+
         } catch (e){
             console.log(e);
         }
     }
-   
+
     // console.log(proposal);
     function RenderProposalInfo(){
-        /*  
+        /*
             Render title
-            Render category 
+            Render category
             Render status
             Render reviewer
             Render proposer
             Render requested funds
             Render description
             Render VotesDisplay
-        */       
+        */
         return (
             <div className="proposalPage__content">
                 <img
@@ -106,29 +106,29 @@ export default function RenderProposalPage(props){
                     className="proposalPage__image"/>
                 <div className="proposalPage__row">
                     <div className="proposalPage__column">
-                    <h1>{proposal.title}</h1>
+                            <h1>{proposal.title}</h1>
                             <p className="proposalPage__paragraph--bold">{proposal.description}</p>
-                    <p>{body}</p>
-                </div>
+                            <p>{body}</p>
+                    </div>
                     <div className="proposalPage__column">
                         <div className="proposalPage__status">
                             <div className={`tag ${tagStyle(proposal.status)} proposalPage__statusTag`}>
                                 {readableProposalStatus[proposal.status]}
                             </div>
                             <div className="tag tag--category">{props.categories[proposal.category]}</div>
-                <RenderVotesDisplay
-                    proposal={proposal}
-                    votes={votes}
-                    activeUser={props.activeUser}
-                    endTime={readableEndTime}
-                    votingEndsIn={votingEndsIn}
-                    updateVotes={updateVotes}
-                    updateEndTime={updateEndTime}
-                    showAlert={showAlert}
-                    rerunProposalQuery={rerunProposalQuery}
+                            <RenderVotesDisplay
+                                proposal={proposal}
+                                votes={votes}
+                                activeUser={props.activeUser}
+                                endTime={readableEndTime}
+                                votingEndsIn={votingEndsIn}
+                                updateVotes={updateVotes}
+                                updateEndTime={updateEndTime}
+                                showAlert={showAlert}
+                                rerunProposalQuery={rerunProposalQuery}
                                 showActionButtons={true}
                                 loginModal={props.loginModal}
-                />
+                            />
 
                             <div className="proposalPage__proposalDetails">
                                 <div className="proposalPage__details">
@@ -192,7 +192,7 @@ export default function RenderProposalPage(props){
     }
     return (
         <div className="proposalPage">
-            <RenderAlerts 
+            <RenderAlerts
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
@@ -204,7 +204,7 @@ export default function RenderProposalPage(props){
                 votingEndsIn={votingEndsIn}
                 rerunProposalQuery={rerunProposalQuery}
             />
-            <RenderProposerMenu 
+            <RenderProposerMenu
                 activeUser={props.activeUser}
                 proposal={proposal}
                 votingEndsIn={votingEndsIn}
@@ -212,7 +212,7 @@ export default function RenderProposalPage(props){
                 rerunProposalQuery={rerunProposalQuery}
             />
             {RenderProposalInfo()}
-            <RenderDeliverableList 
+            <RenderDeliverablesList
                 activeUser={props.activeUser}
                 isAdmin={props.isAdmin}
                 proposal={proposal}

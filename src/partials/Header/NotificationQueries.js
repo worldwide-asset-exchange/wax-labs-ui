@@ -32,8 +32,8 @@ export async function checkDeliverablesStatus(proposal, statusList){
             json: true,
             limit: 1000,
         });
-        let deliverableList = delivs.rows;
-        deliverableList.forEach(deliverable => {
+        let deliverablesList = delivs.rows;
+        deliverablesList.forEach(deliverable => {
             // Set the flag dict to true in case it was found, if not set to previous value (if we set to false it will erase previous founds)
             statusList.forEach(status => {
                 foundDict[status.value] = deliverable.status === status.value ? true : foundDict[status.value];
@@ -125,7 +125,7 @@ export async function getAdminEndVotingNotifications(){
                 promiseList.push(checkIfVotingEnded(proposal));
             }
         )
-        
+
         // Once all promises resolved, return only the list of notifications that are not null.
         return Promise.all(promiseList).then(notificationList => {
             return notificationList.filter(filterNull);
@@ -141,8 +141,8 @@ export async function getProposerEndVotingNotifications (accountName){
         inVotingList.forEach((proposal, index) => {
                 promiseList.push(checkIfVotingEnded(proposal));
             }
-        )   
-        
+        )
+
         // Wait for all the promises to be resolved, then return the list (filtering the null returns out)
         return Promise.all(promiseList).then(notificationList => {
             return notificationList.filter(filterNull);

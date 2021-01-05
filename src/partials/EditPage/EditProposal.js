@@ -19,7 +19,7 @@ export default function RenderEditProposal(props){
     const {id} = useParams();
     const [proposal, setProposal] = useState(null);
     const [editableProposal, setEditableProposal] = useState(null);
-    const [deliverableLists, setDeliverablesLists] = useState({});
+    const [deliverablesLists, setDeliverablesLists] = useState({});
     const [alertList, setAlertList] = useState([]);
     const [proposalQueryCount, setProposalQueryCount] = useState(1);
     const [queryingDeliverables, setQueryingDeliverables] = useState(false);
@@ -35,7 +35,7 @@ export default function RenderEditProposal(props){
         while(true){
             try{
                 /* Querying proposal data */
-                let resp = await wax.rpc.get_table_rows({             
+                let resp = await wax.rpc.get_table_rows({
                     code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                     scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                     table: GLOBAL_VARS.PROPOSALS_TABLE,
@@ -44,9 +44,9 @@ export default function RenderEditProposal(props){
                     upper_bound: id,
                 });
                 let responseProposal = resp.rows[0];
-    
+
                 return responseProposal;
-               
+
             } catch (e){
                 console.log(e);
             }
@@ -56,7 +56,7 @@ export default function RenderEditProposal(props){
         while(true){
             try{
                 /* Querying content data */
-                let resp = await wax.rpc.get_table_rows({             
+                let resp = await wax.rpc.get_table_rows({
                     code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                     scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                     table: GLOBAL_VARS.MD_BODIES_TABLE,
@@ -65,9 +65,9 @@ export default function RenderEditProposal(props){
                     upper_bound: id,
                 });
                 let responseProposal = resp.rows[0];
-    
+
                 return responseProposal;
-               
+
             } catch (e){
                 console.log(e);
             }
@@ -140,7 +140,7 @@ export default function RenderEditProposal(props){
             }],
             data: {
                 proposal_id: id,
-                deliverable_id: deliverableId,                   
+                deliverable_id: deliverableId,
             },
         }
     }
@@ -158,13 +158,13 @@ export default function RenderEditProposal(props){
                 proposal_id: id,
                 deliverable_id: deliverableId,
                 requested_amount: deliverable.requested_amount.toFixed(8) + " WAX",
-                recipient: deliverable.recipient,                   
+                recipient: deliverable.recipient,
             },
         }
     }
     function createEditProposalAction(){
         let activeUser = props.activeUser
-        return {            
+        return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.EDIT_PROPOSAL_ACTION,
             authorization: [{
@@ -179,7 +179,7 @@ export default function RenderEditProposal(props){
                 category: props.categories[editableProposal.category],
                 image_url: editableProposal.image_url,
                 estimated_time: editableProposal.estimated_time,
-            },        
+            },
         }
     }
 
@@ -187,7 +187,7 @@ export default function RenderEditProposal(props){
     async function updateProposal(){
         let activeUser = props.activeUser;
         let actionList = [];
-        let deliverablesObject = {...deliverableLists};
+        let deliverablesObject = {...deliverablesLists};
 
         if(!validProposalData || !validDeliverablesData){
             showAlert(GLOBAL_ALERTS.INVALID_DATA_ALERT_DICT.WARN);
@@ -209,11 +209,11 @@ export default function RenderEditProposal(props){
         // Removes come before new delivs in the array.
         // console.log(actionList);
         actionList = [...actionList, ...removeDelivActions, ...newDelivActions]
-        
+
         let signTransaction = {
             actions: actionList
         }
-        
+
         console.log(signTransaction);
 
         try {
@@ -236,7 +236,7 @@ export default function RenderEditProposal(props){
         } catch(e){
             let alertObj = {
                 ...GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.ERROR,
-                details: e.message 
+                details: e.message
             }
             showAlert(alertObj);
 
@@ -253,12 +253,12 @@ export default function RenderEditProposal(props){
 
     function runningDeliverableQuery(bool){
         setQueryingDeliverables(bool);
-    }    
+    }
     useEffect(()=>{
         // Updating total requested as a sum of deliverables requested.
-        if(deliverableLists.toAdd){
+        if(deliverablesLists.toAdd){
             let total = 0;
-            deliverableLists.toAdd.map((deliverable, index)=>{
+            deliverablesLists.toAdd.map((deliverable, index)=>{
                 if((typeof deliverable.requested_amount) === "number"){
                     total += deliverable.requested_amount
                 }
@@ -266,7 +266,7 @@ export default function RenderEditProposal(props){
             })
             setTotalRequested(total);
         }
-    },[deliverableLists]);
+    },[deliverablesLists]);
 
     if(!queryingProposal && proposal){
         // If querying for proposal is done, and proposal is not null
@@ -275,32 +275,32 @@ export default function RenderEditProposal(props){
             navigate(-1, {replace: true});
         }
     }
-    
+
     if(queryingProposal){
         return <RenderLoadingPage/>
     }
 
     return(
         <div className="edit-proposal">
-            <RenderAlerts 
+            <RenderAlerts
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
-            <RenderProposalInputContainer 
+            <RenderProposalInputContainer
                 proposal={proposal}
                 categories={props.categories}
-                queryingProposal={queryingProposal} 
+                queryingProposal={queryingProposal}
                 totalRequestedFunds={totalRequested}
                 updateEditableProposal={updateEditableProposal}
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}
                 updateValidatorData={updateProposalValidationData}
             />
-            <DndProvider 
+            <DndProvider
                 backend={HTML5Backend}
             >
-                <RenderDeliverablesContainer 
-                    proposal={proposal} 
+                <RenderDeliverablesContainer
+                    proposal={proposal}
                     updateDeliverablesLists={updateDeliverablesLists}
                     activeUser={props.activeUser}
                     showValidatorMessages={showValidatorMessages}
@@ -310,8 +310,8 @@ export default function RenderEditProposal(props){
                     showAlert={showAlert}
                 />
             </DndProvider>
-            <button 
-                className='btn' 
+            <button
+                className='btn'
                 onClick={updateProposal}
                 disabled={(queryingDeliverables || queryingProposal)}
             >

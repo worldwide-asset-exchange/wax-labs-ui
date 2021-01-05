@@ -8,11 +8,13 @@ import * as globals from "../../utils/vars";
 import RenderFilter from '../Filter';
 import useQueryString from '../../utils/useQueryString';
 
+import "./DeliverablesList.scss"
+
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 const readableDeliverableStatus = globals.READABLE_DELIVERABLE_STATUS
 
-export default function RenderDeliverableList(props){
+export default function RenderDeliverablesList(props){
     const {id} = useParams();
     const [deliverables, setDeliverables] = useState([]);
 
@@ -37,14 +39,14 @@ export default function RenderDeliverableList(props){
         getDeliverablesData();
         // eslint-disable-next-line
     },[props.proposal]);
- 
+
     function filterDeliverables(deliverable){
         if(!statusList){
             return true;
         } else if (!Array.isArray(statusList)){
             return (statusList === deliverable.status)
         } else if (!statusList.length){
-            return true            
+            return true
         }else {
             return (statusList.includes(deliverable.status))
         }
@@ -55,13 +57,19 @@ export default function RenderDeliverableList(props){
     }
 
     let filteredDeliverables = deliverables.filter(filterDeliverables);
- 
+
 
     return (
-        <div className="deliverable-list">
-            <h1>Deliverables ({props.proposal.deliverables_completed}/{props.proposal.deliverables})</h1>
+        <div className="deliverablesList">
+            <h2>
+                Deliverables <span className="deliverablesList__completed">{props.proposal.deliverables_completed}
+                    <span className="deliverablesList__total">
+                        /{props.proposal.deliverables} {props.proposal.deliverables_completed > 1 ? 'are' : 'is'} completed
+                    </span>
+                </span>
+            </h2>
             <RenderFilter
-                title="Status Filters"
+                title="Filter deliverables by their status"
                 currentList={statusList}
                 fullList={globals.DELIVERABLES_STATUS_KEYS}
                 updateCurrentList={updateStatusList}

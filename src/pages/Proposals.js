@@ -16,6 +16,7 @@ export default function RenderProposals(props){
     console.log(props.activeUser);
     let categories = props.categories;
     useEffect(()=>{
+        let cancelled = false;
         async function getProfile(){
             // console.log(props.activeUser);
             try {
@@ -28,12 +29,14 @@ export default function RenderProposals(props){
                         json: true,
                         limit: 1
                 });
-                if (resp.rows.length){
-                    setProfile(resp.rows[0]);
-                }
-                else{
-                    setProfile(null);
-                }
+                if(!cancelled){
+                    if (resp.rows.length){
+                        setProfile(resp.rows[0]);
+                    }
+                    else{
+                        setProfile(null);
+                    }
+                }    
             } catch(e) {
                 console.log(e);
             }
@@ -41,6 +44,9 @@ export default function RenderProposals(props){
         if(props.activeUser){
             getProfile();
         }
+
+        const cleanup = () => { cancelled = true }
+        return cleanup
     }, [props.activeUser])
 
      return (

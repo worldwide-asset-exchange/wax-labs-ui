@@ -41,7 +41,6 @@ export default function RenderGenericProposals(props) {
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(GLOBAL_VARS.ORDER_BY_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST[0]);
 
-    console.log(statusList);
     function filterByStatus(proposal){
         if(!statusList){
             return true;
@@ -132,7 +131,14 @@ export default function RenderGenericProposals(props) {
 
         Promise.all(promiseList)
         .then(values => {
-            console.log(values);
+            let proposalList = []
+            values.forEach(list => {
+                proposalList = [...proposalList, ...list];
+            });
+            if(!cancelled){
+                setProposals(proposalList);
+                setQuerying(false);
+            }
         });
 
         const cleanup = () => { cancelled = true }

@@ -49,7 +49,7 @@ export default function App(props)  {
           }
           setQueryingAdmin(false);
         }
-  
+
       } catch(e) {
         console.log(e);
       }
@@ -80,20 +80,20 @@ export default function App(props)  {
 
     getCategories();
     checkAdmin();
-    
+
     const cleanup = () => {cancelled = true;}
-    
+
     return cleanup
     // eslint-disable-next-line
   },[props.ual.activeUser])
 
- 
+
   return (
     <div className="App">
       <div className="wrapper">
-        <RenderHeader 
-          activeUser={props.ual.activeUser} 
-          loginModal={props.ual.showModal} 
+        <RenderHeader
+          activeUser={props.ual.activeUser}
+          loginModal={props.ual.showModal}
           logout={props.ual.logout}
           isAdmin={isAdmin}
           queryingAdmin={queryingAdmin}
@@ -104,7 +104,7 @@ export default function App(props)  {
           <div className="content">
             <Routes>
             <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} categories={categories} />} />
+            <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} categories={categories} loginModal={props.ual.showModal} />} />
             <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
             <Route path="account/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} /> } />
             <Route path="admin/*" element={<RenderAdminPortal activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
@@ -116,5 +116,5 @@ export default function App(props)  {
       <RenderFooter />
     </div>
   );
-  
+
 }

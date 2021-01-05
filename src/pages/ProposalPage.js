@@ -4,14 +4,16 @@ import {Link, useParams} from 'react-router-dom';
 
 import * as waxjs from "@waxio/waxjs/dist";
 
-import {sleep, requestedAmountToFloat} from "../utils/util";
+import {sleep, requestedAmountToFloat, tagStyle} from "../utils/util";
 import * as GLOBAL_VARS from '../utils/vars';
 import RenderProposerMenu from '../partials/ProposalPage/ProposerMenu';
 import RenderAlerts from '../partials/ProposalPage/Alerts';
 import RenderLoadingPage from '../partials/LoadingPage';
 import RenderVotesDisplay from '../partials/ProposalPage/VotesDisplay';
-import RenderDeliverableList from '../partials/ProposalPage/DeliverableList';
+import RenderDeliverablesList from '../partials/ProposalPage/DeliverablesList';
 import RenderAdminMenu from '../partials/ProposalPage/AdminMenu';
+
+import './ProposalPage.scss';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -44,9 +46,6 @@ export default function RenderProposalPage(props){
 
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
-
-
-   
 
     async function getProposalData(){
         try{
@@ -100,22 +99,23 @@ export default function RenderProposalPage(props){
             Render VotesDisplay
         */       
         return (
-            <div className="proposal-details">
-                <div className="proposal-header">
+            <div className="proposalPage__content">
+                <img
+                    src={proposal.image_url}
+                    alt="Chosen by the proposer"
+                    className="proposalPage__image"/>
+                <div className="proposalPage__row">
+                    <div className="proposalPage__column">
                     <h1>{proposal.title}</h1>
-                    <h3>- {props.categories[proposal.category]}</h3>
-                    <p>{proposal.description}</p>
-                </div>
-                <hr />
-                <div className="proposal-info">
-                    <strong>Submitted by: </strong> <Link to={"/account/" + proposal.proposer}>{proposal.proposer}</Link><p/>
-                    <p><strong>Status:</strong> {readableProposalStatus[proposal.status]}</p>
-                    <p><strong>Reviewer:</strong> {proposal.reviewer}</p>
-                    <p><strong>Total Requested Funds:</strong> {proposal.total_requested_funds}</p>
-                </div>
-                <div className="proposal-content">
+                            <p className="proposalPage__paragraph--bold">{proposal.description}</p>
                     <p>{body}</p>
                 </div>
+                    <div className="proposalPage__column">
+                        <div className="proposalPage__status">
+                            <div className={`tag ${tagStyle(proposal.status)} proposalPage__statusTag`}>
+                                {readableProposalStatus[proposal.status]}
+                            </div>
+                            <div className="tag tag--category">{props.categories[proposal.category]}</div>
                 <RenderVotesDisplay
                     proposal={proposal}
                     votes={votes}
@@ -126,7 +126,28 @@ export default function RenderProposalPage(props){
                     updateEndTime={updateEndTime}
                     showAlert={showAlert}
                     rerunProposalQuery={rerunProposalQuery}
+                                showActionButtons={true}
+                                loginModal={props.loginModal}
                 />
+
+                            <div className="proposalPage__proposalDetails">
+                                <div className="proposalPage__details">
+                                    <div className="proposalPage__label">Proposer</div>
+                                    <Link className="proposalPage__accountID proposalPage__accountID--link"
+                                            to={"/account/" + proposal.proposer}>{proposal.proposer}</Link>
+                                </div>
+                                <div className="proposalPage__details">
+                                    <div className="proposalPage__label">Reviewer</div>
+                                    <div className="proposalPage__accountID">{proposal.reviewer}</div>
+                                </div>
+                                <div className="proposalPage__details">
+                                    <div className="proposalPage__label">Total Requested Funds</div>
+                                    <div className="proposalPage__amount">{proposal.total_requested_funds}</div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
             </div>
        )
     }
@@ -170,7 +191,7 @@ export default function RenderProposalPage(props){
         return <RenderLoadingPage />
     }
     return (
-        <div className="proposal-page">
+        <div className="proposalPage">
             <RenderAlerts 
                 alertList={alertList}
                 removeAlert={removeAlert}

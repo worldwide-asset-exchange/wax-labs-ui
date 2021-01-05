@@ -22,10 +22,10 @@ export default function RenderLoggedInHeader(props){
         setQuerying(true);
         async function getNotifications(){
             let promiseList = [
-                // getProposerEndVotingNotifications(props.activeUser.accountName),
-                // getStartVotingNotifications(props.activeUser.accountName), 
-                // getProposerDeliverableNotifications(props.activeUser.accountName), 
-                // getReviewerDeliverableNotifications(props.activeUser.accountName)
+                getProposerEndVotingNotifications(props.activeUser.accountName),
+                getStartVotingNotifications(props.activeUser.accountName), 
+                getProposerDeliverableNotifications(props.activeUser.accountName), 
+                getReviewerDeliverableNotifications(props.activeUser.accountName)
             ];
             if(props.isAdmin){
                 promiseList = [

@@ -5,6 +5,8 @@ import { Modal } from 'react-bootstrap';
 import * as GLOBAL_VARS from "../../utils/vars";
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
+import './AdminMenu.scss'
+
 export default function RenderAdminMenu(props){
     const [showReviewerModal, setShowReviewerModal] = useState(false);
     const [reviewerAccountName, setReviwerAccountName] = useState("");
@@ -19,7 +21,7 @@ export default function RenderAdminMenu(props){
 
     async function endVoting (){
         let activeUser = props.activeUser;
-        try {        
+        try {
             await activeUser.signTransaction({
                 actions: [
                     {
@@ -58,7 +60,7 @@ export default function RenderAdminMenu(props){
 
     async function cancelProposal(){
         let activeUser = props.activeUser;
-        try {        
+        try {
             await activeUser.signTransaction({
                 actions: [
                     {
@@ -88,16 +90,16 @@ export default function RenderAdminMenu(props){
         } catch(e) {
             let alertObj = {
                 ...GLOBAL_ALERTS.CANCEL_PROP_ALERT_DICT.ERROR,
-                details: e.message 
+                details: e.message
             }
             props.showAlert(alertObj);
             console.log(e);
-        }     
+        }
     }
 
     async function reviewProposal(approve) {
         let activeUser = props.activeUser;
-        try {      
+        try {
             await activeUser.signTransaction({
                 actions: [
                     {
@@ -135,7 +137,7 @@ export default function RenderAdminMenu(props){
     }
     async function deleteProposal() {
         let activeUser = props.activeUser;
-        try {        
+        try {
             await activeUser.signTransaction({
                 actions: [
                     {
@@ -163,7 +165,7 @@ export default function RenderAdminMenu(props){
         } catch(e) {
             let alertObj = {
                 ...GLOBAL_ALERTS.DELETE_PROP_ALERT_DICT.ERROR,
-                details: e.message, 
+                details: e.message,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -204,7 +206,7 @@ export default function RenderAdminMenu(props){
          } catch(e){
             let alertObj = {
                 ...GLOBAL_ALERTS.SET_REVIEWER_ALERT_DICT.ERROR,
-                details: e.message, 
+                details: e.message,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -212,44 +214,44 @@ export default function RenderAdminMenu(props){
     }
 
     function renderOptions(){
-        if(props.proposal.status === GLOBAL_VARS.DRAFTING_KEY){         
+        if(props.proposal.status === GLOBAL_VARS.DRAFTING_KEY){
             return(
-                <button className="btn" onClick={cancelProposal}>Cancel proposal</button>
-            )   
+                <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
+            )
         }
         else if(props.proposal.status === GLOBAL_VARS.SUBMITTED_KEY){
             console.log(props.proposal);
             return (
-                <React.Fragment>
-                    <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
-                    <button className="btn" onClick={()=>reviewProposal(true)}>Approve proposal</button>
-                    <button className="btn" onClick={()=>reviewProposal(false)}>Reject proposal</button>
-                    <button className="btn" onClick={cancelProposal}>Cancel proposal</button>
-                </React.Fragment>
-            )            
+                <div className="adminMenu__actions">
+                    <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
+                    <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
+                    <button className="button button--rejection" onClick={()=>reviewProposal(false)}>Reject proposal</button>
+                    <button className="button button--approval" onClick={()=>reviewProposal(true)}>Approve proposal</button>
+                </div>
+            )
         }
         else if([GLOBAL_VARS.APPROVED_KEY, GLOBAL_VARS.VOTING_KEY].includes(props.proposal.status)){
-            return ( 
-                <React.Fragment>
-                    <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`}  reviewer</button>               
+            return (
+                <div className="adminMenu__actions">
+                    <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
                     {
-                        ((props.proposal.status === GLOBAL_VARS.VOTING_KEY) && (props.votingEndsIn.includes('ago')))
-                     ?  <button className="btn" onClick={endVoting}>End Voting</button>
-                     :  ""
+                        ((props.proposal.sttus === GLOBAL_VARS.VOTING_KEY) && (props.votingEndsIn.includes('ago')))
+                        ?  <button className="button button--text" onClick={endVoting}>End Voting</button>
+                        :  ""
                     }
-                    <button className="btn" onClick={cancelProposal}>Cancel proposal</button>
-                </React.Fragment>
+                    <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`}  reviewer</button>
+                </div>
             )
         }
         else if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             return(
-                <button className="btn" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`}  reviewer</button>
+                <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`}  reviewer</button>
             )
         }
-        
+
         else if([GLOBAL_VARS.CANCELLED_KEY, GLOBAL_VARS.FAILED_KEY, GLOBAL_VARS.COMPLETED_KEY].includes(props.proposal.status)){
             return (
-                <button className="btn" onClick={deleteProposal}>Delete Proposal</button>
+                <button className="button button--text" onClick={deleteProposal}>Delete Proposal</button>
             )
         }
         return ""
@@ -257,32 +259,33 @@ export default function RenderAdminMenu(props){
 
     if(props.isAdmin){
         return(
-            <div className="admin-menu">
+            <div className="adminMenu">
                 <h3>Admin menu</h3>
                 {renderOptions()}
-                <Modal
-                    show={showReviewerModal} 
-                    centered='true' 
+                <Modal className="customModal"
+                    show={showReviewerModal}
+                    centered='true'
                     onHide={()=>toggleShowReviewerModal(false)}
                 >
-                    <Modal.Body>
-                        <h1>Set the reviewer account name:</h1>
+                    <Modal.Body className="customModal__body">
+                        <div className="input__label">Set the reviewer account name</div>
                         <input
                             type="text"
                             name="reviewer"
                             value={reviewerAccountName}
                             maxLength="12"
                             onChange={handleReviewerChange}
+                            className="input"
                         />
                         <button
-                            className="btn"
+                            className="button button--secondary adminMenu__modalAction"
                             onClick={setReviewer}
                         >
                             Set reviewer
                         </button>
                     </Modal.Body>
                 </Modal>
-            </div>       
+            </div>
         )
     }
     return null

@@ -1,0 +1,12 @@
+@import '../variables';
+
+.customModal {
+    .modal-content {
+        border-radius: calc(#{$border-radius} + 5px);
+    }
+
+    &__body {
+        background-color: $modal-background-color;
+        border-radius: $border-radius;
+    }
+}

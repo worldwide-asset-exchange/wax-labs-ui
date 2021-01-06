@@ -136,10 +136,15 @@ export default function RenderProposalPage(props){
                                     <Link className="proposalPage__accountID proposalPage__accountID--link"
                                             to={"/account/" + proposal.proposer}>{proposal.proposer}</Link>
                                 </div>
-                                <div className="proposalPage__details">
-                                    <div className="proposalPage__label">Reviewer</div>
-                                    <div className="proposalPage__accountID">{proposal.reviewer}</div>
-                                </div>
+                                {
+                                    proposal.reviewer ?
+                                        <div className="proposalPage__details">
+                                            <div className="proposalPage__label">Reviewer</div>
+                                            <div className="proposalPage__accountID">{proposal.reviewer}</div>
+                                        </div>
+                                        :
+                                        ""
+                                }
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Total Requested Funds</div>
                                     <div className="proposalPage__amount">{proposal.total_requested_funds}</div>

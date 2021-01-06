@@ -93,11 +93,15 @@ h4 {
     @include h4;
     margin-bottom: $spacing-xs;
 }
-p {
+p,
+span {
     @include p;
     margin-bottom: $spacing-xs;
 
     .tiny {
         @include p--tiny;
+    }
+    .bold {
+        @include p--bold;
     }
 }

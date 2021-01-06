@@ -36,9 +36,11 @@ $button-typography-color: #332B1F;
         border: 1px solid $orange-medium;
         &:hover {
             background-color: #F78E1E06;
+            color: $orange-light;
         }
         &:active {
             background-color: #F78E1E0C;
+            color: $orange-light;
         }
     }
     &--text {
@@ -47,9 +49,11 @@ $button-typography-color: #332B1F;
         border: none;
         &:hover {
             background-color: #F78E1E06;
+            color: $orange-light;
         }
         &:active {
             background-color: #F78E1E0C;
+            color: $orange-light;
         }
     }
     &--approval,
@@ -70,6 +74,7 @@ $button-typography-color: #332B1F;
 
         &:hover {
             background-color: $green-medium;
+            color: rgba(255, 255, 255, 0.85)
         }
     }
     &--rejection {
@@ -77,6 +82,7 @@ $button-typography-color: #332B1F;
         background-color: $red-dark;
         &:hover {
             background-color: $red-medium;
+            color: rgba(255, 255, 255, 0.85)
         }
     }
 }

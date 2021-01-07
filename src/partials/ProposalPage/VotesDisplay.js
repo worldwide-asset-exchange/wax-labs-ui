@@ -24,7 +24,9 @@ export default function RenderVoteDisplay(props){
             )
             } else {
                 return (
-                    <RenderSignInButton suffixMessage={'to vote'} loginModal={props.loginModal}/>
+                    <div className="votesDisplay__signInButton">
+                        <RenderSignInButton suffixMessage={'to vote'} loginModal={props.loginModal}/>
+                    </div>
                 )
             }
         } else {

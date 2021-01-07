@@ -10,6 +10,10 @@ export function filterNull(notification){
     return notification;
 }
 
+export function filterVotedEnded(proposal){
+    return proposal.vote_end_time;
+}
+
 export function filterEmptyArrays(array){
     return (array && (array.length > 0));
 }
@@ -53,29 +57,15 @@ export async function checkDeliverablesStatus(proposal, statusList){
     return notificationArray
 }
 
-export async function checkIfVotingEnded(proposal){
+export function notificationIfVotingEnded(proposal){
 
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-    try{
-        let currentVote = await wax.rpc.get_table_rows({
-            code: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
-            scope: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
-            table: GLOBAL_VARS.BALLOTS_TABLE,
-            json: true,
-            lower_bound: proposal.ballot_name,
-            upper_bound: proposal.ballot_name,
-            limit: 1000
-        });
-        let endTime = currentVote.rows[0].end_time;
-        let voteEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
-        //check if voting end_time has passed.
-        if(voteEndsIn.includes('ago')){
-            return {...GLOBAL_VARS.NOTIFICATIONS_DICT.END_VOTING, id: proposal.proposal_id};
-        }
-
-    } catch(e){
-        console.log(e);
+    let endTime = proposal.vote_end_time;
+    let voteEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
+    //check if voting end_time has passed.
+    if(voteEndsIn.includes('ago')){
+        return {...GLOBAL_VARS.NOTIFICATIONS_DICT.END_VOTING, id: proposal.proposal_id};
     }
+
     return null;
 }
 
@@ -119,34 +109,16 @@ export async function getAdminToReviewNotifications(){
 export async function getAdminEndVotingNotifications(){
     // Get voting proposal list by status (don't care about proposer or reviewer)
     return getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds).then((inVotingList) => {
-        let promiseList = []
-        // for each voting proposal, add a promise that will check if voting ended.
-        inVotingList.forEach((proposal, index) => {
-                promiseList.push(checkIfVotingEnded(proposal));
-            }
-        )
-
-        // Once all promises resolved, return only the list of notifications that are not null.
-        return Promise.all(promiseList).then(notificationList => {
-            return notificationList.filter(filterNull);
-        });
+        let notificationList = inVotingList.map(notificationIfVotingEnded).filter(filterNull);
+        return notificationList;
     })
 }
 
 export async function getProposerEndVotingNotifications (accountName){
     // Get proposals that have the accountName as proposer and are in voting.
-    return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.VOTING_KEY, getNameBounds, accountName).then((inVotingList) => {
-        let promiseList = []
-        // for each of those add a promise that will check if the voting of that proposal has ended.
-        inVotingList.forEach((proposal, index) => {
-                promiseList.push(checkIfVotingEnded(proposal));
-            }
-        )
-
-        // Wait for all the promises to be resolved, then return the list (filtering the null returns out)
-        return Promise.all(promiseList).then(notificationList => {
-            return notificationList.filter(filterNull);
-        });
+    return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.VOTING_KEY, getNameBounds, accountName).then((inVotingList) => {       
+        let notificationList = inVotingList.map(notificationIfVotingEnded).filter(filterNull);
+        return notificationList;
     })
 }
 

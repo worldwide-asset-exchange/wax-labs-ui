@@ -13,7 +13,6 @@ const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 export default function RenderProposals(props){
     const [profile, setProfile] = useState(null);
 
-    console.log(props.activeUser);
     let categories = props.categories;
     useEffect(()=>{
         let cancelled = false;

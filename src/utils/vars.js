@@ -139,6 +139,7 @@ export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
 
+
 export const MAX_DELIVERABLES = 20
 export const MAX_TITLE_LENGTH = 64
 export const MAX_DESCRIPTION_LENGTH = 160

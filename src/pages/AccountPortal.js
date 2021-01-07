@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Routes, Route} from 'react-router-dom';
+import React from 'react';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import useQueryString from '../utils/useQueryString';
 import * as GLOBAL_VARS from '../utils/vars';
+
+import RenderBalance from '../partials/AccountPortal/Balance';
 
 export default function RenderAccountPortal (props) {
 
@@ -18,7 +19,7 @@ export default function RenderAccountPortal (props) {
                 title="Balance" 
                 onEnter={()=>setTabString(GLOBAL_VARS.BALANCE_EVENT_KEY)}
             >
-
+                <RenderBalance activeUser={props.activeUser} />
             </Tab>
             <Tab 
                 eventKey={GLOBAL_VARS.PROFILE_EVENT_KEY} 

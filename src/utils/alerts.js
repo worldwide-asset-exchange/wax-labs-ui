@@ -250,6 +250,22 @@ export const INVALID_DATA_ALERT_DICT = {
     }
 }
 
+export const WITHDRAW_FUNDS_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Withdraw was a success!",
+        body: "Funds were successfully withdrawn", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Withdraw error",
+        body: "There was an error when attempting to withdraw your funds",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
 
 
 

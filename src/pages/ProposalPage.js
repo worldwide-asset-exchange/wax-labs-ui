@@ -7,7 +7,7 @@ import * as waxjs from "@waxio/waxjs/dist";
 import {sleep, requestedAmountToFloat, tagStyle} from "../utils/util";
 import * as GLOBAL_VARS from '../utils/vars';
 import RenderProposerMenu from '../partials/ProposalPage/ProposerMenu';
-import RenderAlerts from '../partials/ProposalPage/Alerts';
+import RenderAlerts from '../partials/Alerts/Alerts';
 import RenderLoadingPage from '../partials/LoadingPage';
 import RenderVotesDisplay from '../partials/ProposalPage/VotesDisplay';
 import RenderDeliverablesList from '../partials/ProposalPage/DeliverablesList';

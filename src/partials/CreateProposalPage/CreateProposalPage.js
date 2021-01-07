@@ -4,7 +4,7 @@ import RenderProposalInputContainer from '../EditPage/ProposalInputContainer';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
-import RenderAlerts from '../ProposalPage/Alerts';
+import RenderAlerts from '../Alerts/Alerts';
 
 export default function RenderCreateProposalPage(props){
     const [allValid, setAllValid] = useState(true);

@@ -4,6 +4,10 @@
 .votesDisplay {
     margin: $spacing-s 0;
 
+    h4 {
+        text-align: center;
+    }
+
     &__label {
         @include p--tiny;
         margin-bottom: 0;
@@ -27,6 +31,11 @@
         transform: translateY(-45%);
         text-align: left;
         margin-left: $spacing-xxs;
+    }
+
+    &__signInButton {
+        display: flex;
+        justify-content: center;;
     }
     &__buttons {
         display: flex;

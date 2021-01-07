@@ -1,0 +1,79 @@
+@import '../scss/variables';
+@import '../scss/responsiveness';
+@import '../scss/typography';
+@import '../scss/layout';
+
+@import '../scss/components/Carousel';
+
+@mixin minMargin {
+    margin-right: $spacing-s;
+    margin-left: $spacing-s;
+}
+.home {
+    @include mainPadding;
+    padding-left: 0;
+    padding-right: 0;
+
+    min-height: calc(100vh - #{$menu-height} - #{$footer-height});
+
+    h4 {
+        color: $typography-02;
+    }
+    &__cover {
+        background-image: url('../images/wax-gradient.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+
+        min-height: 40vh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .button {
+            align-self: flex-start;
+            margin-top: $spacing-xs;
+        }
+
+        h1,
+        h4,
+        .button {
+            @include minMargin;
+            max-width: 600px;
+            margin-bottom: $spacing-s;
+
+            @include breakpoint(tablet-up) {
+                margin-left: 10vw;
+            }
+        }
+    }
+    &__numbers {
+        @include minMargin;
+
+        display: flex;
+        flex-direction: column;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+            justify-content: space-evenly;
+
+            margin-top: 100px;
+        }
+    }
+    &__number {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: $spacing-s;
+        h2 {
+            background: linear-gradient(0deg, rgba(241,158,63,0.45) 0%, rgba(247,142,30,1) 100%);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: $spacing-xxs;
+        }
+    }
+
+
+}

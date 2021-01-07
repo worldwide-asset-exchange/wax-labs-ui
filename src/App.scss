@@ -35,16 +35,6 @@ body {
   height: 100%;
 }
 
-.wrapper {
-  min-height: 100%;
-  margin-bottom: -150px;
-}
-
-.wrapper:after {
-  content: "";
-  display: block;
-  height: 150px;
-}
 
 header, footer, div {
   box-sizing: border-box;
@@ -832,7 +822,6 @@ footer {
   background: #cbdadf;
   padding: 20px 0;
   border-top: 1px solid #333;
-  margin-top: 1em;
   min-height: 130px;
 }
 

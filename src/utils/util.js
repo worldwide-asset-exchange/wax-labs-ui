@@ -30,7 +30,7 @@ export function getStatBounds(statusKey){
     let reversedArray = new Uint8Array(8);
     reversedArray.set([statusKey], 7);
 
-    
+
     let lowerBound = new Uint64LE(reversedArray).toString(10);
 
     for(let i=0; i<7; i++){
@@ -101,8 +101,8 @@ export async function getProposals(queryType, statusKey, getBounds, accountName)
                     proposalsArray = [...proposalsArray, ...resp.rows]
                 }
                 lowerBound = resp.next_key;
-            }while(resp.more)                
-            
+            }while(resp.more)
+
             success = true;
         } catch(e) {
             console.log(e);
@@ -121,8 +121,8 @@ export function useWindowSize() {
       breakpoint: 'mobile',
     });
     // Handler to call on window resize
-    
-  
+
+
     useEffect(() => {
       const handleResize = () => {
         // Set window width/height to state
@@ -144,17 +144,55 @@ export function useWindowSize() {
           breakpoint: breakpoint,
         });
       }
-      
-      
+
+
       // Add event listener
       window.addEventListener("resize", handleResize);
-      
+
       // Call handler right away so state gets updated with initial window size
       handleResize();
-      
+
       // Remove event listener on cleanup
       return () => window.removeEventListener("resize", handleResize);
     }, []); // Empty array ensures that effect is only run on mount
-  
+
     return windowSize;
+}
+
+export function tagStyle(tagState, deliverable=false) {
+    let tagClass;
+    if (deliverable) {
+        switch(tagState) {
+            case GLOBAL_VARS.REJECTED_KEY:
+                tagClass='tag--negative';
+                break;
+            case GLOBAL_VARS.REPORTED_KEY:
+                tagClass='tag--attention';
+                break;
+            case GLOBAL_VARS.ACCEPTED_KEY:
+            case GLOBAL_VARS.CLAIMED_KEY:
+                tagClass='tag--positive';
+                break;
+            default:
+                tagClass='tag--neutral';
+        }
+    } else {
+        switch(tagState) {
+            case GLOBAL_VARS.FAILED_KEY:
+            case GLOBAL_VARS.CANCELLED_KEY:
+                tagClass='tag--negative';
+                break;
+            case GLOBAL_VARS.VOTING_KEY:
+            case GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY:
+                tagClass='tag--attention';
+                break;
+            case GLOBAL_VARS.APPROVED_KEY:
+            case GLOBAL_VARS.COMPLETED_KEY:
+                tagClass='tag--positive';
+                break;
+            default:
+                tagClass='tag--neutral';
+        }
+    }
+    return tagClass;
 }

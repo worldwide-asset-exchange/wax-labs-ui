@@ -76,3 +76,32 @@ $baseFontSize: 16px;
     color: $typography-tiny;
     font-size: pxToRem(14px);
 }
+
+h1 {
+    @include h1;
+    margin-bottom: $spacing-xs;
+}
+h2 {
+    @include h2;
+    margin-bottom: $spacing-xs;
+}
+h3 {
+    @include h3;
+    margin-bottom: $spacing-xs;
+}
+h4 {
+    @include h4;
+    margin-bottom: $spacing-xs;
+}
+p,
+span {
+    @include p;
+    margin-bottom: $spacing-xs;
+
+    .tiny {
+        @include p--tiny;
+    }
+    .bold {
+        @include p--bold;
+    }
+}

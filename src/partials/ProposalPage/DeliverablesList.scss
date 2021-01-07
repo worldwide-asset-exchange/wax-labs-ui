@@ -1,0 +1,16 @@
+@import '../../scss/typography';
+@import '../../scss/variables';
+
+.deliverablesList {
+    &__completed {
+        @include h4;
+        background-color: $overlay-01;
+        margin-left: $spacing-xs;
+        padding: $spacing-xxs;
+        border-radius: 5px;
+    }
+    &__total {
+        @include p--bold;
+        color: $typography-03;
+    }
+}

@@ -1,0 +1,40 @@
+@import '../../scss/typography';
+@import '../../scss/variables';
+
+.votesDisplay {
+    margin: $spacing-s 0;
+
+    &__label {
+        @include p--tiny;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    &__bar {
+        height: 35px;
+        border-radius: 5px;
+        margin-bottom: $spacing-xxs;
+
+        &--yes {
+            background-color: $green-dark;
+        }
+        &--no {
+            background-color: $red-dark;
+        }
+    }
+    &__percentage {
+        top: 50%;
+        position: relative;
+        transform: translateY(-45%);
+        text-align: left;
+        margin-left: $spacing-xxs;
+    }
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $spacing-s;
+    }
+    &__endCountdown,
+    &__endDate {
+        text-align: center;
+    }
+}

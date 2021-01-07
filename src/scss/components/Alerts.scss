@@ -1,0 +1,26 @@
+@import '../variables';
+@import '../typography';
+
+.alert {
+    border: none;
+    margin-top: $spacing-m;
+    .alert-heading {
+        @include h3;
+    }
+    .alert-success {
+        background-color: $green-light;
+        p,
+        .close span,
+        .alert-heading {
+            color: #283628;
+        }
+    }
+    .alert-danger {
+        background-color: $red-light;
+        p,
+        .close span,
+        .alert-heading {
+            color: #442228;
+        }
+    }
+}

@@ -1,0 +1,43 @@
+@import '../../scss/typography';
+@import '../../scss/variables';
+
+@import '../../scss/components/Link.scss';
+@import '../../scss/components/Button.scss';
+@import '../../scss/components/Input.scss';
+
+.proposerMenu {
+    padding: $spacing-m;
+    background-color: $overlay-02;
+    border-radius: $border-radius;
+
+    margin-bottom: $spacing-m;
+    &__header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        margin: $spacing-xs 0;
+
+        p {
+            margin: 0 $spacing-m 0 0;
+        }
+
+        @include breakpoint(mobile-only) {
+            flex-direction: column;
+            .button {
+                margin-top: $spacing-xs;
+            }
+            p {
+                align-self: flex-start;
+            }
+        }
+    }
+    &__body {
+        max-width: 500px;
+    }
+    &__actions {
+        .button {
+            margin-right: $spacing-m;
+        }
+    }
+}

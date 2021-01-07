@@ -1,5 +1,10 @@
 @import './variables';
 
 @mixin mainPadding {
-    padding: 0 $spacing-s;
+    padding: $spacing-s;
+
+    @include breakpoint(tablet-up) {
+        padding-top: $spacing-xxl;
+        padding-bottom: $spacing-xxl;
+    }
 }

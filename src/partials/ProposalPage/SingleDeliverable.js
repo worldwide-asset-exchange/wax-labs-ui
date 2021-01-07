@@ -3,14 +3,19 @@ import {useParams} from 'react-router-dom';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
-import {requestedAmountToFloat} from '../../utils/util';
+import {requestedAmountToFloat, tagStyle} from '../../utils/util';
+
+import arrow from '../../images/orange-arrow.svg'
+import './SingleDeliverable.scss'
+import { Accordion } from 'react-bootstrap';
 
 const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS
 
 export default function RenderSingleDeliverable(props){
-    
+
     const [reportLink, setReportLink] = useState("");
     const [reviewMemo, setReviewMemo] = useState("");
+    const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const {id} = useParams();
 
     let deliverable = {...props.deliverable};
@@ -19,14 +24,20 @@ export default function RenderSingleDeliverable(props){
 
     deliverable.requested = requestedAmountToFloat(deliverable.requested) + " WAX";
 
-   
+
     function handleReviewMemoChange(event){
         setReviewMemo(event.target.value);
     }
     function handleReportLinkChange(event){
         setReportLink(event.target.value);
     }
-
+    function updateAccordionState() {
+        if (isAccordionOpen) {
+            setIsAccordionOpen(false)
+        } else {
+            setIsAccordionOpen(true)
+        }
+    }
     async function reviewReport(accept){
         let activeUser = props.activeUser;
         try {
@@ -42,8 +53,8 @@ export default function RenderSingleDeliverable(props){
                         data: {
                             proposal_id: id,
                             deliverable_id: deliverable.deliverable_id,
-                            accept: accept,                               
-                            memo: reviewMemo,                         
+                            accept: accept,
+                            memo: reviewMemo,
                         },
                     },
                 ]} , {
@@ -97,11 +108,11 @@ export default function RenderSingleDeliverable(props){
                 body: body,
             }
             props.showAlert(alertObj);
-            props.rerunProposalQuery();          
+            props.rerunProposalQuery();
          } catch(e){
             let alertObj = {
                 ...alertGlobals.SUBMIT_REPORT_ALERT_DICT.ERROR,
-                details: e.message, 
+                details: e.message,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -111,7 +122,7 @@ export default function RenderSingleDeliverable(props){
         let activeUser = props.activeUser;
         try {
             let withdrawAction = []
-            // If the active user is also the recipient, 
+            // If the active user is also the recipient,
             // add the withdraw action to the transaction.
             // If not leave it empty.
             if(activeUser.accountName === deliverable.recipient){
@@ -160,7 +171,7 @@ export default function RenderSingleDeliverable(props){
          } catch(e){
             let alertObj = {
                 ...alertGlobals.CLAIM_FUNDS_ALERT_DICT.ERROR,
-                details: e.message, 
+                details: e.message,
             }
             props.showAlert(alertObj);
             console.log(e);
@@ -179,7 +190,7 @@ export default function RenderSingleDeliverable(props){
         if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             if(props.deliverable.status === GLOBAL_VARS.ACCEPTED_KEY){
                 return(
-                    <button className="btn" onClick={claimFunds}> Claim payment </button>
+                    <button className="button button--secondary" onClick={claimFunds}> Claim payment </button>
                 )
             }
         }
@@ -198,23 +209,23 @@ export default function RenderSingleDeliverable(props){
         if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             if(props.deliverable.status === GLOBAL_VARS.REPORTED_KEY){
                 return (
-                    <React.Fragment>  
-                        <p>Enter a review link:</p>
+                    <React.Fragment>
+                        <p className="input__label">Enter a review link:</p>
                         <input
                             type="text"
                             name="reportLink"
                             placeholder="Enter a review link"
                             value={reviewMemo}
                             onChange={handleReviewMemoChange}
+                            className="input"
                         />
-                        <button className="btn" onClick={() => reviewReport(true)}>Approve report</button>  
-                        <button className="btn" onClick={() => reviewReport(false)}>Reject report</button>
-                        
+                        <button className="button button--approval" onClick={() => reviewReport(true)}>Approve report</button>
+                        <button className="button button--rejection" onClick={() => reviewReport(false)}>Reject report</button>
                     </React.Fragment>
                 )
             }
         }
-        return null        
+        return null
     }
 
     function getProposerActions(){
@@ -227,20 +238,21 @@ export default function RenderSingleDeliverable(props){
         if(!(props.proposal.proposer === props.activeUser.accountName)){
             return null
         }
-        if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){            
+        if(props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY){
             if([GLOBAL_VARS.DELIVERABLE_INPROGRESS_KEY, GLOBAL_VARS.REJECTED_KEY].includes(props.deliverable.status)){
                 return (
                     <React.Fragment>
-                        <p>Enter the report link:</p>
+                        <p className="input__label">Enter the report link:</p>
                         <input
                             type="text"
                             name="reportLink"
                             placeholder="Enter a report link"
                             value={reportLink}
                             onChange={handleReportLinkChange}
+                            className="input"
                         />
                         <button
-                            className="btn"
+                            className="button button--secondary"
                             onClick={submitReport}
                         >
                             Submit report
@@ -250,7 +262,7 @@ export default function RenderSingleDeliverable(props){
             }
             if(props.deliverable.status === GLOBAL_VARS.ACCEPTED_KEY){
                 return (
-                    <button className="btn" onClick={claimFunds}> Claim payment </button>
+                    <button className="button button--secondary" onClick={claimFunds}> Claim payment </button>
                 )
             }
         }
@@ -261,69 +273,86 @@ export default function RenderSingleDeliverable(props){
     let recipientActions = getRecipientActions();
 
     return (
-        <React.Fragment>
-            <div className="single-deliverable--header">
-                <h2>#{deliverable.deliverable_id} - {readableStatusName[deliverable.status]}</h2>
-            </div>
-            <hr />
-            <div className="single-deliverable--body">
-                <p><strong>Amount requested:</strong> {deliverable.requested}</p>
-                <p><strong>Recipient:</strong> {deliverable.recipient}</p>
-                <p><strong>Last reviewed:</strong> {deliverable.review_time}</p>
-                {
-                    deliverable.status_comment ?
-                    <a 
-                        href={"//" + deliverable.status_comment} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                    >
-                        View review report
-                    </a>
-                    : ""
-                }
-                <div>
-                    
-                </div>
-                {
-                    deliverable.report ? 
-                    <a 
-                        href={"//" + deliverable.report} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                    >
-                        View report
-                    </a>
-                    :   ""
-                }
-                {
-                    proposerActions ?
-                    <React.Fragment>
-                        <hr/>
-                        <div className="single-deliverable--proposer-actions">                            
-                            {proposerActions}                            
+        <div className="singleDeliverable">
+            <Accordion>
+                <Accordion.Toggle as="div" eventKey="0" onClick={updateAccordionState}>
+                    <div className="singleDeliverable__header">
+                        <h3 className="singleDeliverable__id">#{deliverable.deliverable_id}</h3>
+                        <div className={`tag ${tagStyle(deliverable.status, true)}`}>{readableStatusName[deliverable.status]}</div>
+                        <div className="singleDeliverable__detail singleDeliverable__detail--main">
+                            <div className="singleDeliverable__label">Amount requested</div>
+                            <div className="singleDeliverable__info">{deliverable.requested}</div>
                         </div>
-                    </React.Fragment>
-                    // Only show recipient actions, if there are no proposer actions.
-                    : recipientActions ?
-                        <React.Fragment>
-                            <hr/>
-                            <div className="single-deliverable--recipient-actions">
-                                {recipientActions}
+                        <img className={`singleDeliverable__arrow ${isAccordionOpen ? "singleDeliverable__arrow--up" : ""}`} src={arrow} alt="Arrow indicating this is an accordion"/>
+                    </div>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="0">
+                    <div className="singleDeliverable__body">
+                        <div className="singleDeliverable__informationGroup">
+                            <div className="singleDeliverable__detail">
+                                <div className="singleDeliverable__label">Recipient</div>
+                                <div className="singleDeliverable__info">{deliverable.recipient}</div>
                             </div>
-                        </React.Fragment>
-                    : ""
-                }
-                {
-                    reviewerActions ?
-                    <React.Fragment>
-                        <hr/>
-                        <div className="single-deliverable--reviewer-actions">
-                            {reviewerActions}
+                            <div className="singleDeliverable__detail">
+                                <div className="singleDeliverable__label">Last reviewed</div>
+                                <div className="singleDeliverable__info">{deliverable.review_time}</div>
+                            </div>
+                            {
+                                deliverable.status_comment ?
+                                <a
+                                    href={"//" + deliverable.status_comment}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inlineLink"
+                                >
+                                    View review report
+                                </a>
+                                : ""
+                            }
+                            {
+                                deliverable.report ?
+                                <a
+                                    href={"//" + deliverable.report}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inlineLink"
+                                >
+                                    View report
+                                </a>
+                                :   ""
+                            }
                         </div>
-                    </React.Fragment>
-                    : ""
-                }    
-            </div>
-        </React.Fragment>
+                        {
+                            proposerActions ?
+                            <React.Fragment>
+                                <hr/>
+                                <div className="singleDeliverable__actions">
+                                    {proposerActions}
+                                </div>
+                            </React.Fragment>
+                            // Only show recipient actions, if there are no proposer actions.
+                            : recipientActions ?
+                                <React.Fragment>
+                                    <hr/>
+                                    <div className="singleDeliverable__actions">
+                                        {recipientActions}
+                                    </div>
+                                </React.Fragment>
+                            : ""
+                        }
+                        {
+                            reviewerActions ?
+                            <React.Fragment>
+                                <hr/>
+                                <div className="singleDeliverable__actions">
+                                    {reviewerActions}
+                                </div>
+                            </React.Fragment>
+                            : ""
+                        }
+                   </div>
+                </Accordion.Collapse>
+            </Accordion>
+        </div>
     )
 }

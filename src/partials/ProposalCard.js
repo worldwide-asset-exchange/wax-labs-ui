@@ -4,28 +4,8 @@ Link
 } from 'react-router-dom';
 
 import * as globals from "../utils/vars"
+import {tagStyle} from "../utils/util"
 import './ProposalCard.scss'
-
-function tagStyle(proposalState) {
-    let tagClass;
-    switch(proposalState) {
-        case globals.FAILED_KEY:
-        case globals.CANCELLED_KEY:
-            tagClass='tag--negative';
-            break;
-        case globals.VOTING_KEY:
-        case globals.PROPOSAL_INPROGRESS_KEY:
-            tagClass='tag--attention';
-            break;
-        case globals.APPROVED_KEY:
-        case globals.COMPLETED_KEY:
-            tagClass='tag--positive';
-            break;
-        default:
-            tagClass='tag--neutral';
-    }
-    return tagClass;
-}
 
 export default function RenderProposalCard(props){
     const [imgError, setImgError] = useState(false);

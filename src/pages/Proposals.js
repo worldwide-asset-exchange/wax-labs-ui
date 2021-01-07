@@ -70,25 +70,26 @@ export default function RenderProposals(props){
                             activeUser={props.activeUser}
                             isAdmin={props.isAdmin}
                             categories={categories}
+                            loginModal={props.loginModal}
                         />
                     }
                 />
-                <Route 
-                    path="create" 
+                <Route
+                    path="create"
                     element={
-                        <RenderCreateProposalPage 
-                            activeUser={props.activeUser} 
-                            categories={categories} 
-                        />} 
+                        <RenderCreateProposalPage
+                            activeUser={props.activeUser}
+                            categories={categories}
+                        />}
                     />
-                <Route 
-                    path=":id/edit" 
+                <Route
+                    path=":id/edit"
                     element={
-                        <RenderEditProposal 
-                            activeUser={props.activeUser} 
+                        <RenderEditProposal
+                            activeUser={props.activeUser}
                             categories={categories}
                         />
-                    } 
+                    }
                 />
 
             </Routes>

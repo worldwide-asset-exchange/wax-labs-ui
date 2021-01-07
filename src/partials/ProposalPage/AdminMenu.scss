@@ -1,0 +1,22 @@
+@import '../../scss/typography';
+@import '../../scss/variables';
+
+@import '../../scss/components/Button.scss';
+@import '../../scss/components/Modal.scss';
+
+.adminMenu {
+    padding: $spacing-m;
+    background-color: $overlay-02;
+    border-radius: $border-radius;
+
+    margin-bottom: $spacing-m;
+    &__actions {
+        .button {
+            margin-right: $spacing-m;
+        }
+    }
+    &__modalAction {
+        float: right;
+        margin-top: 16px;
+    }
+}

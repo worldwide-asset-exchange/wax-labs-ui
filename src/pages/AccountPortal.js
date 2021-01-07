@@ -1,74 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import {
-Routes,
-Route,
-// Link
-} from 'react-router-dom';
-import * as waxjs from "@waxio/waxjs/dist";
+import React, {useState, useEffect} from 'react';
+import {Routes, Route} from 'react-router-dom';
 
-import RenderAccountInfo from '../partials/AccountInfo.js';
-import RenderEditAccountInfo from '../partials/EditAccountInfo.js';
-import RenderPublicAccount from '../pages/PublicAccount.js';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-export default function RenderAccountPortal(props) {
-    const [ userProfile, setProfile ] = useState();
+import useQueryString from '../utils/useQueryString';
+import * as GLOBAL_VARS from '../utils/vars';
 
-    useEffect(() => {
-        async function getAccountInfo() {
-            try {
-                let resp = await wax.rpc.get_table_rows({             
-                    code: 'labs',
-                    scope: 'labs',
-                    table: 'profiles',
-                    json: true,
-                    lower_bound: props.activeUser.accountName,
-                    upper_bound: props.activeUser.accountName,
-                    limit: 1
-                });
-                console.log(resp.rows[0]);
-                console.log(props.activeUser.accountName)
-                if (resp.rows.length && resp.rows[0].wax_account === props.activeUser.accountName){
-                    setProfile(resp.rows[0]);
-                }
-                else{
-                    return null;
-                }
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        if(props.activeUser){
-            getAccountInfo(); 
-        }
-     }, [props.activeUser]);
+export default function RenderAccountPortal (props) {
 
-    if (props.activeUser && userProfile) {
-        return(
-        
-        <div className="account-portal">
-            <div className="account-body">
-                    <div>
-                        <Routes>
-                            <Route path="/" element={<RenderAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                            <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                            <Route path=":accName" element={<RenderPublicAccount />} />
-                        </Routes>
-                    </div>
-            </div>
-        </div>
-        );
-    } else {
+    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_EVENT_KEY);
+
     return (
-            <div className="account-portal">
-                <div className="account-body">
-                    <Routes>
-                        <Route path="/" element={<RenderAccountInfo activeUser={props.activeUser} />} />
-                        <Route path="edit" element={<RenderEditAccountInfo activeUser={props.activeUser} />} />
-                        <Route path=":accName" element={<RenderPublicAccount activeUser={props.activeUser} />} />
-                    </Routes>
-                </div>
-            </div>
-        );
-    }
+        <Tabs defaultActiveKey={tabString} id="account-portal">
+            <Tab 
+                eventKey={GLOBAL_VARS.BALANCE_EVENT_KEY} 
+                title="Balance" 
+                onEnter={()=>setTabString(GLOBAL_VARS.BALANCE_EVENT_KEY)}
+            >
+
+            </Tab>
+            <Tab 
+                eventKey={GLOBAL_VARS.PROFILE_EVENT_KEY} 
+                title="Profile"
+                onEnter={()=>setTabString(GLOBAL_VARS.PROFILE_EVENT_KEY)}
+            >
+
+            </Tab>
+            <Tab 
+                eventKey={GLOBAL_VARS.MY_PROPOSALS_EVENT_KEY} 
+                title="My proposals"
+                onEnter={()=>setTabString(GLOBAL_VARS.MY_PROPOSALS_EVENT_KEY)}
+            >
+
+            </Tab>
+            <Tab 
+                eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_EVENT_KEY} 
+                title="Deliverables to review"
+                onEnter={()=>setTabString(GLOBAL_VARS.DELIVERABLES_TO_REVIEW_EVENT_KEY)}
+            >
+
+            </Tab>
+        </Tabs>
+    )
 }

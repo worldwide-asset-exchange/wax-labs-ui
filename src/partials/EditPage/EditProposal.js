@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
-import RenderAlerts from '../ProposalPage/Alerts';
+import RenderAlerts from '../Alerts/Alerts';
 import {sleep} from '../../utils/util';
 import {RenderDeliverablesContainer} from './DeliverablesContainer';
 import RenderProposalInputContainer from './ProposalInputContainer';

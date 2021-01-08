@@ -7,6 +7,8 @@ import {getProfileData} from '../Profile/CRUD/QueryProfile';
 import RenderProfileDisplay from '../Profile/ProfileDisplay';
 import RenderLoadingPage from '../LoadingPage';
 import RenderEditProfile from '../Profile/CRUD/EditProfile';
+import RenderCreateProfile from '../Profile/CRUD/CreateProfile';
+
 import { sleep } from '../../utils/util';
 
 export default function RenderProfileTab(props) {
@@ -37,6 +39,7 @@ export default function RenderProfileTab(props) {
 
     async function rerunProfileQuery(){
         setQueryingUserProfile(true);
+        setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY);
         await sleep(3500);
         setQueryCount(queryCount + 1);
     }
@@ -71,6 +74,12 @@ export default function RenderProfileTab(props) {
     } else if (modeString === GLOBAL_VARS.CREATE_EVENT_KEY){
         return (
             <div>
+                <RenderCreateProfile 
+                    activeUser={props.activeUser} 
+                    showAlert={props.showAlert} 
+                    profileName={props.nameToQuery}
+                    rerunProfileQuery={rerunProfileQuery}
+                />
                 <button 
                     className="btn"
                     onClick={()=>{setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY)}

@@ -136,6 +136,7 @@ export const EDIT_PROPOSAL_ACTION = "editprop"
 export const SET_REVIEWER_ACTION = "setreviewer"
 export const REMOVE_DELIVERABLE_ACTION = "rmvdeliv"
 export const NEW_DELIVERABLE_ACTION = "newdeliv"
+export const NEW_PROFILE_ACTION = 'newprofile'
 export const BEGIN_VOTING_ACTION = "beginvoting"
 export const END_VOTING_ACTION = "endvoting"
 export const REVIEW_DELIVERABLE_ACTION = "reviewdeliv"

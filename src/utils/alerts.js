@@ -261,12 +261,28 @@ export const WITHDRAW_FUNDS_ALERT_DICT = {
     ERROR:
     {
         title: "Withdraw error",
-        body: "There was an error when attempting to withdraw your funds",
+        body: "There was an error when attempting to withdraw your balance",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
+export const DONATE_FUNDS_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Donate was a success!",
+        body: "Thank you for helping enhance the ecosystem", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Donate error",
+        body: "There was an error when attempting to donate to wax labs",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
 
 
 // Please copy and paste this if you are creating a new ALERT_DICT

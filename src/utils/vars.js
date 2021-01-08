@@ -84,11 +84,16 @@ export const MAIN_NET_CHAIN_ID = "1064487b3cd1a897ce03ae5b6a865651747e2e152090f9
 
 
 export const TAB_QUERY_STRING_KEY = 'tab';
+export const MODE_QUERY_STRING_KEY = 'mode';
 export const SEARCH_QUERY_STRING_KEY = "search"
 export const STATUS_QUERY_STRING_KEY = "status"
 export const CATEGORIES_QUERY_STRING_KEY = "categories"
 export const ORDER_BY_QUERY_STRING_KEY = "order"
 export const PAGE_QUERY_STRING_KEY = 'page'
+
+export const DISPLAY_EVENT_KEY = 'display'
+export const EDIT_EVENT_KEY = 'edit'
+export const CREATE_EVENT_KEY = 'create'
 
 export const BALANCE_EVENT_KEY = 'balance'
 export const PROFILE_EVENT_KEY = 'profile'

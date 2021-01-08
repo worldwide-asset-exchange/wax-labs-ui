@@ -9,7 +9,7 @@ import RenderAlerts from '../Alerts/Alerts';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
-export default function RenderBalance(props) {
+export default function RenderBalanceTab(props) {
 
     const [balance, setBalance] = useState(0);
     const [queryingBalance, setQueryingBalance] = useState(true);

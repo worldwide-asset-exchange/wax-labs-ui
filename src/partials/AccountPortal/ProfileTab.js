@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Routes, Route} from 'react-router-dom';
 import useQueryString from '../../utils/useQueryString';
 
 import * as GLOBAL_VARS from '../../utils/vars';
@@ -13,7 +12,6 @@ import { sleep } from '../../utils/util';
 export default function RenderProfileTab(props) {
     const [userProfile, setUserProfile] = useState(null);
     const [queryingUserProfile, setQueryingUserProfile] = useState(true);
-    const [counter, setCounter] = useState(0);
     const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
     const [queryCount, setQueryCount] = useState(0);
 

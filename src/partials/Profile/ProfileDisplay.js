@@ -7,7 +7,7 @@ export default function RenderProfileDisplay(props){
             <div>
                 <img 
                     src={props.profile.image_url}
-                    alt="User provided image"
+                    alt="User provided"
                 />
                 <div>
                     <h2>Full name</h2>

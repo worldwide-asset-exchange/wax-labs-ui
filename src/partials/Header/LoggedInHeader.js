@@ -1,16 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom'
+import { Navbar } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom'
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import RenderNotifications from './Notifications';
 import {
-    getProposerEndVotingNotifications, 
-    getStartVotingNotifications, 
-    getProposerDeliverableNotifications, 
-    getReviewerDeliverableNotifications, 
-    getAdminEndVotingNotifications, 
+    getProposerEndVotingNotifications,
+    getStartVotingNotifications,
+    getProposerDeliverableNotifications,
+    getReviewerDeliverableNotifications,
+    getAdminEndVotingNotifications,
     getAdminToReviewNotifications
 } from './NotificationQueries'
+
+import labsIcon from '../../images/Header/WAXlabs-logo.svg'
+import ProposalIcon from '../../icons/ProposalIcon'
+import PortalIcon from '../../icons/PortalIcon'
 
 export default function RenderLoggedInHeader(props){
 
@@ -23,14 +28,14 @@ export default function RenderLoggedInHeader(props){
         async function getNotifications(){
             let promiseList = [
                 getProposerEndVotingNotifications(props.activeUser.accountName),
-                getStartVotingNotifications(props.activeUser.accountName), 
-                getProposerDeliverableNotifications(props.activeUser.accountName), 
+                getStartVotingNotifications(props.activeUser.accountName),
+                getProposerDeliverableNotifications(props.activeUser.accountName),
                 getReviewerDeliverableNotifications(props.activeUser.accountName)
             ];
             if(props.isAdmin){
                 promiseList = [
                     ...promiseList,
-                    getAdminEndVotingNotifications(), 
+                    getAdminEndVotingNotifications(),
                     getAdminToReviewNotifications(),
                 ];
             }
@@ -52,17 +57,32 @@ export default function RenderLoggedInHeader(props){
         if(!props.queryingAdmin && !props.queryingCategories){
             console.log("getting notifications")
             getNotifications();
-        }   
+        }
         const cleanup = () => {cancelled = true;}
         return cleanup
     },[props.activeUser, props.isAdmin, props.queryingAdmin, props.queryingCategories]);
 
     return (
-        <div>
-            <Link to={GLOBAL_VARS.PROPOSALS_LINK}>Proposals</Link>
-            <RenderNotifications notifications={notifications} querying={querying}/>
-            <Link to={GLOBAL_VARS.ACCOUNT_PORTAL_LINK}>Account</Link>
-            <div>{props.activeUser.accountName}<button className="btn" onClick={props.logout}>Logout</button></div>
-        </div>
+        <Navbar collapseOnSelect expand="lg" className="header">
+            <Navbar.Brand className="header__icon" href="/">
+                <img src={labsIcon} alt="WAX labs icon"/>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" className="header__toggleButton" />
+            <Navbar.Collapse id="responsive-navbar-nav" className="header__collapse">
+                <NavLink to={GLOBAL_VARS.PROPOSALS_LINK} className="header__link" activeClassName="header__link--active">
+                    <ProposalIcon/>
+                    Proposals
+                </NavLink>
+                <NavLink to={GLOBAL_VARS.ACCOUNT_PORTAL_LINK} className="header__link" activeClassName="header__link--active">
+                    <PortalIcon/>
+                    Portal
+                </NavLink>
+                <RenderNotifications notifications={notifications} querying={querying}/>
+                <div className="header__account">
+                    <div className="header__accountName">{props.activeUser.accountName}</div>
+                    <button className="button button--text header__signOut" onClick={props.logout}>Logout</button>
+                </div>
+            </Navbar.Collapse>
+        </Navbar>
     );
 }

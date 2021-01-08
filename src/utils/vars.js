@@ -131,6 +131,7 @@ export const DRAFT_PROPOSAL_ACTION = "draftprop"
 export const REVIEW_PROPOSAL_ACTION = "reviewprop"
 export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SUBMIT_PROPOSAL_ACTION = "submitprop"
+export const EDIT_PROFILE_ACTION = 'editprofile'
 export const EDIT_PROPOSAL_ACTION = "editprop"
 export const SET_REVIEWER_ACTION = "setreviewer"
 export const REMOVE_DELIVERABLE_ACTION = "rmvdeliv"

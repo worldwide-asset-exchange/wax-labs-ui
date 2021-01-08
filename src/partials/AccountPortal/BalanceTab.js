@@ -5,7 +5,6 @@ import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import {requestedAmountToFloat, sleep} from '../../utils/util';
 
-import RenderAlerts from '../Alerts/Alerts';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -18,25 +17,7 @@ export default function RenderBalanceTab(props) {
     const [withdrawAmount, setWithdrawAmount] = useState("");
     const [donateAmount, setDonateAmount] = useState("");
 
-    const [alertList, setAlertList] = useState([]);
-
-    function showAlert(alertObj){
-        // Make a copy.
-        let alerts = alertList.slice(0);
-        // Push new alert to the copied list
-        alerts.push(alertObj);
-        // Update the list.
-        setAlertList(alerts);
-    }
-
-    function removeAlert(index){
-        // Make a copy.
-        let alerts = alertList.slice(0);
-        // remove alert at index.
-        alerts.splice(index,1);
-        // Update the list.
-        setAlertList(alerts);
-    }
+   
     
     function createWithdrawAction(quantity) {
         let activeUser = props.activeUser
@@ -84,7 +65,7 @@ export default function RenderBalanceTab(props) {
                     expireSeconds: 30,
                 }
             );
-            showAlert(GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.SUCCESS);
+            props.showAlert(GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.SUCCESS);
             rerunAccountQuery();
         } catch(e){
             console.log(e);
@@ -92,7 +73,7 @@ export default function RenderBalanceTab(props) {
                 ...GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.ERROR,
                 details: e.message
             }
-            showAlert(alertObj);
+            props.showAlert(alertObj);
         }
     }
 
@@ -108,14 +89,14 @@ export default function RenderBalanceTab(props) {
                     expireSeconds: 30,
                 }
             );
-            showAlert(GLOBAL_ALERTS.WITHDRAW_FUNDS_ALERT_DICT.SUCCESS);
+            props.showAlert(GLOBAL_ALERTS.WITHDRAW_FUNDS_ALERT_DICT.SUCCESS);
         } catch(e){
             console.log(e);
             let alertObj = {
                 ...GLOBAL_ALERTS.WITHDRAW_FUNDS_ALERT_DICT.ERROR,
                 details: e.message
             }
-            showAlert(alertObj);
+            props.showAlert(alertObj);
         }
 
     }
@@ -158,11 +139,7 @@ export default function RenderBalanceTab(props) {
     }, [props.activeUser, accountQueryCount]);
 
     return (
-        <div style={{color:"white"}}>
-            <RenderAlerts
-                alertList={alertList}
-                removeAlert={removeAlert}
-            />
+        <div style={{color:"white"}}>            
             <div>
                 Your balance in the labs smart contract is
                 <h1>

@@ -284,6 +284,23 @@ export const DONATE_FUNDS_ALERT_DICT = {
     }
 }
 
+export const EDIT_PROFILE_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Edit profile was a success!",
+        body: "Your profile was successfuly updated", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Edit profile error!",
+        body: "There was an error when attempting to update your profile",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
 
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {

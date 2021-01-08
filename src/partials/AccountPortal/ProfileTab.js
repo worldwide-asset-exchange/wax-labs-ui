@@ -3,17 +3,19 @@ import {Routes, Route} from 'react-router-dom';
 import useQueryString from '../../utils/useQueryString';
 
 import * as GLOBAL_VARS from '../../utils/vars';
-import {getProfileData} from '../Profile/QueryProfile';
+import {getProfileData} from '../Profile/CRUD/QueryProfile';
 
 import RenderProfileDisplay from '../Profile/ProfileDisplay';
 import RenderLoadingPage from '../LoadingPage';
+import RenderEditProfile from '../Profile/CRUD/EditProfile';
+import { sleep } from '../../utils/util';
 
 export default function RenderProfileTab(props) {
     const [userProfile, setUserProfile] = useState(null);
     const [queryingUserProfile, setQueryingUserProfile] = useState(true);
     const [counter, setCounter] = useState(0);
     const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
-
+    const [queryCount, setQueryCount] = useState(0);
 
     useEffect(()=>{
         
@@ -33,8 +35,13 @@ export default function RenderProfileTab(props) {
         
         const cleanup = () => {cancelled = true};
         return cleanup;
-    }, [props.nameToQuery]);
+    }, [props.nameToQuery, queryCount]);
 
+    async function rerunProfileQuery(){
+        setQueryingUserProfile(true);
+        await sleep(3500);
+        setQueryCount(queryCount + 1);
+    }
 
     if(queryingUserProfile){
         return (
@@ -77,6 +84,12 @@ export default function RenderProfileTab(props) {
     } else if (modeString === GLOBAL_VARS.EDIT_EVENT_KEY) {
         return (
             <div>
+                <RenderEditProfile 
+                    profile={userProfile} 
+                    activeUser={props.activeUser}
+                    rerunProfileQuery={rerunProfileQuery}
+                    showAlert={props.showAlert}
+                />
                 <button 
                     className="btn"
                     onClick={()=>{setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY)}

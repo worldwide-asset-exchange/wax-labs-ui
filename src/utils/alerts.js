@@ -302,6 +302,25 @@ export const EDIT_PROFILE_ALERT_DICT = {
 }
 
 
+export const CREATE_PROFILE_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Create profile was a success!",
+        body: "Your profile was successfuly create", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Create profile error!",
+        body: "There was an error when attempting to create your profile",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+
+
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {
     SUCCESS: 

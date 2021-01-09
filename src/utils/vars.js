@@ -118,7 +118,7 @@ export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"
 export const CAST_VOTE_ACTION = "castvote"
 
-export const LABS_CONTRACT_ACCOUNT = 'labs'
+export const LABS_CONTRACT_ACCOUNT = 'labstest1111'
 export const ACCOUNTS_TABLE = 'accounts'
 export const CONFIG_TABLE = 'config'
 export const MD_BODIES_TABLE = 'mdbodies'

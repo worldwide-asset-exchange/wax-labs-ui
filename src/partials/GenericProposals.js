@@ -34,12 +34,13 @@ export default function RenderGenericProposals(props) {
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
     const [categoriesList, setCategoriesList] = useQueryString(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY, null);
-    const [statusList, setStatusList] = useQueryString(GLOBAL_VARS.STATUS_QUERY_STRING_KEY, [GLOBAL_VARS.VOTING_KEY,GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]);
+    const [statusList, setStatusList] = useQueryString(GLOBAL_VARS.STATUS_QUERY_STRING_KEY, props.defaultStatus);
     const [filterString, setFilterString] = useQueryString(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY, "");
 
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(GLOBAL_VARS.ORDER_BY_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST[0]);
 
+    
     function filterByStatus(proposal){
         if(!statusList){
             return true;
@@ -117,16 +118,24 @@ export default function RenderGenericProposals(props) {
     useEffect(() => {
         let cancelled = false
         setQuerying(true);
-        let promiseList = [
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.DRAFTING_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.APPROVED_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.FAILED_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.CANCELLED_KEY, getStatBounds),
-            getProposals("BY_STAT_CAT", GLOBAL_VARS.COMPLETED_KEY, getStatBounds),
-        ];
+        let promiseList = [];
+        // by default search for all proposals
+        if(!props.queryArgs){
+            promiseList = [
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.DRAFTING_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.APPROVED_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.FAILED_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.CANCELLED_KEY, getStatBounds),
+                getProposals("BY_STAT_CAT", GLOBAL_VARS.COMPLETED_KEY, getStatBounds),
+            ];
+        } else {
+            promiseList = props.queryArgs.map(queryArg => {
+                return queryArg.getProposals(queryArg.queryType, queryArg.statusKey, queryArg.getBounds, queryArg.accountName);
+            });
+        }
 
         Promise.all(promiseList)
         .then(values => {
@@ -142,7 +151,7 @@ export default function RenderGenericProposals(props) {
 
         const cleanup = () => { cancelled = true }
         return cleanup
-    }, []);
+    }, [props.queryArgs]);
 
 
     function updateStatusList (newList){
@@ -206,7 +215,7 @@ export default function RenderGenericProposals(props) {
                             <p>Log in to create a proposal</p>
                         :
                         !props.profile ?
-                            <p>To create a proposal you need to <Link className="inlineLink" to={GLOBAL_VARS.ACCOUNT_PORTAL_LINK}>create your profile</Link></p>
+                            <p>To create a proposal you need to <Link className="inlineLink" to={GLOBAL_VARS.CREATE_PROFILE_LINK}>create your profile</Link></p>
                         :
                             <Link className="button button--primary" to={GLOBAL_VARS.DRAFT_PROPOSAL_LINK}>Create proposal</Link>
                     }

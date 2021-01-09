@@ -161,6 +161,7 @@ export const PROPOSALS_LINK = "/proposals"
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 
 export const ACCOUNT_PORTAL_LINK = "/account"
+export const CREATE_PROFILE_LINK = ACCOUNT_PORTAL_LINK + `?${MODE_QUERY_STRING_KEY}=${CREATE_EVENT_KEY}&${TAB_QUERY_STRING_KEY}=${PROFILE_EVENT_KEY}`
 
 export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 

@@ -103,7 +103,7 @@ export default function App(props)  {
             <Routes>
             <Route path="/" element={<RenderHome/>} />
             <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} categories={categories} loginModal={props.ual.showModal} />} />
-            <Route path="account/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} /> } />
+            <Route path="account/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} categories={categories}/> } />
             <Route path="admin/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} />} />
             <Route path="*" element={<RenderErrorPage />} />
             </Routes>

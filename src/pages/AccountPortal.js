@@ -9,13 +9,49 @@ import * as GLOBAL_VARS from '../utils/vars';
 import RenderBalanceTab from '../partials/AccountPortal/BalanceTab';
 import RenderProfileTab from '../partials/AccountPortal/ProfileTab';
 import RenderAlerts from '../partials/Alerts/Alerts';
+import RenderMyProposalsTab from '../partials/AccountPortal/UserProposalsTab';
+import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
+
+
+import { sleep } from '../utils/util';
 
 export default function RenderAccountPortal (props) {
 
     const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_EVENT_KEY);
+    const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
+    
     const [accountName, setAccountName] = useState(null);
+      
+
+    const [userProfile, setUserProfile] = useState(null);
+    const [queryingUserProfile, setQueryingUserProfile] = useState(true);
+    
+    const [queryCount, setQueryCount] = useState(0);
 
     const [alertList, setAlertList] = useState([]);
+
+    function updateModeString (string) {
+        setModeString(string);
+    }
+
+    useEffect(()=>{
+        
+        let cancelled = false;
+        
+        if(accountName){
+            setQueryingUserProfile(true);
+            getProfileData(accountName).then(profileData => {
+                console.log(profileData);
+                if(!cancelled){
+                    setUserProfile(profileData);
+                    setQueryingUserProfile(false);
+                }
+            })
+        }
+        
+        const cleanup = () => {cancelled = true};
+        return cleanup;
+    }, [accountName, queryCount]);
 
     function showAlert(alertObj){
         // Make a copy.
@@ -36,12 +72,17 @@ export default function RenderAccountPortal (props) {
     }
 
     useEffect(()=>{
-        console.log(props.activeUser);
         if(props.activeUser){
             setAccountName(props.activeUser.accountName);
         }
     }, [props.activeUser]);
 
+    async function rerunProfileQuery(){
+        setQueryingUserProfile(true);
+        setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY);
+        await sleep(3500);
+        setQueryCount(queryCount + 1);
+    }
 
     return (
         <div>
@@ -67,6 +108,11 @@ export default function RenderAccountPortal (props) {
                         nameToQuery={accountName} 
                         activeUser={props.activeUser} 
                         showAlert={showAlert}
+                        userProfile={userProfile}
+                        queryingUserProfile={queryingUserProfile}
+                        rerunProfileQuery={rerunProfileQuery}
+                        updateModeString={updateModeString}
+                        modeString={modeString}
                     />
                 </Tab>
                 <Tab 
@@ -74,7 +120,14 @@ export default function RenderAccountPortal (props) {
                     title="My proposals"
                     onEnter={()=>setTabString(GLOBAL_VARS.MY_PROPOSALS_EVENT_KEY)}
                 >
-
+                    <RenderMyProposalsTab
+                        userToSearch={props.activeUser ? props.activeUser.accountName : "null"}
+                        showAlert={showAlert}
+                        categories={props.categories}
+                        activeUser={props.activeUser}
+                        profile={userProfile}
+                        defaultStatus={[]}
+                    />
                 </Tab>
                 <Tab 
                     eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_EVENT_KEY} 

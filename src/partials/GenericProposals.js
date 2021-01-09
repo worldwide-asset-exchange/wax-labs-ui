@@ -190,13 +190,18 @@ export default function RenderGenericProposals(props) {
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                             <div>
-                                <RenderFilter
-                                    title="Status Filters"
-                                    currentList={statusList}
-                                    fullList={GLOBAL_VARS.PROPOSALS_STATUS_KEYS}
-                                    updateCurrentList={updateStatusList}
-                                    readableNameDict={GLOBAL_VARS.READABLE_PROPOSAL_STATUS}
-                                />
+                                {
+                                    props.noStatusFilter ?
+                                    ""
+                                    :
+                                    <RenderFilter
+                                        title="Status Filters"
+                                        currentList={statusList}
+                                        fullList={GLOBAL_VARS.PROPOSALS_STATUS_KEYS}
+                                        updateCurrentList={updateStatusList}
+                                        readableNameDict={GLOBAL_VARS.READABLE_PROPOSAL_STATUS}
+                                    />
+                                }
                                 <RenderFilter
                                     title="Category Filters"
                                     currentList={categoriesList}

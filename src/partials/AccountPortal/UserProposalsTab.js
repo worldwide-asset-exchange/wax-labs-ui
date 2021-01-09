@@ -28,7 +28,7 @@ export default function RenderUserProposalsTab (props) {
 
     return (
         <RenderGenericProposals
-            noProposalsMessage="No proposals were found for this proposer, try chaning the filters."
+            noProposalsMessage="No proposals were found, try changing the filters."
             categories={props.categories}
             profile={props.profile}
             activeUser={props.activeUser}

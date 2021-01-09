@@ -2,6 +2,7 @@ import * as GLOBAL_VARS from './vars'
 
 export const SUCCESS_VARIANT = "success"
 export const ERROR_VARIANT = "danger"
+export const WARNING_VARIANT = "warning"
 export const ACCEPT_TEMPLATE = "%accept%"
 export const AMOUNT_TEMPLATE = "%amount%"
 export const APPROVE_TEMPLATE = "%approve%"
@@ -245,7 +246,7 @@ export const INVALID_DATA_ALERT_DICT = {
     {
         title: "Invalid data!",
         body: "There is some invalid data, fix it before attempting to save draft again.",
-        variant: ERROR_VARIANT,
+        variant: WARNING_VARIANT,
         dismissible: true
     }
 }
@@ -306,7 +307,7 @@ export const CREATE_PROFILE_ALERT_DICT = {
     SUCCESS: 
     {
         title: "Create profile was a success!",
-        body: "Your profile was successfuly create", 
+        body: "Your profile was successfuly created", 
         variant: SUCCESS_VARIANT, 
         dismissible: true
     },
@@ -318,7 +319,22 @@ export const CREATE_PROFILE_ALERT_DICT = {
         dismissible: true,
     }
 }
-
+export const REMOVE_PROFILE_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Remove profile was a success!",
+        body: "Your profile was successfuly removed", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Remove profile error!",
+        body: "There was an error when attempting to remove your profile",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
 
 
 // Please copy and paste this if you are creating a new ALERT_DICT

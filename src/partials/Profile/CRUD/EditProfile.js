@@ -7,14 +7,30 @@ import * as ALERT_GLOBALS from '../../../utils/alerts';
 export default function RenderEditProfile(props) {
 
     const [editableProfile, setEditableProfile] = useState(null);
+    
+    const [dataValid, setDataValid] = useState(false);
+    const [showValidatorMessages, setShowValidatorMessages] = useState(false);
 
     function updateEditableProfile(editableProfile){
         setEditableProfile(editableProfile);
     }
 
+
+    function updateValidatorData(allValid){
+        setDataValid(allValid);
+    }
+
+
     async function editProfile(){
         let actionList = [createEditProfileAction()];
         let activeUser = props.activeUser;
+
+        if(!dataValid){
+            props.showAlert(ALERT_GLOBALS.INVALID_DATA_ALERT_DICT.WARN);
+            setShowValidatorMessages(true);
+            return;
+        }
+        
 
         try {
             await activeUser.signTransaction(
@@ -57,6 +73,8 @@ export default function RenderEditProfile(props) {
     return (
         <div>
             <RenderProfileInputContainer
+                showValidatorMessages={showValidatorMessages}
+                updateValidatorData={updateValidatorData}
                 profile={props.profile}
                 updateEditableProfile={updateEditableProfile}
                 editMode={true}

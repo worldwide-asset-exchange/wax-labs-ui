@@ -7,8 +7,15 @@ import * as ALERT_GLOBALS from '../../../utils/alerts';
 export default function RenderCreateProfile(props) {
     const [editableProfile, setEditableProfile] = useState(null);
 
+    const [dataValid, setDataValid] = useState(false);
+    const [showValidatorMessages, setShowValidatorMessages] = useState(false);
+
     function updateEditableProfile(editableProfile){
         setEditableProfile(editableProfile);
+    }
+
+    function updateValidatorData(allValid){
+        setDataValid(allValid);
     }
 
     function createNewProfileAction () {
@@ -29,6 +36,11 @@ export default function RenderCreateProfile(props) {
         let actionList = [createNewProfileAction()];
         let activeUser = props.activeUser;
 
+        if(!dataValid){
+            props.showAlert(ALERT_GLOBALS.INVALID_DATA_ALERT_DICT.WARN);
+            setShowValidatorMessages(true);
+            return;
+        }
         
         try {
             await activeUser.signTransaction(
@@ -54,7 +66,9 @@ export default function RenderCreateProfile(props) {
     return (
         <div>
             <RenderProfileInputContainer 
+                updateValidatorData={updateValidatorData}
                 updateEditableProfile={updateEditableProfile}
+                showValidatorMessages={showValidatorMessages}
             />
             <button className="btn" onClick={()=>createProfile()}>Create profile</button>
         </div>

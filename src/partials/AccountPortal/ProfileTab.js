@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import useQueryString from '../../utils/useQueryString';
 
 import * as GLOBAL_VARS from '../../utils/vars';
+import * as ALERT_GLOBALS from '../../utils/alerts';
 import {getProfileData} from '../Profile/CRUD/QueryProfile';
 
 import RenderProfileDisplay from '../Profile/ProfileDisplay';
@@ -37,6 +38,47 @@ export default function RenderProfileTab(props) {
         return cleanup;
     }, [props.nameToQuery, queryCount]);
 
+    function createRemoveProfileAction () {
+        let activeUser = props.activeUser;
+        return {
+            account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+            name: GLOBAL_VARS.REMOVE_PROFILE_ACTION,
+            authorization: [{
+                actor: activeUser.accountName,
+                permission: activeUser.requestPermission,
+            }],
+            data: {
+                wax_account: activeUser.accountName
+            }
+        }
+    }
+
+    async function removeProfile() {
+        let activeUser = props.activeUser;
+        let actionList = [createRemoveProfileAction()];
+
+        try {
+            await activeUser.signTransaction(
+                {
+                    actions: actionList
+                } , {
+                    blocksBehind: 3,
+                    expireSeconds: 30
+                }
+            );
+            props.showAlert(ALERT_GLOBALS.REMOVE_PROFILE_ALERT_DICT.SUCCESS);
+            rerunProfileQuery();
+        } catch (e){
+            console.log(e);
+            let alertObj = {
+                ...ALERT_GLOBALS.REMOVE_PROFILE_ALERT_DICT.ERROR,
+                details: e.message
+            }
+            props.showAlert(alertObj);
+        }   
+
+    }
+
     async function rerunProfileQuery(){
         setQueryingUserProfile(true);
         setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY);
@@ -56,12 +98,19 @@ export default function RenderProfileTab(props) {
                 <RenderProfileDisplay profile={userProfile} notFoundMessage="Your profile hasn't been created yet." />
                 {
                     userProfile 
-                    ?   <button 
-                            className="btn"
-                            onClick={()=>{setModeString(GLOBAL_VARS.EDIT_EVENT_KEY)}
-                        }>
-                            Edit profile
-                        </button>
+                    ?   
+                        <div>
+                            <button 
+                                className="btn"
+                                onClick={()=>{setModeString(GLOBAL_VARS.EDIT_EVENT_KEY)}
+                            }>
+                                Edit profile
+                            </button>
+                            <button
+                                className="btn"
+                                onClick={removeProfile}
+                            > Remove profile</button>
+                        </div>
                     :   <button 
                             className="btn"
                             onClick={()=>{setModeString(GLOBAL_VARS.CREATE_EVENT_KEY)}
@@ -103,6 +152,10 @@ export default function RenderProfileTab(props) {
                 }>
                     View profile
                 </button>
+                <button
+                    className="btn"
+                    onClick={removeProfile}
+                > Remove profile</button>
             </div>
         )
     }

@@ -45,7 +45,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
             validator.hideMessages();
         }
         // eslint-disable-next-line
-    }, [showValidatorMessages])
+    }, [showValidatorMessages]);
 
     useEffect(()=>{
         setEditableProposal({...editableProposal, ...proposal});

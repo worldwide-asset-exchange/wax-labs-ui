@@ -11,7 +11,6 @@ import RenderHome from './pages/Home.js';
 import RenderErrorPage from './pages/ErrorPage.js';
 import RenderAccountPortal from './pages/AccountPortal.js';
 import RenderProposals from './pages/Proposals.js';
-import RenderDeliverables from './pages/Deliverables.js';
 import RenderAdminPortal from './pages/AdminPortal.js';
 
 import * as GLOBAL_VARS from './utils/vars';
@@ -33,9 +32,9 @@ export default function App(props)  {
       setQueryingAdmin(true);
       try {
         let resp = await wax.rpc.get_table_rows({
-            code: 'labs',
-            scope: 'labs',
-            table: 'config',
+            code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+            scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+            table: GLOBAL_VARS.CONFIG_TABLE,
             json: true,
             limit: 1
         });
@@ -105,7 +104,6 @@ export default function App(props)  {
             <Routes>
             <Route path="/" element={<RenderHome/>} />
             <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} categories={categories} loginModal={props.ual.showModal} />} />
-            <Route path="deliverables/*" activeUser={props.ual.activeUser}  element={<RenderDeliverables activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
             <Route path="account/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} /> } />
             <Route path="admin/*" element={<RenderAdminPortal activeUser={props.ual.activeUser} isAdmin={isAdmin} />} />
             <Route path="*" element={<RenderErrorPage />} />

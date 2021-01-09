@@ -1,0 +1,82 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/typography';
+
+.header {
+    background-color: $gray-dark;
+    z-index: 99999;
+
+    &__icon {
+        img {
+            height: 25px;
+            @include breakpoint(large-mobile-up) {
+                height: 44px;
+            }
+            @include breakpoint(tablet-landscape-up) {
+                height: 51px;
+            }
+        }
+    }
+    &__toggleButton {
+        border: none;
+        padding: 0;
+        .navbar-toggler-icon {
+            height: 44px;
+            min-width: 44px;
+            background-image: url('../../images/Header/hamburguer.svg');
+            background-repeat: no-repeat;
+            background-size: 44px;
+        }
+    }
+    &__collapse {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @include breakpoint(tablet-landscape-up) {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+    }
+    &__link {
+        @include h4;
+
+        display: flex;
+        align-items: center;
+
+        color: $typography-02;
+
+        margin: $spacing-s 0 0;
+
+        @include breakpoint(tablet-landscape-up) {
+            margin: 0 $spacing-l 0 0;
+        }
+
+        svg {
+            margin-right: $spacing-xxs;
+            height: 24px;
+            width: 24px;
+            fill: $typography-02;
+            margin-bottom: 2px;
+        }
+
+        &:hover,
+        &--active {
+            color: $typography-01;
+            text-decoration: none;
+            outline: none;
+
+            svg {
+                fill: url('#orangeGradient');
+            }
+        }
+    }
+    &__account {
+        display: flex;
+        flex-direction: column;
+    }
+    &__accountName {
+        @include h4;
+        color: $blue-light;
+    }
+}

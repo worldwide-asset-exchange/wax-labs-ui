@@ -22,38 +22,45 @@ export const PROPOSER_KEY = 'proposer'
 export const REVIEWER_KEY = 'reviewer'
 export const BALLOT_KEY = 'ballot_name'
 
+export const DEFAULT_QUERY_TYPE = 'DEFAULT'
+export const BY_STAT_CAT_QUERY_TYPE = "BY_STAT_CAT"
+export const BY_CAT_STAT_QUERY_TYPE = "BY_CAT_STAT"
+export const BY_PROPOSER_STAT_QUERY_TYPE = 'BY_PROPOSER_STAT'
+export const BY_REVIEWER_STAT_QUERY_TYPE = "BY_REVIEWER_STAT"
+export const BY_BALLOT_QUERY_TYPE = 'BY_BALLOT'
+
 export const PROPOSAL_INDEXES = {
     INDEX_POSITION: {
-        DEFAULT: 1,
-        BY_STAT_CAT: 2,
-        BY_CAT_STAT: 3,
-        BY_PROPOSER_STAT: 4,
-        BY_REVIEWER_STAT: 5,
-        BY_BALLOT: 6,
+        [DEFAULT_QUERY_TYPE]: 1,
+        [BY_STAT_CAT_QUERY_TYPE]: 2,
+        [BY_CAT_STAT_QUERY_TYPE]: 3,
+        [BY_PROPOSER_STAT_QUERY_TYPE]: 4,
+        [BY_REVIEWER_STAT_QUERY_TYPE]: 5,
+        [BY_BALLOT_QUERY_TYPE]: 6,
     },
     BYTE_SIZE: {
-        DEFAULT: 8,
-        BY_STAT_CAT: 8,
-        BY_CAT_STAT: 8,
-        BY_PROPOSER_STAT: 16,
-        BY_REVIEWER_STAT: 16,
-        BY_BALLOT: 8,
+        [DEFAULT_QUERY_TYPE]: 8,
+        [BY_STAT_CAT_QUERY_TYPE]: 8,
+        [BY_CAT_STAT_QUERY_TYPE]: 8,
+        [BY_PROPOSER_STAT_QUERY_TYPE]: 16,
+        [BY_REVIEWER_STAT_QUERY_TYPE]: 16,
+        [BY_BALLOT_QUERY_TYPE]: 8,
     },
     KEY_TYPE: {
-        DEFAULT: I64,
-        BY_STAT_CAT: I64,
-        BY_CAT_STAT: I64,
-        BY_PROPOSER_STAT: I128,
-        BY_REVIEWER_STAT: I128,
-        BY_BALLOT: I64,
+        [DEFAULT_QUERY_TYPE]: I64,
+        [BY_STAT_CAT_QUERY_TYPE]: I64,
+        [BY_CAT_STAT_QUERY_TYPE]: I64,
+        [BY_PROPOSER_STAT_QUERY_TYPE]: I128,
+        [BY_REVIEWER_STAT_QUERY_TYPE]: I128,
+        [BY_BALLOT_QUERY_TYPE]: I64,
     },
     PATTERN: {
-        DEFAULT: [{key:PROPOSAL_ID_KEY, byte_size: 8}],
-        BY_STAT_CAT: [{key:STATUS_KEY, byte_size:1}, {key:CATEGORY_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
-        BY_CAT_STAT: [{key:CATEGORY_KEY, byte_size:1}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
-        BY_PROPOSER_STAT: [{key:PROPOSER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
-        BY_REVIEWER_STAT: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
-        BY_BALLOT: [{key:BALLOT_KEY, byte_size: 8}],
+        [DEFAULT_QUERY_TYPE]: [{key:PROPOSAL_ID_KEY, byte_size: 8}],
+        [BY_STAT_CAT_QUERY_TYPE]: [{key:STATUS_KEY, byte_size:1}, {key:CATEGORY_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
+        [BY_CAT_STAT_QUERY_TYPE]: [{key:CATEGORY_KEY, byte_size:1}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
+        [BY_PROPOSER_STAT_QUERY_TYPE]: [{key:PROPOSER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        [BY_REVIEWER_STAT_QUERY_TYPE]: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        [BY_BALLOT_QUERY_TYPE]: [{key:BALLOT_KEY, byte_size: 8}],
     }
 }
 

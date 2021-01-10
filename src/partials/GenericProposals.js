@@ -122,14 +122,14 @@ export default function RenderGenericProposals(props) {
         // by default search for all proposals
         if(!props.queryArgs){
             promiseList = [
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.DRAFTING_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.APPROVED_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.FAILED_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.CANCELLED_KEY, getStatBounds),
-                getProposals("BY_STAT_CAT", GLOBAL_VARS.COMPLETED_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.DRAFTING_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.SUBMITTED_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.APPROVED_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.VOTING_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.FAILED_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.CANCELLED_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.COMPLETED_KEY, getStatBounds),
             ];
         } else {
             promiseList = props.queryArgs.map(queryArg => {

@@ -14,7 +14,7 @@ export default function RenderUserProposalsTab (props) {
         let newQueryArgs = [];
         GLOBAL_VARS.PROPOSALS_STATUS_KEYS.forEach((key, index)=>{
             newQueryArgs.push({
-                queryType: "BY_PROPOSER_STAT",
+                queryType: GLOBAL_VARS.BY_PROPOSER_STAT_QUERY_TYPE,
                 statusKey: key,
                 getBounds: getNameBounds,
                 accountName: props.userToSearch,

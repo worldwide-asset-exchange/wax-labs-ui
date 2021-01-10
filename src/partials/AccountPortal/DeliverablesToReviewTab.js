@@ -11,7 +11,7 @@ export default function RenderDeliverablesToReviewTab (props) {
     useEffect(()=>{
         
         let newQueryArgs = [{
-            queryType: "BY_REVIEWER_STAT",
+            queryType: GLOBAL_VARS.BY_REVIEWER_STAT_QUERY_TYPE,
             statusKey: GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY,
             getBounds: getNameBounds,
             accountName: props.reviewer,

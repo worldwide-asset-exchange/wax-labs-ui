@@ -11,7 +11,7 @@ export default function RenderProposalsToReviewTab(props) {
     useEffect(()=>{
         
         let newQueryArgs = [{
-            queryType: "BY_STAT_CAT",
+            queryType: GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE,
             statusKey: GLOBAL_VARS.SUBMITTED_KEY,
             getBounds: getStatBounds,
             accountName: props.reviewer,

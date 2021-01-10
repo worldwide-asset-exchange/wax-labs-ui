@@ -29,20 +29,20 @@ export default function RenderHome() {
     useEffect(()=>{
         async function getInVotingProposals(){
             setQueryingVoting(true);
-            let inVotingList = await getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds);
+            let inVotingList = await getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.VOTING_KEY, getStatBounds);
             setInVotingProposals(inVotingList);
             setQueryingVoting(false);
         }
         async function getSubmittedProposals(){
             setQueryingSubmitted(true);
-            let submittedList =  await getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds);
+            let submittedList =  await getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.SUBMITTED_KEY, getStatBounds);
             setSubmittedProposals(submittedList);
             setQueryingSubmitted(false);
         }
 
         async function getInProgressProposals(){
             setQueryingInProgress(true);
-            let inProgressList = await getProposals("BY_STAT_CAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds);
+            let inProgressList = await getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds);
             setInProgressProposals(inProgressList);
             setQueryingInProgress(false);
         }

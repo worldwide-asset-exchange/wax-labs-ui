@@ -71,7 +71,7 @@ export function notificationIfVotingEnded(proposal){
 
 export async function getReviewerDeliverableNotifications(accountName){
     // Get list of proposals that have accountName as reviewer and that are inprogress.
-    return getProposals("BY_REVIEWER_STAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getNameBounds, accountName).then(inProgresProposalList => {
+    return getProposals(GLOBAL_VARS.BY_REVIEWER_STAT_QUERY_TYPE, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getNameBounds, accountName).then(inProgresProposalList => {
         let promiseList = []
         // We only want to find deliverables that are in the reported state, because those are the ones that need the reviewer's attention
         let statusList = [{value: GLOBAL_VARS.REPORTED_KEY, notification: GLOBAL_VARS.NOTIFICATIONS_DICT.DELIVERABLES_TO_REVIEW}]
@@ -98,7 +98,7 @@ export async function getReviewerDeliverableNotifications(accountName){
 
 export async function getAdminToReviewNotifications(){
     // Get submitted proposal list by status (don't care about proposer or reviewer)
-    return getProposals("BY_STAT_CAT", GLOBAL_VARS.SUBMITTED_KEY, getStatBounds).then(submittedList => {
+    return getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.SUBMITTED_KEY, getStatBounds).then(submittedList => {
         // Return a notification for each submmited proposal.
         return submittedList.map(proposal => {
             return {...GLOBAL_VARS.NOTIFICATIONS_DICT.REVIEW_PENDING, id: proposal.proposal_id}
@@ -108,7 +108,7 @@ export async function getAdminToReviewNotifications(){
 
 export async function getAdminEndVotingNotifications(){
     // Get voting proposal list by status (don't care about proposer or reviewer)
-    return getProposals("BY_STAT_CAT", GLOBAL_VARS.VOTING_KEY, getStatBounds).then((inVotingList) => {
+    return getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.VOTING_KEY, getStatBounds).then((inVotingList) => {
         let notificationList = inVotingList.map(notificationIfVotingEnded).filter(filterNull);
         return notificationList;
     })
@@ -116,7 +116,7 @@ export async function getAdminEndVotingNotifications(){
 
 export async function getProposerEndVotingNotifications (accountName){
     // Get proposals that have the accountName as proposer and are in voting.
-    return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.VOTING_KEY, getNameBounds, accountName).then((inVotingList) => {       
+    return getProposals(GLOBAL_VARS.BY_PROPOSER_STAT_QUERY_TYPE, GLOBAL_VARS.VOTING_KEY, getNameBounds, accountName).then((inVotingList) => {       
         let notificationList = inVotingList.map(notificationIfVotingEnded).filter(filterNull);
         return notificationList;
     })
@@ -124,7 +124,7 @@ export async function getProposerEndVotingNotifications (accountName){
 
 export async function getProposerDeliverableNotifications(accountName){
     // Get proposals that have the accountName as the proposal, and are inprogress.
-    return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getNameBounds, accountName).then(inProgressList =>{
+    return getProposals(GLOBAL_VARS.BY_PROPOSER_STAT_QUERY_TYPE, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getNameBounds, accountName).then(inProgressList =>{
         let promiseList = []
         // StatusList contains both accepted and rejected status key for deliverables
         // In case accepted is found, return the CLAIM_DELIVERABLE notification
@@ -158,7 +158,7 @@ export async function getProposerDeliverableNotifications(accountName){
 
 export async function getStartVotingNotifications(accountName){
     // Get all proposals that have accountName as proposer, and are in the approved status.
-    return getProposals("BY_PROPOSER_STAT", GLOBAL_VARS.APPROVED_KEY, getNameBounds, accountName).then(approvedList => {
+    return getProposals(GLOBAL_VARS.BY_PROPOSER_STAT_QUERY_TYPE, GLOBAL_VARS.APPROVED_KEY, getNameBounds, accountName).then(approvedList => {
         // Add a notification object for each, since all that are approved need the start voting action called.
         return approvedList.map(proposal => {
             return {...GLOBAL_VARS.NOTIFICATIONS_DICT.START_VOTING, id: proposal.proposal_id}

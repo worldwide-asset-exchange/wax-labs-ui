@@ -71,11 +71,17 @@ export default function App(props)  {
     // eslint-disable-next-line
   },[props.ual.activeUser, adminQueryCount]);
 
+
+  //Callback that reruns the query after a small delay
+  //it is called in case certain actions that are expected to change
+  //configs are called
   async function rerunConfigQuery(){
     setQueryingConfigs(true);
     await sleep(3500);
     setConfigQueryCount(configQueryCount + 1);
   }
+  
+  // called when SetAdmin action is called
   async function rerunCheckAdmin(){
     setQueryingAdmin(true);
     await sleep(3500);

@@ -30,7 +30,7 @@ export default function RenderBalanceTab(props) {
             }],
             data: {
                 account_owner: activeUser.accountName,
-                quantity: quantity.toFixed(8) + " WAX",
+                quantity: quantity.toFixed(8) + " " +  GLOBAL_VARS.TOKEN_SYMBOL,
             }
         }
     }
@@ -47,8 +47,8 @@ export default function RenderBalanceTab(props) {
             data: {
                 from: activeUser.accountName,
                 to: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                quantity: quantity.toFixed(8) + " WAX",
-                memo: 'fund',
+                quantity: quantity.toFixed(8) + " " +  GLOBAL_VARS.TOKEN_SYMBOL ,
+                memo: GLOBAL_VARS.DEPOSIT_MEMO,
             }
         }
     }

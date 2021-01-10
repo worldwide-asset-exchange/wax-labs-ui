@@ -163,7 +163,8 @@ export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
-
+export const TOKEN_SYMBOL = "WAX"
+export const DEPOSIT_MEMO = "fund"
 
 export const MAX_DELIVERABLES = 20
 export const MAX_TITLE_LENGTH = 64

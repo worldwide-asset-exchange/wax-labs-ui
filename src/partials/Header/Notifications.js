@@ -50,9 +50,8 @@ export default function RenderNotifications (props){
                         props.notifications.length ?
                             props.notifications.map( (notification, index) => {
                                 return (
-                                    <li className="notifications__notification">
+                                    <li className="notifications__notification" key={index}>
                                         <Link
-                                            key={index}
                                             to={GLOBAL_VARS.PROPOSALS_LINK + "/" + notification.id}
                                             className="notifications__link"
                                         >

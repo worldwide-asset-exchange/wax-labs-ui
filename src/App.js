@@ -27,9 +27,12 @@ export default function App(props)  {
 
   const [categories, setCategories] = useState([]);
   const [deprecatedCategories, setDeprecatedCategories] = useState([]);
+  const [votingDuration, setVotingDuration] = useState(60);
+  const [queryingConfigs, setQueryingConfigs] = useState(true);
 
-  const [queryingCategories, setQueryingCategories] = useState(true);
-  const [categoriesQueryCount, setCategoriesQueryCount] = useState(0);
+  const [configQueryCount, setConfigQueryCount] = useState(0);
+  
+
 
   useEffect(()=>{
     let cancelled = false;
@@ -68,16 +71,16 @@ export default function App(props)  {
     // eslint-disable-next-line
   },[props.ual.activeUser]);
 
-  async function updateCategories(){
-    setQueryingCategories(true);
+  async function rerunConfigQuery(){
+    setQueryingConfigs(true);
     await sleep(3500);
-    setCategoriesQueryCount(categoriesQueryCount + 1);
+    setConfigQueryCount(configQueryCount + 1);
   }
 
   useEffect(()=>{
     let cancelled = false;
     async function getCategories() {
-      setQueryingCategories(true);
+      setQueryingConfigs(true);
       try {
           let resp = await wax.rpc.get_table_rows({
                 code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
@@ -88,14 +91,16 @@ export default function App(props)  {
           });
           if(!cancelled){
             if (resp.rows.length){
-                setCategories(resp.rows[0].categories);
-                setDeprecatedCategories(resp.rows[0].cat_deprecated);
+              setCategories(resp.rows[0].categories);
+              setDeprecatedCategories(resp.rows[0].cat_deprecated);
+              setVotingDuration(resp.rows[0].vote_duration);
             }
             else{
-                setCategories([]);
-                setDeprecatedCategories([]);
+              setCategories([]);
+              setDeprecatedCategories([]);
+              setVotingDuration(60);
             }
-            setQueryingCategories(false);
+            setQueryingConfigs(false);
           }
       } catch(e) {
           console.log(e);
@@ -108,7 +113,7 @@ export default function App(props)  {
 
     return cleanup
     // eslint-disable-next-line
-  }, [categoriesQueryCount])
+  }, [configQueryCount])
 
 
   return (
@@ -120,7 +125,7 @@ export default function App(props)  {
           logout={props.ual.logout}
           isAdmin={isAdmin}
           queryingAdmin={queryingAdmin}
-          queryingCategories={queryingCategories}
+          queryingCategories={queryingConfigs}
           categories={categories}
         />
         <main>
@@ -153,9 +158,10 @@ export default function App(props)  {
                   categories={categories}
                   isAdmin={isAdmin}
                   queryingAdmin={queryingAdmin}
-                  queryingCategories={queryingCategories}
+                  queryingConfigs={queryingConfigs}
                   deprecatedCategories={deprecatedCategories}
-                  rerunCategoriesQuery={updateCategories}
+                  rerunConfigQuery={rerunConfigQuery}
+                  votingDuration={votingDuration}
                 />
               } 
             />

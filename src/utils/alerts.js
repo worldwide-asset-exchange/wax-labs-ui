@@ -370,6 +370,22 @@ export const ADD_CATEGORY_ALERT_DICT = {
     }
 }
 
+export const SET_DURATION_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Set voting duration was a success!",
+        body: "Voting duration was successfuly set", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Set voting duration error!",
+        body: "There was an error when attempting to set the voting duration",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {
     SUCCESS: 

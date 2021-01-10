@@ -10,6 +10,7 @@ import RenderLoadingPage from '../partials/LoadingPage';
 import useQueryString from '../utils/useQueryString'; 
 import * as GLOBAL_VARS from '../utils/vars';
 import RenderManageCategoriesTab from '../partials/AdminPortal/ManageCategoriesTab';
+import RenderSetVotingPeriodTab from '../partials/AdminPortal/SetVotingPeriodTab';
 
 
 export default function RenderAdminPortal(props){
@@ -70,9 +71,9 @@ export default function RenderAdminPortal(props){
                         activeUser={props.activeUser}
                         categories={props.categories}
                         deprecatedCategories={props.deprecatedCategories}
-                        queryingCategories={props.queryingCategories}
+                        queryingCategories={props.queryingConfigs}
                         showAlert={showAlert}
-                        rerunCategoriesQuery={props.rerunCategoriesQuery}
+                        rerunCategoriesQuery={props.rerunConfigQuery}
                     />
                 </Tab>
                 <Tab 
@@ -80,7 +81,14 @@ export default function RenderAdminPortal(props){
                     title="Set voting period" 
                     onEnter={()=>setTabString(GLOBAL_VARS.SET_VOTING_TAB_KEY)}
                 >
-                    
+                    <RenderSetVotingPeriodTab
+                        activeUser={props.activeUser}
+                        votingDuration={props.votingDuration}
+                        queryingVotingPeriod={props.queryingConfigs}
+                        showAlert={showAlert}
+                        rerunVotingPeriodQuery={props.rerunConfigQuery}
+                    />
+
                 </Tab>
                 <Tab 
                     eventKey={GLOBAL_VARS.REMOVE_PROFILE_TAB_KEY} 

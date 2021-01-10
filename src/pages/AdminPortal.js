@@ -11,6 +11,8 @@ import useQueryString from '../utils/useQueryString';
 import * as GLOBAL_VARS from '../utils/vars';
 import RenderManageCategoriesTab from '../partials/AdminPortal/ManageCategoriesTab';
 import RenderSetVotingPeriodTab from '../partials/AdminPortal/SetVotingPeriodTab';
+import RenderRemoveProfilesTab from '../partials/AdminPortal/RemoveProfilesTab';
+import RenderTransferAdminRoleTab from '../partials/AdminPortal/TransferAdminRoleTab';
 
 
 export default function RenderAdminPortal(props){
@@ -95,14 +97,21 @@ export default function RenderAdminPortal(props){
                     title="Remove profiles" 
                     onEnter={()=>setTabString(GLOBAL_VARS.REMOVE_PROFILE_TAB_KEY)}
                 >
-                    
+                    <RenderRemoveProfilesTab
+                        activeUser={props.activeUser}
+                        showAlert={showAlert}
+                    />
                 </Tab>
                 <Tab 
                     eventKey={GLOBAL_VARS.TRANSFER_ADMIN_ROLE_TAB_KEY} 
                     title="Transfer admin role" 
                     onEnter={()=>setTabString(GLOBAL_VARS.TRANSFER_ADMIN_ROLE_TAB_KEY)}
                 >
-                    
+                    <RenderTransferAdminRoleTab
+                        activeUser={props.activeUser}
+                        showAlert={showAlert}
+                        rerunAdminQuery={props.rerunAdminQuery}
+                    />
                 </Tab>
                 
             </Tabs>

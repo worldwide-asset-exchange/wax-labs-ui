@@ -386,6 +386,41 @@ export const SET_DURATION_ALERT_DICT = {
         dismissible: true,
     }
 }
+
+export const REMOVE_PROFILE_ADMIN_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Remove profile was a success!",
+        body: "Profile was successfuly removed", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Remove profile error!",
+        body: "There was an error when attempting to remove the profile",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+export const SET_ADMIN_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Set admin was a success!",
+        body: "Admin was successfuly set", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Set admin error!",
+        body: "There was an error when attempting to set the new admin",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {
     SUCCESS: 

@@ -140,6 +140,7 @@ export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SUBMIT_PROPOSAL_ACTION = "submitprop"
 export const EDIT_PROFILE_ACTION = 'editprofile'
 export const EDIT_PROPOSAL_ACTION = "editprop"
+export const SET_ADMIN_ACTION = 'setadmin'
 export const SET_REVIEWER_ACTION = "setreviewer"
 export const SET_VOTING_DURATION_ACTION = 'setduration' 
 export const REMOVE_CATEGORY_ACTION = 'rmvcategory'

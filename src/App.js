@@ -31,7 +31,7 @@ export default function App(props)  {
   const [queryingConfigs, setQueryingConfigs] = useState(true);
 
   const [configQueryCount, setConfigQueryCount] = useState(0);
-  
+  const [adminQueryCount, setAdminQueryCount] = useState(0);
 
 
   useEffect(()=>{
@@ -69,12 +69,17 @@ export default function App(props)  {
 
     return cleanup
     // eslint-disable-next-line
-  },[props.ual.activeUser]);
+  },[props.ual.activeUser, adminQueryCount]);
 
   async function rerunConfigQuery(){
     setQueryingConfigs(true);
     await sleep(3500);
     setConfigQueryCount(configQueryCount + 1);
+  }
+  async function rerunCheckAdmin(){
+    setQueryingAdmin(true);
+    await sleep(3500);
+    setAdminQueryCount(adminQueryCount + 1);
   }
 
   useEffect(()=>{
@@ -162,6 +167,7 @@ export default function App(props)  {
                   deprecatedCategories={deprecatedCategories}
                   rerunConfigQuery={rerunConfigQuery}
                   votingDuration={votingDuration}
+                  rerunAdminQuery={rerunCheckAdmin}
                 />
               } 
             />

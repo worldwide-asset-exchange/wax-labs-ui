@@ -16,6 +16,7 @@ import {
 import labsIcon from '../../images/Header/WAXlabs-logo.svg'
 import ProposalIcon from '../../icons/ProposalIcon'
 import PortalIcon from '../../icons/PortalIcon'
+import AdminIcon from '../../icons/AdminIcon';
 
 export default function RenderLoggedInHeader(props){
 
@@ -55,7 +56,6 @@ export default function RenderLoggedInHeader(props){
         // Needed because if querying admin hasn't happened yet, we might get wrong notification list...
         // Causing some weird interface behaviour (loading, x notifications => loading, y notifications)
         if(!props.queryingAdmin && !props.queryingCategories){
-            console.log("getting notifications")
             getNotifications();
         }
         const cleanup = () => {cancelled = true;}
@@ -77,6 +77,14 @@ export default function RenderLoggedInHeader(props){
                     <PortalIcon/>
                     Portal
                 </NavLink>
+                {
+                    props.isAdmin ?
+                    <NavLink to={GLOBAL_VARS.ADMIN_PORTAL_LINK} className="header__link" activeClassName="header__link--active">
+                    <AdminIcon/>
+                        Admin
+                    </NavLink>
+                    : ""
+                }
                 <RenderNotifications notifications={notifications} querying={querying}/>
                 <div className="header__account">
                     <div className="header__accountName">{props.activeUser.accountName}</div>

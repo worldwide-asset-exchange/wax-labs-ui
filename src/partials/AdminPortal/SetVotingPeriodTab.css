@@ -1,0 +1,50 @@
+.block-buy-timeleft {
+    color: #FFFFFF;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.timeleft-unit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-right: 1px solid #FFFFFF;
+    padding: 0 .5rem;
+}
+
+.timeleft-unit--no-border {
+    border-right: none;
+}
+
+.timeleft-unit div {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.timeleft-unit span {
+    font-size: 0.6rem;
+    font-weight: 400;
+}
+
+@media screen and (min-width: 380px) {
+    .timeleft-unit {
+        padding: 0 .5rem;
+    }
+    .timeleft-unit div {
+        font-size: 1.2rem;
+    }
+    .timeleft-unit span {
+        font-size: .8rem;
+    }
+}
+@media screen and (min-width: 576px) {
+    .timeleft-unit div {
+        font-size: 1.5rem;
+    }
+    .timeleft-unit {
+        padding: 0 .8rem;
+    }
+}

@@ -1,74 +1,150 @@
-import React, { useState, useEffect } from 'react';
-import {
-Routes,
-Route,
-// Link
-} from 'react-router-dom';
-import * as waxjs from "@waxio/waxjs/dist";
+import React, { useEffect, useState } from 'react';
 
-import RenderAccountInfo from '../partials/AccountInfo.js';
-import RenderEditAccountInfo from '../partials/EditAccountInfo.js';
-import RenderPublicAccount from '../pages/PublicAccount.js';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-export default function RenderAccountPortal(props) {
-    const [ userProfile, setProfile ] = useState();
+import useQueryString from '../utils/useQueryString'; 
+import * as GLOBAL_VARS from '../utils/vars';
 
-    useEffect(() => {
-        async function getAccountInfo() {
-            try {
-                let resp = await wax.rpc.get_table_rows({             
-                    code: 'labs',
-                    scope: 'labs',
-                    table: 'profiles',
-                    json: true,
-                    lower_bound: props.activeUser.accountName,
-                    upper_bound: props.activeUser.accountName,
-                    limit: 1
-                });
-                console.log(resp.rows[0]);
-                console.log(props.activeUser.accountName)
-                if (resp.rows.length && resp.rows[0].wax_account === props.activeUser.accountName){
-                    setProfile(resp.rows[0]);
-                }
-                else{
-                    return null;
-                }
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        if(props.activeUser){
-            getAccountInfo(); 
-        }
-     }, [props.activeUser]);
+import RenderBalanceTab from '../partials/AccountPortal/BalanceTab';
+import RenderProfileTab from '../partials/AccountPortal/ProfileTab';
+import RenderAlerts from '../partials/Alerts/Alerts';
+import RenderMyProposalsTab from '../partials/AccountPortal/UserProposalsTab';
+import RenderDeliverablesToReviewTab from '../partials/AccountPortal/DeliverablesToReviewTab';
+import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
 
-    if (props.activeUser && userProfile) {
-        return(
-        
-        <div className="account-portal">
-            <div className="account-body">
-                    <div>
-                        <Routes>
-                            <Route path="/" element={<RenderAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                            <Route path="edit" element={<RenderEditAccountInfo full_name={userProfile.full_name} bio={userProfile.bio} image_url={userProfile.image_url} country={userProfile.country} website={userProfile.website} contact={userProfile.contact} wax_account={userProfile.wax_account} activeUser={props.activeUser} />} />
-                            <Route path=":accName" element={<RenderPublicAccount />} />
-                        </Routes>
-                    </div>
-            </div>
-        </div>
-        );
-    } else {
-    return (
-            <div className="account-portal">
-                <div className="account-body">
-                    <Routes>
-                        <Route path="/" element={<RenderAccountInfo activeUser={props.activeUser} />} />
-                        <Route path="edit" element={<RenderEditAccountInfo activeUser={props.activeUser} />} />
-                        <Route path=":accName" element={<RenderPublicAccount activeUser={props.activeUser} />} />
-                    </Routes>
-                </div>
-            </div>
-        );
+
+import { sleep } from '../utils/util';
+
+export default function RenderAccountPortal (props) {
+
+    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_TAB_KEY);
+    const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
+    
+    const [accountName, setAccountName] = useState(null);
+      
+
+    const [userProfile, setUserProfile] = useState(null);
+    const [queryingUserProfile, setQueryingUserProfile] = useState(true);
+    
+    const [queryCount, setQueryCount] = useState(0);
+
+    const [alertList, setAlertList] = useState([]);
+
+    function updateModeString (string) {
+        setModeString(string);
     }
+
+    useEffect(()=>{
+        
+        let cancelled = false;
+        
+        if(accountName){
+            setQueryingUserProfile(true);
+            getProfileData(accountName).then(profileData => {
+                if(!cancelled){
+                    setUserProfile(profileData);
+                    setQueryingUserProfile(false);
+                }
+            })
+        }
+        
+        const cleanup = () => {cancelled = true};
+        return cleanup;
+    }, [accountName, queryCount]);
+
+    function showAlert(alertObj){
+        // Make a copy.
+        let alerts = alertList.slice(0);
+        // Push new alert to the copied list
+        alerts.push(alertObj);
+        // Update the list.
+        setAlertList(alerts);
+    }
+
+    function removeAlert(index){
+        // Make a copy.
+        let alerts = alertList.slice(0);
+        // remove alert at index.
+        alerts.splice(index,1);
+        // Update the list.
+        setAlertList(alerts);
+    }
+
+    useEffect(()=>{
+        if(props.activeUser){
+            setAccountName(props.activeUser.accountName);
+        }
+    }, [props.activeUser]);
+
+    async function rerunProfileQuery(){
+        setQueryingUserProfile(true);
+        setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY);
+        await sleep(3500);
+        setQueryCount(queryCount + 1);
+    }
+
+    return (
+        <div>
+            <RenderAlerts
+                alertList={alertList}
+                removeAlert={removeAlert}
+            />
+
+            <Tabs defaultActiveKey={tabString} id="account-portal">
+                <Tab 
+                    eventKey={GLOBAL_VARS.BALANCE_TAB_KEY} 
+                    title="Balance" 
+                    onEnter={()=>setTabString(GLOBAL_VARS.BALANCE_TAB_KEY)}
+                >
+                    <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
+                </Tab>
+                <Tab 
+                    eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} 
+                    title="Profile"
+                    onEnter={()=>setTabString(GLOBAL_VARS.PROFILE_TAB_KEY)}
+                >
+                    <RenderProfileTab 
+                        nameToQuery={accountName} 
+                        activeUser={props.activeUser} 
+                        showAlert={showAlert}
+                        userProfile={userProfile}
+                        queryingUserProfile={queryingUserProfile}
+                        rerunProfileQuery={rerunProfileQuery}
+                        updateModeString={updateModeString}
+                        modeString={modeString}
+                    />
+                </Tab>
+                <Tab 
+                    eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} 
+                    title="My proposals"
+                    onEnter={()=>setTabString(GLOBAL_VARS.MY_PROPOSALS_TAB_KEY)}
+                >
+                    <RenderMyProposalsTab
+                        userToSearch={props.activeUser ? props.activeUser.accountName : "null"}
+                        showAlert={showAlert}
+                        categories={props.categories}
+                        activeUser={props.activeUser}
+                        profile={userProfile}
+                        defaultStatus={[]}
+                        tabString={tabString}
+                    />
+                </Tab>
+                <Tab 
+                    eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} 
+                    title="Deliverables to review"
+                    onEnter={()=>setTabString(GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY)}
+                >
+                    <RenderDeliverablesToReviewTab
+                        reviewer={props.activeUser ? props.activeUser.accountName : "null"}
+                        showAlert={showAlert}
+                        categories={props.categories}
+                        activeUser={props.activeUser}
+                        profile={userProfile}
+                        tabString={tabString}
+                    />
+                </Tab>
+            </Tabs>
+        </div>
+    )
 }

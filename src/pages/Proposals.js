@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
-import * as globals from "../utils/vars";
+import * as GLOBAL_VARS from "../utils/vars";
 
 import RenderGenericProposals from '../partials/GenericProposals';
 import RenderProposalPage from './ProposalPage';
@@ -17,12 +17,11 @@ export default function RenderProposals(props){
     useEffect(()=>{
         let cancelled = false;
         async function getProfile(){
-            // console.log(props.activeUser);
             try {
                 let resp = await wax.rpc.get_table_rows({
-                        code: globals.LABS_CONTRACT_ACCOUNT,
-                        scope: globals.LABS_CONTRACT_ACCOUNT,
-                        table: globals.PROFILES_TABLE,
+                        code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        table: GLOBAL_VARS.PROFILES_TABLE,
                         lower_bound: props.activeUser.accountName,
                         upper_bound: props.activeUser.accountName,
                         json: true,
@@ -58,7 +57,9 @@ export default function RenderProposals(props){
                             noProposalsMessage="The list for these filters is empty. Try changing the filters."
                             categories={categories}
                             profile={profile}
+                            showCreateButton={true}
                             activeUser={props.activeUser}
+                            defaultStatus={[GLOBAL_VARS.VOTING_KEY, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]}
                         />
                     }
                 />

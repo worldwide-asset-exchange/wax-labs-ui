@@ -17,7 +17,6 @@ const BEGIN_VOTING_AMOUNT = 10;
 export default function RenderProposerMenu(props){
 
     const {id} = useParams();
-    // console.log(props);
     async function cancelProposal(){
         let activeUser = props.activeUser;
         try {
@@ -175,97 +174,7 @@ export default function RenderProposerMenu(props){
             console.log(e);
         }
 
-    }
-
-    // I'm leaving this here, it was a test that I did to validate my strategy
-    // For the edit proposal code me and Karyne have in mind. We will do something
-    // similar there (when user wants to update deliverables). I will add a stub
-    // deliverable, so that I can remove all of them, then add them in the
-    // new order, lastly I will remove the stub deliverable. (if you just try
-    // to remove all then add them back, it will fail because you need at
-    // least one deliverable at any point).
-    // async function magic(){
-    //     let activeUser = props.activeUser
-    //     try{
-
-    //         await activeUser.signTransaction({
-    //             actions: [
-    //                 {
-    //                     account: 'labs',
-    //                     name: 'newdeliv',
-    //                     authorization: [{
-    //                         actor: activeUser.accountName,
-    //                         permission: 'active',
-    //                     }],
-    //                     data: {
-    //                         proposal_id: 24,
-    //                         deliverable_id: 10,
-    //                         requested_amount: "1000.00000000 WAX",
-    //                         recipient: "ancientsofia"
-    //                     },
-    //                 },
-    //                 {
-    //                     account: 'labs',
-    //                     name: 'rmvdeliv',
-    //                     authorization: [{
-    //                         actor: activeUser.accountName,
-    //                         permission: 'active',
-    //                     }],
-    //                     data: {
-    //                         proposal_id: 24,
-    //                         deliverable_id: 2,
-    //                     },
-    //                 },
-    //                 {
-    //                     account: 'labs',
-    //                     name: 'newdeliv',
-    //                     authorization: [{
-    //                         actor: activeUser.accountName,
-    //                         permission: 'active',
-    //                     }],
-    //                     data: {
-    //                         proposal_id: 24,
-    //                         deliverable_id: 3,
-    //                         requested_amount: "1000.00000000 WAX",
-    //                         recipient: "ancientsofia"
-    //                     },
-    //                 },
-    //                 {
-    //                     account: 'labs',
-    //                     name: 'rmvdeliv',
-    //                     authorization: [{
-    //                         actor: activeUser.accountName,
-    //                         permission: 'active',
-    //                     }],
-    //                     data: {
-    //                         proposal_id: 24,
-    //                         deliverable_id: 10,
-    //                     },
-    //                 },
-    //             ]} , {
-    //             blocksBehind: 3,
-    //             expireSeconds: 30
-    //         });
-    //         let alertObj = {
-    //             title: "Magic success!",
-    //             body: "Magic was performed.",
-    //             variant: "success",
-    //             dismissible: true,
-    //         }
-    //         props.showAlert(alertObj);
-    //         props.rerunProposalQuery();
-    //     } catch (e){
-    //         let alertObj = {
-    //             title: "Magic error!",
-    //             body: "Magic action error.",
-    //             details: e.message,
-    //             variant: "danger",
-    //             dismissible: true,
-    //         }
-    //         props.showAlert(alertObj);
-    //         console.log(e);
-    //     }
-    // }
+    }    
 
     async function endVoting (){
         let activeUser = props.activeUser;

@@ -4,7 +4,7 @@ import RenderProposalInputContainer from '../EditPage/ProposalInputContainer';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
-import RenderAlerts from '../ProposalPage/Alerts';
+import RenderAlerts from '../Alerts/Alerts';
 
 export default function RenderCreateProposalPage(props){
     const [allValid, setAllValid] = useState(true);
@@ -69,7 +69,6 @@ export default function RenderCreateProposalPage(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
-            console.log(resp);
             let alertObj = {
                 ...GLOBAL_ALERTS.DRAFT_PROP_ALERT_DICT.SUCCESS
             }

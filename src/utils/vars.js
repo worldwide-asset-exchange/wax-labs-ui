@@ -22,38 +22,45 @@ export const PROPOSER_KEY = 'proposer'
 export const REVIEWER_KEY = 'reviewer'
 export const BALLOT_KEY = 'ballot_name'
 
+export const DEFAULT_QUERY_TYPE = 'DEFAULT'
+export const BY_STAT_CAT_QUERY_TYPE = "BY_STAT_CAT"
+export const BY_CAT_STAT_QUERY_TYPE = "BY_CAT_STAT"
+export const BY_PROPOSER_STAT_QUERY_TYPE = 'BY_PROPOSER_STAT'
+export const BY_REVIEWER_STAT_QUERY_TYPE = "BY_REVIEWER_STAT"
+export const BY_BALLOT_QUERY_TYPE = 'BY_BALLOT'
+
 export const PROPOSAL_INDEXES = {
     INDEX_POSITION: {
-        DEFAULT: 1,
-        BY_STAT_CAT: 2,
-        BY_CAT_STAT: 3,
-        BY_PROPOSER_STAT: 4,
-        BY_REVIEWER_STAT: 5,
-        BY_BALLOT: 6,
+        [DEFAULT_QUERY_TYPE]: 1,
+        [BY_STAT_CAT_QUERY_TYPE]: 2,
+        [BY_CAT_STAT_QUERY_TYPE]: 3,
+        [BY_PROPOSER_STAT_QUERY_TYPE]: 4,
+        [BY_REVIEWER_STAT_QUERY_TYPE]: 5,
+        [BY_BALLOT_QUERY_TYPE]: 6,
     },
     BYTE_SIZE: {
-        DEFAULT: 8,
-        BY_STAT_CAT: 8,
-        BY_CAT_STAT: 8,
-        BY_PROPOSER_STAT: 16,
-        BY_REVIEWER_STAT: 16,
-        BY_BALLOT: 8,
+        [DEFAULT_QUERY_TYPE]: 8,
+        [BY_STAT_CAT_QUERY_TYPE]: 8,
+        [BY_CAT_STAT_QUERY_TYPE]: 8,
+        [BY_PROPOSER_STAT_QUERY_TYPE]: 16,
+        [BY_REVIEWER_STAT_QUERY_TYPE]: 16,
+        [BY_BALLOT_QUERY_TYPE]: 8,
     },
     KEY_TYPE: {
-        DEFAULT: I64,
-        BY_STAT_CAT: I64,
-        BY_CAT_STAT: I64,
-        BY_PROPOSER_STAT: I128,
-        BY_REVIEWER_STAT: I128,
-        BY_BALLOT: I64,
+        [DEFAULT_QUERY_TYPE]: I64,
+        [BY_STAT_CAT_QUERY_TYPE]: I64,
+        [BY_CAT_STAT_QUERY_TYPE]: I64,
+        [BY_PROPOSER_STAT_QUERY_TYPE]: I128,
+        [BY_REVIEWER_STAT_QUERY_TYPE]: I128,
+        [BY_BALLOT_QUERY_TYPE]: I64,
     },
     PATTERN: {
-        DEFAULT: [{key:PROPOSAL_ID_KEY, byte_size: 8}],
-        BY_STAT_CAT: [{key:STATUS_KEY, byte_size:1}, {key:CATEGORY_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
-        BY_CAT_STAT: [{key:CATEGORY_KEY, byte_size:1}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
-        BY_PROPOSER_STAT: [{key:PROPOSER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
-        BY_REVIEWER_STAT: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
-        BY_BALLOT: [{key:BALLOT_KEY, byte_size: 8}],
+        [DEFAULT_QUERY_TYPE]: [{key:PROPOSAL_ID_KEY, byte_size: 8}],
+        [BY_STAT_CAT_QUERY_TYPE]: [{key:STATUS_KEY, byte_size:1}, {key:CATEGORY_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
+        [BY_CAT_STAT_QUERY_TYPE]: [{key:CATEGORY_KEY, byte_size:1}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size:6}],
+        [BY_PROPOSER_STAT_QUERY_TYPE]: [{key:PROPOSER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        [BY_REVIEWER_STAT_QUERY_TYPE]: [{key:REVIEWER_KEY, byte_size: 8}, {key:STATUS_KEY, byte_size:1}, {key:PROPOSAL_ID_KEY, byte_size: 7}],
+        [BY_BALLOT_QUERY_TYPE]: [{key:BALLOT_KEY, byte_size: 8}],
     }
 }
 
@@ -82,11 +89,29 @@ export const NOTIFICATIONS_DICT = {
 export const TESTNET_CHAIN_ID = "f16b1833c747c43682f4386fca9cbb327929334a762755ebec17f6f23c9b8a12"
 export const MAIN_NET_CHAIN_ID = "1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4"
 
+
+export const TAB_QUERY_STRING_KEY = 'tab';
+export const MODE_QUERY_STRING_KEY = 'mode';
 export const SEARCH_QUERY_STRING_KEY = "search"
 export const STATUS_QUERY_STRING_KEY = "status"
 export const CATEGORIES_QUERY_STRING_KEY = "categories"
 export const ORDER_BY_QUERY_STRING_KEY = "order"
 export const PAGE_QUERY_STRING_KEY = 'page'
+
+export const DISPLAY_EVENT_KEY = 'display'
+export const EDIT_EVENT_KEY = 'edit'
+export const CREATE_EVENT_KEY = 'create'
+
+export const BALANCE_TAB_KEY = 'balance'
+export const PROFILE_TAB_KEY = 'profile'
+export const MY_PROPOSALS_TAB_KEY = 'proposals'
+export const DELIVERABLES_TO_REVIEW_TAB_KEY = 'review'
+
+export const PROPOSALS_TO_REVIEW_TAB_KEY = 'proposals'
+export const CATEGORIES_TAB_KEY = 'categories'
+export const SET_VOTING_TAB_KEY = 'setvoting'
+export const REMOVE_PROFILE_TAB_KEY = 'rmvprofile'
+export const TRANSFER_ADMIN_ROLE_TAB_KEY = 'transferadmin'
 
 export const REQUESTED_ORDER_BY_FIELD = "requested"
 export const CREATED_ORDER_BY_FIELD = "created"
@@ -106,7 +131,7 @@ export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"
 export const CAST_VOTE_ACTION = "castvote"
 
-export const LABS_CONTRACT_ACCOUNT = 'labs'
+export const LABS_CONTRACT_ACCOUNT = process.env.REACT_APP_LABS_CONTRACT_NAME
 export const ACCOUNTS_TABLE = 'accounts'
 export const CONFIG_TABLE = 'config'
 export const MD_BODIES_TABLE = 'mdbodies'
@@ -114,15 +139,22 @@ export const DELIVERABLES_TABLE = 'deliverables'
 export const PROFILES_TABLE = 'profiles'
 export const PROPOSALS_TABLE = "proposals"
 export const NAME_KEY_TYPE = 'name'
+export const ADD_CATEGORY_ACTION = 'addcategory'
 export const CANCEL_PROPOSAL_ACTION = "cancelprop"
 export const DRAFT_PROPOSAL_ACTION = "draftprop"
 export const REVIEW_PROPOSAL_ACTION = "reviewprop"
 export const DELETE_PROPOSAL_ACTION = "deleteprop"
 export const SUBMIT_PROPOSAL_ACTION = "submitprop"
+export const EDIT_PROFILE_ACTION = 'editprofile'
 export const EDIT_PROPOSAL_ACTION = "editprop"
+export const SET_ADMIN_ACTION = 'setadmin'
 export const SET_REVIEWER_ACTION = "setreviewer"
+export const SET_VOTING_DURATION_ACTION = 'setduration' 
+export const REMOVE_CATEGORY_ACTION = 'rmvcategory'
 export const REMOVE_DELIVERABLE_ACTION = "rmvdeliv"
+export const REMOVE_PROFILE_ACTION = 'rmvprofile'
 export const NEW_DELIVERABLE_ACTION = "newdeliv"
+export const NEW_PROFILE_ACTION = 'newprofile'
 export const BEGIN_VOTING_ACTION = "beginvoting"
 export const END_VOTING_ACTION = "endvoting"
 export const REVIEW_DELIVERABLE_ACTION = "reviewdeliv"
@@ -131,6 +163,8 @@ export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
+export const TOKEN_SYMBOL = "WAX"
+export const DEPOSIT_MEMO = "fund"
 
 export const MAX_DELIVERABLES = 20
 export const MAX_TITLE_LENGTH = 64
@@ -145,6 +179,8 @@ export const PROPOSALS_LINK = "/proposals"
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 
 export const ACCOUNT_PORTAL_LINK = "/account"
+export const CREATE_PROFILE_LINK = ACCOUNT_PORTAL_LINK + `?${MODE_QUERY_STRING_KEY}=${CREATE_EVENT_KEY}&${TAB_QUERY_STRING_KEY}=${PROFILE_TAB_KEY}`
+export const ADMIN_PORTAL_LINK = "/admin"
 
 export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 

@@ -133,7 +133,7 @@ export default function RenderGenericProposals(props) {
             ];
         } else {
             promiseList = props.queryArgs.map(queryArg => {
-                return queryArg.getProposals(queryArg.queryType, queryArg.statusKey, queryArg.getBounds, queryArg.accountName);
+                return queryArg.getProposals(queryArg.queryType, queryArg.statusKey, queryArg.getBounds, queryArg.accountName, queryArg.deliverableStatusKeyList);
             });
         }
 
@@ -167,6 +167,7 @@ export default function RenderGenericProposals(props) {
     return (
         <div className="genericProposals">
             <h2>Proposals</h2>
+            <h4>{props.subtitle}</h4>
             <div className="genericProposals__filters">
                 <div className="genericProposals__search">
                     <div className="input__label">Search</div>

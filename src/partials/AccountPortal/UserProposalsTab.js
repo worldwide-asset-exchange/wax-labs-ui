@@ -23,11 +23,12 @@ export default function RenderUserProposalsTab (props) {
 
         setQueryArgs(newQueryArgs);
         
-    },[props.userToSearch]);
+    },[props.userToSearch, props.tabString]);
 
 
     return (
         <RenderGenericProposals
+            subtitle="Proposals that you are the proposer of"
             noProposalsMessage="No proposals were found, try changing the filters."
             categories={props.categories}
             profile={props.profile}

@@ -10,6 +10,7 @@ import RenderBalanceTab from '../partials/AccountPortal/BalanceTab';
 import RenderProfileTab from '../partials/AccountPortal/ProfileTab';
 import RenderAlerts from '../partials/Alerts/Alerts';
 import RenderMyProposalsTab from '../partials/AccountPortal/UserProposalsTab';
+import RenderDeliverablesToReviewTab from '../partials/AccountPortal/DeliverablesToReviewTab';
 import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
 
 
@@ -127,6 +128,7 @@ export default function RenderAccountPortal (props) {
                         activeUser={props.activeUser}
                         profile={userProfile}
                         defaultStatus={[]}
+                        tabString={tabString}
                     />
                 </Tab>
                 <Tab 
@@ -134,7 +136,14 @@ export default function RenderAccountPortal (props) {
                     title="Deliverables to review"
                     onEnter={()=>setTabString(GLOBAL_VARS.DELIVERABLES_TO_REVIEW_EVENT_KEY)}
                 >
-
+                    <RenderDeliverablesToReviewTab
+                        reviewer={props.activeUser ? props.activeUser.accountName : "null"}
+                        showAlert={showAlert}
+                        categories={props.categories}
+                        activeUser={props.activeUser}
+                        profile={userProfile}
+                        tabString={tabString}
+                    />
                 </Tab>
             </Tabs>
         </div>

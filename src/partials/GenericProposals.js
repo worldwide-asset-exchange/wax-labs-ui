@@ -217,6 +217,9 @@ export default function RenderGenericProposals(props) {
             <div className="genericProposals__actions">
                 <div className="genericProposals__createProposal">
                     {
+                        !props.showCreateButton ?
+                        ""
+                        :
                         !props.activeUser ?
                             <p>Log in to create a proposal</p>
                         :

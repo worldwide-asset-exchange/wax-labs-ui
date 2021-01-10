@@ -31,6 +31,7 @@ export default function RenderUserProposalsTab (props) {
             subtitle="Proposals that you are the proposer of"
             noProposalsMessage="No proposals were found, try changing the filters."
             categories={props.categories}
+            showCreateButton={true}
             profile={props.profile}
             activeUser={props.activeUser}
             queryArgs={queryArgs}

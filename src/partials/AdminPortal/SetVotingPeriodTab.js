@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import './SetVotingPeriod.css'
+import './SetVotingPeriodTab.css'
 import * as GLOBAL_VARS from '../../utils/vars'
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';

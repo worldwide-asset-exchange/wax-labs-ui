@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 import Tab from 'react-bootstrap/Tab';
@@ -9,6 +9,7 @@ import RenderLoadingPage from '../partials/LoadingPage';
 
 import useQueryString from '../utils/useQueryString'; 
 import * as GLOBAL_VARS from '../utils/vars';
+import RenderManageCategoriesTab from '../partials/AdminPortal/ManageCategoriesTab';
 
 
 export default function RenderAdminPortal(props){
@@ -42,7 +43,7 @@ export default function RenderAdminPortal(props){
     if(!props.isAdmin){
         navigate(-1, {replace: true});
     }
-        
+
     return (
         <div>
             <RenderAlerts
@@ -65,7 +66,14 @@ export default function RenderAdminPortal(props){
                     title="Manage categories" 
                     onEnter={()=>setTabString(GLOBAL_VARS.CATEGORIES_TAB_KEY)}
                 >
-                    
+                    <RenderManageCategoriesTab
+                        activeUser={props.activeUser}
+                        categories={props.categories}
+                        deprecatedCategories={props.deprecatedCategories}
+                        queryingCategories={props.queryingCategories}
+                        showAlert={showAlert}
+                        rerunCategoriesQuery={props.rerunCategoriesQuery}
+                    />
                 </Tab>
                 <Tab 
                     eventKey={GLOBAL_VARS.SET_VOTING_TAB_KEY} 

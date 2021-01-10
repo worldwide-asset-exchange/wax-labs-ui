@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+
 import RenderGenericProposals from '../GenericProposals';
 
 import * as GLOBAL_VARS from '../../utils/vars';

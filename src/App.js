@@ -17,14 +17,19 @@ import * as GLOBAL_VARS from './utils/vars';
 
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header/Header';
+import { sleep } from './utils/util';
 
 export default function App(props)  {
   const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
   const [isAdmin, setIsAdmin ] = useState(false);
   const [queryingAdmin, setQueryingAdmin] = useState(true);
+
   const [categories, setCategories] = useState([]);
+  const [deprecatedCategories, setDeprecatedCategories] = useState([]);
+
   const [queryingCategories, setQueryingCategories] = useState(true);
+  const [categoriesQueryCount, setCategoriesQueryCount] = useState(0);
 
   useEffect(()=>{
     let cancelled = false;
@@ -53,6 +58,24 @@ export default function App(props)  {
         console.log(e);
       }
     }
+    
+
+    checkAdmin();
+
+    const cleanup = () => {cancelled = true;}
+
+    return cleanup
+    // eslint-disable-next-line
+  },[props.ual.activeUser]);
+
+  async function updateCategories(){
+    setQueryingCategories(true);
+    await sleep(3500);
+    setCategoriesQueryCount(categoriesQueryCount + 1);
+  }
+
+  useEffect(()=>{
+    let cancelled = false;
     async function getCategories() {
       setQueryingCategories(true);
       try {
@@ -66,9 +89,11 @@ export default function App(props)  {
           if(!cancelled){
             if (resp.rows.length){
                 setCategories(resp.rows[0].categories);
+                setDeprecatedCategories(resp.rows[0].cat_deprecated);
             }
             else{
                 setCategories([]);
+                setDeprecatedCategories([]);
             }
             setQueryingCategories(false);
           }
@@ -78,13 +103,12 @@ export default function App(props)  {
     }
 
     getCategories();
-    checkAdmin();
 
     const cleanup = () => {cancelled = true;}
 
     return cleanup
     // eslint-disable-next-line
-  },[props.ual.activeUser])
+  }, [categoriesQueryCount])
 
 
   return (
@@ -129,6 +153,9 @@ export default function App(props)  {
                   categories={categories}
                   isAdmin={isAdmin}
                   queryingAdmin={queryingAdmin}
+                  queryingCategories={queryingCategories}
+                  deprecatedCategories={deprecatedCategories}
+                  rerunCategoriesQuery={updateCategories}
                 />
               } 
             />

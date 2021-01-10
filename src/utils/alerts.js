@@ -336,6 +336,39 @@ export const REMOVE_PROFILE_ALERT_DICT = {
     }
 }
 
+export const REMOVE_CATEGORY_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Remove category was a success!",
+        body: "Category was successfuly removed", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Remove category error!",
+        body: "There was an error when attempting to remove the category",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+export const ADD_CATEGORY_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Add category was a success!",
+        body: "Category was successfuly added", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Add category error!",
+        body: "There was an error when attempting to add the category",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
 
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {

@@ -56,7 +56,6 @@ export default function RenderLoggedInHeader(props){
         // Needed because if querying admin hasn't happened yet, we might get wrong notification list...
         // Causing some weird interface behaviour (loading, x notifications => loading, y notifications)
         if(!props.queryingAdmin && !props.queryingCategories){
-            console.log("getting notifications")
             getNotifications();
         }
         const cleanup = () => {cancelled = true;}

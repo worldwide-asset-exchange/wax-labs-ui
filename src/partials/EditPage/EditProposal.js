@@ -207,7 +207,6 @@ export default function RenderEditProposal(props){
             return createNewDeliverableAction(deliverable, index + 1);
         })
         // Removes come before new delivs in the array.
-        // console.log(actionList);
         actionList = [...actionList, ...removeDelivActions, ...newDelivActions]
 
         let signTransaction = {

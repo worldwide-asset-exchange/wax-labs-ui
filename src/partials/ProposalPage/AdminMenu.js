@@ -220,7 +220,6 @@ export default function RenderAdminMenu(props){
             )
         }
         else if(props.proposal.status === GLOBAL_VARS.SUBMITTED_KEY){
-            console.log(props.proposal);
             return (
                 <div className="adminMenu__actions">
                     <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>

@@ -50,7 +50,6 @@ export default function RenderHome() {
             let success = false;
             do{
                 try{
-                    // console.log(GLOBAL_VARS.PROPOSALS_TABLE);
                     setQueryingConfig(true);
                     let configData = null;
                     let resp = await wax.rpc.get_table_rows({

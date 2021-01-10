@@ -42,7 +42,6 @@ export default function RenderAccountPortal (props) {
         if(accountName){
             setQueryingUserProfile(true);
             getProfileData(accountName).then(profileData => {
-                console.log(profileData);
                 if(!cancelled){
                     setUserProfile(profileData);
                     setQueryingUserProfile(false);

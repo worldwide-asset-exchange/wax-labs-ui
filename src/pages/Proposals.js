@@ -17,7 +17,6 @@ export default function RenderProposals(props){
     useEffect(()=>{
         let cancelled = false;
         async function getProfile(){
-            // console.log(props.activeUser);
             try {
                 let resp = await wax.rpc.get_table_rows({
                         code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,

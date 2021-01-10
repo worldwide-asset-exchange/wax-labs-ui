@@ -117,7 +117,6 @@ export default function RenderBalanceTab(props) {
                     json: true,
                     limit: 1
                 });
-                console.log(resp);
                 if(!cancelled){
                     if(resp.rows.length) {
                         setBalance(requestedAmountToFloat(resp.rows[0].balance));                        

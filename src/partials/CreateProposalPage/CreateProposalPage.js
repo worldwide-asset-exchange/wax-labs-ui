@@ -69,7 +69,6 @@ export default function RenderCreateProposalPage(props){
                 blocksBehind: 3,
                 expireSeconds: 30
             });
-            console.log(resp);
             let alertObj = {
                 ...GLOBAL_ALERTS.DRAFT_PROP_ALERT_DICT.SUCCESS
             }

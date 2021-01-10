@@ -11,10 +11,10 @@
 }
 .home {
     @include mainPadding;
+    @include minPageHeight;
+
     padding-left: 0;
     padding-right: 0;
-
-    min-height: calc(100vh - #{$menu-height} - #{$footer-height});
 
     h4 {
         color: $typography-02;

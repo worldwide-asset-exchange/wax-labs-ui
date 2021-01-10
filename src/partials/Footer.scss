@@ -1,0 +1,46 @@
+@import '../scss/variables';
+@import '../scss/typography';
+@import '../scss/responsiveness';
+@import '../scss/layout';
+
+.footer {
+    @include mainPadding;
+    background-color:  $modal-background-color;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    @include breakpoint(tablet-landscape-up) {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-top: $spacing-m;
+        padding-bottom: $spacing-m;
+    }
+
+    &__socialMediaIcon {
+        margin-right: $spacing-s;
+        padding: 10px;
+        width: 44px;
+        height: 44px;
+
+        &:hover {
+            svg #background {
+                fill: url(#gradient--reverse);
+            }
+        }
+    }
+    &__builtWithLove{
+        max-width: 130px;
+    }
+    &__disclaimer {
+        margin: $spacing-m 0;
+        text-align: center;
+
+        @include breakpoint(tablet-landscape-up) {
+            margin: 0 $spacing-m;
+        }
+    }
+}

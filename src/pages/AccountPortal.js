@@ -18,7 +18,7 @@ import { sleep } from '../utils/util';
 
 export default function RenderAccountPortal (props) {
 
-    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_EVENT_KEY);
+    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_TAB_KEY);
     const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
     
     const [accountName, setAccountName] = useState(null);
@@ -94,16 +94,16 @@ export default function RenderAccountPortal (props) {
 
             <Tabs defaultActiveKey={tabString} id="account-portal">
                 <Tab 
-                    eventKey={GLOBAL_VARS.BALANCE_EVENT_KEY} 
+                    eventKey={GLOBAL_VARS.BALANCE_TAB_KEY} 
                     title="Balance" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.BALANCE_EVENT_KEY)}
+                    onEnter={()=>setTabString(GLOBAL_VARS.BALANCE_TAB_KEY)}
                 >
                     <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
                 </Tab>
                 <Tab 
-                    eventKey={GLOBAL_VARS.PROFILE_EVENT_KEY} 
+                    eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} 
                     title="Profile"
-                    onEnter={()=>setTabString(GLOBAL_VARS.PROFILE_EVENT_KEY)}
+                    onEnter={()=>setTabString(GLOBAL_VARS.PROFILE_TAB_KEY)}
                 >
                     <RenderProfileTab 
                         nameToQuery={accountName} 
@@ -117,9 +117,9 @@ export default function RenderAccountPortal (props) {
                     />
                 </Tab>
                 <Tab 
-                    eventKey={GLOBAL_VARS.MY_PROPOSALS_EVENT_KEY} 
+                    eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} 
                     title="My proposals"
-                    onEnter={()=>setTabString(GLOBAL_VARS.MY_PROPOSALS_EVENT_KEY)}
+                    onEnter={()=>setTabString(GLOBAL_VARS.MY_PROPOSALS_TAB_KEY)}
                 >
                     <RenderMyProposalsTab
                         userToSearch={props.activeUser ? props.activeUser.accountName : "null"}
@@ -132,9 +132,9 @@ export default function RenderAccountPortal (props) {
                     />
                 </Tab>
                 <Tab 
-                    eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_EVENT_KEY} 
+                    eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} 
                     title="Deliverables to review"
-                    onEnter={()=>setTabString(GLOBAL_VARS.DELIVERABLES_TO_REVIEW_EVENT_KEY)}
+                    onEnter={()=>setTabString(GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY)}
                 >
                     <RenderDeliverablesToReviewTab
                         reviewer={props.activeUser ? props.activeUser.accountName : "null"}

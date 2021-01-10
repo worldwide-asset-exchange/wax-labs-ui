@@ -11,6 +11,7 @@ import RenderHome from './pages/Home.js';
 import RenderErrorPage from './pages/ErrorPage.js';
 import RenderAccountPortal from './pages/AccountPortal.js';
 import RenderProposals from './pages/Proposals.js';
+import RenderAdminPortal from './pages/AdminPortal.js';
 
 import * as GLOBAL_VARS from './utils/vars';
 
@@ -102,9 +103,35 @@ export default function App(props)  {
           <div className="content">
             <Routes>
             <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" element={<RenderProposals activeUser={props.ual.activeUser} isAdmin={isAdmin} categories={categories} loginModal={props.ual.showModal} />} />
-            <Route path="account/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} categories={categories}/> } />
-            <Route path="admin/*" element={<RenderAccountPortal activeUser={props.ual.activeUser} />} />
+            <Route path="proposals/*" 
+              element={
+                <RenderProposals 
+                  activeUser={props.ual.activeUser} 
+                  isAdmin={isAdmin} 
+                  categories={categories} 
+                  loginModal={props.ual.showModal} 
+                />
+              } 
+            />
+            <Route path="account/*" 
+              element={
+                <RenderAccountPortal 
+                  activeUser={props.ual.activeUser} 
+                  categories={categories}
+
+                /> 
+              }
+            />
+            <Route path="admin/*" 
+              element={
+                <RenderAdminPortal 
+                  activeUser={props.ual.activeUser} 
+                  categories={categories}
+                  isAdmin={isAdmin}
+                  queryingAdmin={queryingAdmin}
+                />
+              } 
+            />
             <Route path="*" element={<RenderErrorPage />} />
             </Routes>
           </div>

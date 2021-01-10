@@ -95,10 +95,16 @@ export const DISPLAY_EVENT_KEY = 'display'
 export const EDIT_EVENT_KEY = 'edit'
 export const CREATE_EVENT_KEY = 'create'
 
-export const BALANCE_EVENT_KEY = 'balance'
-export const PROFILE_EVENT_KEY = 'profile'
-export const MY_PROPOSALS_EVENT_KEY = 'proposals'
-export const DELIVERABLES_TO_REVIEW_EVENT_KEY = 'review'
+export const BALANCE_TAB_KEY = 'balance'
+export const PROFILE_TAB_KEY = 'profile'
+export const MY_PROPOSALS_TAB_KEY = 'proposals'
+export const DELIVERABLES_TO_REVIEW_TAB_KEY = 'review'
+
+export const PROPOSALS_TO_REVIEW_TAB_KEY = 'proposals'
+export const CATEGORIES_TAB_KEY = 'categories'
+export const SET_VOTING_TAB_KEY = 'setvoting'
+export const REMOVE_PROFILE_TAB_KEY = 'rmvprofile'
+export const TRANSFER_ADMIN_ROLE_TAB_KEY = 'transferadmin'
 
 export const REQUESTED_ORDER_BY_FIELD = "requested"
 export const CREATED_ORDER_BY_FIELD = "created"
@@ -161,7 +167,8 @@ export const PROPOSALS_LINK = "/proposals"
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 
 export const ACCOUNT_PORTAL_LINK = "/account"
-export const CREATE_PROFILE_LINK = ACCOUNT_PORTAL_LINK + `?${MODE_QUERY_STRING_KEY}=${CREATE_EVENT_KEY}&${TAB_QUERY_STRING_KEY}=${PROFILE_EVENT_KEY}`
+export const CREATE_PROFILE_LINK = ACCOUNT_PORTAL_LINK + `?${MODE_QUERY_STRING_KEY}=${CREATE_EVENT_KEY}&${TAB_QUERY_STRING_KEY}=${PROFILE_TAB_KEY}`
+export const ADMIN_PORTAL_LINK = "/admin"
 
 export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 

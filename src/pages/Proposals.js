@@ -58,6 +58,7 @@ export default function RenderProposals(props){
                             noProposalsMessage="The list for these filters is empty. Try changing the filters."
                             categories={categories}
                             profile={profile}
+                            showCreateButton={true}
                             activeUser={props.activeUser}
                             defaultStatus={[GLOBAL_VARS.VOTING_KEY, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]}
                         />

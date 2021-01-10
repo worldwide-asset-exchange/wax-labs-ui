@@ -8,3 +8,10 @@
         padding-bottom: $spacing-xxl;
     }
 }
+
+@mixin minPageHeight {
+    min-height: calc(100vh - #{$menu-height-mobile} - #{$footer-height-mobile});
+    @include breakpoint(tablet-landscape-up) {
+        min-height: calc(100vh - #{$menu-height-tablet-landscape-up} - #{$footer-height-tablet-landscape-up});
+    }
+}

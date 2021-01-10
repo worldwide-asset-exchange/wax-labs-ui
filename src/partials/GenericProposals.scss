@@ -11,6 +11,8 @@
 
 .genericProposals {
     @include mainPadding;
+    @include minPageHeight;
+
     max-width: $max-screen-width;
     margin: 0 auto;
 

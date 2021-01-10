@@ -86,7 +86,6 @@ export default function RenderProposalPage(props){
         }
     }
 
-    // console.log(proposal);
     function RenderProposalInfo(){
         /*
             Render title

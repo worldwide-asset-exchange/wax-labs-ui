@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
 import * as GLOBAL_VARS from '../../../utils/vars';
+import './ProfileInputContainer.scss';
 
 const validator = new SimpleReactValidator();
-
 
 export default function RenderProfileInputContainer (props) {
 
@@ -65,91 +65,91 @@ export default function RenderProfileInputContainer (props) {
     const telegramHandleErrorMessage = validator.message('telegram handle', editableProfile.contact, 'required|max:32');
 
     return (
-        <div style={{color:"white"}}>
-            <div>
-                <label>Wax account</label>
+        <div className="profileInputContainer">
+            <div className="profileInputContainer__input">
+                <label className="input__label">Wax account</label>
                 <input
-                    className={`${waxAcountErrorMessage ? "input-with-error" : ""}`}
+                    className={`${waxAcountErrorMessage ? "input input--error" : "input"}`}
                     value={editableProfile.wax_account}
                     name="wax_account"
                     onChange={handleInputChange}
                     disabled={props.editMode}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {waxAcountErrorMessage}
-                </div>  
+                </div>
             </div>
-            <div>
-                <label>Full name</label>
+            <div className="profileInputContainer__input">
+                <label className="input__label">Full name</label>
                 <input
-                    className={`${fullNameErrorMessage ? "input-with-error" : ""}`}
+                    className={`${fullNameErrorMessage ? "input input--error" : "input"}`}
                     value={editableProfile.full_name}
                     name="full_name"
                     onChange={handleInputChange}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {fullNameErrorMessage}
-                </div>  
+                </div>
             </div>
-            <div>
-                <label>Country</label>
+            <div className="profileInputContainer__input">
+                <label className="input__label">Country</label>
                 <input
-                    className={`${countryErrorMessage ? "input-with-error" : ""}`}
+                    className={`${countryErrorMessage ? "input input--error" : "input"}`}
                     value={editableProfile.country}
                     name="country"
                     onChange={handleInputChange}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {countryErrorMessage}
-                </div> 
+                </div>
             </div>
-            <div>
-                <label>Website</label>
+            <div className="profileInputContainer__input">
+                <label className="input__label">Website</label>
                 <input
-                    className={`${webSiteErrorMessage ? "input-with-error" : ""}`}
+                    className={`${webSiteErrorMessage ? "input input--error" : "input"}`}
                     value={editableProfile.website}
                     name="website"
                     onChange={handleInputChange}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {webSiteErrorMessage}
-                </div> 
+                </div>
             </div>
-            <div>
+            <div className="profileInputContainer__input">
                 <label>Telegram handle</label>
                 <input
-                    className={`${telegramHandleErrorMessage ? "input-with-error" : ""}`}
+                    className={`${telegramHandleErrorMessage ? "input input--error" : "input"}`}
                     value={editableProfile.contact}
                     name="contact"
                     onChange={handleInputChange}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {telegramHandleErrorMessage}
-                </div> 
+                </div>
             </div>
-            <div>
+            <div className="profileInputContainer__input">
                 <label>Image URL</label>
                 <input
-                    className={`${imageUrlErrorMessage ? "input-with-error" : ""}`}
+                    className={`${imageUrlErrorMessage ? "input input--error" : "input"}`}
                     value={editableProfile.image_url}
                     name="image_url"
                     onChange={handleInputChange}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {imageUrlErrorMessage}
-                </div> 
+                </div>
             </div>
-            <div>
+            <div className="profileInputContainer__input">
                 <label>Biography</label>
                 <textarea
-                    className={`${biographyErrorMesssage ? "textarea-with-error" : ""}`}
+                    className={`${biographyErrorMesssage ? "textarea textarea--error" : "textarea"}`}
                     value={editableProfile.bio}
                     name="bio"
                     onChange={handleInputChange}
                 />
-                <div style={{backgroundColor: "red"}}>
+                <div className="input__errorMessage">
                     {biographyErrorMesssage}
-                </div> 
+                </div>
             </div>
         </div>
     )

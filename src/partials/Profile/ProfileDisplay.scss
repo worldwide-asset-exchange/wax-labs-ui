@@ -1,0 +1,23 @@
+@import '../../scss/variables';
+@import '../../scss/typography';
+
+
+.profileDisplay {
+    &__information {
+        margin: $spacing-s 0;
+    }
+    &__label {
+        @include p--tiny;
+        color: $typography-02;
+    }
+    &__data {
+        @include p;
+    }
+    &__image {
+        max-height: 35vh;
+        width: 100%;
+        max-width: 400px;
+        object-fit: cover;
+        border-radius: $border-radius;
+    }
+}

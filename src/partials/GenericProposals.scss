@@ -37,7 +37,7 @@
         flex-direction: column;
         margin: $spacing-xs 0;
 
-        @include breakpoint(tablet-up) {
+        @include breakpoint(tablet-landscape-up) {
             flex-direction: row;
             justify-content: space-between;
         }
@@ -47,6 +47,12 @@
         margin: $spacing-xxs 0;
     }
     &__createProposal {
+        margin-bottom: $spacing-s;
+
+        @include breakpoint(tablet-landscape-up){
+            margin-right: 100px;
+            margin-bottom: 0;
+        }
         p {
             @include p;
             margin: 0;

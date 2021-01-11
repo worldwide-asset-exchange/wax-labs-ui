@@ -1,33 +1,35 @@
 import React from 'react';
+import './ProfileDisplay.scss';
 
 export default function RenderProfileDisplay(props){
 
     if(props.profile){
         return (
-            <div>
-                <img 
+            <div className="profileDisplay">
+                <img
                     src={props.profile.image_url}
                     alt="User provided"
+                    className="profileDisplay__image"
                 />
-                <div>
-                    <h2>Full name</h2>
-                    <h5>{props.profile.full_name}</h5>
+                <div className="profileDisplay__information">
+                    <div className="profileDisplay__label">Full name</div>
+                    <h5 className="profileDisplay__data">{props.profile.full_name}</h5>
                 </div>
-                <div>
-                    <h2>Biography</h2>
-                    <h5>{props.profile.bio}</h5>
+                <div className="profileDisplay__information">
+                    <div className="profileDisplay__label">Biography</div>
+                    <h5 className="profileDisplay__data">{props.profile.bio}</h5>
                 </div>
-                <div>
-                    <h2>Country</h2>
-                    <h5>{props.profile.country}</h5>
+                <div className="profileDisplay__information">
+                    <div className="profileDisplay__label">Country</div>
+                    <h5 className="profileDisplay__data">{props.profile.country}</h5>
                 </div>
-                <div>
-                    <h2>Website</h2>
-                    <h5>{props.profile.website}</h5>
+                <div className="profileDisplay__information">
+                    <div className="profileDisplay__label">Website</div>
+                    <h5 className="profileDisplay__data">{props.profile.website}</h5>
                 </div>
-                <div>
-                    <h2>Telegram handle</h2>
-                    <h5>{props.profile.contact}</h5>
+                <div className="profileDisplay__information">
+                    <div className="profileDisplay__label">Telegram handle</div>
+                    <h5 className="profileDisplay__data">{props.profile.contact}</h5>
                 </div>
             </div>
         )

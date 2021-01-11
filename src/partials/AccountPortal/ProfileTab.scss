@@ -1,0 +1,32 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/layout';
+
+@import '../../scss/components/Input';
+@import '../../scss/components/Button';
+
+.profileTab {
+    @include mainPadding;
+    @include minPageHeight;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: $typography-02;
+
+    .button {
+        margin: $spacing-s;
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @include breakpoint(large-mobile-up) {
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+}

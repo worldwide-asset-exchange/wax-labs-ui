@@ -178,6 +178,7 @@ export const PROPOSAL_MAX_REQUESTED = 500000
 export const PROPOSALS_LINK = "/proposals"
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 
+export const PROFILE_LINK = '/profile'
 export const ACCOUNT_PORTAL_LINK = "/account"
 export const CREATE_PROFILE_LINK = ACCOUNT_PORTAL_LINK + `?${MODE_QUERY_STRING_KEY}=${CREATE_EVENT_KEY}&${TAB_QUERY_STRING_KEY}=${PROFILE_TAB_KEY}`
 export const ADMIN_PORTAL_LINK = "/admin"

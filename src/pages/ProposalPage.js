@@ -133,7 +133,7 @@ export default function RenderProposalPage(props){
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Proposer</div>
                                     <Link className="proposalPage__accountID proposalPage__accountID--link"
-                                            to={"/account/" + proposal.proposer}>{proposal.proposer}</Link>
+                                            to={GLOBAL_VARS.PROFILE_LINK + '/' + proposal.proposer}>{proposal.proposer}</Link>
                                 </div>
                                 {
                                     proposal.reviewer ?

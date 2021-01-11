@@ -16,12 +16,12 @@ export default function RenderVoteDisplay(props){
     function RenderVoteButtons(props){
         if (props.showActionButtons) {
             if (props.activeUser) {
-            return (
-                <div className="votesDisplay__buttons">
-                    <button className="button button--approval" name="yes" onClick={castVote}>Vote Yes</button>
-                    <button className="button button--rejection" name="no" onClick={castVote}>Vote No</button>
-                </div>
-            )
+                return (
+                    <div className="votesDisplay__buttons">
+                        <button className="button button--approval" name="yes" onClick={castVote}>Vote Yes</button>
+                        <button className="button button--rejection" name="no" onClick={castVote}>Vote No</button>
+                    </div>
+                )
             } else {
                 return (
                     <div className="votesDisplay__signInButton">
@@ -176,14 +176,16 @@ export default function RenderVoteDisplay(props){
         getVoteData();
         //eslint-disable-next-line
     }, [props.proposal])
+
+
     if(props.proposal.ballot_name){
         const totalVotes = props.votes.yes + props.votes.no
         return (
             <div className="votesDisplay">
                 <h4 className="votesDisplay__endCountdown">Voting {props.votingEndsIn.includes('ago') ? 'ended' : 'ends'} {props.votingEndsIn}</h4>
                 <p className="votesDisplay__endDate">on {props.endTime}</p>
-                {totalVotes > 0 ? <RenderVotingPercentages totalVotes={totalVotes} yesVotes={props.votes.yes} noVotes={props.votes.no}/> : <h4>No votes have been cast yet.</h4>}
-                {props.proposal.status === globals.VOTING_KEY ? <RenderVoteButtons {...props}/> : ""}
+                {totalVotes > 0 ? <RenderVotingPercentages totalVotes={totalVotes} yesVotes={props.votes.yes} noVotes={props.votes.no}/> : <h4>{props.votingEndsIn.includes('ago') ? "No votes were cast." : "No votes have been cast yet."}</h4>}
+                {(props.proposal.status === globals.VOTING_KEY) && (!props.votingEndsIn.includes('ago')) ? <RenderVoteButtons {...props}/> : ""}
             </div>
         )
     } else {

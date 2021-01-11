@@ -9,11 +9,11 @@ $baseFontSize: 16px;
 }
 
 @mixin headline-font-face {
-    font-face: 'Montserrat', 'Roboto', 'sans-serif';
+    font-family: 'Montserrat', 'Roboto', 'sans-serif';
     color: $typography-01;
 }
 @mixin body-font-face {
-    font-face: 'Open Sans', 'Roboto', 'sans-serif';
+    font-family: 'Open Sans', 'Roboto', 'sans-serif';
     color: $typography-02;
 }
 

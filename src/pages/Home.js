@@ -87,7 +87,7 @@ export default function RenderHome() {
             <div className="home__cover">
                 <h1>Choose how to add value to the community</h1>
                 <h4>Growing the WAX Blockchain through decentralization and innovation</h4>
-                <Link to="/proposals?status=voting" className="button button--primary">Vote for the latest proposals</Link>
+                <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK} className="button button--primary">Vote for the latest proposals</Link>
             </div>
             {
                 inVotingProposals.length > 0 ?

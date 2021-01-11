@@ -19,6 +19,17 @@ build-test-deploy-testnet:
   rules:
     - if: '$CI_COMMIT_BRANCH == "testnet"'
 
+build-test-feature:
+  script:
+    - yarn install
+    - yarn build:testnet
+  stage: test
+  artifacts:
+    paths:
+      - build/
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "testnet" && $CI_COMMIT_BRANCH != "main"'
+
 build-test-deploy-mainnet:
   script:
     - yarn install
@@ -28,4 +39,4 @@ build-test-deploy-mainnet:
     paths:
       - build/
   rules:
-    - if: '$CI_COMMIT_BRANCH != "testnet"'
+    - if: '$CI_COMMIT_BRANCH == "main"'

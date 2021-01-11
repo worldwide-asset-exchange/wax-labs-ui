@@ -161,6 +161,7 @@ export default function RenderAdminMenu(props){
                 ...GLOBAL_ALERTS.DELETE_PROP_ALERT_DICT.SUCCESS,
                 body: body,
             }
+            props.updateProposalDeleted(true);
             props.showAlert(alertObj);
         } catch(e) {
             let alertObj = {

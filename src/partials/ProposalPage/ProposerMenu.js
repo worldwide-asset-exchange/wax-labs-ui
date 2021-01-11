@@ -240,6 +240,7 @@ export default function RenderProposerMenu(props){
                 ...alertGlobals.DELETE_PROP_ALERT_DICT.SUCCESS,
                 body: body,
             }
+            props.updateProposalDeleted(true);
             props.showAlert(alertObj);
         } catch(e) {
             let alertObj = {

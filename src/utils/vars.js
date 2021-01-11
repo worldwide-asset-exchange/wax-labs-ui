@@ -177,6 +177,7 @@ export const PROPOSAL_MAX_REQUESTED = 500000
 // Links
 export const PROPOSALS_LINK = "/proposals"
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
+export const PROPOSALS_IN_VOTING_LINK = `${PROPOSALS_LINK}?${STATUS_QUERY_STRING_KEY}=${VOTING_KEY}`
 
 export const PROFILE_LINK = '/profile'
 export const ACCOUNT_PORTAL_LINK = "/account"

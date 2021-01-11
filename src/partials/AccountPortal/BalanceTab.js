@@ -180,7 +180,7 @@ export default function RenderBalanceTab(props) {
                 <p>Donate to help fund projects approved by the community.</p>
                 <div className="balanceTab__donateForm">
                     <div>
-                        <label className="input__label">Donation amount</label>
+                        <label className="input__label">Donate to WAX Labs</label>
                         <input
                             type="number"
                             value={donateAmount}

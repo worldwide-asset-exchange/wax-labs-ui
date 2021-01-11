@@ -16,7 +16,14 @@
     }
     &__withdraw,
     &__donate {
-        margin: $spacing-l 0;
+        margin: $spacing-xl 0;
+        h3 {
+            color: $typography-02;
+            margin-bottom: 4px;
+        }
+        h4 {
+            color: $typography-02;
+        }
     }
 
     &__withdrawForm,

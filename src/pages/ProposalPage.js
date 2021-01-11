@@ -12,6 +12,7 @@ import RenderLoadingPage from '../partials/LoadingPage';
 import RenderVotesDisplay from '../partials/ProposalPage/VotesDisplay';
 import RenderDeliverablesList from '../partials/ProposalPage/DeliverablesList';
 import RenderAdminMenu from '../partials/ProposalPage/AdminMenu';
+import RenderErrorPage from './ErrorPage';
 
 import './ProposalPage.scss';
 
@@ -22,69 +23,22 @@ const readableProposalStatus = GLOBAL_VARS.READABLE_PROPOSAL_STATUS;
 
 export default function RenderProposalPage(props){
     const {id} = useParams();
-    const [proposal, setProposal] = useState({
-        proposer: '',
-        category: '',
-        status: '',
-        title: '',
-        description: '',
-        content: '',
-        total_requested_funds: '',
-        image_url: '',
-        remaining_funds: '',
-        deliverables: '',
-        deliverables_completed: '',
-        reviewer: '',
-        ballot_name: '',
-        ballot_results: [],
-    });
+    const [proposal, setProposal] = useState(null);
     const [alertList, setAlertList] = useState([]);
     const [endTime, setEndTime] = useState(null);
     const [votes, setVotes] = useState({});
     const [proposalQueryCount, setProposalQueryCount] = useState(1);
     const [body, setBody] = useState(null);
+    const [proposalDeleted, setProposalDeleted] = useState(false);
+    const [queryingProposal, setQueryingProposal] = useState(true);
 
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
 
-    async function getProposalData(){
-        try{
-            /* Getting Proposal info */
-            let resp = await wax.rpc.get_table_rows({
-                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                table: GLOBAL_VARS.PROPOSALS_TABLE,
-                json: true,
-                lower_bound: id,
-                upper_bound: id,
-            });
-            let responseProposal = resp.rows[0]
-            responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' WAX';
-            setProposal(responseProposal);
-
-        } catch (e){
-            console.log(e);
-        }
+    function updateProposalDeleted(boolean){
+        setProposalDeleted(boolean);
     }
-
-    async function getContentData(){
-        try{
-            /* Getting Proposal info */
-            let resp = await wax.rpc.get_table_rows({
-                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                table: GLOBAL_VARS.MD_BODIES_TABLE,
-                json: true,
-                lower_bound: id,
-                upper_bound: id,
-            });
-            let responseBody = resp.rows[0].content
-            setBody(responseBody);
-
-        } catch (e){
-            console.log(e);
-        }
-    }
+    
 
     function RenderProposalInfo(){
         /*
@@ -157,6 +111,49 @@ export default function RenderProposalPage(props){
     }
 
     useEffect(()=>{
+        async function getProposalData(){
+
+            setQueryingProposal(true);
+            try{
+                /* Getting Proposal info */
+                let resp = await wax.rpc.get_table_rows({
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.PROPOSALS_TABLE,
+                    json: true,
+                    lower_bound: id,
+                    upper_bound: id,
+                });
+                let responseProposal = resp.rows[0]
+                if( responseProposal){
+                    responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' ' + GLOBAL_VARS.TOKEN_SYMBOL;
+                }
+                setProposal(responseProposal);
+                
+            } catch (e){
+                console.log(e);
+            }
+            setQueryingProposal(false);
+        }
+    
+        async function getContentData(){
+            try{
+                /* Getting Proposal info */
+                let resp = await wax.rpc.get_table_rows({
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.MD_BODIES_TABLE,
+                    json: true,
+                    lower_bound: id,
+                    upper_bound: id,
+                });
+                let responseBody = resp.rows[0].content
+                setBody(responseBody);
+    
+            } catch (e){
+                console.log(e);
+            }
+        }
         getProposalData();
         getContentData();
         //eslint-disable-next-line
@@ -191,8 +188,23 @@ export default function RenderProposalPage(props){
         setEndTime(endTimeString);
     }
 
-    if(!proposal){
+    if(proposalDeleted){
+        return (
+            <div className="proposalPage">
+                <RenderAlerts
+                    alertList={alertList}
+                    removeAlert={removeAlert}
+                />
+                <h1>This proposal has been successfully deleted</h1>
+            </div>
+        )
+    }
+    if(queryingProposal){
         return <RenderLoadingPage />
+    }
+    console.log(proposal);
+    if(!proposal){
+        return <RenderErrorPage />
     }
     return (
         <div className="proposalPage">
@@ -207,6 +219,7 @@ export default function RenderProposalPage(props){
                 showAlert={showAlert}
                 votingEndsIn={votingEndsIn}
                 rerunProposalQuery={rerunProposalQuery}
+                updateProposalDeleted={updateProposalDeleted}
             />
             <RenderProposerMenu
                 activeUser={props.activeUser}
@@ -214,6 +227,7 @@ export default function RenderProposalPage(props){
                 votingEndsIn={votingEndsIn}
                 showAlert={showAlert}
                 rerunProposalQuery={rerunProposalQuery}
+                updateProposalDeleted={updateProposalDeleted}
             />
             {RenderProposalInfo()}
             <RenderDeliverablesList

@@ -163,6 +163,7 @@ export const WITHDRAW_ACTION = "withdraw"
 export const CLAIM_FUNDS_ACTION = 'claimfunds'
 
 export const BEGIN_VOTING_AMOUNT = '10.00000000 WAX'
+export const DRAFT_PROP_AMOUNT = '100.00000000 WAX'
 export const TOKEN_SYMBOL = "WAX"
 export const DEPOSIT_MEMO = "fund"
 
@@ -225,7 +226,6 @@ export const READABLE_DELIVERABLE_STATUS = {
     [CLAIMED_KEY]: "Claimed",
     [REJECTED_KEY]: "Rejected",
 }
-
 
 export const PROPOSAL_ORDER_BY_LIST = [
     `${REQUESTED_ORDER_BY_FIELD}${SEPARATOR_ORDER_BY}${ASCENDANT_ORDER_BY_MODE}`,

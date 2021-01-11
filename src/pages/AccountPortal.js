@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import {Tab, Nav} from 'react-bootstrap';
 
 import useQueryString from '../utils/useQueryString'; 
 import * as GLOBAL_VARS from '../utils/vars';
@@ -9,12 +8,13 @@ import * as GLOBAL_VARS from '../utils/vars';
 import RenderBalanceTab from '../partials/AccountPortal/BalanceTab';
 import RenderProfileTab from '../partials/AccountPortal/ProfileTab';
 import RenderAlerts from '../partials/Alerts/Alerts';
-import RenderMyProposalsTab from '../partials/AccountPortal/UserProposalsTab';
+import RenderUserProposalsTab from '../partials/AccountPortal/UserProposalsTab';
 import RenderDeliverablesToReviewTab from '../partials/AccountPortal/DeliverablesToReviewTab';
 import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
 
 
 import { sleep } from '../utils/util';
+import RenderLoadingPage from '../partials/LoadingPage';
 
 export default function RenderAccountPortal (props) {
 
@@ -84,67 +84,89 @@ export default function RenderAccountPortal (props) {
         setQueryCount(queryCount + 1);
     }
 
+    if(!props.activeUser){
+        return (<RenderLoadingPage/>);
+    }
+
     return (
-        <div>
+        <div className="accountPortal">
             <RenderAlerts
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
 
-            <Tabs defaultActiveKey={tabString} id="account-portal">
-                <Tab 
-                    eventKey={GLOBAL_VARS.BALANCE_TAB_KEY} 
-                    title="Balance" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.BALANCE_TAB_KEY)}
-                >
-                    <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
-                </Tab>
-                <Tab 
-                    eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} 
-                    title="Profile"
-                    onEnter={()=>setTabString(GLOBAL_VARS.PROFILE_TAB_KEY)}
-                >
-                    <RenderProfileTab 
-                        nameToQuery={accountName} 
-                        activeUser={props.activeUser} 
-                        showAlert={showAlert}
-                        userProfile={userProfile}
-                        queryingUserProfile={queryingUserProfile}
-                        rerunProfileQuery={rerunProfileQuery}
-                        updateModeString={updateModeString}
-                        modeString={modeString}
-                    />
-                </Tab>
-                <Tab 
-                    eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} 
-                    title="My proposals"
-                    onEnter={()=>setTabString(GLOBAL_VARS.MY_PROPOSALS_TAB_KEY)}
-                >
-                    <RenderMyProposalsTab
-                        userToSearch={props.activeUser ? props.activeUser.accountName : "null"}
-                        showAlert={showAlert}
-                        categories={props.categories}
-                        activeUser={props.activeUser}
-                        profile={userProfile}
-                        defaultStatus={[]}
-                        tabString={tabString}
-                    />
-                </Tab>
-                <Tab 
-                    eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} 
-                    title="Deliverables to review"
-                    onEnter={()=>setTabString(GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY)}
-                >
-                    <RenderDeliverablesToReviewTab
-                        reviewer={props.activeUser ? props.activeUser.accountName : "null"}
-                        showAlert={showAlert}
-                        categories={props.categories}
-                        activeUser={props.activeUser}
-                        profile={userProfile}
-                        tabString={tabString}
-                    />
-                </Tab>
-            </Tabs>
+            <Tab.Container activeKey={tabString} id="account-portal" onSelect={(key)=>setTabString(key)}>
+                <Nav className="accountPortal__tabs">
+                    <Nav.Item>
+                        <Nav.Link 
+                            eventKey={GLOBAL_VARS.BALANCE_TAB_KEY} 
+                            className="accountPortal__tab" 
+                            activeClassName="accountPortal__tab--active"
+
+                        >                            
+                            <span className="accountPortal__tabTitle">Balance</span>
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                            
+                            <span className="accountPortal__tabTitle">Profile</span>
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                            
+                            <span className="accountPortal__tabTitle">My proposals</span>
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                            
+                            <span className="accountPortal__tabTitle">Deliverables to review</span>
+                        </Nav.Link>
+                    </Nav.Item>
+                </Nav>
+                <Tab.Content>
+                    <Tab.Pane eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}>
+                        <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey={GLOBAL_VARS.PROFILE_TAB_KEY}>
+                        <RenderProfileTab
+                            nameToQuery={accountName}
+                            activeUser={props.activeUser}
+                            showAlert={showAlert}
+                            userProfile={userProfile}
+                            queryingUserProfile={queryingUserProfile}
+                            rerunProfileQuery={rerunProfileQuery}
+                            updateModeString={updateModeString}
+                            modeString={modeString}
+                        />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY}>
+                        <RenderUserProposalsTab
+                            userToSearch={props.activeUser.accountName}
+                            showAlert={showAlert}
+                            subtitle="Your proposals"
+                            categories={props.categories}
+                            activeUser={props.activeUser}
+                            showCreateButton={true}
+                            profile={userProfile}
+                            defaultStatus={[]}
+                            tabString={tabString}
+                        />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY}>
+                        <RenderDeliverablesToReviewTab
+                            reviewer={props.activeUser.accountName}
+                            showAlert={showAlert}
+                            categories={props.categories}
+                            activeUser={props.activeUser}
+                            profile={userProfile}
+                            tabString={tabString}
+                        />
+                    </Tab.Pane>
+                </Tab.Content>
+            </Tab.Container>        
         </div>
     )
 }

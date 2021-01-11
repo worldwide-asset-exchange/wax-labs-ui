@@ -78,6 +78,7 @@ export async function getProposals(queryType, statusKey, getBounds, accountName)
     const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
     let {lowerBound, upperBound} = getBounds(statusKey, accountName);
 
+    console.log("getting proposals, accountName: ", accountName, " queryType:", queryType, " statusKey: ", statusKey);
     let success = false;
     let proposalsArray = []
     do{

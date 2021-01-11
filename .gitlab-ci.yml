@@ -10,7 +10,7 @@ workflow:
 build-test-deploy-testnet:
   script:
     - yarn install
-    - yarn build
+    - yarn build:testnet
     - rsync -e "ssh -o StrictHostKeyChecking=no" -avz build/ root@labs.wax.eosdetroit.io:/var/www/waxlabs-ui
   stage: test
   artifacts:
@@ -22,7 +22,7 @@ build-test-deploy-testnet:
 build-test-deploy-mainnet:
   script:
     - yarn install
-    - yarn build
+    - yarn build:prod
   stage: prod
   artifacts:
     paths:

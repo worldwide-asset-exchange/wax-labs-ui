@@ -36,11 +36,14 @@
     "simple-react-validator": "^1.5.1",
     "ual-anchor": "^0.5.1",
     "ual-reactjs-renderer": "^0.3.1",
-    "ual-scatter": "^0.3.0"
+    "ual-scatter": "^0.3.0",
+    "env-cmd": "^10.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:testnet": "env-cmd -f .env.testnet react-scripts build",
+    "build:prod": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

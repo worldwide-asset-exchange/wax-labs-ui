@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
 import RenderProposalInputContainer from '../EditPage/ProposalInputContainer';
+import * as waxjs from "@waxio/waxjs/dist";
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
+import {requestedAmountToFloat} from "../../utils/util";
+
 import RenderAlerts from '../Alerts/Alerts';
+
+const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderCreateProposalPage(props){
     const [allValid, setAllValid] = useState(true);
@@ -43,9 +48,41 @@ export default function RenderCreateProposalPage(props){
             setShowValidatorMessages(showValidatorMessages + 1);
             return
         }
+        let resp = await wax.rpc.get_table_rows({
+            code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+            scope: activeUser.accountName,
+            table: GLOBAL_VARS.ACCOUNTS_TABLE,
+            json: true,
+            limit: 1
+        });
+        let balanceAmount = '0.0 WAX';
+        if(resp.rows.length){
+            balanceAmount = resp.rows[0].balance;
+        }
+        balanceAmount = requestedAmountToFloat(balanceAmount);
+        let transferAction = []
+
+        if(balanceAmount < requestedAmountToFloat(GLOBAL_VARS.DRAFT_PROP_AMOUNT)){
+            transferAction = [{
+                account: GLOBAL_VARS.EOSIO_TOKEN_CODE,
+                name: GLOBAL_VARS.TRANSFER_ACTION,
+                authorization: [{
+                    actor: activeUser.accountName,
+                    permission: activeUser.requestPermission,
+                }],
+                data: {
+                    from: activeUser.accountName,
+                    to: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    quantity: GLOBAL_VARS.DRAFT_PROP_AMOUNT,
+                    memo: ''
+                },
+            }]
+        }
+
         try {
             let resp = await activeUser.signTransaction({
                 actions: [
+                    ...transferAction,
                     {
                         account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                         name: GLOBAL_VARS.DRAFT_PROPOSAL_ACTION,

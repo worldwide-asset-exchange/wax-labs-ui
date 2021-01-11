@@ -90,6 +90,7 @@ export default function RenderBalanceTab(props) {
                 }
             );
             props.showAlert(GLOBAL_ALERTS.WITHDRAW_FUNDS_ALERT_DICT.SUCCESS);
+            rerunAccountQuery();
         } catch(e){
             console.log(e);
             let alertObj = {

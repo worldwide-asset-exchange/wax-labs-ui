@@ -6,7 +6,7 @@ import { getProposalsWithDeliverablesInPassedStatus } from '../Deliverables/Deli
 import RenderGenericProposals from '../GenericProposals';
 
 export default function RenderDeliverablesToReviewTab (props) {
-    const [queryArgs, setQueryArgs] = useState (null);
+    const [queryArgs, setQueryArgs] = useState ([]);
 
     useEffect(()=>{
         

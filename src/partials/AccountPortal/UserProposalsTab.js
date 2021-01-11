@@ -7,10 +7,9 @@ import {getNameBounds, getProposals} from '../../utils/util';
 
 export default function RenderUserProposalsTab (props) {
 
-    const [queryArgs, setQueryArgs] = useState (null);
+    const [queryArgs, setQueryArgs] = useState ([]);
 
     useEffect(()=>{
-        
         let newQueryArgs = [];
         GLOBAL_VARS.PROPOSALS_STATUS_KEYS.forEach((key, index)=>{
             newQueryArgs.push({
@@ -29,10 +28,10 @@ export default function RenderUserProposalsTab (props) {
 
     return (
         <RenderGenericProposals
-            subtitle="Proposals that you are the proposer of"
+            subtitle={props.subtitle}
             noProposalsMessage="No proposals were found, try changing the filters."
             categories={props.categories}
-            showCreateButton={true}
+            showCreateButton={props.showCreateButton}
             profile={props.profile}
             activeUser={props.activeUser}
             queryArgs={queryArgs}

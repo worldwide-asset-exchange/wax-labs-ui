@@ -12,6 +12,7 @@ import RenderErrorPage from './pages/ErrorPage.js';
 import RenderAccountPortal from './pages/AccountPortal.js';
 import RenderProposals from './pages/Proposals.js';
 import RenderAdminPortal from './pages/AdminPortal.js';
+import RenderProfilePage from './pages/ProfilePage';
 
 import * as GLOBAL_VARS from './utils/vars';
 
@@ -176,6 +177,16 @@ export default function App(props)  {
                   rerunAdminQuery={rerunCheckAdmin}
                 />
               } 
+            />
+            <Route 
+              path="profile/:accountName/*"
+              element={
+                <RenderProfilePage
+                  categories={categories}
+                  isAdmin={isAdmin}
+                  activeUser={props.ual.activeUser}
+                />
+              }
             />
             <Route path="*" element={<RenderErrorPage />} />
             </Routes>

@@ -4,17 +4,14 @@ import update from 'immutability-helper';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import { RenderDeliverableCard } from './DeliverableCard';
-import { randomEosioName, requestedAmountToFloat } from '../../utils/util'; 
+import { randomEosioName, requestedAmountToFloat } from '../../utils/util';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
 
+import './DeliverablesContainer.scss';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-
-const style = {
-    width: 400,
-};
 
 export const RenderDeliverablesContainer = (props) => {
 
@@ -47,7 +44,7 @@ export const RenderDeliverablesContainer = (props) => {
             copyDeliverables = copyDeliverables.map((deliverable, index)=>{
                 // we create/store a unique (at least very hard to collide) id.
                 deliverable.id = randomEosioName();
-                // we use this id as key, in the deliverablesValidation dict. 
+                // we use this id as key, in the deliverablesValidation dict.
                 deliverablesValidation[deliverable.id] = true;
                 return deliverable
             });
@@ -116,7 +113,7 @@ export const RenderDeliverablesContainer = (props) => {
             let deliverables = [...delivs.rows];
             deliverables = deliverables.map(deliverable => {
                 deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
-                return deliverable 
+                return deliverable
             })
             setDeliverables(deliverables);
         } catch (e){
@@ -164,29 +161,29 @@ export const RenderDeliverablesContainer = (props) => {
         return (
             <RenderDeliverableCard
                 key={deliverable.id}
-                isLast={index === (editableDeliverables.length - 1)} 
-                index={index} 
-                id={deliverable.id} 
+                isLast={index === (editableDeliverables.length - 1)}
+                index={index}
+                id={deliverable.id}
                 text={(index + 1) + ") " + deliverable.requested}
-                showValidatorMessages={props.showValidatorMessages} 
-                deliverable={deliverable} 
+                showValidatorMessages={props.showValidatorMessages}
+                deliverable={deliverable}
                 removeCard={removeCard}
                 updateDeliverablesValidation={updateDeliverablesValidation}
-                updateCard={updateDeliverable} 
+                updateCard={updateDeliverable}
                 moveCard={moveCard}
             />);
     };
     return (
-        <div>
-            {props.queryingDeliverables ? 
+        <div className="deliverablesContainer">
+            {props.queryingDeliverables ?
                 <RenderLoadingPage/>
             :
-                <>                
-                    <div style={style}>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
-                    <button className="btn" onClick={createNewDeliv}>Add new deliverable</button>
-                </>
+                <div className="deliverablesContainer__items">
+                    <div>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
+                    <button className="button button--secondary" onClick={createNewDeliv}>Add new deliverable</button>
+                </div>
             }
         </div>
     );
-    
+
 };

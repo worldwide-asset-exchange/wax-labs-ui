@@ -13,6 +13,8 @@ import {RenderDeliverablesContainer} from './DeliverablesContainer';
 import RenderProposalInputContainer from './ProposalInputContainer';
 import RenderLoadingPage from '../LoadingPage';
 
+import './EditProposal.scss';
+
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
 export default function RenderEditProposal(props){
@@ -280,7 +282,7 @@ export default function RenderEditProposal(props){
     }
 
     return(
-        <div className="edit-proposal">
+        <div className="editProposal">
             <RenderAlerts
                 alertList={alertList}
                 removeAlert={removeAlert}
@@ -310,7 +312,7 @@ export default function RenderEditProposal(props){
                 />
             </DndProvider>
             <button
-                className='btn'
+                className='button button--primary'
                 onClick={updateProposal}
                 disabled={(queryingDeliverables || queryingProposal)}
             >

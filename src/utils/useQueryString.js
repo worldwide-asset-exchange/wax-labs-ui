@@ -6,7 +6,6 @@ function useQueryString(key, initialValue) {
   const onSetValue = useCallback(
     (newValue) => {
       if(newValue.skipUpdateQS){
-        console.log("Wut");
         setValue(newValue.value);      
       }
       else{

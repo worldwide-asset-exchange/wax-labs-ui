@@ -41,7 +41,6 @@ export default function RenderProposalList(props){
     }
     function pageChange(data) {
         let selected = data.selected;
-        console.log(data);
         setPage(selected + 1);
     }
 

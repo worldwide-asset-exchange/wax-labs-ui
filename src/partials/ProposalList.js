@@ -15,7 +15,7 @@ const reactPaginateObject = {
     tablet_landscape_up: {marginPagesDisplayed:1, pageRangeDisplayed:17},
     desktop: {marginPagesDisplayed:1, pageRangeDisplayed:21},
 }
-const perPage = 1;
+const perPage = 10;
 
 export default function RenderProposalList(props){
 

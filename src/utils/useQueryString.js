@@ -5,7 +5,6 @@ function useQueryString(key, initialValue) {
   const [value, setValue] = useState(getQueryStringValue(key) || initialValue);
   const onSetValue = useCallback(
     (newValue) => {
-      console.log("updating ", key);
       if(newValue.skipUpdateQS){
         setValue(newValue.value);      
       }

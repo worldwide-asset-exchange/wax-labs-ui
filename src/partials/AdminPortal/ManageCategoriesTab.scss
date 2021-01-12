@@ -1,0 +1,22 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/layout';
+
+.manageCategories {
+    @include mainPadding;
+    @include minPageHeight;
+
+    &__fieldset {
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: $spacing-l;
+
+        min-width: 300px;
+
+        .button {
+            align-self: flex-end;
+            margin-top: $spacing-xs;
+        }
+    }
+}

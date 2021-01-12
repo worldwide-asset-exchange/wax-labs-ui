@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
+import './RemoveProfilesTab.scss';
+
 export default function RenderRemoveProfilesTab (props) {
     const [waxAccount, setWaxAccount] = useState("");
 
@@ -44,10 +46,14 @@ export default function RenderRemoveProfilesTab (props) {
     }
 
     return (
-        <div>
-            <label>WAX account</label>
-            <input value={waxAccount} onChange={(e)=>{setWaxAccount(e.target.value)}}/>
-            <button className="btn" onClick={()=>removeProfile()}>Remove profile</button>
+        <div className="removeProfiles">
+            <label className="input__label">WAX account</label>
+            <input
+                value={waxAccount}
+                onChange={(e)=>{setWaxAccount(e.target.value)}}
+                className="input"
+            />
+            <button className="button button--primary" onClick={()=>removeProfile()}>Remove profile</button>
         </div>
     )
 }

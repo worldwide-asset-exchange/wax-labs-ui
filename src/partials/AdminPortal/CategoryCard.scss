@@ -1,0 +1,20 @@
+@import '../../scss/variables';
+
+.categoryCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid $overlay-02;
+    border-radius: 5px;
+    padding: $spacing-s;
+
+
+    &__name {
+        margin-bottom: 0;
+    }
+
+    .button {
+        margin-left: $spacing-xs;
+    }
+}

@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
+import './TransferAdminRoleTab.scss';
+
 export default function RenderTransferAdminRoleTab (props) {
     const [waxAccount, setWaxAccount] = useState("");
 
@@ -45,10 +47,14 @@ export default function RenderTransferAdminRoleTab (props) {
     }
 
     return (
-        <div>
-            <label>WAX account</label>
-            <input value={waxAccount} onChange={(e)=>{setWaxAccount(e.target.value)}}/>
-            <button className="btn" onClick={()=>setAdmin()}>Transfer admin role</button>
+        <div className="transferAdminRole">
+            <label className="input__label">WAX account</label>
+            <input
+                value={waxAccount}
+                onChange={(e)=>{setWaxAccount(e.target.value)}}
+                className="input"
+            />
+            <button className="button button--primary" onClick={()=>setAdmin()}>Transfer admin role</button>
         </div>
     )
 }

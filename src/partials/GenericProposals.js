@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import {useLocation} from 'react-router-dom';
+
 import * as GLOBAL_VARS from '../utils/vars.js';
+import {getQueryStringValue} from '../utils/queryString';
+
 
 import {requestedAmountToFloat, getProposals, getStatBounds} from '../utils/util.js'
 import useQueryString from '../utils/useQueryString';
@@ -18,29 +22,47 @@ export default function RenderGenericProposals(props) {
     // whenever queryArgs changes.
     const [proposals, setProposals] = useState([]);
 
-    // This is for pagination on RenderProposalList to know if a
-    // filter was changed. It needs to change page to 1 if that happens.
-    const [filterChanged, setFilterChanged] = useState(false);
-
+    
     // Flags to know when to display loading page.
     const [querying, setQuerying] = useState(true);
-    const [filtering, setFiltering] = useState(true);
-
+    
     // Filtered proposals is supposed to contain the filtered list of proposals.
     // This is updated whenever proposals, categoriesList, filterString
     // or orderByString changes.
     const [filteredProposals, setFilteredProposals] = useState([]);
+    
+    let location = useLocation();
+
+    //If our code made changes to any of the query strings,
+    //
+    const [queryStringChanged, setQueryStringChanged] = useState(false);
 
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
-    const [categoriesList, setCategoriesList] = useQueryString(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY, null);
-    const [statusList, setStatusList] = useQueryString(GLOBAL_VARS.STATUS_QUERY_STRING_KEY, props.defaultStatus);
+    const [categoriesList, setCategoriesList] = useQueryString(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY, []);
+    const [statusList, setStatusList] = useQueryString(GLOBAL_VARS.STATUS_QUERY_STRING_KEY, []);
     const [filterString, setFilterString] = useQueryString(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY, "");
 
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(GLOBAL_VARS.ORDER_BY_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST[0]);
 
 
+    useEffect(()=>{
+        let newStatusList = getQueryStringValue(GLOBAL_VARS.STATUS_QUERY_STRING_KEY) ||  [] ;
+        setStatusList({value: newStatusList, skipUpdateQS: true});
+        
+        let newCategoriesList = getQueryStringValue(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY) || [];
+
+        setCategoriesList({value: newCategoriesList, skipUpdateQS: true});
+
+        let filterString = getQueryStringValue(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY) || "";
+
+        setFilterString({value: filterString, skipUpdateQS: true});
+
+        //eslint-disable-next-line
+    }, [location]);
+
+    console.log((statusList));
     function filterByStatus(proposal){
         if(!statusList){
             return true;
@@ -77,14 +99,12 @@ export default function RenderGenericProposals(props) {
     }
 
     useEffect(()=>{
-        setFiltering(true);
         let newFilteredProposals = []
         newFilteredProposals = proposals.slice(0).filter(filterByCategories)
         newFilteredProposals = newFilteredProposals.filter(filterByStatus)
         newFilteredProposals = newFilteredProposals.filter(filterByName)
         newFilteredProposals.sort(proposalComparison);
         setFilteredProposals(newFilteredProposals);
-        setFiltering(false);
         //eslint-disable-next-line
     },[categoriesList, proposals, filterString, orderByString, statusList]);
 
@@ -156,12 +176,17 @@ export default function RenderGenericProposals(props) {
 
 
     function updateStatusList (newList){
-        setFilterChanged(true);
+        if(!queryStringChanged){
+            setQueryStringChanged(true);
+        }
+        
         setStatusList(newList);
     }
 
     function updateCategoriesList (newList){
-        setFilterChanged(true);
+        if(!queryStringChanged){
+            setQueryStringChanged(true);
+        }
         setCategoriesList(newList);
     }
 
@@ -177,7 +202,9 @@ export default function RenderGenericProposals(props) {
                         onChange={
                             (event) => {
                                 setFilterString(event.target.value);
-                                setFilterChanged(true);
+                                if(!queryStringChanged){
+                                    setQueryStringChanged(true);
+                                }
                             }
                         }
                         placeholder="Proposal's title, description or proposer"
@@ -251,11 +278,11 @@ export default function RenderGenericProposals(props) {
             </div>
             <div className="filtered-proposals review-proposals">
                 {
-                    filtering || querying ?
+                    querying ?
                     <RenderLoadingPage/>
                     :
                     <RenderProposalList
-                        filterChanged = {filterChanged}
+                        filterChanged = {queryStringChanged}
                         proposalsList = {filteredProposals}
                         categories = {props.categories}
                         noProposalsMessage={props.noProposalsMessage}

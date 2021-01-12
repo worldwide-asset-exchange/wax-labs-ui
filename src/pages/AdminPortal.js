@@ -24,7 +24,6 @@ export default function RenderAdminPortal(props){
 
     const navigate = useNavigate();
 
-    console.log(tabString);
     useEffect(()=>{
         
         let newTabString = searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_ADMIN_TAB_KEY;

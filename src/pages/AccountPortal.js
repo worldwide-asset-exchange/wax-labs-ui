@@ -45,7 +45,6 @@ export default function RenderAccountPortal (props) {
         setModeString(string);
     }
 
-    // console.log(location);
     useEffect(()=>{
         let newTabString = searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_TAB_KEY;
         let newModeString = searchParams.get(GLOBAL_VARS.MODE_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_EVENT_KEY;

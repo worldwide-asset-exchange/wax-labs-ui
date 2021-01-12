@@ -21,15 +21,15 @@ import ProfileIcon from '../icons/ProfileIcon';
 import MyProposalsIcon from '../icons/MyProposalsIcon';
 import DeliverablesToReviewIcon from '../icons/DeliverablesToReviewIcon';
 
-import './AccountPortal.scss';
+import './Portal.scss';
 
-export default function RenderAccountPortal (props) {
+export default function Renderportal (props) {
 
     const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_TAB_KEY);
     const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_EVENT_KEY);
-    
+
     const [accountName, setAccountName] = useState(null);
-    
+
     let [searchParams, ] = useSearchParams();
 
     let location = useLocation();
@@ -48,10 +48,10 @@ export default function RenderAccountPortal (props) {
     useEffect(()=>{
         let newTabString = searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_TAB_KEY;
         let newModeString = searchParams.get(GLOBAL_VARS.MODE_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_EVENT_KEY;
-        
+
         setTabString({value: newTabString, skipUpdateQS: true});
-        setModeString({value: newModeString, skipUpdateQS: true});        
-       
+        setModeString({value: newModeString, skipUpdateQS: true});
+
         //eslint-disable-next-line
     }, [location]);
 
@@ -110,35 +110,35 @@ export default function RenderAccountPortal (props) {
     }
 
     return (
-        <div className="accountPortal">
+        <div className="portal">
             <RenderAlerts
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
             <Tab.Container activeKey={tabString} id="account-portal" onSelect={(key)=>setTabString(key)}>
-                <Nav className="accountPortal__tabs">
+                <Nav className="portal__tabs">
                     <Nav.Link
                         eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}
-                        className="accountPortal__tab"
-                        activeClassName="accountPortal__tab--active"
+                        className="portal__tab"
+                        activeClassName="portal__tab--active"
                     >
                         <BalanceIcon/>
-                        <span className="accountPortal__tabTitle">Balance</span>
+                        <span className="portal__tabTitle">Balance</span>
                     </Nav.Link>
-                    <Nav.Link eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                    <Nav.Link eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} className="portal__tab" activeClassName="portal__tab--active">
                         <ProfileIcon/>
-                        <span className="accountPortal__tabTitle">Profile</span>
+                        <span className="portal__tabTitle">Profile</span>
                     </Nav.Link>
-                    <Nav.Link eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                    <Nav.Link eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} className="portal__tab" activeClassName="portal__tab--active">
                         <MyProposalsIcon/>
-                        <span className="accountPortal__tabTitle">My proposals</span>
+                        <span className="portal__tabTitle">My proposals</span>
                     </Nav.Link>
-                    <Nav.Link eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                    <Nav.Link eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} className="portal__tab" activeClassName="portal__tab--active">
                         <DeliverablesToReviewIcon/>
-                        <span className="accountPortal__tabTitle">Deliverables to review</span>
+                        <span className="portal__tabTitle">Deliverables to review</span>
                     </Nav.Link>
                 </Nav>
-                <Tab.Content className="accountPortal__content">
+                <Tab.Content className="portal__content">
                     <Tab.Pane eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}>
                         <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
                     </Tab.Pane>

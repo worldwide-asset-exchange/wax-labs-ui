@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {useSearchParams, useLocation} from 'react-router-dom';
 
 import {Tab, Nav} from 'react-bootstrap';
 
@@ -24,11 +25,14 @@ import './AccountPortal.scss';
 
 export default function RenderAccountPortal (props) {
 
-    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_TAB_KEY);
-    const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
-
+    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_TAB_KEY);
+    const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_EVENT_KEY);
+    
     const [accountName, setAccountName] = useState(null);
+    
+    let [searchParams, ] = useSearchParams();
 
+    let location = useLocation();
 
     const [userProfile, setUserProfile] = useState(null);
     const [queryingUserProfile, setQueryingUserProfile] = useState(true);
@@ -40,6 +44,18 @@ export default function RenderAccountPortal (props) {
     function updateModeString (string) {
         setModeString(string);
     }
+
+    // console.log(location);
+    useEffect(()=>{
+        let newTabString = searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_TAB_KEY;
+        let newModeString = searchParams.get(GLOBAL_VARS.MODE_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_EVENT_KEY;
+        
+        setTabString({value: newTabString, skipUpdateQS: true});
+        setModeString({value: newModeString, skipUpdateQS: true});        
+       
+        //eslint-disable-next-line
+    }, [location]);
+
 
     useEffect(()=>{
 

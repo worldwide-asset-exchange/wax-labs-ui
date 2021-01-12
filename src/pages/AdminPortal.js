@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {useNavigate, useSearchParams, useLocation} from 'react-router-dom';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -16,12 +16,23 @@ import RenderTransferAdminRoleTab from '../partials/AdminPortal/TransferAdminRol
 
 
 export default function RenderAdminPortal(props){
-    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSALS_TO_REVIEW_TAB_KEY);
-    
+    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_ADMIN_TAB_KEY);
+    let [searchParams, ] = useSearchParams();
+    let location = useLocation();
+
     const [alertList, setAlertList] = useState([]);
 
     const navigate = useNavigate();
 
+    console.log(tabString);
+    useEffect(()=>{
+        
+        let newTabString = searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_ADMIN_TAB_KEY;
+        
+        setTabString({value: newTabString, skipUpdateQS: true});   
+        
+        //eslint-disable-next-line
+    }, [location])
     function showAlert(alertObj){
         // Make a copy.
         let alerts = alertList.slice(0);
@@ -53,11 +64,10 @@ export default function RenderAdminPortal(props){
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
-            <Tabs defaultActiveKey={tabString} id="admin-portal">
+            <Tabs activeKey={tabString} id="admin-portal" onSelect={(k)=>setTabString(k)}>
                 <Tab 
                     eventKey={GLOBAL_VARS.PROPOSALS_TO_REVIEW_TAB_KEY} 
-                    title="Proposals to review" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.PROPOSALS_TO_REVIEW_TAB_KEY)}
+                    title="Proposals to review"                     
                 >
                     <RenderProposalsToReviewTab
                         activeUser={props.activeUser}
@@ -67,7 +77,6 @@ export default function RenderAdminPortal(props){
                 <Tab 
                     eventKey={GLOBAL_VARS.CATEGORIES_TAB_KEY} 
                     title="Manage categories" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.CATEGORIES_TAB_KEY)}
                 >
                     <RenderManageCategoriesTab
                         activeUser={props.activeUser}
@@ -81,7 +90,6 @@ export default function RenderAdminPortal(props){
                 <Tab 
                     eventKey={GLOBAL_VARS.SET_VOTING_TAB_KEY} 
                     title="Set voting period" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.SET_VOTING_TAB_KEY)}
                 >
                     <RenderSetVotingPeriodTab
                         activeUser={props.activeUser}
@@ -95,7 +103,6 @@ export default function RenderAdminPortal(props){
                 <Tab 
                     eventKey={GLOBAL_VARS.REMOVE_PROFILE_TAB_KEY} 
                     title="Remove profiles" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.REMOVE_PROFILE_TAB_KEY)}
                 >
                     <RenderRemoveProfilesTab
                         activeUser={props.activeUser}
@@ -105,7 +112,6 @@ export default function RenderAdminPortal(props){
                 <Tab 
                     eventKey={GLOBAL_VARS.TRANSFER_ADMIN_ROLE_TAB_KEY} 
                     title="Transfer admin role" 
-                    onEnter={()=>setTabString(GLOBAL_VARS.TRANSFER_ADMIN_ROLE_TAB_KEY)}
                 >
                     <RenderTransferAdminRoleTab
                         activeUser={props.activeUser}

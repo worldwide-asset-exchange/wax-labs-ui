@@ -33,10 +33,6 @@ export default function RenderGenericProposals(props) {
     
     let location = useLocation();
 
-    //If our code made changes to any of the query strings,
-    //
-    const [queryStringChanged, setQueryStringChanged] = useState(false);
-
     // Hooks regarding filtering of the query. Automatically update query string
     // on set.
     const [categoriesList, setCategoriesList] = useQueryString(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY, []);
@@ -175,18 +171,11 @@ export default function RenderGenericProposals(props) {
     }, [props.queryArgs]);
 
 
-    function updateStatusList (newList){
-        if(!queryStringChanged){
-            setQueryStringChanged(true);
-        }
-        
+    function updateStatusList (newList){        
         setStatusList(newList);
     }
 
     function updateCategoriesList (newList){
-        if(!queryStringChanged){
-            setQueryStringChanged(true);
-        }
         setCategoriesList(newList);
     }
 
@@ -202,9 +191,6 @@ export default function RenderGenericProposals(props) {
                         onChange={
                             (event) => {
                                 setFilterString(event.target.value);
-                                if(!queryStringChanged){
-                                    setQueryStringChanged(true);
-                                }
                             }
                         }
                         placeholder="Proposal's title, description or proposer"
@@ -282,7 +268,6 @@ export default function RenderGenericProposals(props) {
                     <RenderLoadingPage/>
                     :
                     <RenderProposalList
-                        filterChanged = {queryStringChanged}
                         proposalsList = {filteredProposals}
                         categories = {props.categories}
                         noProposalsMessage={props.noProposalsMessage}

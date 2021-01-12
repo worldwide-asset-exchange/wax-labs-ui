@@ -8,9 +8,10 @@ import RenderLoadingPage from '../LoadingPage';
 import RenderEditProfile from '../Profile/CRUD/EditProfile';
 import RenderCreateProfile from '../Profile/CRUD/CreateProfile';
 
+import './ProfileTab.scss';
+
 
 export default function RenderProfileTab(props) {
-   
 
     function createRemoveProfileAction () {
         let activeUser = props.activeUser;
@@ -49,9 +50,9 @@ export default function RenderProfileTab(props) {
                 details: e.message
             }
             props.showAlert(alertObj);
-        }   
+        }
     }
-    
+
     if(props.queryingUserProfile){
         return (
             <RenderLoadingPage/>
@@ -60,25 +61,27 @@ export default function RenderProfileTab(props) {
 
     if(props.modeString === GLOBAL_VARS.DISPLAY_EVENT_KEY){
         return (
-            <div style={{color: "white"}}>
+            <div className="profileTab">
                 <RenderProfileDisplay profile={props.userProfile} notFoundMessage="Your profile hasn't been created yet." />
                 {
-                    props.userProfile 
-                    ?   
-                        <div>
-                            <button 
-                                className="btn"
+                    props.userProfile
+                    ?
+                        <div className="profileTab__actions">
+                            <button
+                                className="button button--text"
+                                onClick={removeProfile}
+                            >
+                                Remove profile
+                            </button>
+                            <button
+                                className="button button--secondary"
                                 onClick={()=>{props.updateModeString(GLOBAL_VARS.EDIT_EVENT_KEY)}
                             }>
                                 Edit profile
                             </button>
-                            <button
-                                className="btn"
-                                onClick={removeProfile}
-                            > Remove profile</button>
                         </div>
-                    :   <button 
-                            className="btn"
+                    :   <button
+                            className="button button--primary"
                             onClick={()=>{props.updateModeString(GLOBAL_VARS.CREATE_EVENT_KEY)}
                         }>
                             Create profile
@@ -88,40 +91,27 @@ export default function RenderProfileTab(props) {
         )
     } else if (props.modeString === GLOBAL_VARS.CREATE_EVENT_KEY){
         return (
-            <div>
-                <RenderCreateProfile 
-                    activeUser={props.activeUser} 
-                    showAlert={props.showAlert} 
+            <div className="profileTab">
+                <RenderCreateProfile
+                    activeUser={props.activeUser}
+                    showAlert={props.showAlert}
                     profileName={props.nameToQuery}
                     rerunProfileQuery={props.rerunProfileQuery}
+                    updateModeString={props.updateModeString}
                 />
-                <button 
-                    className="btn"
-                    onClick={()=>{props.updateModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY)}
-                }>
-                    View profile
-                </button>
             </div>
         )
     } else if (props.modeString === GLOBAL_VARS.EDIT_EVENT_KEY) {
         return (
-            <div>
-                <RenderEditProfile 
-                    profile={props.userProfile} 
+            <div className="profileTab">
+                <RenderEditProfile
+                    profile={props.userProfile}
                     activeUser={props.activeUser}
                     rerunProfileQuery={props.rerunProfileQuery}
                     showAlert={props.showAlert}
+                    updateModeString={props.updateModeString}
+                    removeProfile={removeProfile}
                 />
-                <button 
-                    className="btn"
-                    onClick={()=>{props.updateModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY)}
-                }>
-                    View profile
-                </button>
-                <button
-                    className="btn"
-                    onClick={removeProfile}
-                > Remove profile</button>
             </div>
         )
     }

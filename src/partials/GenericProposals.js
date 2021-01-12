@@ -40,7 +40,7 @@ export default function RenderGenericProposals(props) {
     // Hooks regarding ordering of the list. Automatically update query string on set.
     const [orderByString, setOrderByString] = useQueryString(GLOBAL_VARS.ORDER_BY_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST[0]);
 
-    
+
     function filterByStatus(proposal){
         if(!statusList){
             return true;
@@ -167,7 +167,6 @@ export default function RenderGenericProposals(props) {
 
     return (
         <div className="genericProposals">
-            <h2>Proposals</h2>
             <h4>{props.subtitle}</h4>
             <div className="genericProposals__filters">
                 <div className="genericProposals__search">

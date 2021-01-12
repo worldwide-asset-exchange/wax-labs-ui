@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import {Tab, Nav} from 'react-bootstrap';
 
-import useQueryString from '../utils/useQueryString'; 
+import useQueryString from '../utils/useQueryString';
 import * as GLOBAL_VARS from '../utils/vars';
 
 import RenderBalanceTab from '../partials/AccountPortal/BalanceTab';
@@ -12,21 +12,27 @@ import RenderUserProposalsTab from '../partials/AccountPortal/UserProposalsTab';
 import RenderDeliverablesToReviewTab from '../partials/AccountPortal/DeliverablesToReviewTab';
 import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
 
-
 import { sleep } from '../utils/util';
 import RenderLoadingPage from '../partials/LoadingPage';
+
+import BalanceIcon from '../icons/BalanceIcon';
+import ProfileIcon from '../icons/ProfileIcon';
+import MyProposalsIcon from '../icons/MyProposalsIcon';
+import DeliverablesToReviewIcon from '../icons/DeliverablesToReviewIcon';
+
+import './AccountPortal.scss';
 
 export default function RenderAccountPortal (props) {
 
     const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.BALANCE_TAB_KEY);
     const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DISPLAY_EVENT_KEY);
-    
+
     const [accountName, setAccountName] = useState(null);
-      
+
 
     const [userProfile, setUserProfile] = useState(null);
     const [queryingUserProfile, setQueryingUserProfile] = useState(true);
-    
+
     const [queryCount, setQueryCount] = useState(0);
 
     const [alertList, setAlertList] = useState([]);
@@ -36,9 +42,9 @@ export default function RenderAccountPortal (props) {
     }
 
     useEffect(()=>{
-        
+
         let cancelled = false;
-        
+
         if(accountName){
             setQueryingUserProfile(true);
             getProfileData(accountName).then(profileData => {
@@ -48,7 +54,7 @@ export default function RenderAccountPortal (props) {
                 }
             })
         }
-        
+
         const cleanup = () => {cancelled = true};
         return cleanup;
     }, [accountName, queryCount]);
@@ -94,39 +100,30 @@ export default function RenderAccountPortal (props) {
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
-
             <Tab.Container activeKey={tabString} id="account-portal" onSelect={(key)=>setTabString(key)}>
                 <Nav className="accountPortal__tabs">
-                    <Nav.Item>
-                        <Nav.Link 
-                            eventKey={GLOBAL_VARS.BALANCE_TAB_KEY} 
-                            className="accountPortal__tab" 
-                            activeClassName="accountPortal__tab--active"
-
-                        >                            
-                            <span className="accountPortal__tabTitle">Balance</span>
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
-                            
-                            <span className="accountPortal__tabTitle">Profile</span>
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
-                            
-                            <span className="accountPortal__tabTitle">My proposals</span>
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
-                            
-                            <span className="accountPortal__tabTitle">Deliverables to review</span>
-                        </Nav.Link>
-                    </Nav.Item>
+                    <Nav.Link
+                        eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}
+                        className="accountPortal__tab"
+                        activeClassName="accountPortal__tab--active"
+                    >
+                        <BalanceIcon/>
+                        <span className="accountPortal__tabTitle">Balance</span>
+                    </Nav.Link>
+                    <Nav.Link eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                        <ProfileIcon/>
+                        <span className="accountPortal__tabTitle">Profile</span>
+                    </Nav.Link>
+                    <Nav.Link eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                        <MyProposalsIcon/>
+                        <span className="accountPortal__tabTitle">My proposals</span>
+                    </Nav.Link>
+                    <Nav.Link eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} className="accountPortal__tab" activeClassName="accountPortal__tab--active">
+                        <DeliverablesToReviewIcon/>
+                        <span className="accountPortal__tabTitle">Deliverables to review</span>
+                    </Nav.Link>
                 </Nav>
-                <Tab.Content>
+                <Tab.Content className="accountPortal__content">
                     <Tab.Pane eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}>
                         <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
                     </Tab.Pane>
@@ -166,7 +163,7 @@ export default function RenderAccountPortal (props) {
                         />
                     </Tab.Pane>
                 </Tab.Content>
-            </Tab.Container>        
+            </Tab.Container>
         </div>
     )
 }

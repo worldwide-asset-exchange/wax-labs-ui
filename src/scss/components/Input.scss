@@ -24,11 +24,24 @@
 
 .input {
     @include user-input;
+
+    &--error {
+        border-color: $red-medium;
+    }
+}
+
+.input__errorMessage {
+    @include p--bold;
+    color: $red-light;
 }
 
 .textarea {
     @include user-input;
     min-height: 150px;
+
+    &--error {
+        border-color: $red-medium;
+    }
 }
 
 .input__label {

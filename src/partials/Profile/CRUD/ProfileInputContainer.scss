@@ -1,0 +1,9 @@
+@import '../../../scss/variables';
+
+@import '../../../scss/components/Input';
+
+.profileInputContainer {
+    &__input {
+        margin: $spacing-s 0;
+    }
+}

@@ -4,6 +4,8 @@ import RenderProfileInputContainer from './ProfileInputContainer';
 import * as GLOBAL_VARS from '../../../utils/vars';
 import * as ALERT_GLOBALS from '../../../utils/alerts';
 
+import './CreateProfile.scss';
+
 export default function RenderCreateProfile(props) {
     const [editableProfile, setEditableProfile] = useState(null);
 
@@ -41,7 +43,7 @@ export default function RenderCreateProfile(props) {
             setShowValidatorMessages(true);
             return;
         }
-        
+
         try {
             await activeUser.signTransaction(
                 {
@@ -60,17 +62,25 @@ export default function RenderCreateProfile(props) {
                 details: e.message
             }
             props.showAlert(alertObj);
-        }   
+        }
     }
 
     return (
-        <div>
-            <RenderProfileInputContainer 
+        <div className="createProfile">
+            <RenderProfileInputContainer
                 updateValidatorData={updateValidatorData}
                 updateEditableProfile={updateEditableProfile}
                 showValidatorMessages={showValidatorMessages}
             />
-            <button className="btn" onClick={()=>createProfile()}>Create profile</button>
+            <div className="createProfile__actions">
+                <button
+                    className="button button--secondary"
+                    onClick={()=>{props.updateModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY)}
+                }>
+                    View profile
+                </button>
+                <button className="button button--primary" onClick={()=>createProfile()}>Create profile</button>
+            </div>
         </div>
     )
 }

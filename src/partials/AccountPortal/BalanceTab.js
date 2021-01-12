@@ -5,6 +5,7 @@ import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import {requestedAmountToFloat, sleep} from '../../utils/util';
 
+import './BalanceTab.scss';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -17,8 +18,6 @@ export default function RenderBalanceTab(props) {
     const [withdrawAmount, setWithdrawAmount] = useState("");
     const [donateAmount, setDonateAmount] = useState("");
 
-   
-    
     function createWithdrawAction(quantity) {
         let activeUser = props.activeUser
         return {
@@ -101,11 +100,13 @@ export default function RenderBalanceTab(props) {
         }
 
     }
+
     async function rerunAccountQuery(){
         setQueryingBalance(true);
         await sleep(3000);
         setAccountQueryCount(accountQueryCount + 1);
     }
+
     useEffect(()=>{
         let cancelled = false;
         async function getAccountInfo() {
@@ -120,12 +121,12 @@ export default function RenderBalanceTab(props) {
                 });
                 if(!cancelled){
                     if(resp.rows.length) {
-                        setBalance(requestedAmountToFloat(resp.rows[0].balance));                        
+                        setBalance(requestedAmountToFloat(resp.rows[0].balance));
                     } else {
                         setBalance(0);
                     }
                     setQueryingBalance(false);
-                }                
+                }
             } catch (e){
                 console.log(e);
             }
@@ -139,56 +140,67 @@ export default function RenderBalanceTab(props) {
     }, [props.activeUser, accountQueryCount]);
 
     return (
-        <div style={{color:"white"}}>            
-            <div>
-                Your balance in the labs smart contract is
+        <div className="balanceTab">
+            <div className="balanceTab__balanceInformation">
+                <p>Your balance in the labs smart contract is</p>
                 <h1>
-                    { queryingBalance 
-                    ?   
+                    { queryingBalance
+                    ?
                         "Loading..."
                     :   balance + " WAX"}
                 </h1>
             </div>
-            <div>
-                Withdraw balance
-                <input
-                    type="number" 
-                    value={withdrawAmount}
-                    onChange={
-                        (e)=>{
-                            setWithdrawAmount(e.target.value);
-                        }
-                    }
-                />
-                <button
-                    className="btn"
-                    onClick={()=>withdrawFunds()}
-                >
-                    Withdraw                
-                </button>
+            <div className="balanceTab__withdraw">
+                <h4>Withdraw from your balance</h4>
+                <div className="balanceTab__withdrawForm">
+                    <div>
+                        <label className="input__label">Withdrawal amount</label>
+                        <input
+                            type="number"
+                            value={withdrawAmount}
+                            onChange={
+                                (e)=>{
+                                    setWithdrawAmount(e.target.value);
+                                }
+                            }
+                            className="input"
+                        />
+                    </div>
+                    <button
+                        className="button button--secondary"
+                        onClick={()=>withdrawFunds()}
+                    >
+                        Withdraw
+                    </button>
+                </div>
             </div>
 
-            <div>
+            <div className="balanceTab__donate">
                 <h3>Help the community to grow.</h3>
-                <h4>Donate to help fund projects approved by the community.</h4>
-                <label>Donate to WAX Labs</label>
-                <input
-                    type="number" 
-                    value={donateAmount}
-                    onChange={
-                        (e)=>{
-                            setDonateAmount(e.target.value);
-                        }
-                    }
-                />
-                <button
-                    className="btn"
-                    onClick={()=>donateFunds()}
-                >
-                    Donate                
-                </button>
+                <p>Donate to help fund projects approved by the community.</p>
+                <div className="balanceTab__donateForm">
+                    <div>
+                        <label className="input__label">Donate to WAX Labs</label>
+                        <input
+                            type="number"
+                            value={donateAmount}
+                            onChange={
+                                (e)=>{
+                                    setDonateAmount(e.target.value);
+                                }
+                            }
+                            className="input"
+                        />
+                    </div>
+                    <button
+                        className="button button--secondary"
+                        onClick={()=>donateFunds()}
+                    >
+                        Donate
+                    </button>
+                </div>
             </div>
-            
+
         </div>
     );
 }

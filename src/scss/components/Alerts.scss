@@ -3,7 +3,7 @@
 
 .alert {
     border: none;
-    margin-top: $spacing-m;
+    margin-top: $spacing-l;
     .alert-heading {
         @include h3;
     }
@@ -21,6 +21,14 @@
         .close span,
         .alert-heading {
             color: #442228;
+        }
+    }
+    .alert-warning {
+        background-color: #F0D376;
+        p,
+        .close span,
+        .alert-heading {
+            color: #2C2614;
         }
     }
 }

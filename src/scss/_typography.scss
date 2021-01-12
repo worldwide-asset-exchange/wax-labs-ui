@@ -8,12 +8,38 @@ $baseFontSize: 16px;
   @return #{$remSize}rem;
 }
 
+@font-face {
+    font-family: "Open Sans";
+    src: url("./../fonts/OpenSans-Bold.ttf") format("ttf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: "Open Sans";
+    src: url("./../fonts/OpenSans-Regular.ttf") format("ttf");
+    font-weight: 400;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("./../fonts/Montserrat-ExtraBold.ttf") format("ttf");
+    font-weight: 800;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("./../fonts/Montserrat-Bold.ttf") format("ttf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("./../fonts/Montserrat-SemiBold.ttf") format("ttf");
+    font-weight: 600;
+}
+
 @mixin headline-font-face {
-    font-face: 'Montserrat', 'Roboto', 'sans-serif';
+    font-family: 'Montserrat', 'Roboto', 'sans-serif';
     color: $typography-01;
 }
 @mixin body-font-face {
-    font-face: 'Open Sans', 'Roboto', 'sans-serif';
+    font-family: 'Open Sans', 'Roboto', 'sans-serif';
     color: $typography-02;
 }
 
@@ -68,12 +94,13 @@ $baseFontSize: 16px;
 
 @mixin p--bold {
     @include p;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 @mixin p--tiny {
     @include p;
     color: $typography-tiny;
+    font-weight: 700;
     font-size: pxToRem(14px);
 }
 

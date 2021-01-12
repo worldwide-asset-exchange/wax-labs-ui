@@ -4,10 +4,12 @@ import RenderProfileInputContainer from './ProfileInputContainer';
 import * as GLOBAL_VARS from '../../../utils/vars';
 import * as ALERT_GLOBALS from '../../../utils/alerts';
 
+import './EditProfile.scss';
+
 export default function RenderEditProfile(props) {
 
     const [editableProfile, setEditableProfile] = useState(null);
-    
+
     const [dataValid, setDataValid] = useState(false);
     const [showValidatorMessages, setShowValidatorMessages] = useState(false);
 
@@ -30,7 +32,7 @@ export default function RenderEditProfile(props) {
             setShowValidatorMessages(true);
             return;
         }
-        
+
 
         try {
             await activeUser.signTransaction(
@@ -50,7 +52,7 @@ export default function RenderEditProfile(props) {
                 details: e.message
             }
             props.showAlert(alertObj);
-        }   
+        }
 
 
     }
@@ -71,7 +73,7 @@ export default function RenderEditProfile(props) {
     }
 
     return (
-        <div>
+        <div className="editProfile">
             <RenderProfileInputContainer
                 showValidatorMessages={showValidatorMessages}
                 updateValidatorData={updateValidatorData}
@@ -79,8 +81,24 @@ export default function RenderEditProfile(props) {
                 updateEditableProfile={updateEditableProfile}
                 editMode={true}
             />
-            <button className="btn" onClick={()=>{editProfile()}}>Update profile</button>
-        </div>
+            <div className="editProfile__actions">
+                <button
+                    className="button button--text"
+                    onClick={()=>{props.updateModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY)}
+                }>
+                    View profile
+                </button>
+                <button
+                    className="button button--text"
+                    onClick={props.removeProfile}
+                >
+                    Remove profile
+                </button>
+                <button className="button button--primary" onClick={()=>{editProfile()}}>
+                    Update profile
+                </button>
+            </div>
+</div>
     )
 
 

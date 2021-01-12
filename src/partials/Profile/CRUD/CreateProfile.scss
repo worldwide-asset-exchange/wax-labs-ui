@@ -1,0 +1,19 @@
+@import '../../../scss/variables';
+@import '../../../scss/responsiveness';
+
+@import '../../../scss/components/Input';
+@import '../../../scss/components/Button';
+
+.createProfile {
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+
+        justify-content: center;
+        align-items: center;
+
+        .button {
+            margin: $spacing-xs;
+        }
+    }
+}

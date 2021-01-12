@@ -1,0 +1,49 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/typography';
+@import '../../scss/layout';
+
+@import '../../scss/components/Input';
+@import '../../scss/components/Button';
+
+.balanceTab {
+    @include mainPadding;
+    @include minPageHeight;
+    &__balanceInformation {
+        p {
+            margin-bottom: 4px;
+        }
+    }
+    &__withdraw,
+    &__donate {
+        margin: $spacing-xl 0;
+        h3 {
+            color: $typography-02;
+            margin-bottom: 4px;
+        }
+        h4 {
+            color: $typography-02;
+        }
+    }
+
+    &__withdrawForm,
+    &__donateForm {
+        display: flex;
+        flex-direction: column;
+
+        .button {
+            margin-top: $spacing-s;
+            align-self: flex-end;
+        }
+
+        @include breakpoint(large-mobile-up) {
+            flex-direction: row;
+            align-items: center;
+
+            .button {
+                margin: 0 0 0 $spacing-l;
+            }
+        }
+    }
+
+}

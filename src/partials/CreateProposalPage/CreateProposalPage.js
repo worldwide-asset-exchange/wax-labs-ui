@@ -8,6 +8,7 @@ import * as GLOBAL_ALERTS from '../../utils/alerts';
 import {requestedAmountToFloat} from "../../utils/util";
 
 import RenderAlerts from '../Alerts/Alerts';
+import './CreateProposalPage.scss';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -123,32 +124,31 @@ export default function RenderCreateProposalPage(props){
 
     if(!props.activeUser){
         return (
-            <div>
-                Login to create a proposal.
+            <div className="createProposal">
+                <h1>Sign in to create a proposal.</h1>
             </div>
         )
     }
 
     if(transactionId){
         return (
-            <div>
-                <div>
-                    Proposal created successfully
-                </div>
-                Transaction link:
-                <a href={`https://wax${props.activeUser.chainId === GLOBAL_VARS.TESTNET_CHAIN_ID ? "-test" : ""}.bloks.io/transaction/${transactionId}`}>{transactionId.slice(0,8)}</a>
+            <div className="createProposal">
+                <h1> Proposal created successfully </h1>
+                <p>
+                    Transaction link <a className="inlineLink" target="__blank" href={`https://wax${props.activeUser.chainId === GLOBAL_VARS.TESTNET_CHAIN_ID ? "-test" : ""}.bloks.io/transaction/${transactionId}`}>{transactionId.slice(0,8)}</a>
+                </p>
             </div>
         )
     }
 
     return (
-        <div className="create-proposal">
-            <RenderAlerts 
+        <div className="createProposal">
+            <RenderAlerts
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
             <RenderProposalInputContainer
-                hideTotalRequested={true} 
+                hideTotalRequested={true}
                 categories={props.categories}
                 //Necessary to be >= 1000 so validator won't say it is invalid
                 totalRequestedFunds={GLOBAL_VARS.PROPOSAL_MIN_REQUESTED}
@@ -157,8 +157,8 @@ export default function RenderCreateProposalPage(props){
                 showValidatorMessages={showValidatorMessages}
                 updateValidatorData={updateAllValid}
             />
-            <button className='btn' onClick={createProposal}>Create Proposal</button>
+            <button className='button button--primary' onClick={createProposal}>Create Proposal</button>
         </div>
-        
+
     )
 }

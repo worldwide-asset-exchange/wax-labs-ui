@@ -31,4 +31,8 @@ select {
         @include p;
         color: $gray-dark;
     }
+
+    &--error {
+        border-color: $red-medium;
+    }
 }

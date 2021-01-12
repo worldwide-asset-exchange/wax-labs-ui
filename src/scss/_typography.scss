@@ -98,7 +98,7 @@ $baseFontSize: 16px;
 }
 
 @mixin p--tiny {
-    @include p;
+    @include body-font-face();
     color: $typography-tiny;
     font-weight: 700;
     font-size: pxToRem(14px);

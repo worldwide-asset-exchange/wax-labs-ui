@@ -1,0 +1,23 @@
+@import '../../scss/variables';
+
+.proposalInputContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+
+    &__fieldset {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        margin-bottom: $spacing-xs;
+    }
+    &__charAmount {
+        color: $typography-02;
+        &--error {
+            color: $red-light;
+        }
+    }
+
+}

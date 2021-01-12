@@ -43,22 +43,7 @@ export default function RenderGenericProposals(props) {
     const [orderByString, setOrderByString] = useQueryString(GLOBAL_VARS.ORDER_BY_QUERY_STRING_KEY, GLOBAL_VARS.PROPOSAL_ORDER_BY_LIST[0]);
 
 
-    useEffect(()=>{
-        let newStatusList = getQueryStringValue(GLOBAL_VARS.STATUS_QUERY_STRING_KEY) ||  [] ;
-        setStatusList({value: newStatusList, skipUpdateQS: true});
-        
-        let newCategoriesList = getQueryStringValue(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY) || [];
 
-        setCategoriesList({value: newCategoriesList, skipUpdateQS: true});
-
-        let filterString = getQueryStringValue(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY) || "";
-
-        setFilterString({value: filterString, skipUpdateQS: true});
-
-        //eslint-disable-next-line
-    }, [location]);
-
-    console.log((statusList));
     function filterByStatus(proposal){
         if(!statusList){
             return true;
@@ -94,16 +79,6 @@ export default function RenderGenericProposals(props) {
         }
     }
 
-    useEffect(()=>{
-        let newFilteredProposals = []
-        newFilteredProposals = proposals.slice(0).filter(filterByCategories)
-        newFilteredProposals = newFilteredProposals.filter(filterByStatus)
-        newFilteredProposals = newFilteredProposals.filter(filterByName)
-        newFilteredProposals.sort(proposalComparison);
-        setFilteredProposals(newFilteredProposals);
-        //eslint-disable-next-line
-    },[categoriesList, proposals, filterString, orderByString, statusList]);
-
     function proposalComparison(proposalA, proposalB) {
         let [field, mode] = orderByString.split(GLOBAL_VARS.SEPARATOR_ORDER_BY)
         if(field === GLOBAL_VARS.REQUESTED_ORDER_BY_FIELD){
@@ -130,6 +105,41 @@ export default function RenderGenericProposals(props) {
             }
         }
     }
+
+    function updateStatusList (newList){        
+        setStatusList(newList);
+    }
+
+    function updateCategoriesList (newList){
+        setCategoriesList(newList);
+    }
+
+    useEffect(()=>{
+        let newFilteredProposals = []
+        newFilteredProposals = proposals.slice(0).filter(filterByCategories)
+        newFilteredProposals = newFilteredProposals.filter(filterByStatus)
+        newFilteredProposals = newFilteredProposals.filter(filterByName)
+        newFilteredProposals.sort(proposalComparison);
+        setFilteredProposals(newFilteredProposals);
+        //eslint-disable-next-line
+    },[categoriesList, proposals, filterString, orderByString, statusList]);
+
+    useEffect(()=>{
+        let newStatusList = getQueryStringValue(GLOBAL_VARS.STATUS_QUERY_STRING_KEY) ||  [] ;
+        setStatusList({value: newStatusList, skipUpdateQS: true});
+        
+        let newCategoriesList = getQueryStringValue(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY) || [];
+
+        setCategoriesList({value: newCategoriesList, skipUpdateQS: true});
+
+        let filterString = getQueryStringValue(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY) || "";
+
+        setFilterString({value: filterString, skipUpdateQS: true});
+
+        //eslint-disable-next-line
+    }, [location]);
+
+   
 
     useEffect(() => {
         let cancelled = false
@@ -171,13 +181,6 @@ export default function RenderGenericProposals(props) {
     }, [props.queryArgs]);
 
 
-    function updateStatusList (newList){        
-        setStatusList(newList);
-    }
-
-    function updateCategoriesList (newList){
-        setCategoriesList(newList);
-    }
 
     return (
         <div className="genericProposals">

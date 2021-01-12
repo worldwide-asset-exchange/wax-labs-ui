@@ -101,17 +101,20 @@ export const PAGE_QUERY_STRING_KEY = 'page'
 export const DISPLAY_EVENT_KEY = 'display'
 export const EDIT_EVENT_KEY = 'edit'
 export const CREATE_EVENT_KEY = 'create'
+export const DEFAULT_EVENT_KEY = DISPLAY_EVENT_KEY
 
 export const BALANCE_TAB_KEY = 'balance'
 export const PROFILE_TAB_KEY = 'profile'
 export const MY_PROPOSALS_TAB_KEY = 'proposals'
 export const DELIVERABLES_TO_REVIEW_TAB_KEY = 'review'
+export const DEFAULT_TAB_KEY = BALANCE_TAB_KEY
 
 export const PROPOSALS_TO_REVIEW_TAB_KEY = 'proposals'
 export const CATEGORIES_TAB_KEY = 'categories'
 export const SET_VOTING_TAB_KEY = 'setvoting'
 export const REMOVE_PROFILE_TAB_KEY = 'rmvprofile'
 export const TRANSFER_ADMIN_ROLE_TAB_KEY = 'transferadmin'
+export const DEFAULT_ADMIN_TAB_KEY = PROPOSALS_TO_REVIEW_TAB_KEY
 
 export const REQUESTED_ORDER_BY_FIELD = "requested"
 export const CREATED_ORDER_BY_FIELD = "created"
@@ -177,6 +180,7 @@ export const PROPOSAL_MAX_REQUESTED = 500000
 
 // Links
 export const PROPOSALS_LINK = "/proposals"
+export const PROPOSALS_HEADER_LINk = `${PROPOSALS_LINK}?${PAGE_QUERY_STRING_KEY}=1&${STATUS_QUERY_STRING_KEY}=${VOTING_KEY},${PROPOSAL_INPROGRESS_KEY}` 
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 export const PROPOSALS_IN_VOTING_LINK = `${PROPOSALS_LINK}?${STATUS_QUERY_STRING_KEY}=${VOTING_KEY}`
 

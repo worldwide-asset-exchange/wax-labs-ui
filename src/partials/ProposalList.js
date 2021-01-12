@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
+import {useLocation} from 'react-router-dom';
+import {getQueryStringValue} from '../utils/queryString';
 import ReactPaginate from 'react-paginate';
 import useQueryString from '../utils/useQueryString';
 
 import {useWindowSize} from '../utils/util';
-import * as globals from "../utils/vars";
+import * as GLOBAL_VARS from "../utils/vars";
 import RenderProposalCard from "./ProposalCard.js";
 
 const reactPaginateObject = {
@@ -17,21 +19,17 @@ const perPage = 10;
 
 export default function RenderProposalList(props){
 
-    const [page, setPage] = useQueryString(globals.PAGE_QUERY_STRING_KEY, 1);
-
+    const [page, setPage] = useQueryString(GLOBAL_VARS.PAGE_QUERY_STRING_KEY, 1);
+    let location = useLocation();
 
     const windowSize = useWindowSize();
 
     useEffect(()=>{
-        // Only set to 1 if user changed the filters.
-        // This is needed because when the user loads a queryString
-        // props.proposalsList changes, but we don't want the page to be
-        // set to 1 in that case.
-        if(props.filterChanged){
-            setPage(1);
-        }
+        let newPage = getQueryStringValue(GLOBAL_VARS.PAGE_QUERY_STRING_KEY) ||  1 ;
+
+        setPage({value: newPage, skipUpdateQS: true});
         //eslint-disable-next-line
-    }, [props.proposalsList, props.filterChanged])
+    }, [location])
 
 
     function calculateNumberOfPages() {
@@ -51,14 +49,15 @@ export default function RenderProposalList(props){
         pagesList.push(i);
     }
 
-
-    const indexOfLastAsset = page * perPage;
+    //The min is needed in case the user had a link that points to an unexisting page,
+    // in that case we point him to the last page.
+    const indexOfLastAsset = Math.min((calculateNumberOfPages()), (page)) * perPage;
     const indexOfFirstAsset = indexOfLastAsset - perPage;
 
     let paginatedProperties = props.proposalsList.slice(indexOfFirstAsset, indexOfLastAsset);
 
     let paginateObject = reactPaginateObject[windowSize.breakpoint];
-
+    
     return (
         <React.Fragment>
             {
@@ -68,12 +67,12 @@ export default function RenderProposalList(props){
                 :
                 <p>{props.noProposalsMessage}</p>
             }
-
             <ReactPaginate
                 previousLabel={'<'}
                 nextLabel=">"
                 breakLabel="..."
-                forcePage={page - 1}
+                // In case the page is pointing to a number too big, we point it to the last page.
+                forcePage={Math.min((calculateNumberOfPages() - 1), (page - 1))}
                 pageCount={calculateNumberOfPages()}
                 marginPagesDisplayed={paginateObject.marginPagesDisplayed}
                 pageRangeDisplayed={paginateObject.pageRangeDisplayed}

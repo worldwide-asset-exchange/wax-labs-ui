@@ -69,7 +69,7 @@ export default function RenderLoggedInHeader(props){
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" className="header__toggleButton" />
             <Navbar.Collapse id="responsive-navbar-nav" className="header__collapse">
-                <NavLink to={GLOBAL_VARS.PROPOSALS_LINK} className="header__link" activeClassName="header__link--active">
+                <NavLink to={GLOBAL_VARS.PROPOSALS_HEADER_LINk} className="header__link" activeClassName="header__link--active">
                     <ProposalIcon/>
                     Proposals
                 </NavLink>

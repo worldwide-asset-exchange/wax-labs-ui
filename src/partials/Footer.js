@@ -21,8 +21,8 @@ function RenderFooter(props) {
                     <TelegramIcon/>
                 </a>
             </div>
-            <p className="footer__disclaimer">{`© ${new Date().getFullYear()} WAX, Worldwide Asset eXchange™ All rights reserved`}</p>
-            <img src={builtWithLove} alt="Built with love by EOS Detroit" className="footer__builtWithLove"/>
+            <p className="footer__disclaimer">{`© ${new Date().getFullYear()} WAX, Worldwide Asset eXchange™ All rights reserved.`}</p>
+            <img src={builtWithLove} alt="Built with love by EOS Detroit." className="footer__builtWithLove"/>
         </footer>
     );
 }

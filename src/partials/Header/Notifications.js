@@ -61,7 +61,7 @@ export default function RenderNotifications (props){
                                 )
                             }) :
                             <li className="notifications__notification notifications__notification--none">
-                                <p>You don't have any notification</p>
+                                <p>You don't have any notifications.</p>
                             </li>
                     }
                     </ul>

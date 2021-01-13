@@ -6,14 +6,16 @@ $button-typography-color: #332B1F;
 
 .button {
     @include p--bold;
-    border-radius: 24px;
-    padding: $spacing-xs $spacing-s;
+    border-radius: 30px;
+    padding: 10px $spacing-s; //guarantees height of 44px at least
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
     border: none;
     transition: all 0.2s ease-in-out;
+    @include breakpoint(desktop-up) {
+        padding: $spacing-xxs $spacing-s;
+    }
 
     &:hover {
         text-decoration: none;

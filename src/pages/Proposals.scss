@@ -1,0 +1,6 @@
+@import '../scss/layout';
+@import '../scss/responsiveness';
+
+.proposals {
+    @include mainPadding;
+}

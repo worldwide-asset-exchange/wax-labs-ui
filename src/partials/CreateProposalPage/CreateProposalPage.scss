@@ -1,0 +1,11 @@
+@import '../../scss/layout';
+
+@import '../../scss/components/Link';
+
+.createProposal {
+    @include mainPadding;
+    @include minPageHeight;
+
+    text-align: center;
+
+}

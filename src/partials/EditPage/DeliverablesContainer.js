@@ -66,7 +66,6 @@ export const RenderDeliverablesContainer = (props) => {
         let allValid = true;
         // If any of them is false, all valid will be false
         // because of agregating &&
-        console.log(deliverablesValidation);
         for(var [,value] of Object.entries(deliverablesValidation)){
             allValid = allValid && value;
         }

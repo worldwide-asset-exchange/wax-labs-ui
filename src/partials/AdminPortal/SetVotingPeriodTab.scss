@@ -1,3 +1,28 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/layout';
+
+.setVotingPeriod {
+    @include mainPadding;
+    @include minPageHeight;
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: $spacing-l;
+
+        p {
+            margin-top: $spacing-s;
+        }
+
+        .button {
+            margin-top: $spacing-s;
+            align-self: flex-end;
+        }
+    }
+}
+
 .block-buy-timeleft {
     color: #FFFFFF;
 

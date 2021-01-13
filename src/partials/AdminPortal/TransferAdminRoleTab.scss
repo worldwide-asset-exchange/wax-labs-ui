@@ -1,0 +1,16 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/layout';
+
+.transferAdminRole {
+    @include mainPadding;
+    @include minPageHeight;
+
+    display: flex;
+    flex-direction: column;
+
+    .button {
+        margin-top: $spacing-s;
+        align-self: flex-end;
+    }
+}

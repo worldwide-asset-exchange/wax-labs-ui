@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
-import './SetVotingPeriodTab.css'
 import * as GLOBAL_VARS from '../../utils/vars'
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
 
+import './SetVotingPeriodTab.scss'
 
 function calculateTime (seconds) {
     let timeObj = {days: 0, hours: 0, minutes: 0, seconds: 0};
@@ -91,26 +91,28 @@ export default function RenderSetVotingPeriodTab (props) {
     }
 
     return (
-        <div>
+        <div className="setVotingPeriod">
             {
-                props.queryingVotingPeriod ? 
+                props.queryingVotingPeriod ?
                 <RenderLoadingPage/>
                 :
-                <div>
-
-                    <h2>Current voting period</h2>
-                    {RenderTime(calculateTime(props.votingDuration))}                
+                <div className="setVotingPeriod__section">
+                    <h4>Current voting period</h4>
+                    {RenderTime(calculateTime(props.votingDuration))}
                 </div>
             }
-            <div>
-                <label>New voting period</label>
-                <input value={newVotingPeriod} type="number" onChange={(e)=>setNewVotingPeriod(e.target.value)}></input>
-            </div>
-            <div>
-                <h2>The new voting period will be</h2>
+            <div className="setVotingPeriod__section">
+                <h4>Set new voting period</h4>
+                <label className="input__label">New voting period in seconds</label>
+                <input
+                    value={newVotingPeriod}
+                    type="number"
+                    onChange={(e)=>setNewVotingPeriod(e.target.value)}
+                    className="input"
+                ></input>
+                <p>The new voting period will be</p>
                 {RenderTime(calculateTime(newVotingPeriod))}
-                <button className="btn" onClick={()=>setVotingPeriod()}>Set voting period</button>
-            
+                <button className="button button--primary" onClick={()=>setVotingPeriod()}>Set voting period</button>
             </div>
 
         </div>

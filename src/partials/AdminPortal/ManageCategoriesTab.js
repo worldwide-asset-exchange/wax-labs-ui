@@ -5,11 +5,13 @@ import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
 
+import './ManageCategoriesTab.scss';
+
 export default function RenderManageCategoriesTab(props) {
 
     const [nonDeprecatedCategories, setNonDeprecatedCategories] = useState([]);
     const [newCategory, setNewCategory] = useState([]);
-    
+
     useEffect(()=>{
         let cancelled = false
         if(props.queryingCategories){
@@ -41,7 +43,7 @@ export default function RenderManageCategoriesTab(props) {
             data: {
                 category_name: category,
             }
-        } 
+        }
     }
     function createAddCategoryAction(){
         let activeUser = props.activeUser;
@@ -105,20 +107,24 @@ export default function RenderManageCategoriesTab(props) {
         }
     }
 
-
     return (
-        <div>
-            <div>
-                <p>New category</p>
-                <input value={newCategory} onChange={(event)=>setNewCategory(event.target.value)}/>
-                <button className="btn" onClick={()=>addNewCategory()}>Add new category</button>
+        <div className="manageCategories">
+            <div className="manageCategories__fieldset">
+                <h4>Add a new category</h4>
+                <label className="input__label">New category</label>
+                <input
+                    value={newCategory}
+                    onChange={(event)=>setNewCategory(event.target.value)}
+                    className="input"
+                />
+                <button className="button button--primary" onClick={()=>addNewCategory()}>Add new category</button>
             </div>
             {
-                props.queryingCategories ? 
+                props.queryingCategories ?
                 <RenderLoadingPage/>
                 :
-                <div>
-                    <h2>Current categories</h2>
+                <div className="manageCategories__currentCategories">
+                    <h4>Current categories</h4>
                     {nonDeprecatedCategories.map((category, index) => {
                         return (
                             <div key={category}>

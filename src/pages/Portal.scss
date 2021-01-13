@@ -1,0 +1,91 @@
+@import '../scss/variables';
+@import '../scss/responsiveness';
+@import '../scss/typography';
+
+
+.portal {
+    display: flex;
+    flex-direction: column-reverse;
+
+    @include breakpoint(large-mobile-up) {
+        flex-direction: row;
+    }
+    &__tabs {
+        display: flex;
+        justify-content: space-evenly;
+        background-color: $modal-background-color;
+        border-bottom: 1px solid $overlay-03;
+
+        @include breakpoint(mobile-only){
+            position: sticky;
+            position: -webkit-sticky;
+
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+            width: 100%;
+        }
+
+        @include breakpoint(large-mobile-up) {
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+
+            min-width: 180px;
+        }
+    }
+    &__tab {
+        display: flex;
+        cursor: pointer;
+
+        border: none;
+        outline: none;
+
+        padding: $spacing-s;
+
+        svg path {
+            fill: $typography-02;
+        }
+
+        @include breakpoint(large-mobile-up) {
+            flex-direction: column;
+            align-items: center;
+            padding: $spacing-s $spacing-xs;
+            width: 100%;
+
+            svg {
+                margin-bottom: $spacing-xxs;
+            }
+        }
+        &:hover {
+            background-color: $overlay-02;
+            .accountPortal__tabTitle {
+                color: $typography-01;
+            }
+            svg path{
+                fill: $typography-01;
+            }
+        }
+    }
+    &__tab.active {
+        .accountPortal__tabTitle {
+            color: $typography-01;
+        }
+        svg path{
+            fill: url('#gradient--reverse');
+        }
+    }
+    &__tabTitle {
+        display: none;
+
+        @include breakpoint(large-mobile-up){
+            @include p--bold;
+            display: block;
+            margin-bottom: 0;
+            text-align: center;
+        }
+    }
+    &__content {
+        margin: 0 auto;
+    }
+}

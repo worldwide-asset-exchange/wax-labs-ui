@@ -1,0 +1,7 @@
+@import '../scss/responsiveness';
+@import '../scss/layout';
+
+.loadingPage {
+    @include mainPadding;
+    @include minPageHeight;
+}

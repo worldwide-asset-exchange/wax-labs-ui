@@ -66,6 +66,7 @@ export const RenderDeliverablesContainer = (props) => {
         let allValid = true;
         // If any of them is false, all valid will be false
         // because of agregating &&
+        console.log(deliverablesValidation);
         for(var [,value] of Object.entries(deliverablesValidation)){
             allValid = allValid && value;
         }
@@ -140,11 +141,15 @@ export const RenderDeliverablesContainer = (props) => {
     }
 
     const removeCard = useCallback((index)=>{
+        let copyValidation = {...deliverablesValidation}
+        delete copyValidation[editableDeliverables[index]];
+        setDeliverablesValidation(copyValidation);
         setEditableDeliverables(update(editableDeliverables, {
             $splice: [
                 [index, 1],
             ],
         }));
+        //eslint-disable-next-line
     }, [editableDeliverables]);
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {

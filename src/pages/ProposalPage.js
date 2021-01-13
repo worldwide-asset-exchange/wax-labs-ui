@@ -31,6 +31,7 @@ export default function RenderProposalPage(props){
     const [body, setBody] = useState(null);
     const [proposalDeleted, setProposalDeleted] = useState(false);
     const [queryingProposal, setQueryingProposal] = useState(true);
+    const [errorImage, setErrorImage] = useState(false);
 
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
@@ -54,9 +55,11 @@ export default function RenderProposalPage(props){
         return (
             <div className="proposalPage__content">
                 <img
-                    src={proposal.image_url}
+                    src={errorImage ? GLOBAL_VARS.DEFAULT_PROPOSAL_IMAGE_URL : proposal.image_url}
                     alt="Chosen by the proposer"
-                    className="proposalPage__image"/>
+                    className="proposalPage__image"
+                    onError={()=>setErrorImage(true)}
+                />
                 <div className="proposalPage__row">
                     <div className="proposalPage__column">
                             <h1>{proposal.title}</h1>

@@ -30,7 +30,8 @@ export default function RenderCreateProfile(props) {
                 permission: activeUser.requestPermission,
             }],
             data: {
-                ...editableProfile
+                ...editableProfile,
+                wax_account: activeUser.accountName
             }
         }
     }

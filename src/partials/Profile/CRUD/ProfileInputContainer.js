@@ -56,7 +56,6 @@ export default function RenderProfileInputContainer (props) {
         // eslint-disable-next-line
     }, [editableProfile]);
 
-    const waxAcountErrorMessage = validator.message('wax account', editableProfile.wax_account, `required|max:12`);
     const fullNameErrorMessage = validator.message('full name', editableProfile.full_name, 'required|max:64');
     const countryErrorMessage = validator.message('country', editableProfile.country, 'required|max:64');
     const imageUrlErrorMessage = validator.message('image url', editableProfile.image_url, `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`);
@@ -65,20 +64,7 @@ export default function RenderProfileInputContainer (props) {
     const telegramHandleErrorMessage = validator.message('telegram handle', editableProfile.contact, 'required|max:32');
 
     return (
-        <div className="profileInputContainer">
-            <div className="profileInputContainer__input">
-                <label className="input__label">Wax account</label>
-                <input
-                    className={`${waxAcountErrorMessage ? "input input--error" : "input"}`}
-                    value={editableProfile.wax_account}
-                    name="wax_account"
-                    onChange={handleInputChange}
-                    disabled={props.editMode}
-                />
-                <div className="input__errorMessage">
-                    {waxAcountErrorMessage}
-                </div>
-            </div>
+        <div className="profileInputContainer">            
             <div className="profileInputContainer__input">
                 <label className="input__label">Full name</label>
                 <input

@@ -58,7 +58,22 @@
             flex-direction: row;
             justify-content: space-evenly;
 
-            margin-top: 100px;
+            margin-bottom: $spacing-l;
+        }
+        a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            &:hover {
+                transition: all 0.2s ease-in;
+                text-decoration: none;
+                h2 {
+                    transform: scale(1.1);
+                }
+                h4 {
+                    color: $orange-medium;
+                }
+            }
         }
     }
     &__number {

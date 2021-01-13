@@ -1,0 +1,13 @@
+@import '../scss/variables';
+@import '../scss/responsiveness';
+@import '../scss/layout';
+
+
+.profilePage {
+    @include mainPadding;
+    @include minPageHeight;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

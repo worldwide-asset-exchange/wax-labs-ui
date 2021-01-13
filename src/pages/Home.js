@@ -89,6 +89,30 @@ export default function RenderHome() {
                 <h4>Growing the WAX Blockchain through decentralization and innovation</h4>
                 <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK} className="button button--primary">Vote for the latest proposals</Link>
             </div>
+            <div className="home__numbers">
+                <div className="home__number">
+                    <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK}>
+                        <h2>{queryingVoting ? " loading..." : " " + inVotingProposals.length}</h2>
+                        <h4>In voting</h4>
+                    </Link>
+                </div>
+                <div className="home__number">
+                    <Link to={GLOBAL_VARS.PROPOSALS_IN_PROGRESS_LINK}>
+                        <h2>{queryingInProgress ? " loading..." : " " + inProgressProposals.length}</h2>
+                        <h4>In progress</h4>
+                    </Link>
+                </div>
+                <div className="home__number">
+                    <h2>{queryingConfig ? " loading..." : " " + configData.display_available_funds}</h2>
+                    <h4>Available funds</h4>
+                </div>
+                <div className="home__number">
+                    <Link to={GLOBAL_VARS.PROPOSALS_IN_REVIEW_LINK}>
+                        <h2>{queryingSubmitted ? " loading..." : " " + submittedProposals.length}</h2>
+                        <h4>In review</h4>
+                    </Link>
+                </div>
+            </div>
             {
                 inVotingProposals.length > 0 ?
                     queryingVoting ?
@@ -126,24 +150,7 @@ export default function RenderHome() {
                         :
                         ""
             }
-            <div className="home__numbers">
-                <div className="home__number">
-                    <h2>{queryingVoting ? " loading..." : " " + inVotingProposals.length}</h2>
-                    <h4>In voting</h4>
-                </div>
-                <div className="home__number">
-                    <h2>{queryingInProgress ? " loading..." : " " + inProgressProposals.length}</h2>
-                    <h4>In progress</h4>
-                </div>
-                <div className="home__number">
-                    <h2>{queryingConfig ? " loading..." : " " + configData.display_available_funds}</h2>
-                    <h4>Available funds</h4>
-                </div>
-                <div className="home__number">
-                    <h2>{queryingSubmitted ? " loading..." : " " + submittedProposals.length}</h2>
-                    <h4>In review</h4>
-                </div>
-            </div>
+            
         </div>
     );
 }

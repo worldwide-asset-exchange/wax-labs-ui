@@ -6,6 +6,7 @@ import RenderLoadingPage from '../partials/LoadingPage';
 import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
 import RenderProfileDisplay from '../partials/Profile/ProfileDisplay';
 
+import './ProfilePage.scss'
 
 export default function RenderProfilePage(props){
     const {accountName} = useParams();
@@ -32,24 +33,27 @@ export default function RenderProfilePage(props){
 
     return(
         <div>
-            {
-                queryingUserProfile ?
-                <RenderLoadingPage/>
-                :
-                <RenderProfileDisplay
-                    profile={userProfile}
-                    notFoundMessage={`${accountName} hasn't created a profile yet.`}
-                />            
-            }
-            
-            <RenderUserProposalsTab
-                userToSearch={accountName}
-                subtitle={`${accountName}'s proposals`}
-                categories={props.categories}
-                activeUser={props.activeUser}
-                showCreateButton={false}
-                defaultStatus={[]}
-            />
+            <div className="profilePage">
+                {
+                    queryingUserProfile ?
+                    <RenderLoadingPage/>
+                    :
+                    <RenderProfileDisplay
+                        profile={userProfile}
+                        notFoundMessage={`${accountName} hasn't created a profile yet.`}
+                    />            
+                }                
+            </div>
+            <div>
+                <RenderUserProposalsTab
+                    userToSearch={accountName}
+                    subtitle={`${accountName}'s proposals`}
+                    categories={props.categories}
+                    activeUser={props.activeUser}
+                    showCreateButton={false}
+                    defaultStatus={[]}
+                />
+            </div>
         </div>
     )
 }

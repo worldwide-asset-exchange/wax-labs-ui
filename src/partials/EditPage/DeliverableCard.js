@@ -59,10 +59,12 @@ export const RenderDeliverableCard = ({
     useEffect(()=>{
         // For some unknown reason validator is acting up unless I redo the validator.message in here.
         validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num')
-        validator.message('recipient', deliverable.recipient, "required")
+        validator.message('recipient', deliverable.recipient, "required");
+        validator.message('total requested', totalRequested, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`);
+        
         updateDeliverablesValidation(deliverable.id, validator.allValid())
         // eslint-disable-next-line
-    }, [deliverable]);
+    }, [deliverable, totalRequested]);
 
     useEffect(()=>{
         if(showValidatorMessages){

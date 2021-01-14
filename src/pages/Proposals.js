@@ -61,6 +61,7 @@ export default function RenderProposals(props){
                             profile={profile}
                             showCreateButton={true}
                             activeUser={props.activeUser}
+                            loginModal={props.loginModal}
                             defaultStatus={[GLOBAL_VARS.VOTING_KEY, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]}
                         />
                     }

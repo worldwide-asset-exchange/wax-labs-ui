@@ -35,11 +35,11 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
 
     }
 
-    function filterDeprecated(category) {
-        return !deprecatedCategories.includes(category);
-    }
-
+    
     useEffect(()=>{
+        function filterDeprecated(category) {
+            return !deprecatedCategories.includes(category);
+        }
         let availableCategories = [...categories];
         availableCategories = availableCategories.filter(filterDeprecated);
         setAvailableCategories(availableCategories);

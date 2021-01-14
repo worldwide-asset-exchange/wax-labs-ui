@@ -83,6 +83,7 @@ export default function RenderProposals(props){
                         <RenderCreateProposalPage
                             activeUser={props.activeUser}
                             categories={categories}
+                            deprecatedCategories={props.deprecatedCategories}
                         />}
                     />
                 <Route
@@ -91,6 +92,7 @@ export default function RenderProposals(props){
                         <RenderEditProposal
                             activeUser={props.activeUser}
                             categories={categories}
+                            deprecatedCategories={props.deprecatedCategories}
                         />
                     }
                 />

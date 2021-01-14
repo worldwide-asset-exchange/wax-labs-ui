@@ -8,7 +8,7 @@ import './ProposalInputContainer.scss';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProposalInputContainer ({proposal, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories}) {
+export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories}) {
 
     const [editableProposal, setEditableProposal] = useState({
         title:"",
@@ -19,6 +19,8 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
         estimated_time:"",
         category: "",
     });
+
+    const [availableCategories, setAvailableCategories] = useState([]);
 
     const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(8) + ' WAX')
 
@@ -32,6 +34,17 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
         setEditableProposal(proposalCopy);
 
     }
+
+    function filterDeprecated(category) {
+        return !deprecatedCategories.includes(category);
+    }
+
+    useEffect(()=>{
+        let availableCategories = [...categories];
+        availableCategories = availableCategories.filter(filterDeprecated);
+        setAvailableCategories(availableCategories);
+
+    }, [categories, deprecatedCategories]);
 
     useEffect(()=>{
         updateValidatorData(validator.allValid());
@@ -162,7 +175,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
                     onChange={handleInputChange}
                 >
                     <option value={""}></option>
-                    {categories.map((category) =>{
+                    {availableCategories.map((category) =>{
                         return <option className="select__option" key={category} value={category}>{category}</option>
                     })}
                 </select>

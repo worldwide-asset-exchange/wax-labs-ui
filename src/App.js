@@ -150,6 +150,7 @@ export default function App(props)  {
                   activeUser={props.ual.activeUser} 
                   isAdmin={isAdmin} 
                   categories={categories} 
+                  deprecatedCategories={deprecatedCategories}
                   loginModal={props.ual.showModal} 
                 />
               } 

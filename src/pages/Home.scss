@@ -20,11 +20,14 @@
         color: $typography-02;
     }
     &__cover {
-        background-image: url('../images/wax-gradient.svg');
+        background-image: url('../images/x-background.svg');
         background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
+        background-position: right;
+        background-size: contain;
 
+        @include breakpoint(desktop-up) {
+            background-image: url('../images/wax-gradient.svg');
+        }
         min-height: 40vh;
 
         display: flex;

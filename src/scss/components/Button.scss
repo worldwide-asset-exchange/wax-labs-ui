@@ -11,6 +11,7 @@ $button-typography-color: #332B1F;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     border: none;
     transition: all 0.2s ease-in-out;
     @include breakpoint(desktop-up) {

@@ -74,6 +74,8 @@ export const RenderDeliverableCard = ({
     // validator.showMessages();
     const requestedErrorMessage = validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num')
     const recipientErrorMessage = validator.message('recipient', deliverable.recipient, "required")
+
+    console.log(index, " :", isLast);
     return (
         <div
             className={`${((!validator.allValid()) && (showValidatorMessages)) ? "deliverableCard deliverableCard--error" : "deliverableCard"}`}
@@ -87,7 +89,7 @@ export const RenderDeliverableCard = ({
                 >
                     Remove this deliverable
                 </button>
-                <button className="deliverableCard__arrow" disabled={index === 0}>
+                <button className="deliverableCard__arrow" disabled={index === 0} onClick={()=>moveCard(index, index-1)}>
                     <ArrowIcon/>
                 </button>
                 <button className='deliverableCard__arrow deliverableCard__arrow--down' disabled={isLast} onClick={()=>moveCard(index, index+1)}>

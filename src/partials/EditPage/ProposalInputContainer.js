@@ -70,6 +70,7 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
         return <RenderLoadingPage/>
     }
 
+    const totalRequestedErrorMessage = validator.message('total requested', totalRequested, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num`);
     const titleErrorMessage = validator.message('title', editableProposal.title, `required|max:${GLOBAL_VARS.MAX_TITLE_LENGTH}`);
     const descriptionErrorMessage = validator.message('description', editableProposal.description, `required|max:${GLOBAL_VARS.MAX_DESCRIPTION_LENGTH}`);
     const imageUrlErrorMessage = validator.message('image url', editableProposal.image_url, `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`);
@@ -175,6 +176,9 @@ export default function RenderProposalInputContainer ({proposal, hideTotalReques
                 <div className="proposalInputContainer__fieldset">
                     <div className="input__label">Total amount requested</div>
                     <h4>{totalRequested}</h4>
+                    <div className="input__errorMessage">
+                        {totalRequestedErrorMessage}
+                    </div>
                 </div>
                 : ""
             }

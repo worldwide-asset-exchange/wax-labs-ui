@@ -169,6 +169,7 @@ export const RenderDeliverablesContainer = (props) => {
                 index={index}
                 id={deliverable.id}
                 text={(index + 1) + ") " + deliverable.requested}
+                totalRequested={props.totalRequested}
                 showValidatorMessages={props.showValidatorMessages}
                 deliverable={deliverable}
                 removeCard={removeCard}

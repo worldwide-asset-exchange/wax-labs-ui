@@ -303,6 +303,7 @@ export default function RenderEditProposal(props){
                 <RenderDeliverablesContainer
                     proposal={proposal}
                     updateDeliverablesLists={updateDeliverablesLists}
+                    totalRequested={totalRequested}
                     activeUser={props.activeUser}
                     showValidatorMessages={showValidatorMessages}
                     updateDeliverablesValidation={updateDeliverablesValidationData}

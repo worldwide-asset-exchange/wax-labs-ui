@@ -62,7 +62,7 @@ export default function App(props)  {
         console.log(e);
       }
     }
-    
+
 
     checkAdmin();
 
@@ -81,7 +81,7 @@ export default function App(props)  {
     await sleep(3500);
     setConfigQueryCount(configQueryCount + 1);
   }
-  
+
   // called when SetAdmin action is called
   async function rerunCheckAdmin(){
     setQueryingAdmin(true);
@@ -143,31 +143,31 @@ export default function App(props)  {
         <main>
           <div className="content">
             <Routes>
-            <Route path="/" element={<RenderHome/>} />
-            <Route path="proposals/*" 
+            <Route path="/" element={<RenderHome categories={categories}/>} />
+            <Route path="proposals/*"
               element={
-                <RenderProposals 
-                  activeUser={props.ual.activeUser} 
-                  isAdmin={isAdmin} 
-                  categories={categories} 
-                  deprecatedCategories={deprecatedCategories}
-                  loginModal={props.ual.showModal} 
-                />
-              } 
-            />
-            <Route path="account/*" 
-              element={
-                <RenderAccountPortal 
-                  activeUser={props.ual.activeUser} 
+                <RenderProposals
+                  activeUser={props.ual.activeUser}
+                  isAdmin={isAdmin}
                   categories={categories}
-
-                /> 
+                  deprecatedCategories={deprecatedCategories}
+                  loginModal={props.ual.showModal}
+                />
               }
             />
-            <Route path="admin/*" 
+            <Route path="account/*"
               element={
-                <RenderAdminPortal 
-                  activeUser={props.ual.activeUser} 
+                <RenderAccountPortal
+                  activeUser={props.ual.activeUser}
+                  categories={categories}
+
+                />
+              }
+            />
+            <Route path="admin/*"
+              element={
+                <RenderAdminPortal
+                  activeUser={props.ual.activeUser}
                   categories={categories}
                   isAdmin={isAdmin}
                   queryingAdmin={queryingAdmin}
@@ -177,9 +177,9 @@ export default function App(props)  {
                   votingDuration={votingDuration}
                   rerunAdminQuery={rerunCheckAdmin}
                 />
-              } 
+              }
             />
-            <Route 
+            <Route
               path="profile/:accountName/*"
               element={
                 <RenderProfilePage

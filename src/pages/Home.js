@@ -3,14 +3,15 @@ import * as waxjs from "@waxio/waxjs/dist";
 import {Carousel} from 'react-bootstrap';
 
 import * as GLOBAL_VARS from '../utils/vars';
-import {requestedAmountToFloat, numberWithCommas, getProposals, getStatBounds, tagStyle} from '../utils/util'
+import {requestedAmountToFloat, numberWithCommas, getProposals, getStatBounds} from '../utils/util'
 import { Link } from 'react-router-dom';
+import RenderProposalCard from '../partials/ProposalCard';
 
 import './Home.scss'
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
-export default function RenderHome() {
+export default function RenderHome(props) {
 
     const [queryingVoting, setQueryingVoting] = useState(true);
     const [inVotingProposals, setInVotingProposals] = useState([]);
@@ -23,8 +24,6 @@ export default function RenderHome() {
 
     const [queryingSubmitted, setQueryingSubmitted] = useState(true);
     const [submittedProposals, setSubmittedProposals] = useState([]);
-
-    const [imagesWithErrors, setImagesWithErrors] = useState({});
 
     useEffect(()=>{
         async function getInVotingProposals(){
@@ -125,24 +124,7 @@ export default function RenderHome() {
                             {inVotingProposals.map((proposal, index) => {
                                 return (
                                     <Carousel.Item key={index}>
-                                        <Link to={'/proposals/' + proposal.proposal_id}>
-                                            <img
-                                                src={imagesWithErrors[proposal.proposal_id] ? GLOBAL_VARS.DEFAULT_PROPOSAL_IMAGE_URL : proposal.image_url}
-                                                alt={proposal.title}
-                                                className="d-block w-100"
-                                                onError={
-                                                    () =>{
-                                                        let errorDict = {...imagesWithErrors}
-                                                        errorDict[proposal.proposal_id] = true
-                                                        setImagesWithErrors(errorDict);
-                                                    }
-                                                }
-                                            />
-                                            <Carousel.Caption className="carousel__caption">
-                                                <div className={`tag ${tagStyle(proposal.status)}`}>{GLOBAL_VARS.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
-                                                <h3>{proposal.title}</h3>
-                                            </Carousel.Caption>
-                                        </Link>
+                                        <RenderProposalCard proposal={proposal} key={proposal.proposal_id} categories={props.categories} hideStatus={true} />)
                                     </Carousel.Item>
                                 )
                             })}
@@ -150,7 +132,7 @@ export default function RenderHome() {
                         :
                         ""
             }
-            
+
         </div>
     );
 }

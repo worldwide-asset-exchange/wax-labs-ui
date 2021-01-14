@@ -11,6 +11,7 @@ export default function RenderProposalCard(props){
     const [imgError, setImgError] = useState(false);
 
     const proposal = props.proposal;
+    const hideStatus = props.hideStatus ? props.hideStatus : false;
     const readableAmount = proposal.total_requested_funds.slice(0,-13) + ' WAX';
 
     return (
@@ -47,12 +48,17 @@ export default function RenderProposalCard(props){
                     </div>
                 </div>
             </div>
-            <div className="proposalCard__status">
-                <div className={`tag ${tagStyle(proposal.status)}`}>{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
-                <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables === 1 ? " deliverable" : " deliverables" }
+            {
+                hideStatus ?
+                ""
+                :
+                <div className="proposalCard__status">
+                    <div className={`tag ${tagStyle(proposal.status)}`}>{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
+                    <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables === 1 ? " deliverable" : " deliverables" }
+                    </div>
+                    <div className="tag tag--category">{props.categories[proposal.category]}</div>
                 </div>
-                <div className="tag tag--category">{props.categories[proposal.category]}</div>
-            </div>
+            }
         </Link>
     );
 }

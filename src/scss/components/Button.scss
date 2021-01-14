@@ -6,7 +6,7 @@ $button-typography-color: #332B1F;
 
 .button {
     @include p--bold;
-    border-radius: 30px;
+    border-radius: 100px;
     padding: 10px $spacing-s; //guarantees height of 44px at least
     display: inline-flex;
     align-items: center;

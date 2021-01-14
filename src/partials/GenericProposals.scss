@@ -10,11 +10,14 @@
 @import '../scss/components/Pagination';
 
 .genericProposals {
-    @include mainPadding;
-    @include minPageHeight;
-
     max-width: $max-screen-width;
     margin: 0 auto;
+
+    &__filtersGroup {
+        @include breakpoint(tablet-up) {
+            display: block !important;
+        }
+    }
 
     &__filters {
         display: flex;
@@ -28,30 +31,34 @@
         @include breakpoint (mobile-only) {
             text-align: center;
         }
+        .button {
+            @include breakpoint(tablet-up) {
+                display: none;
+            }
+        }
     }
     &__search {
         max-width: 500px;
     }
     &__actions {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         margin: $spacing-xs 0;
+        align-items: center;
 
-        @include breakpoint(tablet-landscape-up) {
-            flex-direction: row;
+        @include breakpoint(large-mobile-up) {
+            flex-direction: row-reverse;
             justify-content: space-between;
         }
     }
     &__orderBy {
-        align-self: flex-end;
         margin: $spacing-xxs 0;
     }
     &__createProposal {
-        margin-bottom: $spacing-s;
+        margin: $spacing-s 0;
 
-        @include breakpoint(tablet-landscape-up){
-            margin-right: 100px;
-            margin-bottom: 0;
+        @include breakpoint(large-mobile-up) {
+            margin: 0;
         }
         p {
             @include p;

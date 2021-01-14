@@ -150,6 +150,7 @@ export default function RenderCreateProposalPage(props){
             <RenderProposalInputContainer
                 hideTotalRequested={true}
                 categories={props.categories}
+                deprecatedCategories={props.deprecatedCategories}
                 //Necessary to be >= 1000 so validator won't say it is invalid
                 totalRequestedFunds={GLOBAL_VARS.PROPOSAL_MIN_REQUESTED}
                 updateEditableProposal={updateProposal}

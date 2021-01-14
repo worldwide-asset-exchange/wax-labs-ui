@@ -290,6 +290,7 @@ export default function RenderEditProposal(props){
             <RenderProposalInputContainer
                 proposal={proposal}
                 categories={props.categories}
+                deprecatedCategories={props.deprecatedCategories}
                 queryingProposal={queryingProposal}
                 totalRequestedFunds={totalRequested}
                 updateEditableProposal={updateEditableProposal}

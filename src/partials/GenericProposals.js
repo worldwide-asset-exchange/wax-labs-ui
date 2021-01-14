@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom';
 import { Accordion } from 'react-bootstrap';
 
 import './GenericProposals.scss';
-import RenderSignInButton from './SignInButton.js';
 
 
 export default function RenderGenericProposals(props) {

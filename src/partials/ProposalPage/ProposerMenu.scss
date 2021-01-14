@@ -11,6 +11,13 @@
     border-radius: $border-radius;
 
     margin-bottom: $spacing-m;
+
+    text-align: center;
+
+    @include breakpoint(tablet-up) {
+        text-align: start;
+    }
+
     &__header {
         display: flex;
         flex-wrap: wrap;
@@ -22,7 +29,7 @@
             margin: 0 $spacing-m 0 0;
         }
 
-        @include breakpoint(mobile-only) {
+        @include breakpoint(large-mobile-only) {
             flex-direction: column;
             .button {
                 margin-top: $spacing-xs;
@@ -36,8 +43,19 @@
         max-width: 500px;
     }
     &__actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+        }
+
         .button {
-            margin-right: $spacing-m;
+            margin: $spacing-s 0 0 0;
+            @include breakpoint(tablet-up) {
+                margin: 0 $spacing-m 0 0;
+            }
         }
     }
 }

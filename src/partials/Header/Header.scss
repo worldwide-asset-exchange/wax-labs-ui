@@ -6,6 +6,8 @@
     background-color: $gray-dark;
     z-index: 99999;
 
+    padding: $spacing-xs $spacing-s;
+
     &__icon {
         img {
             height: 25px;

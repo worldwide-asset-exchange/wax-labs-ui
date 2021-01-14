@@ -22,15 +22,15 @@ export default function RenderGenericProposals(props) {
     // whenever queryArgs changes.
     const [proposals, setProposals] = useState([]);
 
-    
+
     // Flags to know when to display loading page.
     const [querying, setQuerying] = useState(true);
-    
+
     // Filtered proposals is supposed to contain the filtered list of proposals.
     // This is updated whenever proposals, categoriesList, filterString
     // or orderByString changes.
     const [filteredProposals, setFilteredProposals] = useState([]);
-    
+
     let location = useLocation();
 
     // Hooks regarding filtering of the query. Automatically update query string
@@ -106,7 +106,7 @@ export default function RenderGenericProposals(props) {
         }
     }
 
-    function updateStatusList (newList){        
+    function updateStatusList (newList){
         setStatusList(newList);
     }
 
@@ -127,7 +127,7 @@ export default function RenderGenericProposals(props) {
     useEffect(()=>{
         let newStatusList = getQueryStringValue(GLOBAL_VARS.STATUS_QUERY_STRING_KEY) ||  [] ;
         setStatusList({value: newStatusList, skipUpdateQS: true});
-        
+
         let newCategoriesList = getQueryStringValue(GLOBAL_VARS.CATEGORIES_QUERY_STRING_KEY) || [];
 
         setCategoriesList({value: newCategoriesList, skipUpdateQS: true});
@@ -139,7 +139,7 @@ export default function RenderGenericProposals(props) {
         //eslint-disable-next-line
     }, [location]);
 
-   
+
 
     useEffect(() => {
         let cancelled = false
@@ -237,7 +237,7 @@ export default function RenderGenericProposals(props) {
                         ""
                         :
                         !props.activeUser ?
-                            <p><button className="button button--text" onClick={props.loginModal}>Log in</button> to create a proposal</p>
+                            <button className="button button--text" onClick={props.loginModal}>Log in to create a proposal</button>
                         :
                         !props.profile ?
                             <p>To create a proposal you need to <Link className="inlineLink" to={GLOBAL_VARS.CREATE_PROFILE_LINK}>create your profile</Link></p>

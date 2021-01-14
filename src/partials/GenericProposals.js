@@ -237,7 +237,7 @@ export default function RenderGenericProposals(props) {
                         ""
                         :
                         !props.activeUser ?
-                            <p>Log in to create a proposal</p>
+                            <p><button className="button button--text" onClick={props.loginModal}>Log in</button> to create a proposal</p>
                         :
                         !props.profile ?
                             <p>To create a proposal you need to <Link className="inlineLink" to={GLOBAL_VARS.CREATE_PROFILE_LINK}>create your profile</Link></p>

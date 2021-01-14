@@ -235,7 +235,7 @@ export default function RenderAdminMenu(props){
                 <div className="adminMenu__actions">
                     <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
                     {
-                        ((props.proposal.sttus === GLOBAL_VARS.VOTING_KEY) && (props.votingEndsIn.includes('ago')))
+                        ((props.proposal.status === GLOBAL_VARS.VOTING_KEY) && (props.votingEndsIn.includes('ago')))
                         ?  <button className="button button--text" onClick={endVoting}>End Voting</button>
                         :  ""
                     }

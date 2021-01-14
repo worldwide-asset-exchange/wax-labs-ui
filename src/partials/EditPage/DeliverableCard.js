@@ -4,6 +4,8 @@ import { ItemTypes } from "./ItemTypes";
 import SimpleReactValidator from 'simple-react-validator';
 import ArrowIcon from '../../icons/ArrowIcon';
 
+import * as GLOBAL_VARS from '../../utils/vars';
+
 import './DeliverableCard.scss';
 
 const validator = new SimpleReactValidator();
@@ -16,7 +18,7 @@ export const RenderDeliverableCard = ({
     updateDeliverablesValidation,
     index, moveCard, updateCard,
     deliverable, removeCard,
-    isLast}) => {
+    isLast, totalRequested}) => {
     const ref = useRef(null);
     const [refreshComponent, setRefreshComponent] = useState(0);
 
@@ -74,6 +76,8 @@ export const RenderDeliverableCard = ({
     // validator.showMessages();
     const requestedErrorMessage = validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num')
     const recipientErrorMessage = validator.message('recipient', deliverable.recipient, "required")
+    const totalRequestedErrorMessage = validator.message('total requested', totalRequested, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`);
+    
     return (
         <div
             className={`${((!validator.allValid()) && (showValidatorMessages)) ? "deliverableCard deliverableCard--error" : "deliverableCard"}`}
@@ -87,7 +91,7 @@ export const RenderDeliverableCard = ({
                 >
                     Remove this deliverable
                 </button>
-                <button className="deliverableCard__arrow" disabled={index === 0}>
+                <button className="deliverableCard__arrow" disabled={index === 0} onClick={()=>moveCard(index, index-1)}>
                     <ArrowIcon/>
                 </button>
                 <button className='deliverableCard__arrow deliverableCard__arrow--down' disabled={isLast} onClick={()=>moveCard(index, index+1)}>
@@ -97,7 +101,7 @@ export const RenderDeliverableCard = ({
             <div className="deliverableCard__fieldset">
                 <label className="input__label">Requested WAX</label>
                 <input
-                    className={`${requestedErrorMessage ? "input input--error" : "input"}`}
+                    className={`${(requestedErrorMessage||totalRequestedErrorMessage) ? "input input--error" : "input"}`}
                     type="number"
                     name="requested_amount"
                     placeholder="0"
@@ -106,6 +110,7 @@ export const RenderDeliverableCard = ({
                 />
                 <div className="input__errorMessage">
                     {requestedErrorMessage}
+                    {totalRequestedErrorMessage}
                 </div>
             </div>
             <div className="deliverableCard__fieldset">

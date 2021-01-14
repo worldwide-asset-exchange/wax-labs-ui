@@ -2,12 +2,25 @@
 @import '../../scss/variables';
 
 .deliverablesList {
+    &__title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        @include breakpoint(large-mobile-up) {
+            flex-direction: row;
+        }
+    }
     &__completed {
         @include h4;
         background-color: $overlay-01;
-        margin-left: $spacing-xs;
         padding: $spacing-xxs;
         border-radius: 5px;
+        margin-bottom: $spacing-s;
+
+        @include breakpoint(large-mobile-up) {
+            margin: 0 0 0 $spacing-xs;
+        }
     }
     &__total {
         @include p--bold;

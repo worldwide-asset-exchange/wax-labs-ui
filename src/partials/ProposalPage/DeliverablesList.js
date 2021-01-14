@@ -61,13 +61,14 @@ export default function RenderDeliverablesList(props){
 
     return (
         <div className="deliverablesList">
-            <h2>
-                Deliverables <span className="deliverablesList__completed">{props.proposal.deliverables_completed}
+            <div className="deliverablesList__title">
+                <h2>Deliverables</h2>
+                <div className="deliverablesList__completed">{props.proposal.deliverables_completed}
                     <span className="deliverablesList__total">
                         /{props.proposal.deliverables} {props.proposal.deliverables_completed > 1 ? 'are' : 'is'} completed
                     </span>
-                </span>
-            </h2>
+                </div>
+            </div>
             <RenderFilter
                 title="Filter deliverables by their status"
                 currentList={statusList}

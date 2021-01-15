@@ -186,26 +186,12 @@ export default function RenderGenericProposals(props) {
         <div className="genericProposals">
             <h4>{props.subtitle}</h4>
             <div className="genericProposals__filters">
-                <div className="genericProposals__search">
-                    <div className="input__label">Search</div>
-                    <input
-                        value={filterString}
-                        type="text"
-                        onChange={
-                            (event) => {
-                                setFilterString(event.target.value);
-                            }
-                        }
-                        placeholder="Proposal's title, description or proposer"
-                        className="input"
-                    />
-                </div>
                 <div className="genericProposals__filter">
                     <Accordion>
                         <Accordion.Toggle eventKey="1" className="button button--secondary">
-                            More filters
+                            Filter proposals by status and category
                         </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="1">
+                        <Accordion.Collapse eventKey="1" className="genericProposals__filtersGroup">
                             <div>
                                 {
                                     props.noStatusFilter ?
@@ -228,6 +214,20 @@ export default function RenderGenericProposals(props) {
                             </div>
                         </Accordion.Collapse>
                     </Accordion>
+                </div>
+                <div className="genericProposals__search">
+                    <div className="input__label">Search</div>
+                    <input
+                        value={filterString}
+                        type="text"
+                        onChange={
+                            (event) => {
+                                setFilterString(event.target.value);
+                            }
+                        }
+                        placeholder="Proposal's title, description or proposer"
+                        className="input"
+                    />
                 </div>
             </div>
             <div className="genericProposals__actions">

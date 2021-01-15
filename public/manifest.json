@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "WAX Labs",
+  "name": "WAX Labs",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,9 +8,9 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo.png",
+      "src": "WAXlabs-logo.png",
       "type": "image/png",
-      "sizes": "522x519"
+      "sizes": "1200x991"
     }
   ],
   "start_url": ".",

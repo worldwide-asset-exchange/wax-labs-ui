@@ -10,7 +10,7 @@ import ProposalIcon from '../../icons/ProposalIcon';
 export default function RenderLoggedOutHeader(props){
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="header">
+        <Navbar collapseOnSelect expand="xl" className="header">
             <Navbar.Brand className="header__icon" href="/">
                 <img src={labsIcon} alt="WAX labs icon"/>
             </Navbar.Brand>

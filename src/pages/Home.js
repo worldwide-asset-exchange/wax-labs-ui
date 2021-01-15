@@ -25,6 +25,9 @@ export default function RenderHome(props) {
     const [queryingSubmitted, setQueryingSubmitted] = useState(true);
     const [submittedProposals, setSubmittedProposals] = useState([]);
 
+    const [queryingCompleted, setQueryingCompleted] = useState(true);
+    const [completedProposals, setCompletedProposals] = useState([]);
+
     useEffect(()=>{
         async function getInVotingProposals(){
             setQueryingVoting(true);
@@ -38,7 +41,12 @@ export default function RenderHome(props) {
             setSubmittedProposals(submittedList);
             setQueryingSubmitted(false);
         }
-
+        async function getCompletedProposals(){
+            setQueryingCompleted(true);
+            let completedList =  await getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.COMPLETED_KEY, getStatBounds);
+            setCompletedProposals(completedList);
+            setQueryingCompleted(false);
+        }
         async function getInProgressProposals(){
             setQueryingInProgress(true);
             let inProgressList = await getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY, getStatBounds);
@@ -79,6 +87,7 @@ export default function RenderHome(props) {
         getConfigData();
         getInVotingProposals();
         getInProgressProposals();
+        getCompletedProposals();
     },[])
 
     return (
@@ -89,27 +98,35 @@ export default function RenderHome(props) {
                 <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK} className="button button--primary">Vote for the latest proposals</Link>
             </div>
             <div className="home__numbers">
-                <div className="home__number">
-                    <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK}>
-                        <h2>{queryingVoting ? " loading..." : " " + inVotingProposals.length}</h2>
-                        <h4>In voting</h4>
-                    </Link>
-                </div>
-                <div className="home__number">
-                    <Link to={GLOBAL_VARS.PROPOSALS_IN_PROGRESS_LINK}>
-                        <h2>{queryingInProgress ? " loading..." : " " + inProgressProposals.length}</h2>
-                        <h4>In progress</h4>
-                    </Link>
-                </div>
-                <div className="home__number">
+                <div className="home__waxNumbers home__number">
                     <h2>{queryingConfig ? " loading..." : " " + configData.display_available_funds}</h2>
                     <h4>Available funds</h4>
                 </div>
-                <div className="home__number">
-                    <Link to={GLOBAL_VARS.PROPOSALS_IN_REVIEW_LINK}>
-                        <h2>{queryingSubmitted ? " loading..." : " " + submittedProposals.length}</h2>
-                        <h4>In review</h4>
-                    </Link>
+                <div className="home__proposalsNumbers">
+                    <div className="home__number">
+                        <Link to={GLOBAL_VARS.PROPOSALS_IN_REVIEW_LINK}>
+                            <h3>{queryingSubmitted ? " loading..." : " " + submittedProposals.length}</h3>
+                            <h4>In review</h4>
+                        </Link>
+                    </div>
+                    <div className="home__number">
+                        <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK}>
+                            <h3>{queryingVoting ? " loading..." : " " + inVotingProposals.length}</h3>
+                            <h4>In voting</h4>
+                        </Link>
+                    </div>
+                    <div className="home__number">
+                        <Link to={GLOBAL_VARS.PROPOSALS_IN_PROGRESS_LINK}>
+                            <h3>{queryingInProgress ? " loading..." : " " + inProgressProposals.length}</h3>
+                            <h4>In progress</h4>
+                        </Link>
+                    </div>
+                    <div className="home__number">
+                        <Link to={GLOBAL_VARS.PROPOSALS_COMPLETED_LINK}>
+                            <h3>{queryingCompleted ? " loading..." : " " + completedProposals.length}</h3>
+                            <h4>Completed</h4>
+                        </Link>
+                    </div>
                 </div>
             </div>
             {

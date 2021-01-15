@@ -4,7 +4,7 @@
 .notifications {
     margin: $spacing-s 0;
 
-    @include breakpoint(tablet-landscape-up) {
+    @include breakpoint(desktop-up) {
         margin: 0 $spacing-l 0 0;
     }
 

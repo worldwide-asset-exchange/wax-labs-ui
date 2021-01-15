@@ -63,7 +63,7 @@ export default function RenderLoggedInHeader(props){
     },[props.activeUser, props.isAdmin, props.queryingAdmin, props.queryingCategories]);
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="header">
+        <Navbar collapseOnSelect expand="xl" className="header">
             <Navbar.Brand className="header__icon" href="/">
                 <img src={labsIcon} alt="WAX labs icon"/>
             </Navbar.Brand>

@@ -5,6 +5,8 @@ import TelegramIcon from '../icons/TelegramIcon'
 import DiscordIcon from '../icons/DiscordIcon'
 import builtWithLove from '../images/built-with-love.svg'
 
+import WAXLabs from '../images/labs-beaker.svg';
+
 import './Footer.scss'
 
 function RenderFooter(props) {
@@ -21,7 +23,10 @@ function RenderFooter(props) {
                     <TelegramIcon/>
                 </a>
             </div>
-            <p className="footer__disclaimer">{`© ${new Date().getFullYear()} WAX, Worldwide Asset eXchange™ All rights reserved.`}</p>
+            <div className="footer__waxLabs">
+                <img src={WAXLabs} alt="WAX logo inside a beaker"/>
+                <p className="footer__disclaimer">{`© ${new Date().getFullYear()} WAX, Worldwide Asset eXchange™ All rights reserved.`}</p>
+            </div>
             <img src={builtWithLove} alt="Built with love by EOS Detroit." className="footer__builtWithLove"/>
         </footer>
     );

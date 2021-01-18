@@ -8,7 +8,7 @@ import './ProposalInputContainer.scss';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories}) {
+export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories, updateTotalRequestedErrorMessage}) {
 
     const [editableProposal, setEditableProposal] = useState({
         title:"",
@@ -48,6 +48,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
 
     useEffect(()=>{
         updateValidatorData(validator.allValid());
+        
         // eslint-disable-next-line
     }, [editableProposal, totalRequested])
 
@@ -71,8 +72,9 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
     useEffect(()=>{
         let totalRequested = totalRequestedFunds.toFixed(8) + " WAX"
         setTotalRequested(totalRequested);
+        updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`));
         // eslint-disable-next-line
-    }, [totalRequestedFunds]);
+    }, [totalRequestedFunds, showValidatorMessages]);
 
     useEffect(()=>{
         updateEditableProposal(editableProposal);
@@ -89,7 +91,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
     const contentErrorMessage = validator.message('content', editableProposal.content, `required|max:${GLOBAL_VARS.MAX_BODY_LENGTH}`);
     const categoryErrorMessage = validator.message('category', editableProposal.category, "required");
     const estimatedTimeErrorMessage = validator.message('estimated time', editableProposal.estimated_time, "required|min:1,num");
-
+    
     return(
         <div className="proposalInputContainer">
             <div className="proposalInputContainer__fieldset">

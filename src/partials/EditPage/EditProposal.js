@@ -29,6 +29,8 @@ export default function RenderEditProposal(props){
     const [totalRequested, setTotalRequested] = useState(0);
     const [validProposalData, setValidProposalData] = useState(true);
     const [validDeliverablesData, setValidDeliverablesData] = useState(true);
+    const [totalRequestedErrorMessage, setTotalRequestedErrorMessage] = useState("");
+
     const navigate = useNavigate();
 
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
@@ -129,6 +131,9 @@ export default function RenderEditProposal(props){
 
     function updateEditableProposal(editableProposal){
         setEditableProposal(editableProposal);
+    }
+    function updateTotalRequestedErrorMessage(errorMessage){
+        setTotalRequestedErrorMessage(errorMessage);
     }
 
     function createRemoveDeliverableAction(deliverableId){
@@ -280,7 +285,7 @@ export default function RenderEditProposal(props){
     if(queryingProposal){
         return <RenderLoadingPage/>
     }
-
+    
     return(
         <div className="editProposal">
             <RenderAlerts
@@ -293,6 +298,7 @@ export default function RenderEditProposal(props){
                 deprecatedCategories={props.deprecatedCategories}
                 queryingProposal={queryingProposal}
                 totalRequestedFunds={totalRequested}
+                updateTotalRequestedErrorMessage={updateTotalRequestedErrorMessage}
                 updateEditableProposal={updateEditableProposal}
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}
@@ -306,6 +312,7 @@ export default function RenderEditProposal(props){
                     updateDeliverablesLists={updateDeliverablesLists}
                     totalRequested={totalRequested}
                     activeUser={props.activeUser}
+                    totalRequestedErrorMessage={totalRequestedErrorMessage}
                     showValidatorMessages={showValidatorMessages}
                     updateDeliverablesValidation={updateDeliverablesValidationData}
                     queryingDeliverables={queryingDeliverables}

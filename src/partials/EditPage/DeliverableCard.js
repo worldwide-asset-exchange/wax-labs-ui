@@ -4,8 +4,6 @@ import { ItemTypes } from "./ItemTypes";
 import SimpleReactValidator from 'simple-react-validator';
 import ArrowIcon from '../../icons/ArrowIcon';
 
-import * as GLOBAL_VARS from '../../utils/vars';
-
 import './DeliverableCard.scss';
 
 const validator = new SimpleReactValidator();
@@ -18,7 +16,7 @@ export const RenderDeliverableCard = ({
     updateDeliverablesValidation,
     index, moveCard, updateCard,
     deliverable, removeCard,
-    isLast, totalRequested}) => {
+    isLast, totalRequestedErrorMessage}) => {
     const ref = useRef(null);
     const [refreshComponent, setRefreshComponent] = useState(0);
 
@@ -58,10 +56,8 @@ export const RenderDeliverableCard = ({
 
     useEffect(()=>{
         // For some unknown reason validator is acting up unless I redo the validator.message in here.
-        validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num')
+        validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num');
         validator.message('recipient', deliverable.recipient, "required");
-        validator.message('total requested', totalRequested, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`);
-        
         updateDeliverablesValidation(deliverable.id, validator.allValid())
         // eslint-disable-next-line
     }, [deliverable, totalRequested]);
@@ -78,7 +74,7 @@ export const RenderDeliverableCard = ({
     // validator.showMessages();
     const requestedErrorMessage = validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num')
     const recipientErrorMessage = validator.message('recipient', deliverable.recipient, "required")
-    const totalRequestedErrorMessage = validator.message('total requested', totalRequested, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`);
+    
     
     return (
         <div

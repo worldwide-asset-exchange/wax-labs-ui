@@ -122,7 +122,6 @@ export const RenderDeliverablesContainer = (props) => {
         props.runningQuery(false);
     }
 
-
     function updateDeliverable(event, index){
         const updatedDeliverable = {...editableDeliverables[index]};
         updatedDeliverable[event.target.name] = event.target.value;
@@ -141,7 +140,7 @@ export const RenderDeliverablesContainer = (props) => {
 
     const removeCard = useCallback((index)=>{
         let copyValidation = {...deliverablesValidation}
-        delete copyValidation[editableDeliverables[index]];
+        delete copyValidation[editableDeliverables[index].id];
         setDeliverablesValidation(copyValidation);
         setEditableDeliverables(update(editableDeliverables, {
             $splice: [
@@ -169,7 +168,7 @@ export const RenderDeliverablesContainer = (props) => {
                 index={index}
                 id={deliverable.id}
                 text={(index + 1) + ") " + deliverable.requested}
-                totalRequested={props.totalRequested}
+                totalRequestedErrorMessage={props.totalRequestedErrorMessage}
                 showValidatorMessages={props.showValidatorMessages}
                 deliverable={deliverable}
                 removeCard={removeCard}

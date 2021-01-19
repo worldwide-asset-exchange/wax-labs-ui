@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import { DndProvider } from 'react-dnd';
@@ -32,7 +31,6 @@ export default function RenderEditProposal(props){
     const [validDeliverablesData, setValidDeliverablesData] = useState(true);
     const [totalRequestedErrorMessage, setTotalRequestedErrorMessage] = useState("");
 
-    const navigate = useNavigate();
 
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
 

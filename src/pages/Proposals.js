@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Router } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import * as GLOBAL_VARS from "../utils/vars";
 

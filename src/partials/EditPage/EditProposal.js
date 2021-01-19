@@ -12,6 +12,7 @@ import {sleep} from '../../utils/util';
 import {RenderDeliverablesContainer} from './DeliverablesContainer';
 import RenderProposalInputContainer from './ProposalInputContainer';
 import RenderLoadingPage from '../LoadingPage';
+import RenderErrorPage from '../../pages/ErrorPage';
 
 import './EditProposal.scss';
 
@@ -274,18 +275,16 @@ export default function RenderEditProposal(props){
         }
     },[deliverablesLists]);
 
-    if(!queryingProposal && proposal){
-        // If querying for proposal is done, and proposal is not null
-        if((!props.activeUser) || (proposal.proposer !== props.activeUser.accountName)){
-            // if there is no active user or proposer is not active user, go back to last page.
-            navigate(-1, {replace: true});
-        }
-    }
 
     if(queryingProposal){
         return <RenderLoadingPage/>
     }
-    
+
+    if(!proposal || !props.activeUser || (proposal.proposer !== props.activeUser.accountName))
+    {
+        console.log("error");
+        return <RenderErrorPage/>
+    }
     return(
         <div className="editProposal">
             <RenderAlerts

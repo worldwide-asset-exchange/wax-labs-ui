@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Router } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import * as GLOBAL_VARS from "../utils/vars";
 
@@ -9,6 +9,7 @@ import RenderEditProposal from '../partials/EditPage/EditProposal';
 import RenderCreateProposalPage from '../partials/CreateProposalPage/CreateProposalPage';
 
 import './Proposals.scss';
+import RenderErrorPage from './ErrorPage';
 
 const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
 
@@ -96,6 +97,13 @@ export default function RenderProposals(props){
                             deprecatedCategories={props.deprecatedCategories}
                         />
                     }
+                />
+                <Route
+                    path="/*"
+                    element={
+                        <RenderErrorPage/>
+                    }
+
                 />
 
             </Routes>

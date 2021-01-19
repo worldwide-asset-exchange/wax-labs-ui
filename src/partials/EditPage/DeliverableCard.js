@@ -60,7 +60,7 @@ export const RenderDeliverableCard = ({
         validator.message('recipient', deliverable.recipient, "required");
         updateDeliverablesValidation(deliverable.id, validator.allValid())
         // eslint-disable-next-line
-    }, [deliverable, totalRequested]);
+    }, [deliverable]);
 
     useEffect(()=>{
         if(showValidatorMessages){

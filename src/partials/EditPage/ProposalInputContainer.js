@@ -72,7 +72,11 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
     useEffect(()=>{
         let totalRequested = totalRequestedFunds.toFixed(8) + " WAX"
         setTotalRequested(totalRequested);
-        updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`));
+        
+        // Some components don't pass this callback, so only use it if it was passed.
+        if(updateTotalRequestedErrorMessage){
+            updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`));
+        }
         // eslint-disable-next-line
     }, [totalRequestedFunds, showValidatorMessages]);
 

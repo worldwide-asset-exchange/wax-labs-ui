@@ -1,11 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
-import {Carousel} from 'react-bootstrap';
+import {Carousel, Tab, Nav} from 'react-bootstrap';
 
 import * as GLOBAL_VARS from '../utils/vars';
 import {requestedAmountToFloat, numberWithCommas, getProposals, getStatBounds} from '../utils/util'
 import { Link } from 'react-router-dom';
 import RenderProposalCard from '../partials/ProposalCard';
+
+import approved from '../images/proposalLifecycle/approved.png';
+import drafting from '../images/proposalLifecycle/drafting.png';
+import final from '../images/proposalLifecycle/final.png';
+import progress from '../images/proposalLifecycle/progress.png';
+import review from '../images/proposalLifecycle/review.png';
+import voting from '../images/proposalLifecycle/voting.png';
+
+import RightArrowIcon from '../icons/RightArrowIcon';
+
 
 import './Home.scss'
 
@@ -138,17 +148,89 @@ export default function RenderHome(props) {
                             touch={true}
                             interval={null}
                         >
-                            {inVotingProposals.map((proposal, index) => {
-                                return (
-                                    <Carousel.Item key={index}>
-                                        <RenderProposalCard proposal={proposal} key={proposal.proposal_id} categories={props.categories} hideStatus={true} />)
-                                    </Carousel.Item>
-                                )
-                            })}
+                            {
+                                inVotingProposals.map((proposal, index) => {
+                                    return (
+                                        <Carousel.Item key={index}>
+                                            <RenderProposalCard proposal={proposal} key={proposal.proposal_id} categories={props.categories} hideStatus={true} />
+                                        </Carousel.Item>
+                                    )
+                                })
+                            }
                         </Carousel>
                         :
                         ""
             }
+            <div className="home__proposalLifecycle">
+                <h3>The proposal lifecycle</h3>
+                <p>Learn what are the possible actions for each proposal status.</p>
+                <Tab.Container id="proposal-lifecycle" defaultActiveKey="drafting">
+                    <Nav className="home__tabs">
+                        <Nav.Link
+                            eventKey="drafting"
+                            className="home__tab"
+                        >
+                            <span className="tag tag--neutral">Drafting</span>
+                        </Nav.Link>
+                        <Nav.Link
+                            eventKey="review"
+                            className="home__tab"
+                        >
+                            <span className="tag tag--neutral">In Review</span>
+                        </Nav.Link>
+                        <Nav.Link
+                            eventKey="approved"
+                            className="home__tab"
+                        >
+                            <span className="tag tag--positive">Approved</span>
+                        </Nav.Link>
+                        <Nav.Link
+                            eventKey="voting"
+                            className="home__tab"
+                        >
+                            <span className="tag tag--attention">In Voting</span>
+                        </Nav.Link>
+                        <Nav.Link
+                            eventKey="progress"
+                            className="home__tab"
+                        >
+                            <span className="tag tag--attention">In Progress</span>
+                        </Nav.Link>
+                        <Nav.Link
+                            eventKey="final"
+                            className="home__tab home__tab--many"
+                        >
+                            <span className="tag tag--negative">Rejected</span>
+                            <span className="tag tag--negative">Failed</span>
+                            <span className="tag tag--positive">Completed</span>
+                        </Nav.Link>
+                    </Nav>
+                    <Tab.Content className="home__content">
+                        <div className="home__scrollMessage">
+                            <p>Scroll right to see all actions</p>
+                            <RightArrowIcon/>
+                        </div>
+                        <Tab.Pane className="home__tabPane" eventKey="drafting">
+                            <img  src={drafting} alt="Flow for a drafting proposal"/>
+                        </Tab.Pane>
+                        <Tab.Pane className="home__tabPane" eventKey="review">
+                            <img  src={review} alt="Flow for a proposal that is in review"/>
+                        </Tab.Pane>
+                        <Tab.Pane className="home__tabPane" eventKey="approved">
+                            <img  src={approved} alt="Flow for an approved proposal"/>
+                        </Tab.Pane>
+                        <Tab.Pane className="home__tabPane" eventKey="voting">
+                            <img  src={voting} alt="Flow for a proposal that is in voting"/>
+                        </Tab.Pane>
+                        <Tab.Pane className="home__tabPane" eventKey="progress">
+                            <img  src={progress} alt="Flow for a proposal that is in progress"/>
+                        </Tab.Pane>
+                        <Tab.Pane className="home__tabPane" eventKey="final">
+                            <img  src={final} alt="Flow for a proposal that is either cancelled, rejected or completed"/>
+                        </Tab.Pane>
+                    </Tab.Content>
+                </Tab.Container>
+            </div>
 
         </div>
     );

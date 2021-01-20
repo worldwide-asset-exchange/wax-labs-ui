@@ -226,7 +226,7 @@ export default function RenderAdminMenu(props){
                     <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
                     <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
                     <button className="button button--rejection" onClick={()=>reviewProposal(false)}>Reject proposal</button>
-                    <button className="button button--approval" onClick={()=>reviewProposal(true)}>Approve proposal</button>
+                    <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true)}>Approve proposal</button>
                 </div>
             )
         }

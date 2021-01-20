@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import { DndProvider } from 'react-dnd';
@@ -12,6 +11,7 @@ import {sleep} from '../../utils/util';
 import {RenderDeliverablesContainer} from './DeliverablesContainer';
 import RenderProposalInputContainer from './ProposalInputContainer';
 import RenderLoadingPage from '../LoadingPage';
+import RenderErrorPage from '../../pages/ErrorPage';
 
 import './EditProposal.scss';
 
@@ -29,7 +29,8 @@ export default function RenderEditProposal(props){
     const [totalRequested, setTotalRequested] = useState(0);
     const [validProposalData, setValidProposalData] = useState(true);
     const [validDeliverablesData, setValidDeliverablesData] = useState(true);
-    const navigate = useNavigate();
+    const [totalRequestedErrorMessage, setTotalRequestedErrorMessage] = useState("");
+
 
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
 
@@ -129,6 +130,9 @@ export default function RenderEditProposal(props){
 
     function updateEditableProposal(editableProposal){
         setEditableProposal(editableProposal);
+    }
+    function updateTotalRequestedErrorMessage(errorMessage){
+        setTotalRequestedErrorMessage(errorMessage);
     }
 
     function createRemoveDeliverableAction(deliverableId){
@@ -269,18 +273,16 @@ export default function RenderEditProposal(props){
         }
     },[deliverablesLists]);
 
-    if(!queryingProposal && proposal){
-        // If querying for proposal is done, and proposal is not null
-        if((!props.activeUser) || (proposal.proposer !== props.activeUser.accountName)){
-            // if there is no active user or proposer is not active user, go back to last page.
-            navigate(-1, {replace: true});
-        }
-    }
 
     if(queryingProposal){
         return <RenderLoadingPage/>
     }
 
+    if(!proposal || !props.activeUser || (proposal.proposer !== props.activeUser.accountName))
+    {
+        console.log("error");
+        return <RenderErrorPage/>
+    }
     return(
         <div className="editProposal">
             <RenderAlerts
@@ -293,6 +295,7 @@ export default function RenderEditProposal(props){
                 deprecatedCategories={props.deprecatedCategories}
                 queryingProposal={queryingProposal}
                 totalRequestedFunds={totalRequested}
+                updateTotalRequestedErrorMessage={updateTotalRequestedErrorMessage}
                 updateEditableProposal={updateEditableProposal}
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}
@@ -306,6 +309,7 @@ export default function RenderEditProposal(props){
                     updateDeliverablesLists={updateDeliverablesLists}
                     totalRequested={totalRequested}
                     activeUser={props.activeUser}
+                    totalRequestedErrorMessage={totalRequestedErrorMessage}
                     showValidatorMessages={showValidatorMessages}
                     updateDeliverablesValidation={updateDeliverablesValidationData}
                     queryingDeliverables={queryingDeliverables}

@@ -236,10 +236,21 @@ export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
     {
         title: "Too many deliverables!",
         body: `Can't have more than ${GLOBAL_VARS.MAX_DELIVERABLES} deliverables`, 
-        variant: ERROR_VARIANT, 
+        variant: WARNING_VARIANT, 
         dismissible: true
     },
 }
+
+export const NO_REVIEW_REPORT_ALERT_DICT = {
+    WARN:
+    {
+        title: "No reject report!",
+        body: "You have to provide a reject link when rejecting a proposal",
+        variant: WARNING_VARIANT,
+        dismissible: true
+    }
+}
+
 
 export const INVALID_DATA_ALERT_DICT = {
     WARN:

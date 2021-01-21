@@ -169,6 +169,7 @@ export function tagStyle(tagState, deliverable=false) {
                 tagClass='tag--negative';
                 break;
             case GLOBAL_VARS.REPORTED_KEY:
+            case GLOBAL_VARS.DELIVERABLE_INPROGRESS_KEY:
                 tagClass='tag--attention';
                 break;
             case GLOBAL_VARS.ACCEPTED_KEY:

@@ -4,6 +4,7 @@
 @import '../scss/layout';
 
 @import '../scss/components/Carousel';
+@import '../scss/components/Tag';
 
 @mixin minMargin {
     margin-right: $spacing-s;
@@ -102,6 +103,96 @@
 
         @include breakpoint(tablet-up) {
             margin: 0 $spacing-m;
+        }
+    }
+    &__proposalLifecycle {
+        background-color: $overlay-01;
+        border-radius: $border-radius;
+        padding: $spacing-s;
+
+        max-width: 1200px;
+        margin: $spacing-s;
+
+        @include breakpoint(desktop-up) {
+            margin: $spacing-s auto;
+        }
+    }
+    &__tabs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        @include breakpoint(tablet-landscape-up) {
+            flex-direction: row;
+        }
+        .active {
+            outline: none;
+            .tag--neutral {
+                background-color: rgba($blue-dark, 1);
+                color: $typography-01;
+            }
+            .tag--positive {
+                background-color: rgba($green-dark, 1);
+                color: $typography-01;
+            }
+            .tag--attention {
+                background-color: rgba($orange-dark, 1);
+                color: $typography-01;
+            }
+            .tag--negative {
+                background-color: rgba($red-dark, 1);
+                color: $typography-01;
+            }
+        }
+    }
+    &__tab {
+        margin: $spacing-xxs;
+        &--many {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            @include breakpoint(desktop-up) {
+                flex-direction: row;
+            }
+            .tag {
+                @include breakpoint(desktop-up) {
+                    margin-right: $spacing-xxs;
+
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+    &__tabPane {
+        margin: $spacing-s 0;
+        overflow-x: scroll;
+        text-align: center;
+        scrollbar-width: none;
+
+        img {
+            max-height: 400px;
+        }
+        &--large {
+            img {
+                max-height: 600px;
+            }
+        }
+    }
+    &__scrollMessage {
+
+        display: flex;
+        align-items: center;
+
+        @include breakpoint(desktop-up) {
+            display: none;
+        }
+        p {
+            @include p--tiny;
+            margin-bottom: 0;
         }
     }
 }

@@ -14,6 +14,10 @@
     &--negative {
         background-color: $red-background;
         color: $red-light;
+        &:hover {
+            background-color: $red-background;
+            color: $red-light;
+        }
     }
     &--positive {
         background-color: $green-background;

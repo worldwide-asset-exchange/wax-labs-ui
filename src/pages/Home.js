@@ -163,7 +163,7 @@ export default function RenderHome(props) {
             }
             <div className="home__proposalLifecycle">
                 <h3>The proposal lifecycle</h3>
-                <p>Learn what are the possible actions for each proposal status.</p>
+                <p>Learn each step of the proposal process by selecting a proposal phase below.</p>
                 <Tab.Container id="proposal-lifecycle" defaultActiveKey="drafting">
                     <Nav className="home__tabs">
                         <Nav.Link
@@ -207,26 +207,26 @@ export default function RenderHome(props) {
                     </Nav>
                     <Tab.Content className="home__content">
                         <div className="home__scrollMessage">
-                            <p>Scroll right to see all actions</p>
+                            <p>Scroll right to see all actions for this phase.</p>
                             <RightArrowIcon/>
                         </div>
                         <Tab.Pane className="home__tabPane" eventKey="drafting">
-                            <img  src={drafting} alt="Flow for a drafting proposal"/>
+                            <img  src={drafting} alt="Flow for a drafting proposal."/>
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="review">
-                            <img  src={review} alt="Flow for a proposal that is in review"/>
+                            <img  src={review} alt="Flow for a proposal that is in review."/>
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="approved">
-                            <img  src={approved} alt="Flow for an approved proposal"/>
+                            <img  src={approved} alt="Flow for an approved proposal."/>
                         </Tab.Pane>
-                        <Tab.Pane className="home__tabPane" eventKey="voting">
-                            <img  src={voting} alt="Flow for a proposal that is in voting"/>
+                        <Tab.Pane className="home__tabPane home__tabPane--large" eventKey="voting">
+                            <img  src={voting} alt="Flow for a proposal that is in voting."/>
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="progress">
-                            <img  src={progress} alt="Flow for a proposal that is in progress"/>
+                            <img  src={progress} alt="Flow for a proposal that is in progress."/>
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="final">
-                            <img  src={final} alt="Flow for a proposal that is either cancelled, rejected or completed"/>
+                            <img  src={final} alt="Flow for a proposal that is either cancelled, rejected or completed."/>
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>

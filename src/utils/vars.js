@@ -136,6 +136,8 @@ export const CAST_VOTE_ACTION = "castvote"
 
 export const LABS_CONTRACT_ACCOUNT = process.env.REACT_APP_LABS_CONTRACT_NAME
 export const ACCOUNTS_TABLE = 'accounts'
+export const PROPOSAL_COMMENTS_TABLE = 'pcomments'
+export const DELIVERABLES_COMMENTS_TABLE = 'dcomments'
 export const CONFIG_TABLE = 'config'
 export const MD_BODIES_TABLE = 'mdbodies'
 export const DELIVERABLES_TABLE = 'deliverables'

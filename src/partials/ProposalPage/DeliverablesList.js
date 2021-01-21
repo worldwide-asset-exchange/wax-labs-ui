@@ -29,7 +29,19 @@ export default function RenderDeliverablesList(props){
                 json: true,
                 limit: 1000,
             });
-            setDeliverables(delivs.rows);
+            let statusComments = await wax.rpc.get_table_rows({
+                code: globals.LABS_CONTRACT_ACCOUNT,
+                scope: id,
+                table: globals.DELIVERABLES_COMMENTS_TABLE,
+                json: true,
+                limit: 1000,
+            });
+            let deliverables = delivs.rows;
+            if(statusComments.rows.length){
+                deliverables = delivs.rows.map((deliverable, index) => {return {...deliverable, status_comment: statusComments.rows[index].status_comment};});
+            }
+            console.log(deliverables, statusComments);
+            setDeliverables(deliverables);
         } catch (e){
             console.log(e);
         }

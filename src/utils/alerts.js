@@ -241,11 +241,11 @@ export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
     },
 }
 
-export const NO_REVIEW_REPORT_ALERT_DICT = {
+export const NO_REJECTION_REASON_ALERT_DICT = {
     WARN:
     {
-        title: "No reject report!",
-        body: "You have to provide a reject link when rejecting a proposal",
+        title: "No rejection reason!",
+        body: "You have to provide a rejection reason when rejecting a proposal",
         variant: WARNING_VARIANT,
         dismissible: true
     }

@@ -55,6 +55,13 @@
         .tag {
             margin: 0 0 $spacing-s 0;
             align-self: center;
+            &:nth-of-type(2) {
+                margin: 0 0 $spacing-xxs 0;
+            }
+        }
+        label {
+            @include p--tiny;
+            margin-bottom: 0;
         }
     }
     &__statusTag {

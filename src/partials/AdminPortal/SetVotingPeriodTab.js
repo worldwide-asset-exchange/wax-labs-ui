@@ -2,28 +2,12 @@ import React, {useState} from 'react';
 
 import * as GLOBAL_VARS from '../../utils/vars'
 import * as GLOBAL_ALERTS from '../../utils/alerts';
+import {calculateTime} from '../../utils/util';
 import RenderLoadingPage from '../LoadingPage';
 
 import './SetVotingPeriodTab.scss'
 
-function calculateTime (seconds) {
-    let timeObj = {days: 0, hours: 0, minutes: 0, seconds: 0};
 
-    if(seconds <= 0)
-    {
-        return timeObj;
-    }
-
-    timeObj = {
-        days: Math.floor(seconds / ( 60 * 60 * 24)),
-        hours: Math.floor((seconds / (60 * 60)) % 24),
-        minutes: Math.floor((seconds / (60)) % 60),
-        seconds: Math.floor((seconds) % 60)
-    }
-
-    return timeObj;
-
-}
 
 function RenderTime(timeObj){
     return(

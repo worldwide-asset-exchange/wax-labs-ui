@@ -1,0 +1,25 @@
+@import '../../scss/variables';
+@import '../../scss/typography';
+
+.votingProposal {
+    &__timeBox {
+        display: flex;
+    }
+    &__timeleft {
+        display: flex;
+        flex-direction: column;
+
+        margin-right: $spacing-xs;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+
+        h4 {
+            margin-bottom: 0;
+        }
+        span {
+            @include p--tiny;
+        }
+    }
+}

@@ -3,7 +3,7 @@ import * as waxjs from "@waxio/waxjs/dist";
 import {Carousel, Tab, Nav} from 'react-bootstrap';
 
 import * as GLOBAL_VARS from '../utils/vars';
-import {requestedAmountToFloat, numberWithCommas, getProposals, getStatBounds} from '../utils/util'
+import {requestedAmountToFloat, numberWithCommas, getProposals, getStatBounds, calculateTime} from '../utils/util'
 import { Link } from 'react-router-dom';
 import RenderProposalCard from '../partials/ProposalCard';
 
@@ -12,10 +12,10 @@ import drafting from '../images/proposalLifecycle/drafting.png';
 import final from '../images/proposalLifecycle/final.png';
 import progress from '../images/proposalLifecycle/progress.png';
 import review from '../images/proposalLifecycle/review.png';
-import voting from '../images/proposalLifecycle/voting.png';
+
+import VotingProposal from '../images/proposalLifecycle/VotingProposal';
 
 import RightArrowIcon from '../icons/RightArrowIcon';
-
 
 import './Home.scss'
 
@@ -99,7 +99,7 @@ export default function RenderHome(props) {
         getInProgressProposals();
         getCompletedProposals();
     },[])
-
+    console.log(configData)
     return (
         <div className="home">
             <div className="home__cover">
@@ -220,7 +220,8 @@ export default function RenderHome(props) {
                             <img  src={approved} alt="Flow for an approved proposal."/>
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane home__tabPane--large" eventKey="voting">
-                            <img  src={voting} alt="Flow for a proposal that is in voting."/>
+                            <h1>{configData.voting_duration}</h1>
+                            <VotingProposal votingDuration={calculateTime(configData.vote_duration)}/>
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="progress">
                             <img  src={progress} alt="Flow for a proposal that is in progress."/>

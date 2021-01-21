@@ -199,3 +199,21 @@ export function tagStyle(tagState, deliverable=false) {
     }
     return tagClass;
 }
+
+export function calculateTime (seconds) {
+    let timeObj = {days: 0, hours: 0, minutes: 0, seconds: 0};
+
+    if(seconds <= 0)
+    {
+        return timeObj;
+    }
+
+    timeObj = {
+        days: Math.floor(seconds / ( 60 * 60 * 24)),
+        hours: Math.floor((seconds / (60 * 60)) % 24),
+        minutes: Math.floor((seconds / (60)) % 60),
+        seconds: Math.floor((seconds) % 60)
+    }
+
+    return timeObj;
+}

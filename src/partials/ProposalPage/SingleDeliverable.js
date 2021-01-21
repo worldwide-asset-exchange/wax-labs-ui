@@ -271,7 +271,7 @@ export default function RenderSingleDeliverable(props){
     let proposerActions = getProposerActions();
     let reviewerActions = getReviewerActions();
     let recipientActions = getRecipientActions();
-
+    console.log(deliverable);
     return (
         <div className="singleDeliverable">
             <Accordion>
@@ -305,7 +305,7 @@ export default function RenderSingleDeliverable(props){
                                     rel="noopener noreferrer"
                                     className="inlineLink"
                                 >
-                                    View review report
+                                    View rejection report
                                 </a>
                                 : ""
                             }
@@ -317,7 +317,7 @@ export default function RenderSingleDeliverable(props){
                                     rel="noopener noreferrer"
                                     className="inlineLink"
                                 >
-                                    View report
+                                    View completion report
                                 </a>
                                 :   ""
                             }

@@ -32,6 +32,7 @@ export default function RenderProposalPage(props){
     const [proposalDeleted, setProposalDeleted] = useState(false);
     const [queryingProposal, setQueryingProposal] = useState(true);
     const [errorImage, setErrorImage] = useState(false);
+    const [statusComment, setStatusComment] = useState(false);
 
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
@@ -68,10 +69,19 @@ export default function RenderProposalPage(props){
                     </div>
                     <div className="proposalPage__column">
                         <div className="proposalPage__status">
+                            <div className="tag tag--category">{props.categories[proposal.category]}</div>
                             <div className={`tag ${tagStyle(proposal.status)} proposalPage__statusTag`}>
                                 {readableProposalStatus[proposal.status]}
                             </div>
-                            <div className="tag tag--category">{props.categories[proposal.category]}</div>
+                            {/* check if there is a status comment */}
+                            {
+                                statusComment ? 
+                                <div>
+                                    <label>Status comment</label>
+                                    <p>{statusComment}</p>
+                                </div>
+                                : ""
+                            }
                             <RenderVotesDisplay
                                 proposal={proposal}
                                 votes={votes}
@@ -157,8 +167,32 @@ export default function RenderProposalPage(props){
                 console.log(e);
             }
         }
+
+        async function getStatusCommentData() {
+            try{
+                /* Getting Proposal info */
+                let resp = await wax.rpc.get_table_rows({
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.PROPOSAL_COMMENTS_TABLE,
+                    json: true,
+                    lower_bound: id,
+                    upper_bound: id,
+                });
+                let statusComment = null;
+                if(resp.rows[0]){
+                    statusComment = resp.rows[0].status_comment
+                }
+                setStatusComment(statusComment);
+    
+            } catch (e){
+                console.log(e);
+            }
+        }
+
         getProposalData();
         getContentData();
+        getStatusCommentData();
         //eslint-disable-next-line
     },[id, proposalQueryCount])
 

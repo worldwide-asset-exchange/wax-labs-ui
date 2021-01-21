@@ -17,6 +17,7 @@
         text-align: start;
     }
 
+    
     &__actions {
         display: flex;
         flex-direction: column;
@@ -37,5 +38,24 @@
     &__modalAction {
         float: right;
         margin-top: 16px;
+    }
+    
+    &__reject {
+        display: flex;
+        flex-direction: column;
+        margin-top: $spacing-s;
+
+        @include breakpoint(tablet-landscape-up) {
+            margin-top: 0;
+        }
+        
+        .input {
+            
+            background-color: $overlay-01;
+            
+        }
+        .button {
+            margin-top: $spacing-xs;
+        }
     }
 }

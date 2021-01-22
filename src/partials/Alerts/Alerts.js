@@ -13,7 +13,7 @@ export default function RenderAlerts(props){
     function RenderAlert(props){
         return(
             <Alert
-                className="w-100 mb-0"
+                className="mb-0"
                 variant={props.alertObj.variant}
                 onClose={()=>props.removeAlert(props.index)}
                 dismissible={props.alertObj.dismissible}
@@ -35,7 +35,7 @@ export default function RenderAlerts(props){
 
     if(props.alertList){
         return (
-            <div className="fixed-top alert">
+            <div className="fixed-top customAlert">
                 {props.alertList.map((alertObj, index) => <RenderAlert key={index + "" + alertObj.title} alertObj={alertObj} index={index} removeAlert={props.removeAlert}/>)}
             </div>
         )

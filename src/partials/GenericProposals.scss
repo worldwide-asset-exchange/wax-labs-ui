@@ -14,7 +14,7 @@
     margin: 0 auto;
 
     &__filtersGroup {
-        @include breakpoint(tablet-up) {
+        @include breakpoint(tablet-landscape-up) {
             display: block !important;
         }
     }
@@ -32,7 +32,7 @@
             text-align: center;
         }
         .button {
-            @include breakpoint(tablet-up) {
+            @include breakpoint(tablet-landscape-up) {
                 display: none;
             }
         }

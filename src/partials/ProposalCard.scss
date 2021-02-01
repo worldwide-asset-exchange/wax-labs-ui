@@ -22,7 +22,7 @@
 
     background-color: $overlay-01;
 
-    @include breakpoint(tablet-up) {
+    @include breakpoint(tablet-landscape-up) {
         flex-direction: row;
         background-image: none !important;
         padding: 0;
@@ -59,7 +59,7 @@
         @include h2;
         margin-bottom: $spacing-xxs;
 
-        @include breakpoint(tablet-up) {
+        @include breakpoint(tablet-landscape-up) {
             margin-bottom: $spacing-xs;
         }
     }
@@ -72,7 +72,7 @@
         flex-direction: column;
         justify-content: space-between;
 
-        @include breakpoint(tablet-up) {
+        @include breakpoint(tablet-landscape-up) {
             flex-direction: row;
         }
     }
@@ -93,14 +93,14 @@
         align-items: center;
         padding: $spacing-s 0 0 0;
 
-        @include breakpoint(tablet-up) {
+        @include breakpoint(tablet-landscape-up) {
             flex-direction: column;
         }
     }
     &__deliverablesAmount {
         @include p--bold;
         display: none;
-        @include breakpoint(tablet-up) {
+        @include breakpoint(tablet-landscape-up) {
             display: block;
             margin: $spacing-m 0;
         }

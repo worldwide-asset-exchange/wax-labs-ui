@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import RenderProposalInputContainer from '../EditPage/ProposalInputContainer';
 import * as waxjs from "@waxio/waxjs/dist";
 
@@ -137,6 +138,11 @@ export default function RenderCreateProposalPage(props){
                 <p>
                     Transaction link <a className="inlineLink" target="__blank" href={`https://wax${props.activeUser.chainId === GLOBAL_VARS.TESTNET_CHAIN_ID ? "-test" : ""}.bloks.io/transaction/${transactionId}`}>{transactionId.slice(0,8)}</a>
                 </p>
+                <h3>Now you can finish your proposal by editing it and adding your deliverables.</h3>
+                <p> Find your proposal in the my proposals tab within your portal or click the button below.</p>
+                <Link className="button button--primary" to={GLOBAL_VARS.MY_PROPOSALS_LINK}>
+                    Go to my proposals
+                </Link>
             </div>
         )
     }

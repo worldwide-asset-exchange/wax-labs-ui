@@ -194,6 +194,7 @@ export const PROFILE_LINK = '/profile'
 export const ACCOUNT_PORTAL_LINK = "/account"
 export const CREATE_PROFILE_LINK = ACCOUNT_PORTAL_LINK + `?${MODE_QUERY_STRING_KEY}=${CREATE_EVENT_KEY}&${TAB_QUERY_STRING_KEY}=${PROFILE_TAB_KEY}`
 export const ADMIN_PORTAL_LINK = "/admin"
+export const MY_PROPOSALS_LINK = `${ACCOUNT_PORTAL_LINK}?tab=${MY_PROPOSALS_TAB_KEY}`
 
 export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg'
 

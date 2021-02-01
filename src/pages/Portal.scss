@@ -1,9 +1,12 @@
 @import '../scss/variables';
 @import '../scss/responsiveness';
 @import '../scss/typography';
+@import '../scss/layout';
 
 
 .portal {
+    @include minPageHeight;
+
     display: flex;
     flex-direction: column-reverse;
 
@@ -87,5 +90,7 @@
     }
     &__content {
         margin: 0 auto;
+        padding-right: $spacing-s;
+        padding-left: $spacing-s;
     }
 }

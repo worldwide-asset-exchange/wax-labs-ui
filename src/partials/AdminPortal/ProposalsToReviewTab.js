@@ -23,17 +23,15 @@ export default function RenderProposalsToReviewTab(props) {
     },[props.reviewer, props.tabString]);
 
     return (
-        <div className="proposalsToReview">
-            <RenderGenericProposals
-                subtitle="These proposals are waiting for review"
-                noProposalsMessage="No proposals found with current filters, try clearing the filters."
-                categories={props.categories}
-                profile={props.profile}
-                activeUser={props.activeUser}
-                defaultStatus={[GLOBAL_VARS.SUBMITTED_KEY]}
-                queryArgs={queryArgs}
-                noStatusFilter={true}
-            />
-        </div>
+        <RenderGenericProposals
+            subtitle="These proposals are waiting for review"
+            noProposalsMessage="No proposals found with current filters, try clearing the filters."
+            categories={props.categories}
+            profile={props.profile}
+            activeUser={props.activeUser}
+            defaultStatus={[GLOBAL_VARS.SUBMITTED_KEY]}
+            queryArgs={queryArgs}
+            noStatusFilter={true}
+        />
     )
 }

@@ -5,7 +5,7 @@
 
 .footer {
     @include mainPadding;
-    background-color:  $modal-background-color;
+    background-color: $modal-background-color;
 
     display: flex;
     flex-direction: column;
@@ -36,8 +36,16 @@
             }
         }
     }
-    &__builtWithLove{
+    &__images {
+        display: flex;
+        flex-direction: column;
+    }
+    &__builtWithLove,
+    &__poweredByWAX {
         max-width: 130px;
+    }
+    &__poweredByWAX {
+        margin-bottom: $spacing-s;
     }
     &__disclaimer {
         margin: $spacing-xxs 0;

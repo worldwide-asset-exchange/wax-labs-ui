@@ -66,7 +66,7 @@ export default function RenderProposalPage(props){
                             <h1>{proposal.title}</h1>
                             <p className="proposalPage__paragraph--bold">{proposal.description}</p>
                             <p>{body}</p>
-                            <p className="proposalPage__label">Roadmap</p>
+                            <p className="proposalPage__label">Financial Roadmap</p>
                             <p>{proposal.road_map}</p>
                     </div>
                     <div className="proposalPage__column">

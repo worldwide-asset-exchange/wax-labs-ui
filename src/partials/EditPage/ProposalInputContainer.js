@@ -189,7 +189,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
             </div>
             <div className="proposalInputContainer__fieldset">
                 <label className="input__label">
-                    Roadmap
+                    Financial Roadmap
                     <span
                         className={`proposalInputContainer__charAmount ${
                             editableProposal.road_map.length > GLOBAL_VARS.MAX_ROADMAP_LENGTH

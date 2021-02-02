@@ -1,0 +1,17 @@
+@import '../variables';
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $orange-dark $gray-medium;
+}
+*::-webkit-scrollbar {
+      width: 12px;
+}
+*::-webkit-scrollbar-track {
+    background: $gray-medium;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: $orange-dark;
+    border-radius: 20px;
+    border: 3px solid $gray-medium;
+}

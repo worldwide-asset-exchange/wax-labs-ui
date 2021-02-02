@@ -3,16 +3,12 @@
 @import './scss/typography';
 
 * {
-  padding: 0;
-  margin: 0;
-}
+    padding: 0;
+    margin: 0;
+  }
 
 html {
   height: 100%;
-}
-
-::-webkit-scrollbar {
-  display:none;
 }
 
 h2 {

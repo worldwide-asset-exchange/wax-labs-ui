@@ -5,6 +5,7 @@ Route,
 } from 'react-router-dom'
 import * as waxjs from "@waxio/waxjs/dist";
 
+import './scss/components/ScrollBar.scss';
 import './App.scss';
 
 import RenderHome from './pages/Home.js';

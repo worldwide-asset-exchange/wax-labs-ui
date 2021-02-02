@@ -55,7 +55,8 @@ export default function RenderNotifications (props){
                                             to={GLOBAL_VARS.PROPOSALS_LINK + "/" + notification.id}
                                             className="notifications__link"
                                         >
-                                        {notification.text}
+                                            <div className="notifications__id">Proposal #{notification.id}</div>
+                                            <div className="notifications__text">{notification.text}</div>
                                         </Link>
                                     </li>
                                 )

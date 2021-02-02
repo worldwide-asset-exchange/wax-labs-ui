@@ -175,12 +175,13 @@
     }
     &__tabPane {
         margin: $spacing-s 0;
-        overflow-x: scroll;
+        overflow-x: auto;
         text-align: center;
         scrollbar-width: none;
 
         img {
             max-height: 400px;
+            padding-bottom: $spacing-s;
         }
         &--large {
             img {

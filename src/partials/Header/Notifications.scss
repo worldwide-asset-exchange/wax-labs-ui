@@ -46,6 +46,7 @@
         padding: 0;
     }
     &__list {
+        margin-bottom: 0;
 
         p {
             margin-bottom: 0;
@@ -54,7 +55,7 @@
     }
     &__notification {
         @include p--bold;
-        padding: $spacing-xs;
+        padding: 0;
         cursor: pointer;
 
         &:hover {
@@ -62,6 +63,9 @@
 
             .notifications__link {
                 text-decoration: none;
+            }
+            .notifications__id,
+            .notifications__text {
                 color: $gray-dark;
             }
         }
@@ -71,9 +75,23 @@
             color: $typography-02;
             text-align: center;
             cursor: default;
+
+            &:hover {
+                cursor: default;
+                background-color: $modal-background-color;
+            }
         }
     }
     &__link {
+        display: block;
+        padding: $spacing-s;
+    }
+    &__id {
+        @include p--bold;
         color: $orange-medium;
+
+    }
+    &__text {
+        @include p;
     }
 }

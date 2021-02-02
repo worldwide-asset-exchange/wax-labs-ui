@@ -157,11 +157,17 @@
                 flex-direction: row;
             }
             .tag {
+                margin-bottom: 0;
+
+                &:last-of-type {
+                    margin-top: $spacing-xxs;
+                }
                 @include breakpoint(desktop-up) {
                     margin-right: $spacing-xxs;
 
                     &:last-of-type {
                         margin-right: 0;
+                        margin-top: 0;
                     }
                 }
             }

@@ -226,7 +226,7 @@ export const READABLE_PROPOSAL_STATUS = {
     [COMPLETED_KEY]:  "Completed",
     [CANCELLED_KEY]:  "Cancelled",
     [PROPOSAL_INPROGRESS_KEY]: "In Progress",
-    [FAILED_KEY]:     "Failed",
+    [FAILED_KEY]:     "Rejected",
 }
 
 export const READABLE_DELIVERABLE_STATUS = {

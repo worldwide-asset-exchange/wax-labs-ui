@@ -75,9 +75,17 @@
     }
     &__details {
         margin-bottom: $spacing-xs;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
     }
     &__label {
         @include p--bold;
+        &--center {
+            text-align: center;
+            margin-bottom: $spacing-xxs;
+        }
     }
     &__accountID {
         @include h4;

@@ -201,7 +201,6 @@ export default function RenderHome(props) {
                             className="home__tab home__tab--many"
                         >
                             <span className="tag tag--negative">Rejected</span>
-                            <span className="tag tag--negative">Failed</span>
                             <span className="tag tag--positive">Completed</span>
                         </Nav.Link>
                     </Nav>

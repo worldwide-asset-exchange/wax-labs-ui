@@ -69,19 +69,25 @@ export default function RenderProposalPage(props){
                     </div>
                     <div className="proposalPage__column">
                         <div className="proposalPage__status">
+                            <div className="proposalPage__details">
+                                <div className="proposalPage__label proposalPage__label--center">Category</div>
                             <div className="tag tag--category">{props.categories[proposal.category]}</div>
+                            </div>
+                            <div className="proposalPage__details">
+                                <div className="proposalPage__label proposalPage__label--center">Status</div>
                             <div className={`tag ${tagStyle(proposal.status)} proposalPage__statusTag`}>
                                 {readableProposalStatus[proposal.status]}
                             </div>
                             {/* check if there is a status comment */}
-                            {
-                                statusComment ? 
+                                {statusComment ? (
                                 <div>
                                     <label>Status comment</label>
                                     <p>{statusComment}</p>
                                 </div>
-                                : ""
-                            }
+                                ) : (
+                                    ''
+                                )}
+                            </div>
                             <RenderVotesDisplay
                                 proposal={proposal}
                                 votes={votes}

@@ -11,7 +11,7 @@ export default function RenderProfileDisplay(props){
                     src={imageError ? GLOBAL_VARS.DEFAULT_PROPOSAL_IMAGE_URL : props.profile.image_url}
                     alt="User provided"
                     className="profileDisplay__image"
-                    onError={()=> setImageError(true)}
+                    onError={() => setImageError(true)}
                 />
                 <div className="profileDisplay__information">
                     <div className="profileDisplay__label">Full name</div>
@@ -33,8 +33,12 @@ export default function RenderProfileDisplay(props){
                     <div className="profileDisplay__label">Telegram handle</div>
                     <h5 className="profileDisplay__data">{props.profile.contact}</h5>
                 </div>
+                <div className="profileDisplay__information">
+                    <div className="profileDisplay__label">Group name</div>
+                    <h5 className="profileDisplay__data">{props.profile.group_name}</h5>
+                </div>
             </div>
-        )
+        );
     }
 
     return(

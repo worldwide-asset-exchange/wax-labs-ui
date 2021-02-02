@@ -16,6 +16,7 @@ export default function RenderProfileInputContainer (props) {
         image_url: "",
         website: "",
         wax_account: "",
+        group_name: "",
     });
 
     const [refreshPage, setRefreshPage] = useState(0);
@@ -62,81 +63,80 @@ export default function RenderProfileInputContainer (props) {
     const webSiteErrorMessage = validator.message('website', editableProfile.website, 'required|max:128');
     const biographyErrorMesssage = validator.message('biography', editableProfile.bio, 'required|max:512');
     const telegramHandleErrorMessage = validator.message('telegram handle', editableProfile.contact, 'required|max:32');
+    const groupNameErrorMessage = validator.message('group name', editableProfile.group_name, 'required|max:64');
 
     return (
-        <div className="profileInputContainer">            
+        <div className="profileInputContainer">
             <div className="profileInputContainer__input">
                 <label className="input__label">Full name</label>
                 <input
-                    className={`${fullNameErrorMessage ? "input input--error" : "input"}`}
+                    className={`${fullNameErrorMessage ? 'input input--error' : 'input'}`}
                     value={editableProfile.full_name}
                     name="full_name"
                     onChange={handleInputChange}
                 />
-                <div className="input__errorMessage">
-                    {fullNameErrorMessage}
-                </div>
+                <div className="input__errorMessage">{fullNameErrorMessage}</div>
             </div>
             <div className="profileInputContainer__input">
                 <label className="input__label">Country</label>
                 <input
-                    className={`${countryErrorMessage ? "input input--error" : "input"}`}
+                    className={`${countryErrorMessage ? 'input input--error' : 'input'}`}
                     value={editableProfile.country}
                     name="country"
                     onChange={handleInputChange}
                 />
-                <div className="input__errorMessage">
-                    {countryErrorMessage}
-                </div>
+                <div className="input__errorMessage">{countryErrorMessage}</div>
             </div>
             <div className="profileInputContainer__input">
                 <label className="input__label">Website</label>
                 <input
-                    className={`${webSiteErrorMessage ? "input input--error" : "input"}`}
+                    className={`${webSiteErrorMessage ? 'input input--error' : 'input'}`}
                     value={editableProfile.website}
                     name="website"
                     onChange={handleInputChange}
                 />
-                <div className="input__errorMessage">
-                    {webSiteErrorMessage}
-                </div>
+                <div className="input__errorMessage">{webSiteErrorMessage}</div>
             </div>
             <div className="profileInputContainer__input">
                 <label>Telegram handle</label>
                 <input
-                    className={`${telegramHandleErrorMessage ? "input input--error" : "input"}`}
+                    className={`${telegramHandleErrorMessage ? 'input input--error' : 'input'}`}
                     value={editableProfile.contact}
                     name="contact"
                     onChange={handleInputChange}
                 />
-                <div className="input__errorMessage">
-                    {telegramHandleErrorMessage}
-                </div>
+                <div className="input__errorMessage">{telegramHandleErrorMessage}</div>
             </div>
             <div className="profileInputContainer__input">
                 <label>Image URL</label>
                 <input
-                    className={`${imageUrlErrorMessage ? "input input--error" : "input"}`}
+                    className={`${imageUrlErrorMessage ? 'input input--error' : 'input'}`}
                     value={editableProfile.image_url}
                     name="image_url"
                     onChange={handleInputChange}
                 />
-                <div className="input__errorMessage">
-                    {imageUrlErrorMessage}
-                </div>
+                <div className="input__errorMessage">{imageUrlErrorMessage}</div>
+            </div>
+            <div className="profileInputContainer__input">
+                <label className="input__label">Group Name</label>
+                <input
+                    className={`${groupNameErrorMessage ? 'input input--error' : 'input'}`}
+                    value={editableProfile.group_name}
+                    name="group_name"
+                    onChange={handleInputChange}
+                />
+                <div className="input__errorMessage">{groupNameErrorMessage}</div>
             </div>
             <div className="profileInputContainer__input">
                 <label>Biography</label>
                 <textarea
-                    className={`${biographyErrorMesssage ? "textarea textarea--error" : "textarea"}`}
+                    className={`${biographyErrorMesssage ? 'textarea textarea--error' : 'textarea'}`}
                     value={editableProfile.bio}
                     name="bio"
                     onChange={handleInputChange}
                 />
-                <div className="input__errorMessage">
-                    {biographyErrorMesssage}
-                </div>
+                <div className="input__errorMessage">{biographyErrorMesssage}</div>
             </div>
         </div>
-    )
+    );
 }

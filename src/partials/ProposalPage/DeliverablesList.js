@@ -38,7 +38,7 @@ export default function RenderDeliverablesList(props){
             });
             let deliverables = delivs.rows;
             if(statusComments.rows.length){
-                deliverables = delivs.rows.map((deliverable, index) => {return {...deliverable, status_comment: statusComments.rows[index].status_comment};});
+                deliverables = delivs.rows.map((deliverable, index) => {return {...deliverable, status_comment: (statusComments.rows[index] ? statusComments.rows[index].status_comment : "")};});
             }
             console.log(deliverables, statusComments);
             setDeliverables(deliverables);

@@ -1,5 +1,6 @@
 @import '../../scss/variables';
 @import '../../scss/responsiveness';
+@import '../../scss/typography';
 @import '../../scss/layout';
 
 .manageCategories {
@@ -12,11 +13,21 @@
 
         margin-bottom: $spacing-l;
 
-        min-width: 300px;
+        min-width: 250px;
 
         .button {
             align-self: flex-end;
-            margin-top: $spacing-xs;
         }
+    }
+    &__requirements {
+        margin: $spacing-s 0;
+        p {
+            @include p--bold;
+            margin-bottom: $spacing-xxs;
+        }
+    }
+    &__requirementsList {
+        @include p;
+        list-style-position: inside
     }
 }

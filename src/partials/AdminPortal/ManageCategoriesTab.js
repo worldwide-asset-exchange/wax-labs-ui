@@ -117,6 +117,13 @@ export default function RenderManageCategoriesTab(props) {
                     onChange={(event)=>setNewCategory(event.target.value)}
                     className="input"
                 />
+                <div className="manageCategories__requirements">
+                    <p>Category name must be EOSIO compliant:</p>
+                    <ul className="manageCategories__requirementsList">
+                        <li>Must contain only lower case letters, dot and numbers from 1 to 5.</li>
+                        <li>Must contain from 3 and 12 characters.</li>
+                    </ul>
+                </div>
                 <button className="button button--primary" onClick={()=>addNewCategory()}>Add new category</button>
             </div>
             {

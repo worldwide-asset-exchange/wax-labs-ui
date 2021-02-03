@@ -185,6 +185,7 @@ export default function RenderEditProposal(props){
                 category: props.categories[editableProposal.category],
                 image_url: editableProposal.image_url,
                 estimated_time: editableProposal.estimated_time,
+                road_map: editableProposal.road_map,
             },
         }
     }

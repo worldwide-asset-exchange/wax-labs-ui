@@ -179,6 +179,7 @@ export const MAX_BODY_LENGTH = 4096
 export const MAX_IMGURL_LENGTH = 256
 export const PROPOSAL_MIN_REQUESTED = 1000
 export const PROPOSAL_MAX_REQUESTED = 500000
+export const MAX_ROADMAP_LENGTH = 2048
 
 // Links
 export const PROPOSALS_LINK = "/proposals"

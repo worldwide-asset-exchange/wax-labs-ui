@@ -40,7 +40,7 @@ export default function RenderProposalPage(props){
     function updateProposalDeleted(boolean){
         setProposalDeleted(boolean);
     }
-    
+
 
     function RenderProposalInfo(){
         /*
@@ -66,6 +66,8 @@ export default function RenderProposalPage(props){
                             <h1>{proposal.title}</h1>
                             <p className="proposalPage__paragraph--bold">{proposal.description}</p>
                             <p>{body}</p>
+                            <p className="proposalPage__label">Financial Roadmap</p>
+                            <p>{proposal.road_map}</p>
                     </div>
                     <div className="proposalPage__column">
                         <div className="proposalPage__status">
@@ -148,13 +150,13 @@ export default function RenderProposalPage(props){
                     responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' ' + GLOBAL_VARS.TOKEN_SYMBOL;
                 }
                 setProposal(responseProposal);
-                
+
             } catch (e){
                 console.log(e);
             }
             setQueryingProposal(false);
         }
-    
+
         async function getContentData(){
             try{
                 /* Getting Proposal info */
@@ -168,7 +170,7 @@ export default function RenderProposalPage(props){
                 });
                 let responseBody = resp.rows[0].content
                 setBody(responseBody);
-    
+
             } catch (e){
                 console.log(e);
             }
@@ -190,7 +192,7 @@ export default function RenderProposalPage(props){
                     statusComment = resp.rows[0].status_comment
                 }
                 setStatusComment(statusComment);
-    
+
             } catch (e){
                 console.log(e);
             }

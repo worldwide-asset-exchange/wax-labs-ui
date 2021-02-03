@@ -102,6 +102,7 @@ export default function RenderCreateProposalPage(props){
                             mdbody: proposal.content,
                             total_requested_funds: Number(1000).toFixed(8) + " WAX",
                             deliverables_count: proposal.deliverables,
+                            road_map: proposal.road_map,
                         },
                     },
                 ]} , {

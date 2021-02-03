@@ -52,6 +52,7 @@
         }
     }
     &__fieldset {
+        max-width: 240px;
         margin-bottom: $spacing-xs;
     }
 }

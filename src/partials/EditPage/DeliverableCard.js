@@ -58,6 +58,8 @@ export const RenderDeliverableCard = ({
         // For some unknown reason validator is acting up unless I redo the validator.message in here.
         validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num');
         validator.message('recipient', deliverable.recipient, "required");
+        validator.message('small description', deliverable.small_description, 'required');
+        validator.message('days to complete', deliverable.days_to_complete, 'required');
         updateDeliverablesValidation(deliverable.id, validator.allValid())
         // eslint-disable-next-line
     }, [deliverable]);
@@ -74,7 +76,8 @@ export const RenderDeliverableCard = ({
     // validator.showMessages();
     const requestedErrorMessage = validator.message('requested', deliverable.requested_amount, 'required|min:0.00000001,num')
     const recipientErrorMessage = validator.message('recipient', deliverable.recipient, "required")
-    
+    const descriptionErrorMessage = validator.message('small description', deliverable.small_description, 'required')
+    const daysToCompleteErrorMessage = validator.message('days to complete', deliverable.days_to_complete, 'required')
     
     return (
         <div
@@ -118,10 +121,35 @@ export const RenderDeliverableCard = ({
                     className={`${recipientErrorMessage ? "input input--error" : "input"}`}
                     name="recipient"
                     value={deliverable.recipient}
-                    onChange={(event)=>updateCard(event, index)}
+                    onChange={(event) => updateCard(event, index)}
+                />
+                <div className="input__errorMessage">{recipientErrorMessage}</div>
+            </div>
+            <div className="deliverableCard__fieldset">
+                <label className="input__label">Small Description</label>
+                <input
+                    type="text"
+                    className={`${descriptionErrorMessage ? 'input input--error' : 'input'}`}
+                    name="small_description"
+                    value={deliverable.small_description}
+                    onChange={(event) => updateCard(event, index)}
+                />
+                <div className="input__errorMessage">{descriptionErrorMessage}</div>
+            </div>
+            <div className="deliverableCard__fieldset">
+                <label className="input__label">Amount of days to complete</label>
+                <input
+                    className={`${
+                        daysToCompleteErrorMessage ? 'input input--error' : 'input'
+                    }`}
+                    type="number"
+                    name="days_to_complete"
+                    placeholder="0"
+                    value={deliverable.days_to_complete}
+                    onChange={(event) => updateCard(event, index)}
                 />
                 <div className="input__errorMessage">
-                    {recipientErrorMessage}
+                    {daysToCompleteErrorMessage}
                 </div>
             </div>
         </div>

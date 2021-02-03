@@ -165,6 +165,8 @@ export default function RenderEditProposal(props){
                 deliverable_id: deliverableId,
                 requested_amount: deliverable.requested_amount.toFixed(8) + " WAX",
                 recipient: deliverable.recipient,
+                small_description: deliverable.small_description,
+                days_to_complete: deliverable.days_to_complete,
             },
         }
     }

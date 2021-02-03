@@ -290,15 +290,24 @@ export default function RenderSingleDeliverable(props){
                     <div className="singleDeliverable__body">
                         <div className="singleDeliverable__informationGroup">
                             <div className="singleDeliverable__detail">
+                                <div className="singleDeliverable__label">Description</div>
+                                <div className="singleDeliverable__info">{deliverable.small_description}</div>
+                            </div>
+                            <div className="singleDeliverable__detail">
                                 <div className="singleDeliverable__label">Recipient</div>
                                 <div className="singleDeliverable__info">{deliverable.recipient}</div>
                             </div>
                             <div className="singleDeliverable__detail">
+                                <div className="singleDeliverable__label">Days to complete</div>
+                                <div className="singleDeliverable__info">{deliverable.days_to_complete}</div>
+                            </div>
+                        </div>
+                        <div className="singleDeliverable__informationGroup">
+                            <div className="singleDeliverable__detail">
                                 <div className="singleDeliverable__label">Last reviewed</div>
                                 <div className="singleDeliverable__info">{deliverable.review_time}</div>
                             </div>
-                            {
-                                deliverable.status_comment ?
+                            {deliverable.status_comment ? (
                                 <a
                                     href={"//" + deliverable.status_comment}
                                     target="_blank"
@@ -307,10 +316,10 @@ export default function RenderSingleDeliverable(props){
                                 >
                                     View rejection report
                                 </a>
-                                : ""
-                            }
-                            {
-                                deliverable.report ?
+                            ) : (
+                                ''
+                            )}
+                            {deliverable.report ? (
                                 <a
                                     href={"//" + deliverable.report}
                                     target="_blank"
@@ -319,8 +328,9 @@ export default function RenderSingleDeliverable(props){
                                 >
                                     View completion report
                                 </a>
-                                :   ""
-                            }
+                            ) : (
+                                ''
+                            )}
                         </div>
                         {
                             proposerActions ?

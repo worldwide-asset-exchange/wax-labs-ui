@@ -1,4 +1,4 @@
-import React, {useState}from 'react';
+import React, {useState, useEffect}from 'react';
 import {useParams} from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
@@ -20,6 +20,12 @@ export default function RenderAdminMenu(props){
     function handleReviewerChange(event){
         setReviwerAccountName(event.target.value);
     }
+
+    useEffect(()=>{
+        if(props.activeUser){
+            setReviwerAccountName(props.activeUser.accountName);
+        }
+    }, [props.activeUser]);
 
     async function endVoting (){
         let activeUser = props.activeUser;

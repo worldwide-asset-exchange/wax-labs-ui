@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import * as GLOBAL_VARS from '../../utils/vars'
 import * as GLOBAL_ALERTS from '../../utils/alerts';
@@ -34,6 +34,14 @@ function RenderTime(timeObj){
 
 export default function RenderSetVotingPeriodTab (props) {
     const [newVotingPeriod, setNewVotingPeriod] = useState(60);
+    const [days, setDays] = useState(0);
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(1);
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(()=>{
+        setNewVotingPeriod((days * 3600 * 24) + (hours * 3600) + (minutes * 60) + (seconds));
+    }, [days, hours, minutes, seconds]);
 
     function createSetVotingPeriodAction(quantity) {
         let activeUser = props.activeUser
@@ -89,9 +97,27 @@ export default function RenderSetVotingPeriodTab (props) {
                 <h4>Set new voting period</h4>
                 <label className="input__label">New voting period in seconds</label>
                 <input
-                    value={newVotingPeriod}
+                    value={days}
                     type="number"
-                    onChange={(e)=>setNewVotingPeriod(e.target.value)}
+                    onChange={(e)=>setDays(Math.max(e.target.value, 0))}
+                    className="input"
+                ></input>
+                <input
+                    value={hours}
+                    type="number"
+                    onChange={(e)=>setHours(Math.max(Math.min(e.target.value, 23), 0))}
+                    className="input"
+                ></input>
+                <input
+                    value={minutes}
+                    type="number"
+                    onChange={(e)=>setMinutes(Math.max(Math.min(e.target.value, 59), 0))}
+                    className="input"
+                ></input>
+                <input
+                    value={seconds}
+                    type="number"
+                    onChange={(e)=>setSeconds(Math.max(Math.min(e.target.value, 59), 0))}
                     className="input"
                 ></input>
                 <p>The new voting period will be</p>

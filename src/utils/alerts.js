@@ -279,6 +279,23 @@ export const WITHDRAW_FUNDS_ALERT_DICT = {
     }
 }
 
+export const SKIP_VOTING_ALERT_DICT = {
+    SUCCESS: 
+    {
+        title: "Skip voting was a success!",
+        body: "Voting was skipped", 
+        variant: SUCCESS_VARIANT, 
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "Skip voting error",
+        body: "There was an error when attempting to skip voting",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
 export const DONATE_FUNDS_ALERT_DICT = {
     SUCCESS: 
     {

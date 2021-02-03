@@ -158,6 +158,7 @@ export const SET_VOTING_DURATION_ACTION = 'setduration'
 export const REMOVE_CATEGORY_ACTION = 'rmvcategory'
 export const REMOVE_DELIVERABLE_ACTION = "rmvdeliv"
 export const REMOVE_PROFILE_ACTION = 'rmvprofile'
+export const SKIP_VOTING_ACTION = 'skipvoting'
 export const NEW_DELIVERABLE_ACTION = "newdeliv"
 export const NEW_PROFILE_ACTION = 'newprofile'
 export const BEGIN_VOTING_ACTION = "beginvoting"

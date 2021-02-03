@@ -60,6 +60,44 @@ export default function RenderAdminMenu(props){
         }
     }
 
+    async function skipVoting(){
+        let activeUser = props.activeUser;
+        try {
+            await activeUser.signTransaction({
+                actions: [
+                    {
+                        account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.SKIP_VOTING_ACTION,
+                        authorization: [{
+                            actor: activeUser.accountName,
+                            permission: activeUser.requestPermission,
+                        }],
+                        data: {
+                            proposal_id: id,
+                            memo: ''
+                        },
+                    },
+                ]} , {
+                blocksBehind: 3,
+                expireSeconds: 30
+            });
+            let alertObj ={
+                ...GLOBAL_ALERTS.SKIP_VOTING_ALERT_DICT.SUCCESS,
+            }
+            props.showAlert(alertObj);
+            props.rerunProposalQuery();
+        } catch(e) {
+
+            let alertObj = {
+                ...GLOBAL_ALERTS.SKIP_VOTING_ALERT_DICT.ERROR,
+                details: e.message
+            }
+            props.showAlert(alertObj);
+            console.log(e);
+        }
+    }
+
+    
     async function cancelProposal(){
         let activeUser = props.activeUser;
         try {
@@ -238,6 +276,7 @@ export default function RenderAdminMenu(props){
                     <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
                     <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
                     <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true)}>Approve proposal</button>
+                    <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>skipVoting()}>Skip voting</button>
                     <div className="adminMenu__reject">
                         <label className="input__label">Enter the rejection reason</label>
                         <textarea className="textarea" value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>

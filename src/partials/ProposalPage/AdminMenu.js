@@ -103,7 +103,6 @@ export default function RenderAdminMenu(props){
         }
     }
 
-    
     async function cancelProposal(){
         let activeUser = props.activeUser;
         try {
@@ -278,15 +277,19 @@ export default function RenderAdminMenu(props){
         }
         else if(props.proposal.status === GLOBAL_VARS.SUBMITTED_KEY){
             return (
-                <div className="adminMenu__actions">
-                    <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
-                    <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
-                    <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true)}>Approve proposal</button>
-                    <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>skipVoting()}>Skip voting</button>
-                    <div className="adminMenu__reject">
-                        <label className="input__label">Enter the rejection reason</label>
-                        <textarea className="textarea" value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>
-                        <button className="button button--rejection" onClick={()=>reviewProposal(false)}>Reject proposal</button>
+                <div>
+                    <div className="adminMenu__actions">
+                        <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
+                        <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true)}>Approve proposal</button>
+                        <button className="button button--approvalNoIcon" disabled={!props.proposal.reviewer} onClick={()=>skipVoting()}>Approve and skip voting</button>
+                    </div>
+                    <div className="adminMenu__actions adminMenu__actions--row">
+                        <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
+                        <div className="adminMenu__reject">
+                            <label className="input__label">Enter the rejection reason</label>
+                            <textarea className="textarea" value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>
+                            <button className="button button--rejection" onClick={()=>reviewProposal(false)}>Reject proposal</button>
+                        </div>
                     </div>
                 </div>
             )

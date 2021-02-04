@@ -17,7 +17,6 @@
         text-align: start;
     }
 
-    
     &__actions {
         display: flex;
         flex-direction: column;
@@ -25,6 +24,18 @@
 
         @include breakpoint(tablet-landscape-up) {
             flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        &--row {
+            flex-direction: column-reverse;
+
+            @include breakpoint(tablet-landscape-up) {
+                flex-direction: row;
+                align-items: flex-end;
+
+                margin-top: $spacing-s;
+            }
         }
 
         .button {
@@ -39,7 +50,7 @@
         float: right;
         margin-top: 16px;
     }
-    
+
     &__reject {
         display: flex;
         flex-direction: column;
@@ -48,11 +59,11 @@
         @include breakpoint(tablet-landscape-up) {
             margin-top: 0;
         }
-        
+
         .input {
-            
+
             background-color: $overlay-01;
-            
+
         }
         .button {
             margin-top: $spacing-xs;

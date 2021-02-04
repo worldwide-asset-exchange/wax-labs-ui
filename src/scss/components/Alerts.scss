@@ -15,6 +15,7 @@
         border: none;
         margin: 0 $spacing-s;
         max-width: 100%;
+        margin-bottom: $spacing-s !important;
 
         @include breakpoint(large-mobile-up) {
             max-width: 50%;

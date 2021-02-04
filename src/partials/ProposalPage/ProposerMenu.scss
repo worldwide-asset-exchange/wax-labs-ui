@@ -58,4 +58,10 @@
             }
         }
     }
+    &__accordion {
+        margin: $spacing-s 0;
+    }
+    &__accordionContent {
+        margin-top: $spacing-xs;
+    }
 }

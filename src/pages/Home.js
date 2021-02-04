@@ -105,133 +105,136 @@ export default function RenderHome(props) {
             <div className="home__cover">
                 <h1>Choose how to add value to the community</h1>
                 <h4>Growing the WAX Blockchain through decentralization and innovation</h4>
-                <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK} className="button button--primary">Vote for the latest proposals</Link>
+                <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK} className="button button--primary">
+                    Vote for the latest proposals
+                </Link>
             </div>
             <div className="home__numbers">
                 <div className="home__waxNumbers home__number">
-                    <h2>{queryingConfig ? " loading..." : " " + configData.display_available_funds}</h2>
+                    <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_available_funds}</h2>
                     <h4>Available funds</h4>
                 </div>
                 <div className="home__proposalsNumbers">
                     <div className="home__number">
                         <Link to={GLOBAL_VARS.PROPOSALS_IN_REVIEW_LINK}>
-                            <h3>{queryingSubmitted ? " loading..." : " " + submittedProposals.length}</h3>
+                            <h3>{queryingSubmitted ? ' loading...' : ' ' + submittedProposals.length}</h3>
                             <h4>In review</h4>
                         </Link>
                     </div>
                     <div className="home__number">
                         <Link to={GLOBAL_VARS.PROPOSALS_IN_VOTING_LINK}>
-                            <h3>{queryingVoting ? " loading..." : " " + inVotingProposals.length}</h3>
+                            <h3>{queryingVoting ? ' loading...' : ' ' + inVotingProposals.length}</h3>
                             <h4>In voting</h4>
                         </Link>
                     </div>
                     <div className="home__number">
                         <Link to={GLOBAL_VARS.PROPOSALS_IN_PROGRESS_LINK}>
-                            <h3>{queryingInProgress ? " loading..." : " " + inProgressProposals.length}</h3>
+                            <h3>{queryingInProgress ? ' loading...' : ' ' + inProgressProposals.length}</h3>
                             <h4>In progress</h4>
                         </Link>
                     </div>
                     <div className="home__number">
                         <Link to={GLOBAL_VARS.PROPOSALS_COMPLETED_LINK}>
-                            <h3>{queryingCompleted ? " loading..." : " " + completedProposals.length}</h3>
+                            <h3>{queryingCompleted ? ' loading...' : ' ' + completedProposals.length}</h3>
                             <h4>Completed</h4>
                         </Link>
                     </div>
                 </div>
             </div>
-            {
-                inVotingProposals.length > 0 ?
-                    queryingVoting ?
-                        <h1>loading ...</h1>
-                    :
-                        <Carousel
-                            touch={true}
-                            interval={null}
-                        >
-                            {
-                                inVotingProposals.map((proposal, index) => {
-                                    return (
-                                        <Carousel.Item key={index}>
-                                            <RenderProposalCard proposal={proposal} key={proposal.proposal_id} categories={props.categories} hideStatus={true} />
-                                        </Carousel.Item>
-                                    )
-                                })
-                            }
-                        </Carousel>
-                        :
-                        ""
-            }
+            {inVotingProposals.length > 0 ? (
+                queryingVoting ? (
+                    <h1>loading ...</h1>
+                ) : (
+                    <Carousel touch={true} interval={null}>
+                        {inVotingProposals.map((proposal, index) => {
+                            return (
+                                <Carousel.Item key={index}>
+                                    <RenderProposalCard
+                                        proposal={proposal}
+                                        key={proposal.proposal_id}
+                                        categories={props.categories}
+                                        hideStatus={true}
+                                    />
+                                </Carousel.Item>
+                            );
+                        })}
+                    </Carousel>
+                )
+            ) : (
+                ''
+            )}
             <div className="home__proposalLifecycle">
                 <h3>The proposal lifecycle</h3>
                 <p>Learn each step of the proposal process by selecting a proposal phase below.</p>
                 <Tab.Container id="proposal-lifecycle" defaultActiveKey="drafting">
                     <Nav className="home__tabs">
-                        <Nav.Link
-                            eventKey="drafting"
-                            className="home__tab"
-                        >
-                            <span className="tag tag--neutral">Drafting</span>
+                        <Nav.Link eventKey="drafting" className="home__tab">
+                            <span className="tag tag--neutral">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.DRAFTING_KEY]}
+                            </span>
                         </Nav.Link>
-                        <Nav.Link
-                            eventKey="review"
-                            className="home__tab"
-                        >
-                            <span className="tag tag--neutral">In Review</span>
+                        <Nav.Link eventKey="review" className="home__tab">
+                            <span className="tag tag--neutral">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.SUBMITTED_KEY]}
+                            </span>
                         </Nav.Link>
-                        <Nav.Link
-                            eventKey="approved"
-                            className="home__tab"
-                        >
-                            <span className="tag tag--positive">Approved</span>
+                        <Nav.Link eventKey="approved" className="home__tab">
+                            <span className="tag tag--positive">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.APPROVED_KEY]}
+                            </span>
                         </Nav.Link>
-                        <Nav.Link
-                            eventKey="voting"
-                            className="home__tab"
-                        >
-                            <span className="tag tag--attention">In Voting</span>
+                        <Nav.Link eventKey="voting" className="home__tab">
+                            <span className="tag tag--attention">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.VOTING_KEY]}
+                            </span>
                         </Nav.Link>
-                        <Nav.Link
-                            eventKey="progress"
-                            className="home__tab"
-                        >
-                            <span className="tag tag--attention">In Progress</span>
+                        <Nav.Link eventKey="progress" className="home__tab">
+                            <span className="tag tag--attention">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]}
+                            </span>
                         </Nav.Link>
-                        <Nav.Link
-                            eventKey="final"
-                            className="home__tab home__tab--many"
-                        >
-                            <span className="tag tag--negative">Rejected</span>
-                            <span className="tag tag--positive">Completed</span>
+                        <Nav.Link eventKey="final" className="home__tab home__tab--many">
+                            <span className="tag tag--negative">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.CANCELLED_KEY]}
+                            </span>
+                            <span className="tag tag--negative">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.FAILED_KEY]}
+                            </span>
+                            <span className="tag tag--positive">
+                                {GLOBAL_VARS.READABLE_PROPOSAL_STATUS[GLOBAL_VARS.COMPLETED_KEY]}
+                            </span>
                         </Nav.Link>
                     </Nav>
                     <Tab.Content className="home__content">
                         <div className="home__scrollMessage">
                             <p>Scroll right to see all actions for this phase.</p>
-                            <RightArrowIcon/>
+                            <RightArrowIcon />
                         </div>
                         <Tab.Pane className="home__tabPane" eventKey="drafting">
-                            <img  src={drafting} alt="Flow for a drafting proposal."/>
+                            <img src={drafting} alt="Flow for a drafting proposal." />
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="review">
-                            <img  src={review} alt="Flow for a proposal that is in review."/>
+                            <img src={review} alt="Flow for a proposal that is in review." />
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="approved">
-                            <img  src={approved} alt="Flow for an approved proposal."/>
+                            <img src={approved} alt="Flow for an approved proposal." />
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane home__tabPane--large" eventKey="voting">
                             <h1>{configData.voting_duration}</h1>
-                            <VotingProposal votingDuration={calculateTime(configData.vote_duration)}/>
+                            <VotingProposal votingDuration={calculateTime(configData.vote_duration)} />
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="progress">
-                            <img  src={progress} alt="Flow for a proposal that is in progress."/>
+                            <img src={progress} alt="Flow for a proposal that is in progress." />
                         </Tab.Pane>
                         <Tab.Pane className="home__tabPane" eventKey="final">
-                            <img  src={final} alt="Flow for a proposal that is either cancelled, rejected or completed."/>
+                            <img
+                                src={final}
+                                alt="Flow for a proposal that is either cancelled, rejected or completed."
+                            />
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>
             </div>
-
         </div>
     );
 }

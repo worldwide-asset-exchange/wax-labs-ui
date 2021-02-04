@@ -224,7 +224,7 @@ export const READABLE_PROPOSAL_STATUS = {
     [DRAFTING_KEY]:   "Drafting",
     [SUBMITTED_KEY]:  "In Review",
     [APPROVED_KEY]:   "Approved",
-    [VOTING_KEY]:     "Voting",
+    [VOTING_KEY]:     "In Voting",
     [COMPLETED_KEY]:  "Completed",
     [CANCELLED_KEY]:  "Cancelled",
     [PROPOSAL_INPROGRESS_KEY]: "In Progress",

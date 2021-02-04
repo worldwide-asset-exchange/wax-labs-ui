@@ -29,6 +29,7 @@ export const RenderDeliverablesContainer = (props) => {
     // also reorder this list every time the other one got reorded
     // could get messy/hard to maintain.
     const [deliverablesValidation, setDeliverablesValidation] = useState({});
+    const [shownTooltip, setShownTooltip] = useState(false);
 
     useEffect(()=>{
         if(props.proposal){
@@ -138,6 +139,15 @@ export const RenderDeliverablesContainer = (props) => {
         }));
     }
 
+    function hasShownTooltip() {
+        if (!shownTooltip) {
+            setShownTooltip(true);
+            return false;
+        } else {
+            return shownTooltip;
+        }
+    }
+
     const removeCard = useCallback((index)=>{
         let copyValidation = {...deliverablesValidation}
         delete copyValidation[editableDeliverables[index].id];
@@ -175,6 +185,7 @@ export const RenderDeliverablesContainer = (props) => {
                 updateDeliverablesValidation={updateDeliverablesValidation}
                 updateCard={updateDeliverable}
                 moveCard={moveCard}
+                hasShownTooltip={hasShownTooltip}
             />);
     };
     return (

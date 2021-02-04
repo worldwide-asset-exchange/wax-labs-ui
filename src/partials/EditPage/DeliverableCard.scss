@@ -1,4 +1,5 @@
 @import '../../scss/variables';
+@import '../../scss/typography';
 
 .deliverableCard {
     background-color: $gray-dark;
@@ -54,5 +55,18 @@
     &__fieldset {
         max-width: 240px;
         margin-bottom: $spacing-xs;
+    }
+    &__popover {
+        background-color: $modal-background-color;
+        .popover-header {
+            background-color: $modal-background-color;
+            border-bottom: 1px solid $overlay-04;
+        }
+        .popover-body {
+            @include p;
+        }
+        .arrow::after {
+            border-top-color: $modal-background-color;
+        }
     }
 }

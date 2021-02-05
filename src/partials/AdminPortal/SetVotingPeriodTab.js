@@ -84,47 +84,60 @@ export default function RenderSetVotingPeriodTab (props) {
 
     return (
         <div className="setVotingPeriod">
-            {
-                props.queryingVotingPeriod ?
-                <RenderLoadingPage/>
-                :
+            {props.queryingVotingPeriod ? (
+                <RenderLoadingPage />
+            ) : (
                 <div className="setVotingPeriod__section">
                     <h4>Current voting period</h4>
                     {RenderTime(calculateTime(props.votingDuration))}
                 </div>
-            }
+            )}
             <div className="setVotingPeriod__section">
                 <h4>Set new voting period</h4>
-                <label className="input__label">New voting period in seconds</label>
-                <input
-                    value={days}
-                    type="number"
-                    onChange={(e)=>setDays(Math.max(e.target.value, 0))}
-                    className="input"
-                ></input>
-                <input
-                    value={hours}
-                    type="number"
-                    onChange={(e)=>setHours(Math.max(Math.min(e.target.value, 23), 0))}
-                    className="input"
-                ></input>
-                <input
-                    value={minutes}
-                    type="number"
-                    onChange={(e)=>setMinutes(Math.max(Math.min(e.target.value, 59), 0))}
-                    className="input"
-                ></input>
-                <input
-                    value={seconds}
-                    type="number"
-                    onChange={(e)=>setSeconds(Math.max(Math.min(e.target.value, 59), 0))}
-                    className="input"
-                ></input>
+                <div className="setVotingPeriod__periodForm">
+                    <div className="setVotingPeriod__fieldset">
+                        <label className="input__label">Days</label>
+                        <input
+                            value={days}
+                            type="number"
+                            onChange={(e) => setDays(Math.max(e.target.value, 0))}
+                            className="input"
+                        ></input>
+                    </div>
+                    <div className="setVotingPeriod__fieldset">
+                        <label className="input__label">Hours</label>
+                        <input
+                            value={hours}
+                            type="number"
+                            onChange={(e) => setHours(Math.max(Math.min(e.target.value, 23), 0))}
+                            className="input"
+                        ></input>
+                    </div>
+                    <div className="setVotingPeriod__fieldset">
+                        <label className="input__label">Minutes</label>
+                        <input
+                            value={minutes}
+                            type="number"
+                            onChange={(e) => setMinutes(Math.max(Math.min(e.target.value, 59), 0))}
+                            className="input"
+                        ></input>
+                    </div>
+                    <div className="setVotingPeriod__fieldset">
+                        <label className="input__label">Seconds</label>
+                        <input
+                            value={seconds}
+                            type="number"
+                            onChange={(e) => setSeconds(Math.max(Math.min(e.target.value, 59), 0))}
+                            className="input"
+                        ></input>
+                    </div>
+                </div>
                 <p>The new voting period will be</p>
                 {RenderTime(calculateTime(newVotingPeriod))}
-                <button className="button button--primary" onClick={()=>setVotingPeriod()}>Set voting period</button>
+                <button className="button button--primary" onClick={() => setVotingPeriod()}>
+                    Set voting period
+                </button>
             </div>
-
         </div>
     );
 }

@@ -21,6 +21,17 @@
             align-self: flex-end;
         }
     }
+    &__fieldset {
+        margin-right: $spacing-xxs;
+        width: 75px;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+    &__periodForm {
+        display: flex;
+    }
 }
 
 .block-buy-timeleft {

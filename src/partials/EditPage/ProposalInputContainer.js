@@ -201,8 +201,8 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
                         {editableProposal.road_map.length}/{GLOBAL_VARS.MAX_ROADMAP_LENGTH}
                     </span>
                 </label>
-                <input
-                    className={`${roadmapErrorMessage ? 'input input--error' : 'input'}`}
+                <textarea
+                    className={`${roadmapErrorMessage ? 'textarea textarea--error' : 'textarea'}`}
                     value={editableProposal.road_map}
                     name="road_map"
                     onChange={handleInputChange}

@@ -86,7 +86,8 @@ $button-typography-color: #332B1F;
         }
     }
     &--approval,
-    &--rejection {
+    &--rejection,
+    &--approvalNoIcon {
         background-repeat: no-repeat;
         background-position-y: center;
         background-position-x: right;
@@ -97,7 +98,8 @@ $button-typography-color: #332B1F;
 
         color: rgba(255, 255, 255, 0.85)
     }
-    &--approval {
+    &--approval,
+    &--approvalNoIcon {
         background-image: url('../../images/like.svg');
         background-color: $green-dark;
 
@@ -111,6 +113,10 @@ $button-typography-color: #332B1F;
                 color: rgba(255, 255, 255, 0.85);
             }
         }
+    }
+    &--approvalNoIcon {
+        background-image: none;
+        padding-right: $spacing-s;
     }
     &--rejection {
         background-image: url('../../images/dislike.svg');

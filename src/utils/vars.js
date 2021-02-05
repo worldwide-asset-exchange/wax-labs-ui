@@ -248,8 +248,8 @@ export const PROPOSAL_ORDER_BY_LIST = [
 ]
 
 export const PROPOSAL_ORDER_BY_OBJECT = {
-    [PROPOSAL_ORDER_BY_LIST[0]]: "Requested lowest",
-    [PROPOSAL_ORDER_BY_LIST[1]]: "Requested highest",
+    [PROPOSAL_ORDER_BY_LIST[0]]: "Lowest WAX amount requested",
+    [PROPOSAL_ORDER_BY_LIST[1]]: "Highest WAX amount requested",
     [PROPOSAL_ORDER_BY_LIST[2]]: "Created first",
     [PROPOSAL_ORDER_BY_LIST[3]]: "Created last",
 }

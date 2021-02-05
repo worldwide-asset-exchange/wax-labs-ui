@@ -190,6 +190,11 @@ export const RenderDeliverablesContainer = (props) => {
     };
     return (
         <div className="deliverablesContainer">
+            <div className="deliverablesContainer__amountRequirements">
+                <p>
+                    The sum of requested WAX in your deliverables must be more than 1,000 and less than 500,000.
+                </p>
+            </div>
             {props.queryingDeliverables ?
                 <RenderLoadingPage/>
             :

@@ -12,51 +12,51 @@ export const REVIEWER_NAME_TEMPLATE = "%reviewer_name%"
 export const VOTE_OPTION_TEMPLATE = "%vote_option%"
 
 export const CANCEL_PROP_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Proposal cancelled!",
-        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was successfully cancelled`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Proposal was cancelled.",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was successfully cancelled`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Cancel proposal error!",
-        body: "Cancel proposal encountered an error.",
+        title: "We couldn't cancel the proposal",
+        body: "Something went wrong while canceling the proposal. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const REVIEW_PROP_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Review proposal success!",
-        body: `Proposal was ${APPROVE_TEMPLATE}.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your review has been registered.",
+        body: `Proposal was ${APPROVE_TEMPLATE}.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Review proposal error!",
-        body: "An error ocurred when trying to call the review proposal action.",
+        title: "We couldn't register your review",
+        body: "Something went wrong while registering your review for the proposal. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const DELETE_PROP_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Delete proposal success!",
-        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was deleted.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Proposal was deleted",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was deleted.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Delete proposal error!",
-        body: "An error ocurred when trying to call the delete proposal action.",
+        title: "We couldn't delete your proposal.",
+        body: "Something went wrong while removing your proposal. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
@@ -64,179 +64,179 @@ export const DELETE_PROP_ALERT_DICT = {
 
 
 export const SET_REVIEWER_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Set reviewer success!",
-        body: `${REVIEWER_NAME_TEMPLATE} was set as the reviewer of proposal #${PROPOSAL_ID_TEMPLATE}.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "The reviewer has been set.",
+        body: `${REVIEWER_NAME_TEMPLATE} was set as the reviewer of proposal #${PROPOSAL_ID_TEMPLATE}.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Set reviewer error!",
-        body: "An error ocurred when trying to call the set reviewer action.",
+        title: "We couldn't set the chosen reviewer.",
+        body: "Something went wrong while trying to set the chosen reviewer. Make sure the account exists and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const BEGIN_VOTING_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Begin voting success!",
-        body: `Proposal #${PROPOSAL_ID_TEMPLATE} is now in the voting stage.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "The proposal voting has started.",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} is now in the voting stage.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Begin voting error!",
-        body: "An error ocurred when trying to call the begin voting action.",
+        title: "We couldn't start the voting for the proposal ",
+        body: "Something went wrong while starting the proposal's voting. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 export const END_VOTING_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "End voting success!",
-        body: `Proposal #${PROPOSAL_ID_TEMPLATE} voting was ended.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Proposal voting has ended.",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} voting has ended.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "End voting error!",
-        body: "An error ocurred when trying to call the end voting action.",
+        title: "We couldn't end the proposal voting",
+        body: "Something went wrong while trying to end the proposal's voting. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const REVIEW_DELIVERABLE_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Review deliverable success!",
-        body: `Deliverable #${DELIVERABLE_ID_TEMPLATE}'s was ${ACCEPT_TEMPLATE}.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your deliverable review has been succesfully registered.",
+        body: `Deliverable #${DELIVERABLE_ID_TEMPLATE}'s was ${ACCEPT_TEMPLATE}.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Review report error!",
-        body: "An error ocurred when trying to call the reviewdeliv action.",
+        title: "We couldn't register your deliverable review.",
+        body: "Something went wrong while trying to register your deliverable review. Make sure you added the report and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 export const SUBMIT_REPORT_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Submit report success!",
-        body: `Deliverable #${DELIVERABLE_ID_TEMPLATE}'s report was submitted.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your report has been succesfully submitted.",
+        body: `Deliverable #${DELIVERABLE_ID_TEMPLATE}'s report has been submitted.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Submit report error!",
-        body: "An error ocurred when trying to call the submit report action.",
+        title: "We couldn't submit your report.",
+        body: "Somethinig went wrong while trying to submit your deliverable report. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const CLAIM_FUNDS_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Claim funds success!",
-        body: `Deliverable #${DELIVERABLE_ID_TEMPLATE}'s funds (${AMOUNT_TEMPLATE}) were claimed.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "You have claimed the funds successfully.",
+        body: `Deliverable #${DELIVERABLE_ID_TEMPLATE}'s funds (${AMOUNT_TEMPLATE}) were claimed.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Claim funds error!",
-        body: "An error occurred when trying to call the claim funds action.",
+        title: "We couldn't proceed with the fund claiming.",
+        body: "Something went wrong while claiming your funds. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const CAST_VOTE_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Cast vote success!",
-        body: `Voted ${VOTE_OPTION_TEMPLATE} successfully.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your vote has been successfully cast.",
+        body: `Voted ${VOTE_OPTION_TEMPLATE} successfully.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Voting error!",
-        body: "An error ocurred when trying to call the castvote action.",
+        title: "We couldn't cast your vote.",
+        body: "Something went wrong while trying to cast your vote for this proposal. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const SUBMIT_PROP_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Submit prop success!",
-        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was submitted`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your proposal has been successfully submitted.",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} is now waiting for the admin's review.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Submit prop error!",
-        body: "An error ocurred when trying to call the submit prop action.",
+        title: "We couldn't submit your proposal.",
+        body: "Something went wrong while trying to submit your proposal. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const SAVE_DRAFT_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Save draft success!",
-        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was saved. If after the reload, the data in the page does not reflect what you saved, refresh the page after a small delay.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your proposal draft has been successfully saved.",
+        body: `Proposal #${PROPOSAL_ID_TEMPLATE} was saved. If after the reload, the data in the page does not reflect what you saved, refresh the page after a small delay.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Save draft error!",
-        body: "An error occurred when trying to sign the transaction for the save draft action",
+        title: "We couldn't save your proposal draft.",
+        body: "Something went wrong while trying to save your draft. Make sure there are no errors with the content and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const DRAFT_PROP_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Create prop success!",
-        body: `Proposal was created.`, 
-        variant: SUCCESS_VARIANT, 
+        title: "Your proposal has been created.",
+        body: `Your proposal has been successfully created and it's ready for you to add the deliverables.`,
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Create prop error!",
-        body: "An error ocurred when trying to call the draft prop action",
+        title: "We coudn't create your proposal.",
+        body: "Somethin went wrong while trying to create your proposal. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
-    WARN: 
+    WARN:
     {
-        title: "Too many deliverables!",
-        body: `Can't have more than ${GLOBAL_VARS.MAX_DELIVERABLES} deliverables`, 
-        variant: ERROR_VARIANT, 
+        title: "There are quite a few deliverables.",
+        body: `Your proposal shoudln't have more than ${GLOBAL_VARS.MAX_DELIVERABLES} deliverables.`,
+        variant: ERROR_VARIANT,
         dismissible: true
     },
 }
@@ -244,8 +244,8 @@ export const TOO_MANY_DELIVERABLES_ALERT_DICT = {
 export const NO_REJECTION_REASON_ALERT_DICT = {
     WARN:
     {
-        title: "No rejection reason!",
-        body: "You have to provide a rejection reason when rejecting a proposal",
+        title: "You should add a reason for the rejection.",
+        body: "When rejecting a proposal, remember to give valuable feedback for the proposer.",
         variant: ERROR_VARIANT,
         dismissible: true
     }
@@ -255,76 +255,76 @@ export const NO_REJECTION_REASON_ALERT_DICT = {
 export const INVALID_DATA_ALERT_DICT = {
     WARN:
     {
-        title: "Invalid data!",
-        body: "There is some invalid data, fix it before attempting to save draft again.",
+        title: "There is some information that needs reviewing.",
+        body: "Some of the information you provided is not according to our expectations. Please, check the error messages and try again.",
         variant: ERROR_VARIANT,
         dismissible: true
     }
 }
 
 export const WITHDRAW_FUNDS_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Withdraw was a success!",
-        body: "Funds were successfully withdrawn", 
-        variant: SUCCESS_VARIANT, 
+        title: "Your withdrawal was a success.",
+        body: "Your funds have been successfully withdrawn",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Withdraw error",
-        body: "There was an error when attempting to withdraw your balance",
+        title: "We couldn't complete your withdrawal.",
+        body: "Something went wrong while attempting to withdraw from your balance. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const SKIP_VOTING_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Skip voting was a success!",
-        body: "Voting was skipped", 
-        variant: SUCCESS_VARIANT, 
+        title: "The proposal has been accepted without being voted.",
+        body: "The proposal has been accepted and will skip voting. It's status will be changed to in progress directly.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Skip voting error",
-        body: "There was an error when attempting to skip voting",
+        title: "We couldn't register your acceptance.",
+        body: "Something went wrong while registering your acceptance and skip voting. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const DONATE_FUNDS_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Donate was a success!",
-        body: "Thank you for helping enhance the ecosystem", 
-        variant: SUCCESS_VARIANT, 
+        title: "Your donation has been received.",
+        body: "Thank you for helping enhance the ecosystem",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Donate error",
-        body: "There was an error when attempting to donate to wax labs",
+        title: "We couldn't register your donation.",
+        body: "Something went wrong while attempting to donate to wax labs",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const EDIT_PROFILE_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Edit profile was a success!",
-        body: "Your profile was successfuly updated", 
-        variant: SUCCESS_VARIANT, 
+        title: "Your profile has been updated.",
+        body: "The changes you made have been updated to your profile.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Edit profile error!",
-        body: "There was an error when attempting to update your profile",
+        title: "We couldn't update your profile.",
+        body: "Something went wrong while trying to save your changes. Please make sure there are no errors and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
@@ -332,117 +332,117 @@ export const EDIT_PROFILE_ALERT_DICT = {
 
 
 export const CREATE_PROFILE_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Create profile was a success!",
-        body: "Your profile was successfuly created", 
-        variant: SUCCESS_VARIANT, 
+        title: "Your profile has been successfully created.",
+        body: "You now have a profile and can be even more active in the community.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Create profile error!",
-        body: "There was an error when attempting to create your profile",
+        title: "We couldn't create your profile.",
+        body: "Something went wrong while trying to create your profile. Make sure there are no errors and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 export const REMOVE_PROFILE_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Remove profile was a success!",
-        body: "Your profile was successfuly removed", 
-        variant: SUCCESS_VARIANT, 
+        title: "Your profile has been successfully removed.",
+        body: "Your personal information has been removed.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Remove profile error!",
-        body: "There was an error when attempting to remove your profile",
+        title: "We couldn't remove your profile.",
+        body: "Something went wrong while attempting to remove your profile. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const REMOVE_CATEGORY_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Remove category was a success!",
-        body: "Category was successfuly removed", 
-        variant: SUCCESS_VARIANT, 
+        title: "Category has been successfully removed.",
+        body: "The category can't be selected anymore for new proposals.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Remove category error!",
-        body: "There was an error when attempting to remove the category",
+        title: "We couldn't remove the category.",
+        body: "Something went wrong whille attempting to remove the category. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const ADD_CATEGORY_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Add category was a success!",
-        body: "Category was successfuly added", 
-        variant: SUCCESS_VARIANT, 
+        title: "Category has been added successfully.",
+        body: "The new category is now available for the proposals.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Add category error!",
-        body: "There was an error when attempting to add the category",
+        title: "We couldn't add the category.",
+        body: "Something went wrong while attempting to add the category. Make sure it follows all the naming requirements and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const SET_DURATION_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Set voting duration was a success!",
-        body: "Voting duration was successfuly set", 
-        variant: SUCCESS_VARIANT, 
+        title: "Voting period duration has been successfully set.",
+        body: "The new voting period is now being applied to in voting proposals.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Set voting duration error!",
-        body: "There was an error when attempting to set the voting duration",
+        title: "We couldn't set the voting period duration.",
+        body: "Something went wrong while attempting to set the voting duration. Please, try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 
 export const REMOVE_PROFILE_ADMIN_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Remove profile was a success!",
-        body: "Profile was successfuly removed", 
-        variant: SUCCESS_VARIANT, 
+        title: "The profile has been successfully removed.",
+        body: "The user's personal information doesn't exist anymore.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Remove profile error!",
-        body: "There was an error when attempting to remove the profile",
+        title: "We couldn't remove the user's profile.",
+        body: "Something went wrong while attempting to remove the profile. Make sure the user exists and has a profile and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
 }
 export const SET_ADMIN_ALERT_DICT = {
-    SUCCESS: 
+    SUCCESS:
     {
-        title: "Set admin was a success!",
-        body: "Admin was successfuly set", 
-        variant: SUCCESS_VARIANT, 
+        title: "New admin has been successfully set.",
+        body: "New admin has been set. Thank you for all your work! It's been a pleasure.",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:
     {
-        title: "Set admin error!",
-        body: "There was an error when attempting to set the new admin",
+        title: "We couldn't set the new admin.",
+        body: "Something went wrong while attempting set the new admin. Make sure the user exists and try again.",
         variant: ERROR_VARIANT,
         dismissible: true,
     }
@@ -451,11 +451,11 @@ export const SET_ADMIN_ALERT_DICT = {
 
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {
-    SUCCESS: 
+    SUCCESS:
     {
         title: "",
-        body: "", 
-        variant: SUCCESS_VARIANT, 
+        body: "",
+        variant: SUCCESS_VARIANT,
         dismissible: true
     },
     ERROR:

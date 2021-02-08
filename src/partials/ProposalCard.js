@@ -3,6 +3,8 @@ import {
 Link
 } from 'react-router-dom';
 
+import moment from 'moment';
+
 import * as globals from "../utils/vars"
 import {tagStyle} from "../utils/util"
 import './ProposalCard.scss'
@@ -10,9 +12,15 @@ import './ProposalCard.scss'
 export default function RenderProposalCard(props){
     const [imgError, setImgError] = useState(false);
 
+    
+    
     const proposal = props.proposal;
     const hideStatus = props.hideStatus ? props.hideStatus : false;
     const readableAmount = proposal.total_requested_funds.slice(0,-13) + ' WAX';
+    
+    const votingEndsIn = moment(proposal.vote_end_time, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
+    // Leaving this here because I expect it to be used soon. - JS
+    // const readableEndTime = moment(proposal.vote_end_time).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
 
     return (
         <Link
@@ -45,6 +53,7 @@ export default function RenderProposalCard(props){
                     <div>
                         <div className="proposalCard__label">Requested amount</div>
                         <div className="proposalCard__requestedAmount">{readableAmount}</div>
+                        {proposal.status === globals.VOTING_KEY ? <div> {votingEndsIn}</div> : ""}
                     </div>
                 </div>
             </div>

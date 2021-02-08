@@ -108,4 +108,8 @@
     .tag--category {
         margin-bottom: $spacing-xs;
     }
+    &__votingEnd {
+        color: $blue-light;
+        margin-top: $spacing-xxs;
+    }
 }

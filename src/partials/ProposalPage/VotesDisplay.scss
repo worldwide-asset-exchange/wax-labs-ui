@@ -46,4 +46,17 @@
     &__endDate {
         text-align: center;
     }
+    &__currentResult {
+        text-align: center;
+    }
+    &__failing,
+    &__passing {
+        @include p--bold;
+    }
+    &__failing {
+        color: $red-light;
+    }
+    &__passing {
+        color: $green-light;
+    }
 }

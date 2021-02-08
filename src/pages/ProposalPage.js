@@ -82,9 +82,6 @@ export default function RenderProposalPage(props){
                             <div className={`tag ${tagStyle(proposal.status)} proposalPage__statusTag`}>
                                 {readableProposalStatus[proposal.status]}
                             </div>
-                            <div>
-                                {proposal.status === GLOBAL_VARS.VOTING_KEY ? passing ? "passing" : "failing" :  ""}
-                            </div>
                             {/* check if there is a status comment */}
                                 {statusComment ? (
                                 <div>
@@ -107,8 +104,8 @@ export default function RenderProposalPage(props){
                                 rerunProposalQuery={rerunProposalQuery}
                                 showActionButtons={true}
                                 loginModal={props.loginModal}
+                                passing={passing}
                             />
-
                             <div className="proposalPage__proposalDetails">
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Proposer</div>
@@ -197,9 +194,9 @@ export default function RenderProposalPage(props){
                     code: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
                     scope: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
                     table: GLOBAL_VARS.TREASURIES_TABLE,
-                    json: true,                    
+                    json: true,
                 });
-                
+
                 setVoteSupply(requestedAmountToFloat(resp.rows[0].supply, "VOTE"));
             } catch(e){
                 console.log(e);

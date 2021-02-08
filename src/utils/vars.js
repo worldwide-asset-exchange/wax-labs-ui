@@ -129,6 +129,7 @@ export const OIG_CODE = "oig"
 export const REGISTER_VOTER_ACTION = "regvoter"
 
 export const DECIDE_CONTRACT_ACCOUNT = "decide"
+export const TREASURIES_TABLE = 'treasuries'
 export const BALLOTS_TABLE = "ballots"
 export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"

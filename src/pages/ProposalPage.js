@@ -33,6 +33,8 @@ export default function RenderProposalPage(props){
     const [queryingProposal, setQueryingProposal] = useState(true);
     const [errorImage, setErrorImage] = useState(false);
     const [statusComment, setStatusComment] = useState(false);
+    const [voteSupply, setVoteSupply] = useState(0);
+    const [passing, setPassing] = useState(false);
 
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
@@ -79,6 +81,9 @@ export default function RenderProposalPage(props){
                                 <div className="proposalPage__label proposalPage__label--center">Status</div>
                             <div className={`tag ${tagStyle(proposal.status)} proposalPage__statusTag`}>
                                 {readableProposalStatus[proposal.status]}
+                            </div>
+                            <div>
+                                {proposal.status === GLOBAL_VARS.VOTING_KEY ? passing ? "passing" : "failing" :  ""}
                             </div>
                             {/* check if there is a status comment */}
                                 {statusComment ? (
@@ -130,7 +135,15 @@ export default function RenderProposalPage(props){
             </div>
        )
     }
-
+    useEffect(()=>{
+        console.log(votes);
+        if(voteSupply && votes){
+            console.log("I have both", votes, voteSupply);
+            if((votes.yes + votes.no) >= (voteSupply / 10)){
+                setPassing(true);
+            }
+        }
+    }, [voteSupply, votes]);
     useEffect(()=>{
         async function getProposalData(){
 
@@ -176,6 +189,21 @@ export default function RenderProposalPage(props){
             }
         }
 
+        async function getTreasuryData() {
+            try{
+                let resp = await wax.rpc.get_table_rows({
+                    code: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.TREASURIES_TABLE,
+                    json: true,                    
+                });
+                
+                setVoteSupply(requestedAmountToFloat(resp.rows[0].supply, "VOTE"));
+            } catch(e){
+                console.log(e);
+            }
+        }
+
         async function getStatusCommentData() {
             try{
                 /* Getting Proposal info */
@@ -201,6 +229,7 @@ export default function RenderProposalPage(props){
         getProposalData();
         getContentData();
         getStatusCommentData();
+        getTreasuryData();
         //eslint-disable-next-line
     },[id, proposalQueryCount])
 
@@ -247,7 +276,6 @@ export default function RenderProposalPage(props){
     if(queryingProposal){
         return <RenderLoadingPage />
     }
-    console.log(proposal);
     if(!proposal){
         return <RenderErrorPage />
     }

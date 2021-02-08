@@ -271,7 +271,6 @@ export default function RenderSingleDeliverable(props){
     let proposerActions = getProposerActions();
     let reviewerActions = getReviewerActions();
     let recipientActions = getRecipientActions();
-    console.log(deliverable);
     return (
         <div className="singleDeliverable">
             <Accordion>

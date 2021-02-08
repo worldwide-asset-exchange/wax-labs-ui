@@ -146,7 +146,6 @@ export default function RenderGenericProposals(props) {
         setQuerying(true);
         let promiseList = [];
         // by default search for all proposals
-        console.log(props.queryArgs);
         if(!props.queryArgs){
             promiseList = [
                 getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.DRAFTING_KEY, getStatBounds),

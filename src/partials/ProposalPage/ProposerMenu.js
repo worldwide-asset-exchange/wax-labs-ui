@@ -478,7 +478,6 @@ export default function RenderProposerMenu(props) {
         }
     }
     // check if activeUser is the same as the proposal's proposer.
-    console.log(props.proposal.status);
     if (props.activeUser && props.activeUser.accountName === props.proposal.proposer) {
         return (
             <div className="proposerMenu">

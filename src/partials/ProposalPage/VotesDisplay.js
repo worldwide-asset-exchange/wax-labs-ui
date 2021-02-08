@@ -74,7 +74,6 @@ export default function RenderVoteDisplay(props){
                     upper_bound: props.proposal.ballot_name,
                     limit: 1000
                 });
-                console.log(currentVote);
                 let yesVotes = currentVote.rows[0].options.filter(option => option.key === "yes")[0]
                 let noVotes = currentVote.rows[0].options.filter(option => option.key === "no")[0]
                 let end_time = currentVote.rows[0].end_time;

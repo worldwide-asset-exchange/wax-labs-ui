@@ -222,7 +222,6 @@ export default function RenderEditProposal(props){
             actions: actionList
         }
 
-        console.log(signTransaction);
 
         try {
             await activeUser.signTransaction(

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import * as waxjs from "@waxio/waxjs/dist";
 
-import * as globals from "../../utils/vars"
+import * as GLOBAL_VARS from "../../utils/vars"
 import * as alertGlobals from '../../utils/alerts'
 import RenderSignInButton from '../SignInButton'
 
@@ -66,9 +66,9 @@ export default function RenderVoteDisplay(props){
          if(props.proposal.ballot_name){
              try{
                  let currentVote = await wax.rpc.get_table_rows({
-                    code: globals.DECIDE_CONTRACT_ACCOUNT,
-                    scope: globals.DECIDE_CONTRACT_ACCOUNT,
-                    table: globals.BALLOTS_TABLE,
+                    code: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.BALLOTS_TABLE,
                     json: true,
                     lower_bound: props.proposal.ballot_name,
                     upper_bound: props.proposal.ballot_name,
@@ -96,9 +96,9 @@ export default function RenderVoteDisplay(props){
         let proposal = props.proposal;
         try{
             let checkRegistry = await wax.rpc.get_table_rows({
-                code: globals.DECIDE_CONTRACT_ACCOUNT,
+                code: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
                 scope: activeUser.accountName,
-                table: globals.VOTERS_TABLE,
+                table: GLOBAL_VARS.VOTERS_TABLE,
                 json: true
             });
             let actions = []
@@ -106,8 +106,8 @@ export default function RenderVoteDisplay(props){
             if(!checkRegistry.rows.length){
                 actions = [
                     {
-                        account: globals.OIG_CODE,
-                        name: globals.REGISTER_VOTER_ACTION,
+                        account: GLOBAL_VARS.OIG_CODE,
+                        name: GLOBAL_VARS.REGISTER_VOTER_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -124,8 +124,8 @@ export default function RenderVoteDisplay(props){
                     /* Spreading nothing in case voter was in the registry, or the regvoter action. */
                     ...actions,
                     {
-                        account: globals.DECIDE_CONTRACT_ACCOUNT,
-                        name: globals.SYNC_ACTION,
+                        account: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.SYNC_ACTION,
                         authorization: [{
                             actor: activeUser.accountName,
                             permission: activeUser.requestPermission,
@@ -135,8 +135,8 @@ export default function RenderVoteDisplay(props){
                             },
                         },
                     {
-                        account: globals.DECIDE_CONTRACT_ACCOUNT,
-                        name: globals.CAST_VOTE_ACTION,
+                        account: GLOBAL_VARS.DECIDE_CONTRACT_ACCOUNT,
+                        name: GLOBAL_VARS.CAST_VOTE_ACTION,
                         authorization: [{
                                 actor: activeUser.accountName,
                                 permission: activeUser.requestPermission,
@@ -181,12 +181,45 @@ export default function RenderVoteDisplay(props){
         const totalVotes = props.votes.yes + props.votes.no
         return (
             <div className="votesDisplay">
-                <h4 className="votesDisplay__endCountdown">Voting {props.votingEndsIn.includes('ago') ? 'ended' : 'ends'} {props.votingEndsIn}</h4>
+                <h4 className="votesDisplay__endCountdown">
+                    Voting {props.votingEndsIn.includes('ago') ? 'ended' : 'ends'} {props.votingEndsIn}
+                </h4>
                 <p className="votesDisplay__endDate">on {props.endTime}</p>
-                {totalVotes > 0 ? <RenderVotingPercentages totalVotes={totalVotes} yesVotes={props.votes.yes} noVotes={props.votes.no}/> : <h4>{props.votingEndsIn.includes('ago') ? "No votes were cast." : "No votes have been cast yet."}</h4>}
-                {(props.proposal.status === globals.VOTING_KEY) && (!props.votingEndsIn.includes('ago')) ? <RenderVoteButtons {...props}/> : ""}
+                <div>
+                    {props.proposal.status === GLOBAL_VARS.VOTING_KEY ? (
+                        props.passing ? (
+                            <p className="votesDisplay__currentResult">
+                                Proposal is currently{' '}
+                                <span className="votesDisplay__passing">passing</span>
+                            </p>
+                        ) : (
+                            <p className="votesDisplay__currentResult">
+                                Proposal is currently{' '}
+                                <span className="votesDisplay__failing">failing</span>
+                            </p>
+                        )
+                    ) : (
+                        ''
+                    )}
+                </div>
+                {totalVotes > 0 ? (
+                    <RenderVotingPercentages
+                        totalVotes={totalVotes}
+                        yesVotes={props.votes.yes}
+                        noVotes={props.votes.no}
+                    />
+                ) : (
+                    <h4>
+                        {props.votingEndsIn.includes('ago') ? 'No votes were cast.' : 'No votes have been cast yet.'}
+                    </h4>
+                )}
+                {props.proposal.status === GLOBAL_VARS.VOTING_KEY && !props.votingEndsIn.includes('ago') ? (
+                    <RenderVoteButtons {...props} />
+                ) : (
+                    ''
+                )}
             </div>
-        )
+        );
     } else {
         return null;
     }

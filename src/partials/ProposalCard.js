@@ -9,18 +9,27 @@ import * as globals from "../utils/vars"
 import {tagStyle} from "../utils/util"
 import './ProposalCard.scss'
 
+function votingInformation(votingEndsIn) {
+    if (votingEndsIn.includes('ago')) {
+        return (<p className="proposalCard__votingEnd">Voting ended {votingEndsIn}</p>)
+    } else {
+        return (<p className="proposalCard__votingEnd">Voting will end {votingEndsIn}</p>)
+    }
+}
+
 export default function RenderProposalCard(props){
     const [imgError, setImgError] = useState(false);
 
-    
-    
+
+
     const proposal = props.proposal;
     const hideStatus = props.hideStatus ? props.hideStatus : false;
     const readableAmount = proposal.total_requested_funds.slice(0,-13) + ' WAX';
-    
+
     const votingEndsIn = moment(proposal.vote_end_time, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     // Leaving this here because I expect it to be used soon. - JS
     // const readableEndTime = moment(proposal.vote_end_time).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
+
 
     return (
         <Link
@@ -53,7 +62,6 @@ export default function RenderProposalCard(props){
                     <div>
                         <div className="proposalCard__label">Requested amount</div>
                         <div className="proposalCard__requestedAmount">{readableAmount}</div>
-                        {proposal.status === globals.VOTING_KEY ? <div> {votingEndsIn}</div> : ""}
                     </div>
                 </div>
             </div>
@@ -63,7 +71,9 @@ export default function RenderProposalCard(props){
                 :
                 <div className="proposalCard__status">
                     <div className={`tag ${tagStyle(proposal.status)}`}>{globals.READABLE_PROPOSAL_STATUS[proposal.status]}</div>
-                    <div className="proposalCard__deliverablesAmount">{proposal.deliverables}{proposal.deliverables === 1 ? " deliverable" : " deliverables" }
+                    {proposal.status === globals.VOTING_KEY ? <div>{votingInformation(votingEndsIn)}</div> : ""}
+                    <div className="proposalCard__deliverablesAmount">
+                        {proposal.deliverables}{proposal.deliverables === 1 ? " deliverable" : " deliverables" }
                     </div>
                     <div className="tag tag--category">{props.categories[proposal.category]}</div>
                 </div>

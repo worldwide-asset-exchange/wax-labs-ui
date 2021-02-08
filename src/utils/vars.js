@@ -185,7 +185,7 @@ export const MAX_ROADMAP_LENGTH = 2048
 
 // Links
 export const PROPOSALS_LINK = "/proposals"
-export const PROPOSALS_HEADER_LINk = `${PROPOSALS_LINK}?${PAGE_QUERY_STRING_KEY}=1&order=created%3Adesc`
+export const PROPOSALS_HEADER_LINK = `${PROPOSALS_LINK}?${PAGE_QUERY_STRING_KEY}=1&order=created%3Adesc`
 export const DRAFT_PROPOSAL_LINK = PROPOSALS_LINK + "/create"
 
 export const PROPOSALS_IN_VOTING_LINK = `${PROPOSALS_LINK}?${STATUS_QUERY_STRING_KEY}=${VOTING_KEY}&order=created%3Adesc`

@@ -138,7 +138,7 @@ export default function RenderProposalPage(props){
     useEffect(()=>{
         console.log(votes);
         if(voteSupply && votes){
-            console.log("I have both", votes, voteSupply);
+            // console.log("I have both", votes, voteSupply);
             if((votes.yes > votes.no)&&((votes.yes + votes.no) >= (voteSupply / 10))){
                 setPassing(true);
             } else {

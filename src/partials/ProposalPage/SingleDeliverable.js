@@ -305,7 +305,7 @@ export default function RenderSingleDeliverable(props){
                         <div className="singleDeliverable__informationGroup">
                             <div className="singleDeliverable__detail">
                                 <div className="singleDeliverable__label">Last reviewed</div>
-                                <div className="singleDeliverable__info">{deliverable.review_time}</div>
+                                <div className="singleDeliverable__info">{(new Date(deliverable.review_time)).getTime()!==10800000 ? deliverable.review_time : "never"}</div>
                             </div>
                             {deliverable.status_comment ? (
                                 <a

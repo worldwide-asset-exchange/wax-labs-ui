@@ -1,0 +1,7 @@
+@import '../scss/variables';
+
+.proposalList {
+    &__emptyMessage {
+        margin: $spacing-xxl 0;
+    }
+}

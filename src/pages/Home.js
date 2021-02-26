@@ -83,6 +83,21 @@ export default function RenderHome(props) {
                         configData.available_funds = requestedAmountToFloat(configData.available_funds).toFixed(2);
                         configData.display_available_funds = numberWithCommas(configData.available_funds).toString() + " WAX";
                     }
+
+                    const savingsResp = await wax.rpc.get_table_rows({
+                        json: true,                               // Get the response as json
+                        code: GLOBAL_VARS.EOSIO_TOKEN_CODE,     // Contract that we target
+                        scope: GLOBAL_VARS.SAVINGS_ACCOUNT,       // Account that owns the data
+                        table: GLOBAL_VARS.ACCOUNTS_TABLE,        // Table name
+                    });
+                    let additional_funds;
+                    if (savingsResp.rows) {
+                        console.log(savingsResp.rows);
+                        additional_funds = savingsResp.rows[0].balance;
+                        configData.additional_funds = requestedAmountToFloat(additional_funds).toFixed(2);
+                        configData.display_additional_funds = numberWithCommas(configData.additional_funds).toString() + " WAX";
+                    }
+
                     setConfigData(configData);
                     setQueryingConfig(false);
 
@@ -110,9 +125,15 @@ export default function RenderHome(props) {
                 </Link>
             </div>
             <div className="home__numbers">
-                <div className="home__waxNumbers home__number">
-                    <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_available_funds}</h2>
-                    <h4>Available funds</h4>
+                <div className="home__funds">
+                    <div className="home__waxNumbers home__number">
+                        <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_available_funds}</h2>
+                        <h4>Operational funds</h4>
+                    </div>
+                    <div className="home__waxNumbers home__number">
+                        <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_additional_funds}</h2>
+                        <h4>Additional funds</h4>
+                    </div>
                 </div>
                 <div className="home__proposalsNumbers">
                     <div className="home__number">

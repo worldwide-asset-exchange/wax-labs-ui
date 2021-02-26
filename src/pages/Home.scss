@@ -76,6 +76,15 @@
             }
         }
     }
+    &__funds {
+        display: flex;
+        flex-direction: column;
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+            justify-content: center;
+
+        }
+    }
     &__proposalsNumbers {
         display: flex;
         flex-direction: column;

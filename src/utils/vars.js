@@ -12,8 +12,10 @@ export const ACCEPTED_KEY = 4
 export const CLAIMED_KEY = 6
 export const REJECTED_KEY = 5
 
+
 export const I64 = 'i64'
 export const I128 = 'i128'
+
 
 export const STATUS_KEY = 'status'
 export const PROPOSAL_ID_KEY = 'proposal_id'
@@ -22,12 +24,14 @@ export const PROPOSER_KEY = 'proposer'
 export const REVIEWER_KEY = 'reviewer'
 export const BALLOT_KEY = 'ballot_name'
 
+
 export const DEFAULT_QUERY_TYPE = 'DEFAULT'
 export const BY_STAT_CAT_QUERY_TYPE = "BY_STAT_CAT"
 export const BY_CAT_STAT_QUERY_TYPE = "BY_CAT_STAT"
 export const BY_PROPOSER_STAT_QUERY_TYPE = 'BY_PROPOSER_STAT'
 export const BY_REVIEWER_STAT_QUERY_TYPE = "BY_REVIEWER_STAT"
 export const BY_BALLOT_QUERY_TYPE = 'BY_BALLOT'
+
 
 export const PROPOSAL_INDEXES = {
     INDEX_POSITION: {
@@ -63,6 +67,7 @@ export const PROPOSAL_INDEXES = {
         [BY_BALLOT_QUERY_TYPE]: [{key:BALLOT_KEY, byte_size: 8}],
     }
 }
+
 
 export const NOTIFICATIONS_DICT = {
     END_VOTING: {
@@ -135,7 +140,9 @@ export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"
 export const CAST_VOTE_ACTION = "castvote"
 
+
 export const LABS_CONTRACT_ACCOUNT = process.env.REACT_APP_LABS_CONTRACT_NAME
+export const SAVINGS_ACCOUNT = 'eosio.saving'
 export const ACCOUNTS_TABLE = 'accounts'
 export const PROPOSAL_COMMENTS_TABLE = 'pcomments'
 export const DELIVERABLES_COMMENTS_TABLE = 'dcomments'

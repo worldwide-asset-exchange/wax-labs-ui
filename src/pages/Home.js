@@ -125,13 +125,15 @@ export default function RenderHome(props) {
                 </Link>
             </div>
             <div className="home__numbers">
-                <div className="home__waxNumbers home__number">
-                    <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_available_funds}</h2>
-                    <h4>Operational funds</h4>
-                </div>
-                <div className="home__waxNumbers home__number">
-                    <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_additional_funds}</h2>
-                    <h4>Additional funds</h4>
+                <div className="home__funds">
+                    <div className="home__waxNumbers home__number">
+                        <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_available_funds}</h2>
+                        <h4>Operational funds</h4>
+                    </div>
+                    <div className="home__waxNumbers home__number">
+                        <h2>{queryingConfig ? ' loading...' : ' ' + configData.display_additional_funds}</h2>
+                        <h4>Additional funds</h4>
+                    </div>
                 </div>
                 <div className="home__proposalsNumbers">
                     <div className="home__number">

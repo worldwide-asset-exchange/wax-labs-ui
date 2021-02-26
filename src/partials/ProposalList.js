@@ -8,6 +8,8 @@ import {useWindowSize} from '../utils/util';
 import * as GLOBAL_VARS from "../utils/vars";
 import RenderProposalCard from "./ProposalCard.js";
 
+import './ProposalList.scss';
+
 const reactPaginateObject = {
     mobile: {marginPagesDisplayed:1, pageRangeDisplayed:1},
     tablet_mobile_up : {marginPagesDisplayed:1, pageRangeDisplayed:7},
@@ -57,7 +59,7 @@ export default function RenderProposalList(props){
     let paginatedProperties = props.proposalsList.slice(indexOfFirstAsset, indexOfLastAsset);
 
     let paginateObject = reactPaginateObject[windowSize.breakpoint];
-    
+
     return (
         <React.Fragment>
             {
@@ -65,7 +67,7 @@ export default function RenderProposalList(props){
                 paginatedProperties.map((proposal) =>
                     <RenderProposalCard proposal={proposal} key={proposal.proposal_id} categories={props.categories} />)
                 :
-                <p>{props.noProposalsMessage}</p>
+                <p className="proposalList__emptyMessage">{props.noProposalsMessage}</p>
             }
             <ReactPaginate
                 previousLabel={'<'}

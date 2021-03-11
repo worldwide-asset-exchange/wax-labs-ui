@@ -112,7 +112,7 @@ export const BALANCE_TAB_KEY = 'balance'
 export const PROFILE_TAB_KEY = 'profile'
 export const MY_PROPOSALS_TAB_KEY = 'proposals'
 export const DELIVERABLES_TO_REVIEW_TAB_KEY = 'review'
-export const DEFAULT_TAB_KEY = BALANCE_TAB_KEY
+export const DEFAULT_TAB_KEY = MY_PROPOSALS_TAB_KEY
 
 export const PROPOSALS_TO_REVIEW_TAB_KEY = 'proposals'
 export const CATEGORIES_TAB_KEY = 'categories'

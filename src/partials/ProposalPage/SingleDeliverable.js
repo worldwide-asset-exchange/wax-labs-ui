@@ -3,19 +3,23 @@ import {useParams} from 'react-router-dom';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
+import SimpleReactValidator from 'simple-react-validator';
 import {requestedAmountToFloat, tagStyle} from '../../utils/util';
 
 import arrow from '../../images/orange-arrow.svg'
 import './SingleDeliverable.scss'
 import { Accordion } from 'react-bootstrap';
 
-const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS
+const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS;
+const validator = new SimpleReactValidator();
 
 export default function RenderSingleDeliverable(props){
 
     const [reportLink, setReportLink] = useState("");
     const [reviewMemo, setReviewMemo] = useState("");
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+    const [refreshPage, setRefreshPage] = useState(0);
+
     const {id} = useParams();
 
     let deliverable = {...props.deliverable};
@@ -41,6 +45,12 @@ export default function RenderSingleDeliverable(props){
     async function reviewReport(accept){
         let activeUser = props.activeUser;
         try {
+            if(!validator.allValid()) {
+                console.log("not all valid");
+                setRefreshPage(refreshPage + 1);
+                validator.showMessages();
+                return;
+            }
             await activeUser.signTransaction({
                 actions: [
                     {
@@ -82,6 +92,12 @@ export default function RenderSingleDeliverable(props){
     async function submitReport(){
         let activeUser = props.activeUser;
         try {
+            if(!validator.allValid()) {
+                console.log("not all valid");
+                setRefreshPage(refreshPage + 1);
+                validator.showMessages();
+                return;
+            }
             await activeUser.signTransaction({
                 actions: [
                     {
@@ -214,11 +230,12 @@ export default function RenderSingleDeliverable(props){
                         <input
                             type="text"
                             name="reportLink"
-                            placeholder="Enter a review link"
+                            placeholder={"Enter a review link"}
                             value={reviewMemo}
                             onChange={handleReviewMemoChange}
-                            className="input"
+                            className={`input ${reviewLinkErrorMessage ? "input--error": ""}`}
                         />
+                        <p className="input__errorMessage">{reviewLinkErrorMessage}</p>
                         <button className="button button--approval" onClick={() => reviewReport(true)}>Approve report</button>
                         <button className="button button--rejection" onClick={() => reviewReport(false)}>Reject report</button>
                     </React.Fragment>
@@ -249,8 +266,9 @@ export default function RenderSingleDeliverable(props){
                             placeholder="Enter a report link"
                             value={reportLink}
                             onChange={handleReportLinkChange}
-                            className="input"
+                            className={`input ${reportLinkErrorMessage ? "input--error": ""}`}
                         />
+                        <p className="input__errorMessage">{reportLinkErrorMessage}</p>
                         <button
                             className="button button--secondary"
                             onClick={submitReport}
@@ -268,6 +286,9 @@ export default function RenderSingleDeliverable(props){
         }
         return null;
     }
+
+    const reviewLinkErrorMessage = validator.message('review link', reviewMemo, `required|url`);
+    const reportLinkErrorMessage = validator.message('report link', reportLink, 'required|url');
     let proposerActions = getProposerActions();
     let reviewerActions = getReviewerActions();
     let recipientActions = getRecipientActions();
@@ -308,7 +329,7 @@ export default function RenderSingleDeliverable(props){
                             </div>
                             {deliverable.status_comment ? (
                                 <a
-                                    href={"//" + deliverable.status_comment}
+                                    href={deliverable.status_comment}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inlineLink"
@@ -320,7 +341,7 @@ export default function RenderSingleDeliverable(props){
                             )}
                             {deliverable.report ? (
                                 <a
-                                    href={"//" + deliverable.report}
+                                    href={deliverable.report}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inlineLink"

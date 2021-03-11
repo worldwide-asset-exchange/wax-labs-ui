@@ -16,7 +16,7 @@ export default function RenderBalanceTab(props) {
     const [accountQueryCount, setAccountQueryCount] = useState(0);
 
     const [withdrawAmount, setWithdrawAmount] = useState("");
-    const [donateAmount, setDonateAmount] = useState("");
+    // const [donateAmount, setDonateAmount] = useState("");
 
     function createWithdrawAction(quantity) {
         let activeUser = props.activeUser
@@ -34,47 +34,47 @@ export default function RenderBalanceTab(props) {
         }
     }
 
-    function createDonateAction(quantity) {
-        let activeUser = props.activeUser;
-        return {
-            account: GLOBAL_VARS.EOSIO_TOKEN_CODE,
-            name: GLOBAL_VARS.TRANSFER_ACTION,
-            authorization: [{
-                actor: activeUser.accountName,
-                permission: activeUser.requestPermission,
-            }],
-            data: {
-                from: activeUser.accountName,
-                to: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                quantity: quantity.toFixed(8) + " " +  GLOBAL_VARS.TOKEN_SYMBOL ,
-                memo: GLOBAL_VARS.DEPOSIT_MEMO,
-            }
-        }
-    }
+    // function createDonateAction(quantity) {
+    //     let activeUser = props.activeUser;
+    //     return {
+    //         account: GLOBAL_VARS.EOSIO_TOKEN_CODE,
+    //         name: GLOBAL_VARS.TRANSFER_ACTION,
+    //         authorization: [{
+    //             actor: activeUser.accountName,
+    //             permission: activeUser.requestPermission,
+    //         }],
+    //         data: {
+    //             from: activeUser.accountName,
+    //             to: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+    //             quantity: quantity.toFixed(8) + " " +  GLOBAL_VARS.TOKEN_SYMBOL ,
+    //             memo: GLOBAL_VARS.DEPOSIT_MEMO,
+    //         }
+    //     }
+    // }
 
-    async function donateFunds(){
-        let activeUser = props.activeUser;
-        let actionList = [createDonateAction(parseFloat(donateAmount))];
+    // async function donateFunds(){
+    //     let activeUser = props.activeUser;
+    //     let actionList = [createDonateAction(parseFloat(donateAmount))];
 
-        try {
-            await activeUser.signTransaction (
-                {actions: actionList}
-                , {
-                    blocksBehind: 3,
-                    expireSeconds: 30,
-                }
-            );
-            props.showAlert(GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.SUCCESS);
-            rerunAccountQuery();
-        } catch(e){
-            console.log(e);
-            let alertObj = {
-                ...GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.ERROR,
-                details: e.message
-            }
-            props.showAlert(alertObj);
-        }
-    }
+    //     try {
+    //         await activeUser.signTransaction (
+    //             {actions: actionList}
+    //             , {
+    //                 blocksBehind: 3,
+    //                 expireSeconds: 30,
+    //             }
+    //         );
+    //         props.showAlert(GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.SUCCESS);
+    //         rerunAccountQuery();
+    //     } catch(e){
+    //         console.log(e);
+    //         let alertObj = {
+    //             ...GLOBAL_ALERTS.DONATE_FUNDS_ALERT_DICT.ERROR,
+    //             details: e.message
+    //         }
+    //         props.showAlert(alertObj);
+    //     }
+    // }
 
     async function withdrawFunds() {
         let activeUser = props.activeUser;
@@ -173,33 +173,7 @@ export default function RenderBalanceTab(props) {
                         Withdraw
                     </button>
                 </div>
-            </div>
-
-            <div className="balanceTab__donate">
-                <h3>Help the community to grow.</h3>
-                <p>Donate to help fund projects approved by the community.</p>
-                <div className="balanceTab__donateForm">
-                    <div>
-                        <label className="input__label">Donate to WAX Labs</label>
-                        <input
-                            type="number"
-                            value={donateAmount}
-                            onChange={
-                                (e)=>{
-                                    setDonateAmount(e.target.value);
-                                }
-                            }
-                            className="input"
-                        />
-                    </div>
-                    <button
-                        className="button button--secondary"
-                        onClick={()=>donateFunds()}
-                    >
-                        Donate
-                    </button>
-                </div>
-            </div>
+            </div>         
 
         </div>
     );

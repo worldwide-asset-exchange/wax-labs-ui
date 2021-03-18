@@ -12,6 +12,7 @@ import { Accordion } from 'react-bootstrap';
 
 const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS;
 const validator = new SimpleReactValidator();
+const reviewValidator = new SimpleReactValidator();
 
 export default function RenderSingleDeliverable(props){
 
@@ -45,10 +46,10 @@ export default function RenderSingleDeliverable(props){
     async function reviewReport(accept){
         let activeUser = props.activeUser;
         try {
-            if(!validator.allValid()) {
+            if(!reviewValidator.allValid()) {
                 console.log("not all valid");
                 setRefreshPage(refreshPage + 1);
-                validator.showMessages();
+                reviewValidator.showMessages();
                 return;
             }
             await activeUser.signTransaction({
@@ -287,7 +288,7 @@ export default function RenderSingleDeliverable(props){
         return null;
     }
 
-    const reviewLinkErrorMessage = validator.message('review link', reviewMemo, `required|url`);
+    const reviewLinkErrorMessage = reviewValidator.message('review link', reviewMemo, `required|url`);
     const reportLinkErrorMessage = validator.message('report link', reportLink, 'required|url');
     let proposerActions = getProposerActions();
     let reviewerActions = getReviewerActions();

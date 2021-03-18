@@ -12,6 +12,7 @@ import { Accordion } from 'react-bootstrap';
 
 const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS;
 const validator = new SimpleReactValidator();
+const reviewValidator = new SimpleReactValidator();
 
 export default function RenderSingleDeliverable(props){
 
@@ -45,10 +46,10 @@ export default function RenderSingleDeliverable(props){
     async function reviewReport(accept){
         let activeUser = props.activeUser;
         try {
-            if(!validator.allValid()) {
+            if(!reviewValidator.allValid()) {
                 console.log("not all valid");
                 setRefreshPage(refreshPage + 1);
-                validator.showMessages();
+                reviewValidator.showMessages();
                 return;
             }
             await activeUser.signTransaction({
@@ -287,7 +288,7 @@ export default function RenderSingleDeliverable(props){
         return null;
     }
 
-    const reviewLinkErrorMessage = validator.message('review link', reviewMemo, `required|url`);
+    const reviewLinkErrorMessage = reviewValidator.message('review link', reviewMemo, `required|url`);
     const reportLinkErrorMessage = validator.message('report link', reportLink, 'required|url');
     let proposerActions = getProposerActions();
     let reviewerActions = getReviewerActions();
@@ -325,7 +326,7 @@ export default function RenderSingleDeliverable(props){
                         <div className="singleDeliverable__informationGroup">
                             <div className="singleDeliverable__detail">
                                 <div className="singleDeliverable__label">Last reviewed</div>
-                                <div className="singleDeliverable__info">{(new Date(deliverable.review_time)).getTime()!==10800000 ? deliverable.review_time : "never"}</div>
+                                <div className="singleDeliverable__info">{(deliverable.review_time)!=='1970-01-01T00:00:00' ? deliverable.review_time : "Never"}</div>
                             </div>
                             {deliverable.status_comment ? (
                                 <a

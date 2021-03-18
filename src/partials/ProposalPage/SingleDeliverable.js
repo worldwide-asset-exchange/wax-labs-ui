@@ -293,7 +293,6 @@ export default function RenderSingleDeliverable(props){
     let proposerActions = getProposerActions();
     let reviewerActions = getReviewerActions();
     let recipientActions = getRecipientActions();
-    console.log(deliverable.review_time);
     return (
         <div className="singleDeliverable">
             <Accordion>
@@ -327,7 +326,7 @@ export default function RenderSingleDeliverable(props){
                         <div className="singleDeliverable__informationGroup">
                             <div className="singleDeliverable__detail">
                                 <div className="singleDeliverable__label">Last reviewed</div>
-                                <div className="singleDeliverable__info">{(deliverable.review_time)!=='1970-01-01T00:00:00' ? deliverable.review_time : "never"}</div>
+                                <div className="singleDeliverable__info">{(deliverable.review_time)!=='1970-01-01T00:00:00' ? deliverable.review_time : "Never"}</div>
                             </div>
                             {deliverable.status_comment ? (
                                 <a

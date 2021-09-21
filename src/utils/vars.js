@@ -7,6 +7,7 @@ export const CANCELLED_KEY = 7
 export const PROPOSAL_INPROGRESS_KEY = 5
 export const DELIVERABLE_INPROGRESS_KEY = 2
 export const FAILED_KEY = 6
+export const FAILED_DRAFT_KEY = 9
 export const REPORTED_KEY = 3
 export const ACCEPTED_KEY = 4
 export const CLAIMED_KEY = 6
@@ -140,7 +141,6 @@ export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"
 export const CAST_VOTE_ACTION = "castvote"
 
-
 export const LABS_CONTRACT_ACCOUNT = process.env.REACT_APP_LABS_CONTRACT_NAME
 export const SAVINGS_ACCOUNT = 'eosio.saving'
 export const ACCOUNTS_TABLE = 'accounts'
@@ -211,6 +211,7 @@ export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspac
 export const PROPOSALS_STATUS_KEYS = [
     DRAFTING_KEY,
     SUBMITTED_KEY,
+    FAILED_DRAFT_KEY,
     APPROVED_KEY,
     VOTING_KEY,
     COMPLETED_KEY,
@@ -231,6 +232,7 @@ export const DELIVERABLES_STATUS_KEYS = [
 export const READABLE_PROPOSAL_STATUS = {
     [DRAFTING_KEY]:   "Drafting",
     [SUBMITTED_KEY]:  "In Review",
+    [FAILED_DRAFT_KEY]: 'To be Improved',
     [APPROVED_KEY]:   "Approved",
     [VOTING_KEY]:     "In Voting",
     [COMPLETED_KEY]:  "Completed",

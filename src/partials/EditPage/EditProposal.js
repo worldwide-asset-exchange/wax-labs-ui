@@ -15,7 +15,7 @@ import RenderErrorPage from '../../pages/ErrorPage';
 
 import './EditProposal.scss';
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
 
 export default function RenderEditProposal(props){
     const {id} = useParams();

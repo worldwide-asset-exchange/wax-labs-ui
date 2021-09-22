@@ -21,9 +21,8 @@ import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header/Header';
 import { sleep } from './utils/util';
 
-export default function App(props)  {
-  const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
-
+export default function App(props) {
+  const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
   const [isAdmin, setIsAdmin ] = useState(false);
   const [queryingAdmin, setQueryingAdmin] = useState(true);
 

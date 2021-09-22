@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@waxio/waxjs": "^0.0.14",
+    "@waxio/waxjs": "^1.0.2",
     "bootstrap": "^4.5.3",
     "eosjs": "^21.0.3",
     "eslint-plugin-react-hooks": "^4.1.2",

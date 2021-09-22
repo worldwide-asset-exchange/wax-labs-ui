@@ -76,7 +76,7 @@ export function getNameBounds(statusKey, name){
 
 export async function getProposals(queryType, statusKey, getBounds, accountName){
 
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
     let {lowerBound, upperBound} = getBounds(statusKey, accountName);
 
     // console.log("getting proposals, accountName: ", accountName, " queryType:", queryType, " statusKey: ", statusKey);

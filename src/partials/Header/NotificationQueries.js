@@ -23,7 +23,7 @@ export function filterEmptyArrays(array){
 export async function checkDeliverablesStatus(proposal, statusList){
     let notificationArray = [];
     let foundDict = {};
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
     // In the begginning none was found
     statusList.forEach(status => {
         foundDict[status.value] = false

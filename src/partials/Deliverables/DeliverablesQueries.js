@@ -8,7 +8,7 @@ import { filterNull } from "../Header/NotificationQueries";
 async function checkDeliverableList(proposal, statusList){
     let returnProposal = null
     let foundDict = {};
-    const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+    const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
     // In the begginning none was found
     statusList.forEach(status => {
         foundDict[status] = false

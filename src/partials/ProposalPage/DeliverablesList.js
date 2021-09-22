@@ -10,7 +10,7 @@ import useQueryString from '../../utils/useQueryString';
 
 import "./DeliverablesList.scss"
 
-const wax = new waxjs.WaxJS(process.env.REACT_APP_WAX_RPC, null, null, false);
+const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
 
 const readableDeliverableStatus = globals.READABLE_DELIVERABLE_STATUS
 

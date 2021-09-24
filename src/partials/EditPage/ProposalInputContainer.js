@@ -74,7 +74,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
         setTotalRequested(totalRequested);
 
         // Some components don't pass this callback, so only use it if it was passed.
-        if(updateTotalRequestedErrorMessage){
+        if(updateTotalRequestedErrorMessage && !queryingMinMaxRequested){
             updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${maxRequested.split(" ")[0]},num|min:${minRequested.split(" ")[0]},num`));
         }
         // eslint-disable-next-line

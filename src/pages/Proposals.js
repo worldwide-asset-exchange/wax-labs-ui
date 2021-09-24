@@ -116,7 +116,7 @@ export default function RenderProposals(props){
                             queryingMinMaxRequested={props.queryingMinMaxRequested}
                             minRequested={props.minRequested}
                             maxRequested={props.maxRequested}
-                            waxusdprice={props.waxusdprice}
+                            waxusdprice={waxusdprice}
                         />
                     }
                 />

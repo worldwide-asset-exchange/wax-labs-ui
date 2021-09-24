@@ -4,6 +4,8 @@ import { Overlay, Popover } from 'react-bootstrap';
 import { ItemTypes } from "./ItemTypes";
 import SimpleReactValidator from 'simple-react-validator';
 import ArrowIcon from '../../icons/ArrowIcon';
+import { calculateWAXPrice } from "../../utils/delphioracle";
+
 
 import './DeliverableCard.scss';
 
@@ -13,7 +15,7 @@ const style = {
     cursor: "move"
 };
 export const RenderDeliverableCard = ({
-    id, text, showValidatorMessages,
+    id, text, showValidatorMessages, waxusdprice,
     updateDeliverablesValidation,
     index, moveCard, updateCard,
     deliverable, removeCard,
@@ -147,6 +149,10 @@ export const RenderDeliverableCard = ({
                     {requestedErrorMessage}
                     {totalRequestedErrorMessage}
                 </div>
+            </div>
+            <div className="deliverableCard__fieldset">
+                <label className="input__label">Requested WAX</label>
+                {calculateWAXPrice(deliverable.requested_amount, waxusdprice)}
             </div>
             <div className="deliverableCard__fieldset">
                 <label className="input__label">Recipient</label>

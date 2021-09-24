@@ -4,7 +4,8 @@ import {useParams} from 'react-router-dom';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
 import SimpleReactValidator from 'simple-react-validator';
-import {requestedAmountToFloat, tagStyle} from '../../utils/util';
+import { requestedAmountToFloat, tagStyle } from '../../utils/util';
+import { calculateWAXPrice } from '../../utils/delphioracle';
 
 import arrow from '../../images/orange-arrow.svg'
 import './SingleDeliverable.scss'
@@ -304,6 +305,19 @@ export default function RenderSingleDeliverable(props){
                             <div className="singleDeliverable__label">Amount requested</div>
                             <div className="singleDeliverable__info">{deliverable.requested}</div>
                         </div>
+                        {deliverable.status >= 5 ?
+                            <div className="singleDeliverable__detail singleDeliverable__detail--main">
+                                <div className="singleDeliverable__label">{deliverable.status === 5 ? "To be claimed" : "Claimed"}</div>
+                                <div className="singleDeliverable__info">{requestedAmountToFloat(deliverable.claimable_wax, deliverable.claimable_wax.split(" ")[1]) + " WAX"}</div>
+                            </div>  
+                            : deliverable.requested.split(" ")[1] === "USD" ?
+                            <div className="singleDeliverable__detail singleDeliverable__detail--main">
+                                <div className="singleDeliverable__label">Amount Requested in WAX</div>
+                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(deliverable.requested.split(" ")[0], props.waxusdprice)).toFixed(0) + " WAX"}</div>
+                            </div>
+                            : null
+                        }
+                         
                         <img className={`singleDeliverable__arrow ${isAccordionOpen ? "singleDeliverable__arrow--up" : ""}`} src={arrow} alt="Arrow indicating this is an accordion"/>
                     </div>
                 </Accordion.Toggle>

@@ -186,6 +186,7 @@ export const RenderDeliverablesContainer = (props) => {
                 updateCard={updateDeliverable}
                 moveCard={moveCard}
                 hasShownTooltip={hasShownTooltip}
+                waxusdprice={props.waxusdprice}
             />);
     };
     return (

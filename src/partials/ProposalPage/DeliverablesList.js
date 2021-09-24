@@ -97,6 +97,7 @@ export default function RenderDeliverablesList(props){
                             deliverable={deliverable}
                             rerunProposalQuery={props.rerunProposalQuery}
                             showAlert={props.showAlert}
+                            waxusdprice={props.waxusdprice}
                         />
                     </div>
                 )

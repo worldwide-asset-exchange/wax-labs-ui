@@ -8,7 +8,7 @@ import './ProposalInputContainer.scss';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, activeUser, totalRequestedFunds, categories, updateTotalRequestedErrorMessage}) {
+export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, queryingMinMaxRequested, activeUser, totalRequestedFunds, categories, minRequested, maxRequested, updateTotalRequestedErrorMessage}) {
 
     const [editableProposal, setEditableProposal] = useState({
         title:"",
@@ -23,7 +23,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
 
     const [availableCategories, setAvailableCategories] = useState([]);
 
-    const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(8) + ' WAX')
+    const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(4) + ' USD')
 
     const [refreshPage, setRefreshPage] = useState(0);
 
@@ -70,12 +70,12 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
 
 
     useEffect(()=>{
-        let totalRequested = totalRequestedFunds.toFixed(8) + " WAX"
+        let totalRequested = totalRequestedFunds.toFixed(4) + " USD"
         setTotalRequested(totalRequested);
 
         // Some components don't pass this callback, so only use it if it was passed.
         if(updateTotalRequestedErrorMessage){
-            updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${GLOBAL_VARS.PROPOSAL_MAX_REQUESTED},num|min:${GLOBAL_VARS.PROPOSAL_MIN_REQUESTED},num`));
+            updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${maxRequested.split(" ")[0]},num|min:${minRequested.split(" ")[0]},num`));
         }
         // eslint-disable-next-line
     }, [totalRequestedFunds, showValidatorMessages]);
@@ -85,7 +85,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
         // eslint-disable-next-line
     }, [editableProposal]);
 
-    if(queryingProposal){
+    if(queryingProposal || queryingMinMaxRequested){
         return <RenderLoadingPage/>
     }
 

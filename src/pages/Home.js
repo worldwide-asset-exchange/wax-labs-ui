@@ -114,7 +114,7 @@ export default function RenderHome(props) {
         getInProgressProposals();
         getCompletedProposals();
     },[])
-    // console.log(configData)
+     console.log(configData)
     return (
         <div className="home">
             <div className="home__cover">

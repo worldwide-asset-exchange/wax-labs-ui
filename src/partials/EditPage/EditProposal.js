@@ -163,7 +163,7 @@ export default function RenderEditProposal(props){
             data: {
                 proposal_id: id,
                 deliverable_id: deliverableId,
-                requested_amount: deliverable.requested_amount.toFixed(8) + " WAX",
+                requested_amount: deliverable.requested_amount.toFixed(4) + " USD",
                 recipient: deliverable.recipient,
                 small_description: deliverable.small_description,
                 days_to_complete: deliverable.days_to_complete,
@@ -302,6 +302,9 @@ export default function RenderEditProposal(props){
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}
                 updateValidatorData={updateProposalValidationData}
+                queryingMinMaxRequested={props.queryingMinMaxRequested}
+                minRequested={props.minRequested}
+                maxRequested={props.maxRequested}
             />
             <DndProvider
                 backend={HTML5Backend}
@@ -317,6 +320,9 @@ export default function RenderEditProposal(props){
                     queryingDeliverables={queryingDeliverables}
                     runningQuery={runningDeliverableQuery}
                     showAlert={showAlert}
+                    queryingMinMaxRequested={props.queryingMinMaxRequested}
+                    minRequested={props.minRequested}
+                    maxRequested={props.maxRequested}
                 />
             </DndProvider>
             <button

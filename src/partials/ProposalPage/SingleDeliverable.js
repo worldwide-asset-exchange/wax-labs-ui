@@ -27,7 +27,7 @@ export default function RenderSingleDeliverable(props){
     /* Making a copy of the requested_raw */
     deliverable.requested_raw = deliverable.requested.slice();
 
-    deliverable.requested = requestedAmountToFloat(deliverable.requested) + " WAX";
+    deliverable.requested = requestedAmountToFloat(deliverable.requested, deliverable.requested.split(" ")[1]) + " " + deliverable.requested.split(" ")[1];
 
 
     function handleReviewMemoChange(event){

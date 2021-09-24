@@ -13,12 +13,14 @@ import RenderManageCategoriesTab from '../partials/AdminPortal/ManageCategoriesT
 import RenderSetVotingPeriodTab from '../partials/AdminPortal/SetVotingPeriodTab';
 import RenderRemoveProfilesTab from '../partials/AdminPortal/RemoveProfilesTab';
 import RenderTransferAdminRoleTab from '../partials/AdminPortal/TransferAdminRoleTab';
+import RenderSetMinMaxRequestedTab from '../partials/AdminPortal/SetMinMaxRequestedTab';
 
 import ReviewProposalIcon from '../icons/ReviewProposalIcon';
 import CategoriesIcon from '../icons/CategoriesIcon';
 import VotingPeriodIcon from '../icons/VotingPeriodIcon';
 import RemoveProfileIcon from '../icons/RemoveProfileIcon';
 import TransferRoleIcon from '../icons/TransferRoleIcon';
+import BalanceIcon from '../icons/BalanceIcon';
 
 import './Portal.scss'
 
@@ -28,6 +30,8 @@ export default function RenderAdminPortal(props){
     let location = useLocation();
 
     const [alertList, setAlertList] = useState([]);
+    const [showValidatorMessages, setShowValidatorMessages] = useState(0);
+
 
     const navigate = useNavigate();
 
@@ -39,6 +43,9 @@ export default function RenderAdminPortal(props){
 
         //eslint-disable-next-line
     }, [location])
+
+    
+        
     function showAlert(alertObj){
         // Make a copy.
         let alerts = alertList.slice(0);
@@ -112,6 +119,14 @@ export default function RenderAdminPortal(props){
                         <TransferRoleIcon/>
                         <span className="portal__tabTitle">Transfer admin role</span>
                     </Nav.Link>
+                    <Nav.Link
+                        eventKey={GLOBAL_VARS.SET_MIN_MAX_REQUESTED_TAB_KEY}
+                        className="portal__tab"
+                        activeClassName="portal__tab--active"
+                    >
+                        <BalanceIcon/>
+                        <span className="portal__tabTitle">Set min/max USD requested</span>
+                    </Nav.Link>
                 </Nav>
                 <Tab.Content className="portal__content">
                     <Tab.Pane eventKey={GLOBAL_VARS.PROPOSALS_TO_REVIEW_TAB_KEY}>
@@ -150,6 +165,18 @@ export default function RenderAdminPortal(props){
                             activeUser={props.activeUser}
                             showAlert={showAlert}
                             rerunAdminQuery={props.rerunAdminQuery}
+                        />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey={GLOBAL_VARS.SET_MIN_MAX_REQUESTED_TAB_KEY}>
+                        <RenderSetMinMaxRequestedTab
+                            activeUser={props.activeUser}
+                            minRequested={props.minRequested}
+                            maxRequested={props.maxRequested}
+                            queryingMinMaxRequested={props.queryingConfigs}
+                            showAlert={showAlert}
+                            showValidatorMessages={showValidatorMessages}
+                            setShowValidatorMessages={setShowValidatorMessages}
+                            rerunSetMinMaxRequestedQuery={props.rerunConfigQuery}
                         />
                     </Tab.Pane>
                 </Tab.Content>

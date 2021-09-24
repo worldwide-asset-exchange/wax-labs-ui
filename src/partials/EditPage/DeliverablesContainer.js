@@ -113,7 +113,7 @@ export const RenderDeliverablesContainer = (props) => {
             });
             let deliverables = [...delivs.rows];
             deliverables = deliverables.map(deliverable => {
-                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
+                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested, deliverable.requested.split(" ")[1]);
                 return deliverable
             })
             setDeliverables(deliverables);
@@ -190,18 +190,21 @@ export const RenderDeliverablesContainer = (props) => {
     };
     return (
         <div className="deliverablesContainer">
-            <div className="deliverablesContainer__amountRequirements">
-                <p>
-                    The sum of requested WAX in your deliverables must be more than 1,000 and less than 500,000.
-                </p>
-            </div>
-            {props.queryingDeliverables ?
+            
+            {props.queryingDeliverables || props.queryingMinMaxRequested ?
                 <RenderLoadingPage/>
-            :
-                <div className="deliverablesContainer__items">
-                    <div>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
-                    <button className="button button--secondary" onClick={createNewDeliv}>Add new deliverable</button>
-                </div>
+                :
+                <>
+                    <div className="deliverablesContainer__amountRequirements">
+                        <p>
+                            The sum of requested funds in your deliverables must be more than {props.minRequested} and less than {props.maxRequested}.
+                        </p>
+                    </div>
+                    <div className="deliverablesContainer__items">
+                        <div>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
+                        <button className="button button--secondary" onClick={createNewDeliv}>Add new deliverable</button>
+                    </div>
+                </>
             }
         </div>
     );

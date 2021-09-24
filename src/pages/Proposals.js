@@ -86,6 +86,9 @@ export default function RenderProposals(props){
                             activeUser={props.activeUser}
                             categories={categories}
                             deprecatedCategories={props.deprecatedCategories}
+                            queryingMinMaxRequested={props.queryingMinMaxRequested}
+                            minRequested={props.minRequested}
+                            maxRequested={props.maxRequested}
                         />}
                     />
                 <Route
@@ -95,6 +98,9 @@ export default function RenderProposals(props){
                             activeUser={props.activeUser}
                             categories={categories}
                             deprecatedCategories={props.deprecatedCategories}
+                            queryingMinMaxRequested={props.queryingMinMaxRequested}
+                            minRequested={props.minRequested}
+                            maxRequested={props.maxRequested}
                         />
                     }
                 />

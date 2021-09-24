@@ -132,7 +132,7 @@ export const RenderDeliverableCard = ({
                 </button>
             </div>
             <div className="deliverableCard__fieldset">
-                <label className="input__label">Requested WAX</label>
+                <label className="input__label">Requested USD</label>
                 <input
                     className={`${
                         requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'

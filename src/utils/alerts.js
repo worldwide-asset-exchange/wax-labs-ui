@@ -448,6 +448,41 @@ export const SET_ADMIN_ALERT_DICT = {
     }
 }
 
+export const SET_MIN_REQUESTED_ALERT_DICT = {
+    SUCCESS:
+    {
+        title: "New minimum requested value has been successfully set.",
+        body: "New minimum requested value has been set. Thank you for all your work! It's been a pleasure.",
+        variant: SUCCESS_VARIANT,
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "We couldn't set the new minimum requested value.",
+        body: "Something went wrong while attempting set the new minimum requested value. Please, try again.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+export const SET_MAX_REQUESTED_ALERT_DICT = {
+    SUCCESS:
+    {
+        title: "New maximum requested value has been successfully set.",
+        body: "New maximum requested value has been set. Thank you for all your work! It's been a pleasure.",
+        variant: SUCCESS_VARIANT,
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "We couldn't set the new maximum requested value.",
+        body: "Something went wrong while attempting set the new maximum requested value. Please, try again.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+
 
 // Please copy and paste this if you are creating a new ALERT_DICT
 export const ALERT_DICT_TEMPLATE = {

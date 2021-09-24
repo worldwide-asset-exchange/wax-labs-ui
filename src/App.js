@@ -29,6 +29,8 @@ export default function App(props) {
   const [categories, setCategories] = useState([]);
   const [deprecatedCategories, setDeprecatedCategories] = useState([]);
   const [votingDuration, setVotingDuration] = useState(60);
+  const [minRequested, setMinRequested] = useState(null);
+  const [maxRequested, setMaxRequested] = useState(null);
   const [queryingConfigs, setQueryingConfigs] = useState(true);
 
   const [configQueryCount, setConfigQueryCount] = useState(0);
@@ -106,11 +108,15 @@ export default function App(props) {
               setCategories(resp.rows[0].categories);
               setDeprecatedCategories(resp.rows[0].cat_deprecated);
               setVotingDuration(resp.rows[0].vote_duration);
+              setMinRequested(resp.rows[0].min_requested);
+              setMaxRequested(resp.rows[0].max_requested);
             }
             else{
               setCategories([]);
               setDeprecatedCategories([]);
               setVotingDuration(60);
+              setMinRequested(null);
+              setMaxRequested(null);
             }
             setQueryingConfigs(false);
           }
@@ -151,6 +157,9 @@ export default function App(props) {
                   isAdmin={isAdmin}
                   categories={categories}
                   deprecatedCategories={deprecatedCategories}
+                  queryingMinMaxRequested={queryingConfigs}
+                  minRequested={minRequested}
+                  maxRequested={maxRequested}
                   loginModal={props.ual.showModal}
                 />
               }
@@ -175,6 +184,8 @@ export default function App(props) {
                   deprecatedCategories={deprecatedCategories}
                   rerunConfigQuery={rerunConfigQuery}
                   votingDuration={votingDuration}
+                  minRequested={minRequested}
+                  maxRequested={maxRequested}
                   rerunAdminQuery={rerunCheckAdmin}
                 />
               }

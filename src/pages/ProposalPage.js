@@ -159,7 +159,8 @@ export default function RenderProposalPage(props){
                 });
                 let responseProposal = resp.rows[0]
                 if( responseProposal){
-                    responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' ' + GLOBAL_VARS.TOKEN_SYMBOL;
+                    responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds, responseProposal.total_requested_funds.split(" ")[1])
+                        + ' ' + responseProposal.total_requested_funds.split(" ")[1];
                 }
                 setProposal(responseProposal);
 

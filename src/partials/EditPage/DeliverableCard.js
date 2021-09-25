@@ -4,7 +4,7 @@ import { Overlay, Popover } from 'react-bootstrap';
 import { ItemTypes } from "./ItemTypes";
 import SimpleReactValidator from 'simple-react-validator';
 import ArrowIcon from '../../icons/ArrowIcon';
-import { calculateWAXPrice } from "../../utils/delphioracle";
+import { calculateWAXPrice, calculateUSDPrice } from "../../utils/delphioracle";
 
 
 import './DeliverableCard.scss';
@@ -25,6 +25,8 @@ export const RenderDeliverableCard = ({
     const [refreshComponent, setRefreshComponent] = useState(0);
     const [show, setShow] = useState(false);
     const [target, setTarget] = useState(null);
+    const [requestedUsd, setRequestedUsd] = useState(false);
+    const [waxPrice, setWaxPrice] = useState("");
 
 
     const [, drop] = useDrop({
@@ -133,6 +135,7 @@ export const RenderDeliverableCard = ({
                     <ArrowIcon />
                 </button>
             </div>
+            {console.log(calculateUSDPrice(waxPrice, waxusdprice))}
             <div className="deliverableCard__fieldset">
                 <label className="input__label">Requested USD</label>
                 <input
@@ -141,18 +144,53 @@ export const RenderDeliverableCard = ({
                     }`}
                     type="number"
                     name="requested_amount"
-                    placeholder="0"
-                    value={deliverable.requested_amount}
+                    disabled={requestedUsd ? false : true}
+                    placeholder={deliverable.requested_amount}
+                    value={!requestedUsd && waxPrice > 0 ? calculateUSDPrice(waxPrice, waxusdprice) : deliverable.requested_amount } 
                     onChange={(event) => updateCard(event, index)}
                 />
+                {requestedUsd ? 
+                    <div className="input__errorMessage">
+                        {requestedErrorMessage}
+                        {totalRequestedErrorMessage}
+                    </div>
+                    : null
+                }
                 <div className="input__errorMessage">
                     {requestedErrorMessage}
                     {totalRequestedErrorMessage}
                 </div>
             </div>
+            <button onClick={() => setRequestedUsd(!requestedUsd)}> Change currency </button>
             <div className="deliverableCard__fieldset">
                 <label className="input__label">Requested WAX</label>
-                {calculateWAXPrice(deliverable.requested_amount, waxusdprice)}
+                <input
+                    className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
+                        }`}
+                    type="number"
+                    name="requested_amount"
+                    placeholder={calculateWAXPrice(deliverable.requested_amount, waxusdprice)}
+                    disabled={requestedUsd ? true : false}
+                    value={requestedUsd ?  calculateWAXPrice(deliverable.requested_amount, waxusdprice) : waxPrice}
+                    onChange={(event) => {
+                        setWaxPrice(event.target.value);
+                        const eventmodified = {
+                            target: {
+                                value: calculateUSDPrice(event.target.value, waxusdprice),
+                                name: "requested_amount",
+                                type: "number"
+                            }
+                        }
+                        updateCard(eventmodified, index);
+                        }
+                    }
+                />
+                {requestedUsd ? null :
+                    <div className="input__errorMessage">
+                        {requestedErrorMessage}
+                        {totalRequestedErrorMessage}
+                    </div>
+                }
             </div>
             <div className="deliverableCard__fieldset">
                 <label className="input__label">Recipient</label>

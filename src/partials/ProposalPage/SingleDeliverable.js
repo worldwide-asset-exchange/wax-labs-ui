@@ -28,7 +28,7 @@ export default function RenderSingleDeliverable(props){
     /* Making a copy of the requested_raw */
     deliverable.requested_raw = deliverable.requested.slice();
 
-    deliverable.requested = requestedAmountToFloat(deliverable.requested, deliverable.requested.split(" ")[1]) + " " + deliverable.requested.split(" ")[1];
+    deliverable.requested = requestedAmountToFloat(deliverable.requested) + " " + deliverable.requested.split(" ")[1];
 
 
     function handleReviewMemoChange(event){
@@ -308,7 +308,7 @@ export default function RenderSingleDeliverable(props){
                         {deliverable.status >= 5 ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
                                 <div className="singleDeliverable__label">{deliverable.status === 5 ? "To be claimed" : "Claimed"}</div>
-                                <div className="singleDeliverable__info">{requestedAmountToFloat(deliverable.claimable_wax, deliverable.claimable_wax.split(" ")[1]) + " WAX"}</div>
+                                <div className="singleDeliverable__info">{requestedAmountToFloat(deliverable.claimable_wax) + " WAX"}</div>
                             </div>  
                             : deliverable.requested.split(" ")[1] === "USD" ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">

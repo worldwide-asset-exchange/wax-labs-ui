@@ -113,7 +113,7 @@ export const RenderDeliverablesContainer = (props) => {
             });
             let deliverables = [...delivs.rows];
             deliverables = deliverables.map(deliverable => {
-                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested, deliverable.requested.split(" ")[1]);
+                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
                 return deliverable
             })
             setDeliverables(deliverables);
@@ -123,7 +123,8 @@ export const RenderDeliverablesContainer = (props) => {
         props.runningQuery(false);
     }
 
-    function updateDeliverable(event, index){
+    function updateDeliverable(event, index) {
+        console.log("event", event.target);
         const updatedDeliverable = {...editableDeliverables[index]};
         updatedDeliverable[event.target.name] = event.target.value;
         if(event.target.type === "number"){

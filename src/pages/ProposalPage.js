@@ -128,17 +128,17 @@ export default function RenderProposalPage(props){
                                 {proposal.remaining_funds.split(" ")[0] > 0 ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">Remaining Funds</div>
-                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.remaining_funds, proposal.remaining_funds.split(" ")[1]) + proposal.remaining_funds.split(" ")[1]}</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.remaining_funds).toFixed(0) + proposal.remaining_funds.split(" ")[1]}</div>
                                     </div>
                                 : null}
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Total Claimed Funds</div>
-                                    <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds, proposal.total_paid_funds.split(" ")[1]) + " WAX"}</div>
+                                    <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds).toFixed(0) + " WAX"}</div>
                                 </div>
                                 {proposal.to_be_paid_funds.split(" ")[0] > 0 ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">To be paid Funds</div>
-                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds, proposal.to_be_paid_funds.split(" ")[1]) + " WAX"}</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds).toFixed(0) + " WAX"}</div>
                                     </div>
                                 : null}
                             </div>
@@ -214,7 +214,7 @@ export default function RenderProposalPage(props){
                     json: true,
                 });
 
-                setVoteSupply(requestedAmountToFloat(resp.rows[0].supply, "VOTE"));
+                setVoteSupply(requestedAmountToFloat(resp.rows[0].supply));
             } catch(e){
                 console.log(e);
             }

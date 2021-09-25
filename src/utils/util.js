@@ -23,8 +23,8 @@ export function numberWithCommas(n) {
     return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 }
 
-export function requestedAmountToFloat(requestedAmount, symbol=" WAX"){
-    return parseFloat(requestedAmount.slice(0, -symbol.length))
+export function requestedAmountToFloat(requestedAmount) {
+    return parseFloat(requestedAmount.split(" ")[0]);
 }
 
 export function getStatBounds(statusKey){

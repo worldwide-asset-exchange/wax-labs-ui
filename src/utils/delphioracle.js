@@ -22,5 +22,13 @@ export async function fetchWAXUSDMedianPrice(wax) {
 }
 
 export function calculateWAXPrice(formattedUSDPrice, intendedDelphiMedian) {
+    
     return (formattedUSDPrice / (intendedDelphiMedian / 10000)).toFixed(8);
+}
+
+export function calculateUSDPrice(formattedWAXPrice, intendedDelphiMedian) {
+    console.log("formatted" , formattedWAXPrice);
+    console.log("Oracle" + (intendedDelphiMedian / 10000));
+    console.log("Result" + formattedWAXPrice / (intendedDelphiMedian / 10000))
+    return (formattedWAXPrice * (intendedDelphiMedian / 10000) ).toFixed(4);
 }

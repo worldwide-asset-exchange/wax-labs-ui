@@ -78,8 +78,8 @@ export default function RenderVoteDisplay(props){
                 let noVotes = currentVote.rows[0].options.filter(option => option.key === "no")[0]
                 let end_time = currentVote.rows[0].end_time;
 
-                yesVotes = requestedAmountToFloat(yesVotes.value, " VOTE");
-                noVotes = requestedAmountToFloat(noVotes.value, " VOTE");
+                yesVotes = requestedAmountToFloat(yesVotes.value);
+                noVotes = requestedAmountToFloat(noVotes.value);
 
                 props.updateVotes({yes: yesVotes, no: noVotes});
                 props.updateEndTime(end_time);

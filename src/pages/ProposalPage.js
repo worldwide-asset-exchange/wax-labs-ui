@@ -125,10 +125,10 @@ export default function RenderProposalPage(props){
                                     <div className="proposalPage__label">Total Requested Funds</div>
                                     <div className="proposalPage__amount">{proposal.total_requested_funds}</div>
                                 </div>
-                                {proposal.remaining_funds.split(" ")[0] > 0 ?
+                                {proposal.remaining_funds.split(" ")[0] > 0  ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">Remaining Funds</div>
-                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.remaining_funds).toFixed(0) + proposal.remaining_funds.split(" ")[1]}</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.remaining_funds).toFixed(0) + " " + proposal.remaining_funds.split(" ")[1]}</div>
                                     </div>
                                 : null}
                                 <div className="proposalPage__details">

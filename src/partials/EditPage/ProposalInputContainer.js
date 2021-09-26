@@ -5,6 +5,7 @@ import RenderLoadingPage from '../LoadingPage';
 import * as GLOBAL_VARS from '../../utils/vars';
 
 import './ProposalInputContainer.scss';
+import { requestedAmountToFloat } from '../../utils/util';
 
 const validator = new SimpleReactValidator();
 
@@ -75,7 +76,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
 
         // Some components don't pass this callback, so only use it if it was passed.
         if(updateTotalRequestedErrorMessage && !queryingMinMaxRequested){
-            updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${maxRequested.split(" ")[0]},num|min:${minRequested.split(" ")[0]},num`));
+            updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${requestedAmountToFloat(maxRequested)},num|min:${requestedAmountToFloat(minRequested)},num`));
         }
         // eslint-disable-next-line
     }, [totalRequestedFunds, showValidatorMessages]);

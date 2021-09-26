@@ -10,6 +10,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import RenderLoadingPage from '../LoadingPage';
 
 import './SetMinMaxRequestedTab.scss';
+import { requestedAmountToFloat } from '../../utils/util';
 
 const validator = new SimpleReactValidator();
 
@@ -18,8 +19,8 @@ export default function RenderSetMinMaxRequestedTab(props) {
     const [newMinRequested, setNewMinRequested] = useState("");
     const [newMaxRequested, setNewMaxRequested] = useState("");
 
-    const minRequestedErrorMessage = validator.message('new minimum requested', newMinRequested, `min:0.0001,num|max:${props.maxRequested.split(" ")[0] - 0.0001},num`);
-    const maxRequestedErrorMessage = validator.message('new maximum requested', newMaxRequested, `min:${props.minRequested.split(" ")[0] - 0.0001},num`);
+    const minRequestedErrorMessage = validator.message('new minimum requested', newMinRequested, `min:0.0001,num|max:${requestedAmountToFloat(props.maxRequested) - 0.0001},num`);
+    const maxRequestedErrorMessage = validator.message('new maximum requested', newMaxRequested, `min:${requestedAmountToFloat(props.minRequested) - 0.0001},num`);
 
     useEffect(()=>{
         if(props.showValidatorMessages){

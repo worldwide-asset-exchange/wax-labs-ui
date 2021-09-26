@@ -303,7 +303,12 @@ export default function RenderSingleDeliverable(props){
                         <div className={`tag ${tagStyle(deliverable.status, true)}`}>{readableStatusName[deliverable.status]}</div>
                         <div className="singleDeliverable__detail singleDeliverable__detail--main">
                             <div className="singleDeliverable__label">Amount requested</div>
-                            <div className="singleDeliverable__info">{deliverable.requested}</div>
+                            <div className="singleDeliverable__info">
+                                {(Number.isInteger(requestedAmountToFloat(deliverable.requested)) || deliverable.requested.split(" ")[1] === "WAX"
+                                    ? requestedAmountToFloat(deliverable.requested)
+                                    : requestedAmountToFloat(deliverable.requested).toFixed(2))
+                                    + " " + deliverable.requested.split(" ")[1]}
+                            </div>
                         </div>
                         {deliverable.status >= 5 ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
@@ -313,7 +318,7 @@ export default function RenderSingleDeliverable(props){
                             : deliverable.requested.split(" ")[1] === "USD" ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
                                 <div className="singleDeliverable__label">Amount Requested in WAX</div>
-                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(deliverable.requested.split(" ")[0], props.waxusdprice)).toFixed(0) + " WAX"}</div>
+                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxusdprice)).toFixed(0) + " WAX"}</div>
                             </div>
                             : null
                         }

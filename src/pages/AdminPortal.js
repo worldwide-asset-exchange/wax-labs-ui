@@ -177,7 +177,6 @@ export default function RenderAdminPortal(props){
                             showValidatorMessages={showValidatorMessages}
                             setShowValidatorMessages={setShowValidatorMessages}
                             rerunSetMinMaxRequestedQuery={props.rerunConfigQuery}
-                            waxusdprice={props.waxusdprice}
                         />
                     </Tab.Pane>
                 </Tab.Content>

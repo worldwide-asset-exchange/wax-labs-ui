@@ -8,6 +8,7 @@ import { randomEosioName, requestedAmountToFloat } from '../../utils/util';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
+import { getWaxUsdPrice } from '../../utils/delphioracle';
 
 import './DeliverablesContainer.scss';
 
@@ -30,6 +31,15 @@ export const RenderDeliverablesContainer = (props) => {
     // could get messy/hard to maintain.
     const [deliverablesValidation, setDeliverablesValidation] = useState({});
     const [shownTooltip, setShownTooltip] = useState(false);
+    const [waxUsdPrice, setWaxUsdPrice] = useState(0);
+
+    useEffect(() => {
+        loadWaxUsdPrice();
+    }, []);
+    
+    function loadWaxUsdPrice() {
+        getWaxUsdPrice(setWaxUsdPrice);
+    }
 
     useEffect(()=>{
         if(props.proposal){
@@ -124,7 +134,6 @@ export const RenderDeliverablesContainer = (props) => {
     }
 
     function updateDeliverable(event, index) {
-        console.log("event", event.target);
         const updatedDeliverable = {...editableDeliverables[index]};
         updatedDeliverable[event.target.name] = event.target.value;
         if(event.target.type === "number"){
@@ -187,7 +196,7 @@ export const RenderDeliverablesContainer = (props) => {
                 updateCard={updateDeliverable}
                 moveCard={moveCard}
                 hasShownTooltip={hasShownTooltip}
-                waxusdprice={props.waxusdprice}
+                waxUsdPrice={waxUsdPrice}
             />);
     };
     return (
@@ -199,7 +208,9 @@ export const RenderDeliverablesContainer = (props) => {
                 <>
                     <div className="deliverablesContainer__amountRequirements">
                         <p>
-                            The sum of requested funds in your deliverables must be more than {props.minRequested} and less than {props.maxRequested}.
+                            The sum of requested funds in your deliverables must be more than{" "}
+                            {requestedAmountToFloat(props.minRequested) + " " + props.minRequested.split(" ")[1]}{" "}
+                            and less than {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}.
                         </p>
                     </div>
                     <div className="deliverablesContainer__items">

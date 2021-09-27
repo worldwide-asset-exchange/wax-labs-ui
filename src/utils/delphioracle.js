@@ -1,3 +1,4 @@
+import * as waxjs from "@waxio/waxjs/dist";
 
 const DELPHIORACLE_CONTRACT_ACCOUNT = 'delphioracle';
 const DELPHIORACLE_WAXPUSD_PAIR = 'waxpusd';
@@ -22,13 +23,20 @@ export async function fetchWAXUSDMedianPrice(wax) {
 }
 
 export function calculateWAXPrice(formattedUSDPrice, intendedDelphiMedian) {
-    
-    return (formattedUSDPrice / (intendedDelphiMedian / 10000)).toFixed(8);
+    return (formattedUSDPrice / (intendedDelphiMedian / 10000)).toFixed(2);
 }
 
 export function calculateUSDPrice(formattedWAXPrice, intendedDelphiMedian) {
-    console.log("formatted" , formattedWAXPrice);
-    console.log("Oracle" + (intendedDelphiMedian / 10000));
-    console.log("Result" + formattedWAXPrice / (intendedDelphiMedian / 10000))
-    return (formattedWAXPrice * (intendedDelphiMedian / 10000) ).toFixed(4);
+    return (formattedWAXPrice * (intendedDelphiMedian / 10000) ).toFixed(2);
+}
+
+
+export async function getWaxUsdPrice(updateWaxUsdPrice = () => {}) {
+    const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
+    try {
+        let intendedDelphiMedian = await fetchWAXUSDMedianPrice(wax);
+        updateWaxUsdPrice(intendedDelphiMedian);
+    } catch (e) {
+        console.error(e);
+    }   
 }

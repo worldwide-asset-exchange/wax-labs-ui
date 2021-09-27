@@ -11,7 +11,7 @@ import RenderLoadingPage from '../LoadingPage';
 
 import './SetMinMaxRequestedTab.scss';
 import { requestedAmountToFloat } from '../../utils/util';
-import { calculateWAXPrice, calculateUSDPrice } from '../../utils/delphioracle';
+import { calculateWAXPrice, calculateUSDPrice, getWaxUsdPrice } from '../../utils/delphioracle';
 
 const validator = new SimpleReactValidator();
 
@@ -23,6 +23,15 @@ export default function RenderSetMinMaxRequestedTab(props) {
     const [maxPriceUsd, setMaxPriceUsd] = useState(true);
     const [minWaxPrice, setMinWaxPrice] = useState("");
     const [maxWaxPrice, setMaxWaxPrice] = useState("");
+    const [waxUsdPrice, setWaxUsdPrice] = useState(0);
+
+    useEffect(() => {
+        loadWaxUsdPrice();
+    }, []);
+    
+    function loadWaxUsdPrice() {
+        getWaxUsdPrice(setWaxUsdPrice);
+    }
 
 
 
@@ -136,9 +145,9 @@ export default function RenderSetMinMaxRequestedTab(props) {
             ) : (
                 <div className="setMinMaxRequested__section">
                     <h4>Current minimum requested value</h4>
-                        {props.minRequested}
+                        {requestedAmountToFloat(props.minRequested) + " " + props.minRequested.split(" ")[1]}
                     <h4>Current maximum requested value</h4>
-                        {props.maxRequested}
+                        {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}
                 </div>
             )}
             <div className="setMinMaxRequested__section">
@@ -151,19 +160,17 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             className={`${
                             minRequestedErrorMessage ? 'input input--error' : 'input'
                             }`}
-                            type="number"
+                            type="text"
                             name="min-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={minPriceUsd ? false : true}
-                            value={newMinRequested}
+                            value={newMinRequested ? newMinRequested : ""}
                             onChange={(e) => {
-                                setNewMinRequested(e.target.value);
-                                if (e.target.value > 0) {
-                                    setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setMinWaxPrice("");
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setNewMinRequested(e.target.value);
+                                    setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, waxUsdPrice)));
+                                    validator.fieldValid("new minimum requested");
                                 }
-                                validator.fieldValid("new minimum requested");
                             }}
                         />
                     </div>
@@ -179,19 +186,17 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             className={`${
                             minRequestedErrorMessage ? 'input input--error' : 'input'
                             }`}
-                            type="number"
+                            type="text"
                             name="min-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={minPriceUsd ? true : false}
                             value={minWaxPrice}
-                                onChange={(e) => {
-                                if (e.target.value > 0) {
-                                    setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setNewMinRequested("");
+                            onChange={(e) => {
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, waxUsdPrice)));
+                                    setMinWaxPrice(e.target.value);
+                                    validator.fieldValid("new minimum requested");
                                 }
-                                setMinWaxPrice(e.target.value);
-                                validator.fieldValid("new minimum requested");
                             }}
                         />
                     </div>
@@ -206,19 +211,17 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             className={`${
                             minRequestedErrorMessage ? 'input input--error' : 'input'
                             }`}
-                            type="number"
+                            type="text"
                             name="min-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={minPriceUsd ? true : false}
                             value={minWaxPrice}
                             onChange={(e) => {
-                                if (e.target.value > 0) {
-                                    setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setNewMinRequested("");
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, waxUsdPrice)));
+                                    setMinWaxPrice(e.target.value);
+                                    validator.fieldValid("new minimum requested");
                                 }
-                                setMinWaxPrice(e.target.value);
-                                validator.fieldValid("new minimum requested");
                             }}
                         />
                     </div>
@@ -234,19 +237,17 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             className={`${
                             minRequestedErrorMessage ? 'input input--error' : 'input'
                             }`}
-                            type="number"
+                            type="text"
                             name="min-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={minPriceUsd ? false : true}
-                            value={newMinRequested}
+                            value={newMinRequested ? newMinRequested : ""}
                             onChange={(e) => {
-                                setNewMinRequested(e.target.value);
-                                if (e.target.value > 0) {
-                                    setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, waxUsdPrice)));
                                     setMinWaxPrice("");
+                                    validator.fieldValid("new minimum requested");
                                 }
-                                validator.fieldValid("new minimum requested");
                             }}
                         />
                     </div>
@@ -267,17 +268,15 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             }`}
                             type="number"
                             name="max-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={maxPriceUsd ? false : true}
-                            value={newMaxRequested}
+                            value={newMaxRequested ? newMaxRequested : ""}
                             onChange={(e) => {
-                                setNewMaxRequested(e.target.value);
-                                if (e.target.value > 0) {
-                                    setMaxWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setMaxWaxPrice("");
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setNewMaxRequested(e.target.value);
+                                    setMaxWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, waxUsdPrice)));
+                                    validator.fieldValid("new maximum requested");
                                 }
-                                validator.fieldValid("new maximum requested");
                             }}
                         />
                     </div>
@@ -295,17 +294,15 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             }`}
                             type="number"
                             name="max-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={maxPriceUsd ? true : false}
                             value={maxWaxPrice}
                             onChange={(e) => {
-                                setMaxWaxPrice(e.target.value);
-                                if (e.target.value > 0) {
-                                    setNewMaxRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setNewMaxRequested("");
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setMaxWaxPrice(e.target.value);
+                                    setNewMaxRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, waxUsdPrice)));
+                                    validator.fieldValid("new maximum requested");
                                 }
-                                validator.fieldValid("new maximum requested");
                             }}
                         />
                     </div>
@@ -322,17 +319,15 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             }`}
                             type="number"
                             name="max-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={maxPriceUsd ? true : false}
                             value={maxWaxPrice}
                             onChange={(e) => {
-                                setMaxWaxPrice(e.target.value);
-                                if (e.target.value > 0) {
-                                    setNewMaxRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setNewMaxRequested("");
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setMaxWaxPrice(e.target.value);
+                                    setNewMaxRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, waxUsdPrice)));
+                                    validator.fieldValid("new maximum requested");
                                 }
-                                validator.fieldValid("new maximum requested");
                             }}
                         />
                     </div>
@@ -350,17 +345,15 @@ export default function RenderSetMinMaxRequestedTab(props) {
                             }`}
                             type="number"
                             name="max-requested"
-                            min="0"
+                            pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={maxPriceUsd ? false : true}
-                            value={newMaxRequested}
+                            value={newMaxRequested ? newMaxRequested : ""}
                             onChange={(e) => {
-                                setNewMaxRequested(e.target.value);
-                                if (e.target.value > 0) {
-                                    setMaxWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxusdprice)).toFixed(2));
-                                } else {
-                                    setMaxWaxPrice("");
+                                if (e.target.validity.valid || !e.target.value) {
+                                    setNewMaxRequested(e.target.value);
+                                    setMaxWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, waxUsdPrice)));
+                                    validator.fieldValid("new maximum requested");
                                 }
-                                validator.fieldValid("new maximum requested");
                             }}
                         />
                     </div>

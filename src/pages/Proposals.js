@@ -76,7 +76,7 @@ export default function RenderProposals(props){
                             isAdmin={props.isAdmin}
                             categories={categories}
                             loginModal={props.loginModal}
-                            waxusdprice={props.waxusdprice}
+                            minRequested={props.minRequested}
                         />
                     }
                 />
@@ -90,7 +90,6 @@ export default function RenderProposals(props){
                             queryingMinMaxRequested={props.queryingMinMaxRequested}
                             minRequested={props.minRequested}
                             maxRequested={props.maxRequested}
-                            waxusdprice={props.waxusdprice}
                         />}
                     />
                 <Route
@@ -103,7 +102,6 @@ export default function RenderProposals(props){
                             queryingMinMaxRequested={props.queryingMinMaxRequested}
                             minRequested={props.minRequested}
                             maxRequested={props.maxRequested}
-                            waxusdprice={props.waxusdprice}
                         />
                     }
                 />

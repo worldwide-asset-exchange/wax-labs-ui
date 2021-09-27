@@ -20,7 +20,6 @@ import * as GLOBAL_VARS from './utils/vars';
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header/Header';
 import { sleep } from './utils/util';
-import { fetchWAXUSDMedianPrice } from './utils/delphioracle';
 
 export default function App(props) {
   const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
@@ -36,7 +35,6 @@ export default function App(props) {
 
   const [configQueryCount, setConfigQueryCount] = useState(0);
   const [adminQueryCount, setAdminQueryCount] = useState(0);
-  const [waxusdprice, setwaxusdprice] = useState(0);
 
 
   useEffect(()=>{
@@ -135,18 +133,6 @@ export default function App(props) {
     // eslint-disable-next-line
   }, [configQueryCount])
 
-    //WHEN DO WE HAVE TO UPDATE THIS PRICE?
-    useEffect(() => {
-      console.log("holi, getWaxUSd");
-      async function getWaxUsdPrice() {
-          let intendedDelphiMedian = await fetchWAXUSDMedianPrice(wax);
-          setwaxusdprice(intendedDelphiMedian);
-      }
-
-      getWaxUsdPrice();
-      //eslint-disable-next-line
-    },[])
-
   return (
     <div className="App">
       <div className="wrapper">
@@ -174,7 +160,6 @@ export default function App(props) {
                   minRequested={minRequested}
                   maxRequested={maxRequested}
                   loginModal={props.ual.showModal}
-                  waxusdprice={waxusdprice}
                 />
               }
             />
@@ -201,7 +186,6 @@ export default function App(props) {
                   minRequested={minRequested}
                   maxRequested={maxRequested}
                   rerunAdminQuery={rerunCheckAdmin}
-                  waxusdprice={waxusdprice}
                 />
               }
             />

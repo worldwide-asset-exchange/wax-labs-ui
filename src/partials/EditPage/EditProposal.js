@@ -305,6 +305,7 @@ export default function RenderEditProposal(props){
                 queryingMinMaxRequested={props.queryingMinMaxRequested}
                 minRequested={props.minRequested}
                 maxRequested={props.maxRequested}
+                totalRequestedErrorMessage={totalRequestedErrorMessage}
             />
             <DndProvider
                 backend={HTML5Backend}
@@ -323,7 +324,6 @@ export default function RenderEditProposal(props){
                     queryingMinMaxRequested={props.queryingMinMaxRequested}
                     minRequested={props.minRequested}
                     maxRequested={props.maxRequested}
-                    waxusdprice={props.waxusdprice}
                 />
             </DndProvider>
             <button

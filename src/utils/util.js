@@ -24,8 +24,11 @@ export function numberWithCommas(n) {
 }
 
 export function requestedAmountToFloat(requestedAmount) {
+    if (!isNaN(requestedAmount)) {
+        return requestedAmount;
+    }
     if (requestedAmount) {
-        return parseFloat(requestedAmount.split(" ")[0]);
+        return parseFloat(requestedAmount.split(" ")[0]).toFixed(2);
     } 
     return 0;
 }

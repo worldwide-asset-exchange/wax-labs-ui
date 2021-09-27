@@ -24,8 +24,7 @@ export default function RenderProposalCard(props){
 
     const proposal = props.proposal;
     const hideStatus = props.hideStatus ? props.hideStatus : false;
-    const readableAmount = proposal.total_requested_funds.split(" ")[1] === "USD" ?
-        proposal.total_requested_funds.slice(0, -9) + ' USD' : proposal.total_requested_funds.slice(0, -13) + ' WAX';
+    const readableAmount = proposal.total_requested_funds.split(".")[0] + " " + proposal.total_requested_funds.split(" ")[1];
 
     const votingEndsIn = moment(proposal.vote_end_time, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     // Leaving this here because I expect it to be used soon. - JS

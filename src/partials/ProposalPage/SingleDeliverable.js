@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
 import SimpleReactValidator from 'simple-react-validator';
 import { requestedAmountToFloat, tagStyle } from '../../utils/util';
-import { calculateWAXPrice } from '../../utils/delphioracle';
+import { calculateWAXPrice, getWaxUsdPrice } from '../../utils/delphioracle';
 
 import arrow from '../../images/orange-arrow.svg'
 import './SingleDeliverable.scss'
@@ -15,20 +15,30 @@ const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS;
 const validator = new SimpleReactValidator();
 const reviewValidator = new SimpleReactValidator();
 
-export default function RenderSingleDeliverable(props){
+export default function RenderSingleDeliverable(props) {
+    
+    const {id} = useParams();
 
     const [reportLink, setReportLink] = useState("");
     const [reviewMemo, setReviewMemo] = useState("");
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const [refreshPage, setRefreshPage] = useState(0);
+    const [waxUsdPrice, setWaxUsdPrice] = useState(0);
 
-    const {id} = useParams();
+    useEffect(() => {
+        loadWaxUsdPrice();
+    }, []);
+    
+    function loadWaxUsdPrice() {
+        getWaxUsdPrice(setWaxUsdPrice);
+    }
 
     let deliverable = {...props.deliverable};
     /* Making a copy of the requested_raw */
     deliverable.requested_raw = deliverable.requested.slice();
 
     deliverable.requested = requestedAmountToFloat(deliverable.requested) + " " + deliverable.requested.split(" ")[1];
+
 
 
     function handleReviewMemoChange(event){
@@ -154,7 +164,7 @@ export default function RenderSingleDeliverable(props){
                     }],
                     data: {
                         account_owner: activeUser.accountName,
-                        quantity: deliverable.requested_raw,
+                        quantity: deliverable.claimable_wax,
                     },
                 })
             }
@@ -304,21 +314,19 @@ export default function RenderSingleDeliverable(props){
                         <div className="singleDeliverable__detail singleDeliverable__detail--main">
                             <div className="singleDeliverable__label">Amount requested</div>
                             <div className="singleDeliverable__info">
-                                {(Number.isInteger(requestedAmountToFloat(deliverable.requested)) || deliverable.requested.split(" ")[1] === "WAX"
-                                    ? requestedAmountToFloat(deliverable.requested)
-                                    : requestedAmountToFloat(deliverable.requested).toFixed(2))
+                                {requestedAmountToFloat(deliverable.requested)
                                     + " " + deliverable.requested.split(" ")[1]}
                             </div>
                         </div>
-                        {deliverable.status >= 5 ?
+                        {deliverable.status === 4 || deliverable.status === 6 ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
-                                <div className="singleDeliverable__label">{deliverable.status === 5 ? "To be claimed" : "Claimed"}</div>
+                                <div className="singleDeliverable__label">{deliverable.status === 4 ? "To be claimed" : "Claimed"}</div>
                                 <div className="singleDeliverable__info">{requestedAmountToFloat(deliverable.claimable_wax) + " WAX"}</div>
                             </div>  
                             : deliverable.requested.split(" ")[1] === "USD" ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
                                 <div className="singleDeliverable__label">Amount Requested in WAX</div>
-                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxusdprice)).toFixed(0) + " WAX"}</div>
+                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), waxUsdPrice)) + " WAX"}</div>
                             </div>
                             : null
                         }

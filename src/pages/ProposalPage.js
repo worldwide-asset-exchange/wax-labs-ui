@@ -124,10 +124,7 @@ export default function RenderProposalPage(props){
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Total Requested Funds</div>
                                     <div className="proposalPage__amount">
-                                        {(Number.isInteger(requestedAmountToFloat(proposal.total_requested_funds))
-                                        || proposal.total_requested_funds.split(" ")[1] === "WAX"
-                                        ? requestedAmountToFloat(proposal.total_requested_funds)
-                                        : requestedAmountToFloat(proposal.total_requested_funds).toFixed(2))
+                                        {requestedAmountToFloat(proposal.total_requested_funds)
                                         + " " + proposal.total_requested_funds.split(" ")[1]}
                                     </div>
                                 </div>
@@ -135,22 +132,19 @@ export default function RenderProposalPage(props){
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">Remaining Funds</div>
                                         <div className="proposalPage__amount">
-                                             {(Number.isInteger(requestedAmountToFloat(proposal.remaining_funds))
-                                            || proposal.remaining_funds.split(" ")[1] === "WAX"
-                                            ? requestedAmountToFloat(proposal.remaining_funds)
-                                            : requestedAmountToFloat(proposal.remaining_funds).toFixed(2))
+                                             {requestedAmountToFloat(proposal.remaining_funds)
                                             + " " + proposal.remaining_funds.split(" ")[1]}
                                         </div>
                                     </div>
                                 : null}
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Total Claimed Funds</div>
-                                    <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds).toFixed(0) + " WAX"}</div>
+                                    <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds) + " " + proposal.total_paid_funds.split(" ")[1]}</div>
                                 </div>
                                 {requestedAmountToFloat(proposal.to_be_paid_funds) > 0 ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">To be paid Funds</div>
-                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds).toFixed(0) + " WAX"}</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds) + " " + proposal.to_be_paid_funds.split(" ")[1]}</div>
                                     </div>
                                 : null}
                             </div>
@@ -337,7 +331,6 @@ export default function RenderProposalPage(props){
                 proposal={proposal}
                 showAlert={showAlert}
                 rerunProposalQuery={rerunProposalQuery}
-                waxusdprice={props.waxusdprice}
             />
         </div>
     )

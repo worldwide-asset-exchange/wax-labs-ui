@@ -7,7 +7,6 @@ import RenderGenericProposals from '../partials/GenericProposals';
 import RenderProposalPage from './ProposalPage';
 import RenderEditProposal from '../partials/EditPage/EditProposal';
 import RenderCreateProposalPage from '../partials/CreateProposalPage/CreateProposalPage';
-import { fetchWAXUSDMedianPrice } from '../utils/delphioracle';
 
 import './Proposals.scss';
 import RenderErrorPage from './ErrorPage';
@@ -16,7 +15,6 @@ const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryA
 
 export default function RenderProposals(props){
     const [profile, setProfile] = useState(null);
-    const [waxusdprice, setwaxusdprice] = useState(0);
 
     let categories = props.categories;
     useEffect(()=>{
@@ -52,17 +50,6 @@ export default function RenderProposals(props){
         return cleanup
     }, [props.activeUser])
 
-    //WHEN DO WE HAVE TO UPDATE THIS PRICE?
-    useEffect(()=>{
-        async function getWaxUsdPrice() {
-            let intendedDelphiMedian = await fetchWAXUSDMedianPrice(wax);
-            setwaxusdprice(intendedDelphiMedian);
-        }
-
-        getWaxUsdPrice();
-        //eslint-disable-next-line
-    },[])
-
      return (
          <div className="proposals">
             <Routes>
@@ -89,7 +76,7 @@ export default function RenderProposals(props){
                             isAdmin={props.isAdmin}
                             categories={categories}
                             loginModal={props.loginModal}
-                            waxusdprice={waxusdprice}
+                            waxusdprice={props.waxusdprice}
                         />
                     }
                 />
@@ -103,7 +90,7 @@ export default function RenderProposals(props){
                             queryingMinMaxRequested={props.queryingMinMaxRequested}
                             minRequested={props.minRequested}
                             maxRequested={props.maxRequested}
-                            waxusdprice={waxusdprice}
+                            waxusdprice={props.waxusdprice}
                         />}
                     />
                 <Route
@@ -116,7 +103,7 @@ export default function RenderProposals(props){
                             queryingMinMaxRequested={props.queryingMinMaxRequested}
                             minRequested={props.minRequested}
                             maxRequested={props.maxRequested}
-                            waxusdprice={waxusdprice}
+                            waxusdprice={props.waxusdprice}
                         />
                     }
                 />

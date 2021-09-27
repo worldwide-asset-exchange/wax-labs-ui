@@ -26,8 +26,9 @@ export const RenderDeliverableCard = ({
     const [refreshComponent, setRefreshComponent] = useState(0);
     const [show, setShow] = useState(false);
     const [target, setTarget] = useState(null);
-    const [requestedUsd, setRequestedUsd] = useState(true);
-    const [waxPrice, setWaxPrice] = useState("");
+    const [priceInUsd, setPriceInUsd] = useState(true);
+    const [waxPrice, setWaxPrice] = useState(deliverable.requested_amount > 0
+        ? requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxusdprice)).toFixed(2) : "");
 
 
     const [, drop] = useDrop({
@@ -136,7 +137,7 @@ export const RenderDeliverableCard = ({
                     <ArrowIcon />
                 </button>
             </div>
-            {requestedUsd ?
+            {priceInUsd ?
                 <>
                     <div className="deliverableCard__fieldset">
                         <label className="input__label">Requested USD</label>
@@ -146,23 +147,24 @@ export const RenderDeliverableCard = ({
                             }`}
                             type="number"
                             name="requested_amount"
-                            disabled={requestedUsd ? false : true}
-                            value={!requestedUsd && waxPrice > 0 ? requestedAmountToFloat(calculateUSDPrice(waxPrice, waxusdprice)) : deliverable.requested_amount } 
-                            onChange={(event) => updateCard(event, index)}
+                            min="0"
+                            disabled={priceInUsd ? false : true}
+                            value={deliverable.requested_amount ? deliverable.requested_amount : ""} 
+                            onChange={(event) => {
+                                if (event.target.value > 0) {
+                                    setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxusdprice)).toFixed(2));  
+                                } else {
+                                    setWaxPrice("");
+                                }
+                                updateCard(event, index);
+                            }}
                         />
-                        {requestedUsd ? 
-                            <div className="input__errorMessage">
-                                {requestedErrorMessage}
-                                {totalRequestedErrorMessage}
-                            </div>
-                            : null
-                        }
-                        <div className="input__errorMessage">
-                            {requestedErrorMessage}
-                            {totalRequestedErrorMessage}
-                        </div>
                     </div>
-                    <button onClick={() => setRequestedUsd(!requestedUsd)}> Change currency </button>
+                    <button onClick={() => {
+                        setPriceInUsd(!priceInUsd);
+                        if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
+                    }
+                    }> Change currency </button>
                     <div className="deliverableCard__fieldset">
                         <label className="input__label">Requested WAX</label>
                         <input
@@ -170,13 +172,14 @@ export const RenderDeliverableCard = ({
                                 }`}
                             type="number"
                             name="requested_amount"
-                            disabled={requestedUsd ? true : false}
-                            value={requestedUsd ?  requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxusdprice)).toFixed(0) : waxPrice}
+                            min="0"
+                            disabled={priceInUsd ? true : false}
+                            value={waxPrice}
                             onChange={(event) => {
                                 setWaxPrice(event.target.value);
                                 const eventmodified = {
                                     target: {
-                                        value: requestedAmountToFloat(calculateUSDPrice(event.target.value, waxusdprice)),
+                                        value: requestedAmountToFloat(calculateUSDPrice(event.target.value, waxusdprice)).toFixed(2),
                                         name: "requested_amount",
                                         type: "number"
                                     }
@@ -185,12 +188,10 @@ export const RenderDeliverableCard = ({
                                 }
                             }
                         />
-                        {requestedUsd ? null :
-                            <div className="input__errorMessage">
-                                {requestedErrorMessage}
-                                {totalRequestedErrorMessage}
-                            </div>
-                        }
+                        <div className="input__errorMessage">
+                            {requestedErrorMessage}
+                            {totalRequestedErrorMessage}
+                        </div>
                     </div>
                 </>    
                 : <>
@@ -201,13 +202,14 @@ export const RenderDeliverableCard = ({
                                 }`}
                             type="number"
                             name="requested_amount"
-                            disabled={requestedUsd ? true : false}
-                            value={requestedUsd ?  requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxusdprice)) : waxPrice > 0 ? waxPrice : null}
+                            min="0"
+                            disabled={priceInUsd ? true : false}
+                            value={waxPrice}
                             onChange={(event) => {
                                 setWaxPrice(event.target.value);
                                 const eventmodified = {
                                     target: {
-                                        value: requestedAmountToFloat(calculateUSDPrice(event.target.value, waxusdprice)),
+                                        value: requestedAmountToFloat(calculateUSDPrice(event.target.value, waxusdprice)).toFixed(2),
                                         name: "requested_amount",
                                         type: "number"
                                     }
@@ -216,14 +218,18 @@ export const RenderDeliverableCard = ({
                                 }
                             }
                         />
-                        {requestedUsd ? null :
+                        {priceInUsd ? null :
                             <div className="input__errorMessage">
                                 {requestedErrorMessage}
                                 {totalRequestedErrorMessage}
                             </div>
                         }
-                    </div>  
-                    <button onClick={() => setRequestedUsd(!requestedUsd)}> Change currency </button>
+                    </div>
+                    <button onClick={() => {
+                        setPriceInUsd(!priceInUsd);
+                        if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
+                    }
+                    }> Change currency </button>
                     <div className="deliverableCard__fieldset">
                         <label className="input__label">Requested USD</label>
                         <input
@@ -232,17 +238,18 @@ export const RenderDeliverableCard = ({
                             }`}
                             type="number"
                             name="requested_amount"
-                            disabled={requestedUsd ? false : true}
-                            value={!requestedUsd && waxPrice > 0 ? requestedAmountToFloat(calculateUSDPrice(waxPrice, waxusdprice)).toFixed(0) : deliverable.requested_amount } 
-                            onChange={(event) => updateCard(event, index)}
+                            min="0"
+                            disabled={priceInUsd ? false : true}
+                            value={deliverable.requested_amount ? deliverable.requested_amount : ""} 
+                            onChange={(event) => {
+                                if (event.target.value > 0) {
+                                    setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxusdprice)).toFixed(2));  
+                                } else {
+                                    setWaxPrice("");
+                                }
+                                updateCard(event, index);
+                            }}
                         />
-                        {requestedUsd ? 
-                            <div className="input__errorMessage">
-                                {requestedErrorMessage}
-                                {totalRequestedErrorMessage}
-                            </div>
-                            : null
-                        }
                         <div className="input__errorMessage">
                             {requestedErrorMessage}
                             {totalRequestedErrorMessage}

@@ -71,7 +71,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
 
 
     useEffect(()=>{
-        let totalRequested = totalRequestedFunds.toFixed(4) + " USD"
+        let totalRequested = totalRequestedFunds.toFixed(2) + " USD"
         setTotalRequested(totalRequested);
 
         // Some components don't pass this callback, so only use it if it was passed.

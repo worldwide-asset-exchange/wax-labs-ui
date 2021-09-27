@@ -24,7 +24,10 @@ export function numberWithCommas(n) {
 }
 
 export function requestedAmountToFloat(requestedAmount) {
-    return parseFloat(requestedAmount.split(" ")[0]);
+    if (requestedAmount) {
+        return parseFloat(requestedAmount.split(" ")[0]);
+    } 
+    return 0;
 }
 
 export function getStatBounds(statusKey){

@@ -27,9 +27,7 @@ export const RenderDeliverableCard = ({
     const [show, setShow] = useState(false);
     const [target, setTarget] = useState(null);
     const [priceInUsd, setPriceInUsd] = useState(true);
-    const [waxPrice, setWaxPrice] = useState(deliverable.requested_amount > 0
-        ? requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxUsdPrice)) : "");
-
+    const [waxPrice, setWaxPrice] = useState("");
 
     const [, drop] = useDrop({
         accept: ItemTypes.CARD,
@@ -153,14 +151,17 @@ export const RenderDeliverableCard = ({
                             onChange={(event) => {
                                 if (event.target.validity.valid ) {
                                     setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
-                                    updateCard(event, index);
+                                    const eventmodified = {
+                                        target: {
+                                            value: Number(event.target.value),
+                                            name: event.target.name,
+                                            type: "number"
+                                        }
+                                    }
+                                    updateCard(eventmodified, index);
                                 }
                             }}
                         />
-                    </div>
-                    <div className="input__errorMessage">
-                            {requestedErrorMessage}
-                            {totalRequestedErrorMessage}
                     </div>
                     <button onClick={() => {
                         setPriceInUsd(!priceInUsd);
@@ -182,15 +183,19 @@ export const RenderDeliverableCard = ({
                                     setWaxPrice(event.target.value);
                                     const eventmodified = {
                                         target: {
-                                            value: requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice)),
+                                            value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
                                             name: "requested_amount",
-                                            type: "number"
+                                            type: "number",
                                         }
                                     }
                                     updateCard(eventmodified, index);
                                 }
                             }}
                         />
+                    </div>
+                    <div className="input__errorMessage">
+                            {requestedErrorMessage}
+                            {totalRequestedErrorMessage}
                     </div>
                 </>    
                 : <>
@@ -209,9 +214,9 @@ export const RenderDeliverableCard = ({
                                     setWaxPrice(event.target.value);
                                     const eventmodified = {
                                         target: {
-                                            value: requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice)),
+                                            value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
                                             name: "requested_amount",
-                                            type: "number"
+                                            type: "number",
                                         }
                                     }
                                     updateCard(eventmodified, index);
@@ -238,7 +243,14 @@ export const RenderDeliverableCard = ({
                             onChange={(event) => {
                                 if (event.target.validity.valid ) {
                                     setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
-                                    updateCard(event, index);
+                                    const eventmodified = {
+                                        target: {
+                                            value: Number(event.target.value),
+                                            name: event.target.name,
+                                            type: "number"
+                                        }
+                                    }
+                                    updateCard(eventmodified, index);
                                 }
                             }}
                         />

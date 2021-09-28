@@ -23,7 +23,12 @@ export async function fetchWAXUSDMedianPrice(wax) {
 }
 
 export function calculateWAXPrice(formattedUSDPrice, intendedDelphiMedian) {
-    return (formattedUSDPrice / (intendedDelphiMedian / 10000)).toFixed(2);
+    if (intendedDelphiMedian) {
+        return (formattedUSDPrice / (intendedDelphiMedian / 10000)).toFixed(2);
+    } else {
+        return 0;
+    }
+    
 }
 
 export function calculateUSDPrice(formattedWAXPrice, intendedDelphiMedian) {

@@ -8,7 +8,7 @@ import { randomEosioName, requestedAmountToFloat } from '../../utils/util';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
-import { getWaxUsdPrice } from '../../utils/delphioracle';
+import { calculateUSDPrice } from '../../utils/delphioracle';
 
 import './DeliverablesContainer.scss';
 
@@ -31,15 +31,6 @@ export const RenderDeliverablesContainer = (props) => {
     // could get messy/hard to maintain.
     const [deliverablesValidation, setDeliverablesValidation] = useState({});
     const [shownTooltip, setShownTooltip] = useState(false);
-    const [waxUsdPrice, setWaxUsdPrice] = useState(0);
-
-    useEffect(() => {
-        loadWaxUsdPrice();
-    }, []);
-    
-    function loadWaxUsdPrice() {
-        getWaxUsdPrice(setWaxUsdPrice);
-    }
 
     useEffect(()=>{
         if(props.proposal){
@@ -123,7 +114,11 @@ export const RenderDeliverablesContainer = (props) => {
             });
             let deliverables = [...delivs.rows];
             deliverables = deliverables.map(deliverable => {
-                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
+                if (deliverable.requested.split(" ")[1] === "USD") {
+                    deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
+                } else {
+                    deliverable.requested_amount = calculateUSDPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice); 
+                }
                 return deliverable
             })
             setDeliverables(deliverables);
@@ -196,7 +191,7 @@ export const RenderDeliverablesContainer = (props) => {
                 updateCard={updateDeliverable}
                 moveCard={moveCard}
                 hasShownTooltip={hasShownTooltip}
-                waxUsdPrice={waxUsdPrice}
+                waxUsdPrice={props.waxUsdPrice}
             />);
     };
     return (

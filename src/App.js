@@ -20,6 +20,7 @@ import * as GLOBAL_VARS from './utils/vars';
 import RenderFooter from './partials/Footer.js';
 import RenderHeader from './partials/Header/Header';
 import { sleep } from './utils/util';
+import { getWaxUsdPrice } from './utils/delphioracle';
 
 export default function App(props) {
   const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
@@ -29,12 +30,20 @@ export default function App(props) {
   const [categories, setCategories] = useState([]);
   const [deprecatedCategories, setDeprecatedCategories] = useState([]);
   const [votingDuration, setVotingDuration] = useState(60);
-  const [minRequested, setMinRequested] = useState(null);
-  const [maxRequested, setMaxRequested] = useState(null);
+  const [minRequested, setMinRequested] = useState("");
+  const [maxRequested, setMaxRequested] = useState("");
+  const [availableFunds, setAvailableFunds] = useState("");
   const [queryingConfigs, setQueryingConfigs] = useState(true);
 
   const [configQueryCount, setConfigQueryCount] = useState(0);
   const [adminQueryCount, setAdminQueryCount] = useState(0);
+  const [waxUsdPrice, setWaxUsdPrice] = useState(0);
+
+
+  function loadWaxUsdPrice() {
+    getWaxUsdPrice(setWaxUsdPrice);
+  }
+
 
 
   useEffect(()=>{
@@ -110,13 +119,15 @@ export default function App(props) {
               setVotingDuration(resp.rows[0].vote_duration);
               setMinRequested(resp.rows[0].min_requested);
               setMaxRequested(resp.rows[0].max_requested);
+              setAvailableFunds(resp.rows[0].available_funds);
             }
             else{
               setCategories([]);
               setDeprecatedCategories([]);
               setVotingDuration(60);
-              setMinRequested(null);
-              setMaxRequested(null);
+              setMinRequested("");
+              setMaxRequested("");
+              setAvailableFunds("");
             }
             setQueryingConfigs(false);
           }
@@ -160,6 +171,10 @@ export default function App(props) {
                   minRequested={minRequested}
                   maxRequested={maxRequested}
                   loginModal={props.ual.showModal}
+                  loadWaxUsdPrice={loadWaxUsdPrice}
+                  waxUsdPrice={waxUsdPrice}
+                  queryingAvailableFunds={queryingConfigs}
+                  availableFunds={availableFunds}
                 />
               }
             />
@@ -186,6 +201,8 @@ export default function App(props) {
                   minRequested={minRequested}
                   maxRequested={maxRequested}
                   rerunAdminQuery={rerunCheckAdmin}
+                  loadWaxUsdPrice={loadWaxUsdPrice}
+                  waxUsdPrice={waxUsdPrice}
                 />
               }
             />

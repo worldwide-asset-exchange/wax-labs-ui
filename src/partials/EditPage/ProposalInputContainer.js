@@ -6,10 +6,11 @@ import * as GLOBAL_VARS from '../../utils/vars';
 
 import './ProposalInputContainer.scss';
 import { requestedAmountToFloat } from '../../utils/util';
+import { calculateWAXPrice } from '../../utils/delphioracle';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, queryingMinMaxRequested, activeUser, totalRequestedFunds, categories, minRequested, maxRequested, updateTotalRequestedErrorMessage}) {
+export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, queryingMinMaxRequested, activeUser, totalRequestedFunds, categories, minRequested, maxRequested, updateTotalRequestedErrorMessage, waxUsdPrice}) {
 
     const [editableProposal, setEditableProposal] = useState({
         title:"",
@@ -25,6 +26,7 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
     const [availableCategories, setAvailableCategories] = useState([]);
 
     const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(4) + ' USD')
+    const [totalRequestedWAX, setTotalRequestedWAX] = useState(Number(0).toFixed(8) + ' WAX')
 
     const [refreshPage, setRefreshPage] = useState(0);
 
@@ -70,13 +72,16 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
     }, [proposal]);
 
 
-    useEffect(()=>{
-        let totalRequested = totalRequestedFunds.toFixed(2) + " USD"
+    useEffect(() => {
+        let totalRequested = Number(totalRequestedFunds).toFixed(2) + " USD"
         setTotalRequested(totalRequested);
 
+        let totalRequestedWax = requestedAmountToFloat(calculateWAXPrice(totalRequestedFunds, waxUsdPrice)) + " WAX";
+        setTotalRequestedWAX(totalRequestedWax);
+
         // Some components don't pass this callback, so only use it if it was passed.
-        if(updateTotalRequestedErrorMessage && !queryingMinMaxRequested && totalRequestedFunds > 0){
-            updateTotalRequestedErrorMessage(validator.message('total requested', totalRequestedFunds, `max:${requestedAmountToFloat(maxRequested)},num|min:${requestedAmountToFloat(minRequested)},num`));
+        if (updateTotalRequestedErrorMessage && !queryingMinMaxRequested && Number(totalRequestedFunds) > 0) {
+            updateTotalRequestedErrorMessage(validator.message('total requested in usd', totalRequestedFunds, `max:${requestedAmountToFloat(maxRequested)},num`));
         }
         // eslint-disable-next-line
     }, [totalRequestedFunds, showValidatorMessages]);
@@ -244,6 +249,8 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
                 <div className="proposalInputContainer__fieldset">
                     <div className="input__label">Total amount requested</div>
                     <h4>{totalRequested}</h4>
+                    <div className="input__label">Total amount requested in WAX</div>
+                    <h4>{totalRequestedWAX}</h4>
                 </div>    
             ) : (
                 ''

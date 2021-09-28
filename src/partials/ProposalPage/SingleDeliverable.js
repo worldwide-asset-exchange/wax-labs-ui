@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
 import SimpleReactValidator from 'simple-react-validator';
 import { requestedAmountToFloat, tagStyle } from '../../utils/util';
-import { calculateWAXPrice, getWaxUsdPrice } from '../../utils/delphioracle';
+import { calculateWAXPrice } from '../../utils/delphioracle';
 
 import arrow from '../../images/orange-arrow.svg'
 import './SingleDeliverable.scss'
@@ -23,15 +23,6 @@ export default function RenderSingleDeliverable(props) {
     const [reviewMemo, setReviewMemo] = useState("");
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const [refreshPage, setRefreshPage] = useState(0);
-    const [waxUsdPrice, setWaxUsdPrice] = useState(0);
-
-    useEffect(() => {
-        loadWaxUsdPrice();
-    }, []);
-    
-    function loadWaxUsdPrice() {
-        getWaxUsdPrice(setWaxUsdPrice);
-    }
 
     let deliverable = {...props.deliverable};
     /* Making a copy of the requested_raw */
@@ -61,6 +52,20 @@ export default function RenderSingleDeliverable(props) {
                 console.log("not all valid");
                 setRefreshPage(refreshPage + 1);
                 reviewValidator.showMessages();
+                return;
+            }
+            const requestedFundsWax = deliverable.requested.split(" ")[1] === "WAX"
+                ? deliverable.requested : calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice);
+            const fundsLeft = Number(requestedAmountToFloat(props.availableFunds)) - requestedFundsWax;
+            if (accept && fundsLeft < 0) {
+                let body = alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.MISSING_FUNDS.body.slice(0)
+                body = body.replace(alertGlobals.AVAILABLE_FUNDS_TEMPLATE, requestedAmountToFloat(props.availableFunds) + " WAX");
+                body = body.replace(alertGlobals.REQUESTED_FUNDS_TEMPLATE, requestedFundsWax + " WAX");
+                let alertObj = {
+                    ...alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.MISSING_FUNDS,
+                    body: body,
+                }
+                props.showAlert(alertObj);
                 return;
             }
             await activeUser.signTransaction({
@@ -247,7 +252,9 @@ export default function RenderSingleDeliverable(props) {
                             onChange={handleReviewMemoChange}
                             className={`input ${reviewLinkErrorMessage ? "input--error": ""}`}
                         />
-                        <p className="input__errorMessage">{reviewLinkErrorMessage}</p>
+                        <p className="input__errorMessage">
+                            {reviewLinkErrorMessage}
+                        </p>
                         <button className="button button--approval" onClick={() => reviewReport(true)}>Approve report</button>
                         <button className="button button--rejection" onClick={() => reviewReport(false)}>Reject report</button>
                     </React.Fragment>
@@ -326,7 +333,7 @@ export default function RenderSingleDeliverable(props) {
                             : deliverable.requested.split(" ")[1] === "USD" ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
                                 <div className="singleDeliverable__label">Amount Requested in WAX</div>
-                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), waxUsdPrice)) + " WAX"}</div>
+                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice)) + " WAX"}</div>
                             </div>
                             : null
                         }

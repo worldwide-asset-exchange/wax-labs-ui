@@ -10,6 +10,8 @@ export const DELIVERABLE_ID_TEMPLATE = "%deliverable_id%"
 export const PROPOSAL_ID_TEMPLATE = "%proposal_id%"
 export const REVIEWER_NAME_TEMPLATE = "%reviewer_name%"
 export const VOTE_OPTION_TEMPLATE = "%vote_option%"
+export const AVAILABLE_FUNDS_TEMPLATE = "%available_funds"
+export const REQUESTED_FUNDS_TEMPLATE = "%requested_funds"
 
 export const CANCEL_PROP_ALERT_DICT = {
     SUCCESS:
@@ -125,6 +127,13 @@ export const REVIEW_DELIVERABLE_ALERT_DICT = {
     {
         title: "We couldn't register your deliverable review.",
         body: "Something went wrong while trying to register your deliverable review. Make sure you added the report and try again.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    },
+    MISSING_FUNDS:
+    {
+        title: "We couldn't register your deliverable review. There are not enough available funds",
+        body: `There are only ${AVAILABLE_FUNDS_TEMPLATE} available funds and you are trying to approve ${REQUESTED_FUNDS_TEMPLATE}. Add more funds and try again.`,
         variant: ERROR_VARIANT,
         dismissible: true,
     }

@@ -35,10 +35,15 @@ export default function RenderProposalPage(props){
     const [statusComment, setStatusComment] = useState(false);
     const [voteSupply, setVoteSupply] = useState(0);
     const [passing, setPassing] = useState(false);
-
+    
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
 
+    useEffect(() => {
+        props.loadWaxUsdPrice();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
     function updateProposalDeleted(boolean){
         setProposalDeleted(boolean);
     }
@@ -136,12 +141,14 @@ export default function RenderProposalPage(props){
                                             + " " + proposal.remaining_funds.split(" ")[1]}
                                         </div>
                                     </div>
-                                : null}
-                                <div className="proposalPage__details">
-                                    <div className="proposalPage__label">Total Claimed Funds</div>
-                                    <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds) + " " + proposal.total_paid_funds.split(" ")[1]}</div>
-                                </div>
-                                {requestedAmountToFloat(proposal.to_be_paid_funds) > 0 ?
+                                    : null}
+                                {proposal.total_paid_funds ?
+                                    <div className="proposalPage__details">
+                                        <div className="proposalPage__label">Total Claimed Funds</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds) + " " + proposal.total_paid_funds.split(" ")[1]}</div>
+                                    </div>
+                                 : null}
+                                {proposal.to_be_paid_funds && requestedAmountToFloat(proposal.to_be_paid_funds) > 0 ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">To be paid Funds</div>
                                         <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds) + " " + proposal.to_be_paid_funds.split(" ")[1]}</div>
@@ -295,7 +302,7 @@ export default function RenderProposalPage(props){
             </div>
         )
     }
-    if(queryingProposal){
+    if(queryingProposal || !props.minRequested || !props.waxUsdPrice || props.queryingAvailableFunds){
         return <RenderLoadingPage />
     }
     if(!proposal){
@@ -314,7 +321,7 @@ export default function RenderProposalPage(props){
                 showAlert={showAlert}
                 votingEndsIn={votingEndsIn}
                 rerunProposalQuery={rerunProposalQuery}
-                updateProposalDeleted={updateProposalDeleted}
+                updateProposalDeleted={updateProposalDeleted}                
             />
             <RenderProposerMenu
                 activeUser={props.activeUser}
@@ -323,6 +330,7 @@ export default function RenderProposalPage(props){
                 showAlert={showAlert}
                 rerunProposalQuery={rerunProposalQuery}
                 updateProposalDeleted={updateProposalDeleted}
+                minRequested={props.minRequested}
             />
             {RenderProposalInfo()}
             <RenderDeliverablesList
@@ -331,6 +339,8 @@ export default function RenderProposalPage(props){
                 proposal={proposal}
                 showAlert={showAlert}
                 rerunProposalQuery={rerunProposalQuery}
+                waxUsdPrice={props.waxUsdPrice}
+                availableFunds={props.availableFunds}
             />
         </div>
     )

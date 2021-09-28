@@ -142,7 +142,7 @@ export default function RenderAdminMenu(props){
         }
     }
 
-    async function reviewProposal(approve) {
+    async function reviewProposal(approve,edit) {
         let activeUser = props.activeUser;
         let alertObj = {}
 
@@ -167,6 +167,7 @@ export default function RenderAdminMenu(props){
                         data: {
                             proposal_id: id,
                             approve: approve,
+			     draft: edit,
                             memo: approve ? "": rejectionReason
                         },
                     },
@@ -280,7 +281,7 @@ export default function RenderAdminMenu(props){
                 <div>
                     <div className="adminMenu__actions">
                         <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
-                        <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true)}>Approve proposal</button>
+                        <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true, true)}>Approve proposal</button>
                         <button className="button button--approvalNoIcon" disabled={!props.proposal.reviewer} onClick={()=>skipVoting()}>Approve and skip voting</button>
                     </div>
                     <div className="adminMenu__actions adminMenu__actions--row">
@@ -288,7 +289,8 @@ export default function RenderAdminMenu(props){
                         <div className="adminMenu__reject">
                             <label className="input__label">Enter the rejection reason</label>
                             <textarea className="textarea" value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>
-                            <button className="button button--rejection" onClick={()=>reviewProposal(false)}>Reject proposal</button>
+                            <button className="button button--rejection" onClick={()=>reviewProposal(false, false)}>Reject proposal</button>
+                            <button className="button button--askchanges" onClick={() => reviewProposal(false, true)}>Ask for changes </button>
                         </div>
                     </div>
                 </div>

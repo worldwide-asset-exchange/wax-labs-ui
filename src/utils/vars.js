@@ -7,6 +7,7 @@ export const CANCELLED_KEY = 7
 export const PROPOSAL_INPROGRESS_KEY = 5
 export const DELIVERABLE_INPROGRESS_KEY = 2
 export const FAILED_KEY = 6
+export const FAILED_DRAFT_KEY = 9
 export const REPORTED_KEY = 3
 export const ACCEPTED_KEY = 4
 export const CLAIMED_KEY = 6
@@ -119,6 +120,7 @@ export const CATEGORIES_TAB_KEY = 'categories'
 export const SET_VOTING_TAB_KEY = 'setvoting'
 export const REMOVE_PROFILE_TAB_KEY = 'rmvprofile'
 export const TRANSFER_ADMIN_ROLE_TAB_KEY = 'transferadmin'
+export const SET_MIN_MAX_REQUESTED_TAB_KEY = 'setminmaxrequested'
 export const DEFAULT_ADMIN_TAB_KEY = PROPOSALS_TO_REVIEW_TAB_KEY
 
 export const REQUESTED_ORDER_BY_FIELD = "requested"
@@ -140,7 +142,6 @@ export const VOTERS_TABLE = "voters"
 export const SYNC_ACTION = "sync"
 export const CAST_VOTE_ACTION = "castvote"
 
-
 export const LABS_CONTRACT_ACCOUNT = process.env.REACT_APP_LABS_CONTRACT_NAME
 export const SAVINGS_ACCOUNT = 'eosio.saving'
 export const ACCOUNTS_TABLE = 'accounts'
@@ -161,6 +162,8 @@ export const SUBMIT_PROPOSAL_ACTION = "submitprop"
 export const EDIT_PROFILE_ACTION = 'editprofile'
 export const EDIT_PROPOSAL_ACTION = "editprop"
 export const SET_ADMIN_ACTION = 'setadmin'
+export const SET_MAX_REQUESTED_ACTION = 'setmaxusd'
+export const SET_MIN_REQUESTED_ACTION = 'setminusd'
 export const SET_REVIEWER_ACTION = "setreviewer"
 export const SET_VOTING_DURATION_ACTION = 'setduration'
 export const REMOVE_CATEGORY_ACTION = 'rmvcategory'
@@ -211,6 +214,7 @@ export const DEFAULT_PROPOSAL_IMAGE_URL = 'https://wax.nyc3.cdn.digitaloceanspac
 export const PROPOSALS_STATUS_KEYS = [
     DRAFTING_KEY,
     SUBMITTED_KEY,
+    FAILED_DRAFT_KEY,
     APPROVED_KEY,
     VOTING_KEY,
     COMPLETED_KEY,
@@ -231,6 +235,7 @@ export const DELIVERABLES_STATUS_KEYS = [
 export const READABLE_PROPOSAL_STATUS = {
     [DRAFTING_KEY]:   "Drafting",
     [SUBMITTED_KEY]:  "In Review",
+    [FAILED_DRAFT_KEY]: 'To be Improved',
     [APPROVED_KEY]:   "Approved",
     [VOTING_KEY]:     "In Voting",
     [COMPLETED_KEY]:  "Completed",

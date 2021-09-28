@@ -80,7 +80,7 @@ export default function RenderHome(props) {
                     if(resp.rows){
                         configData = resp.rows[0];
                         success = true;
-                        configData.available_funds = requestedAmountToFloat(configData.available_funds).toFixed(2);
+                        configData.available_funds = requestedAmountToFloat(configData.available_funds);
                         configData.display_available_funds = numberWithCommas(configData.available_funds).toString() + " WAX";
                     }
 
@@ -94,7 +94,7 @@ export default function RenderHome(props) {
                     if (savingsResp.rows) {
                         console.log(savingsResp.rows);
                         additional_funds = savingsResp.rows[0].balance;
-                        configData.additional_funds = requestedAmountToFloat(additional_funds).toFixed(2);
+                        configData.additional_funds = requestedAmountToFloat(additional_funds);
                         configData.display_additional_funds = numberWithCommas(configData.additional_funds).toString() + " WAX";
                     }
 

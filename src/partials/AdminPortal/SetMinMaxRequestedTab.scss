@@ -1,0 +1,12 @@
+@import '../../scss/variables';
+@import '../../scss/responsiveness';
+@import '../../scss/layout';
+
+.setMinMaxRequested {
+    @include mainPadding;
+    @include minPageHeight;
+
+    display: flex;
+    flex-direction: column;
+
+}

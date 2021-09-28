@@ -100,7 +100,6 @@ export default function RenderCreateProposalPage(props){
                             image_url: proposal.image_url,
                             estimated_time: proposal.estimated_time,
                             mdbody: proposal.content,
-                            total_requested_funds: Number(1000).toFixed(8) + " WAX",
                             deliverables_count: proposal.deliverables,
                             road_map: proposal.road_map,
                         },
@@ -158,12 +157,14 @@ export default function RenderCreateProposalPage(props){
                 hideTotalRequested={true}
                 categories={props.categories}
                 deprecatedCategories={props.deprecatedCategories}
-                //Necessary to be >= 1000 so validator won't say it is invalid
-                totalRequestedFunds={GLOBAL_VARS.PROPOSAL_MIN_REQUESTED}
+                totalRequestedFunds={0}
                 updateEditableProposal={updateProposal}
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}
                 updateValidatorData={updateAllValid}
+                queryingMinMaxRequested={props.queryingMinMaxRequested}
+                minRequested={props.minRequested}
+                maxRequested={props.maxRequested}
             />
             <button className='button button--primary' onClick={createProposal}>Create Proposal</button>
         </div>

@@ -8,6 +8,7 @@ import { randomEosioName, requestedAmountToFloat } from '../../utils/util';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
+import { calculateUSDPrice } from '../../utils/delphioracle';
 
 import './DeliverablesContainer.scss';
 
@@ -113,7 +114,11 @@ export const RenderDeliverablesContainer = (props) => {
             });
             let deliverables = [...delivs.rows];
             deliverables = deliverables.map(deliverable => {
-                deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
+                if (deliverable.requested.split(" ")[1] === "USD") {
+                    deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
+                } else {
+                    deliverable.requested_amount = calculateUSDPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice); 
+                }
                 return deliverable
             })
             setDeliverables(deliverables);
@@ -123,7 +128,7 @@ export const RenderDeliverablesContainer = (props) => {
         props.runningQuery(false);
     }
 
-    function updateDeliverable(event, index){
+    function updateDeliverable(event, index) {
         const updatedDeliverable = {...editableDeliverables[index]};
         updatedDeliverable[event.target.name] = event.target.value;
         if(event.target.type === "number"){
@@ -186,22 +191,28 @@ export const RenderDeliverablesContainer = (props) => {
                 updateCard={updateDeliverable}
                 moveCard={moveCard}
                 hasShownTooltip={hasShownTooltip}
+                waxUsdPrice={props.waxUsdPrice}
             />);
     };
     return (
         <div className="deliverablesContainer">
-            <div className="deliverablesContainer__amountRequirements">
-                <p>
-                    The sum of requested WAX in your deliverables must be more than 1,000 and less than 500,000.
-                </p>
-            </div>
-            {props.queryingDeliverables ?
+            
+            {props.queryingDeliverables || props.queryingMinMaxRequested ?
                 <RenderLoadingPage/>
-            :
-                <div className="deliverablesContainer__items">
-                    <div>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
-                    <button className="button button--secondary" onClick={createNewDeliv}>Add new deliverable</button>
-                </div>
+                :
+                <>
+                    <div className="deliverablesContainer__amountRequirements">
+                        <p>
+                            The sum of requested funds in your deliverables must be more than{" "}
+                            {requestedAmountToFloat(props.minRequested) + " " + props.minRequested.split(" ")[1]}{" "}
+                            and less than {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}.
+                        </p>
+                    </div>
+                    <div className="deliverablesContainer__items">
+                        <div>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
+                        <button className="button button--secondary" onClick={createNewDeliv}>Add new deliverable</button>
+                    </div>
+                </>
             }
         </div>
     );

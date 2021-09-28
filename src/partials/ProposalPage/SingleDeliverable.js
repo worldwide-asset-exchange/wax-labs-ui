@@ -4,7 +4,8 @@ import {useParams} from 'react-router-dom';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
 import SimpleReactValidator from 'simple-react-validator';
-import {requestedAmountToFloat, tagStyle} from '../../utils/util';
+import { requestedAmountToFloat, tagStyle } from '../../utils/util';
+import { calculateWAXPrice } from '../../utils/delphioracle';
 
 import arrow from '../../images/orange-arrow.svg'
 import './SingleDeliverable.scss'
@@ -14,20 +15,21 @@ const readableStatusName = GLOBAL_VARS.READABLE_DELIVERABLE_STATUS;
 const validator = new SimpleReactValidator();
 const reviewValidator = new SimpleReactValidator();
 
-export default function RenderSingleDeliverable(props){
+export default function RenderSingleDeliverable(props) {
+    
+    const {id} = useParams();
 
     const [reportLink, setReportLink] = useState("");
     const [reviewMemo, setReviewMemo] = useState("");
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const [refreshPage, setRefreshPage] = useState(0);
 
-    const {id} = useParams();
-
     let deliverable = {...props.deliverable};
     /* Making a copy of the requested_raw */
     deliverable.requested_raw = deliverable.requested.slice();
 
-    deliverable.requested = requestedAmountToFloat(deliverable.requested) + " WAX";
+    deliverable.requested = requestedAmountToFloat(deliverable.requested) + " " + deliverable.requested.split(" ")[1];
+
 
 
     function handleReviewMemoChange(event){
@@ -50,6 +52,20 @@ export default function RenderSingleDeliverable(props){
                 console.log("not all valid");
                 setRefreshPage(refreshPage + 1);
                 reviewValidator.showMessages();
+                return;
+            }
+            const requestedFundsWax = deliverable.requested.split(" ")[1] === "WAX"
+                ? deliverable.requested : calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice);
+            const fundsLeft = Number(requestedAmountToFloat(props.availableFunds)) - requestedFundsWax;
+            if (accept && fundsLeft < 0) {
+                let body = alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.MISSING_FUNDS.body.slice(0)
+                body = body.replace(alertGlobals.AVAILABLE_FUNDS_TEMPLATE, requestedAmountToFloat(props.availableFunds) + " WAX");
+                body = body.replace(alertGlobals.REQUESTED_FUNDS_TEMPLATE, requestedFundsWax + " WAX");
+                let alertObj = {
+                    ...alertGlobals.REVIEW_DELIVERABLE_ALERT_DICT.MISSING_FUNDS,
+                    body: body,
+                }
+                props.showAlert(alertObj);
                 return;
             }
             await activeUser.signTransaction({
@@ -153,7 +169,7 @@ export default function RenderSingleDeliverable(props){
                     }],
                     data: {
                         account_owner: activeUser.accountName,
-                        quantity: deliverable.requested_raw,
+                        quantity: deliverable.claimable_wax,
                     },
                 })
             }
@@ -236,7 +252,9 @@ export default function RenderSingleDeliverable(props){
                             onChange={handleReviewMemoChange}
                             className={`input ${reviewLinkErrorMessage ? "input--error": ""}`}
                         />
-                        <p className="input__errorMessage">{reviewLinkErrorMessage}</p>
+                        <p className="input__errorMessage">
+                            {reviewLinkErrorMessage}
+                        </p>
                         <button className="button button--approval" onClick={() => reviewReport(true)}>Approve report</button>
                         <button className="button button--rejection" onClick={() => reviewReport(false)}>Reject report</button>
                     </React.Fragment>
@@ -302,8 +320,24 @@ export default function RenderSingleDeliverable(props){
                         <div className={`tag ${tagStyle(deliverable.status, true)}`}>{readableStatusName[deliverable.status]}</div>
                         <div className="singleDeliverable__detail singleDeliverable__detail--main">
                             <div className="singleDeliverable__label">Amount requested</div>
-                            <div className="singleDeliverable__info">{deliverable.requested}</div>
+                            <div className="singleDeliverable__info">
+                                {requestedAmountToFloat(deliverable.requested)
+                                    + " " + deliverable.requested.split(" ")[1]}
+                            </div>
                         </div>
+                        {deliverable.status === 4 || deliverable.status === 6 ?
+                            <div className="singleDeliverable__detail singleDeliverable__detail--main">
+                                <div className="singleDeliverable__label">{deliverable.status === 4 ? "To be claimed" : "Claimed"}</div>
+                                <div className="singleDeliverable__info">{requestedAmountToFloat(deliverable.claimable_wax) + " WAX"}</div>
+                            </div>  
+                            : deliverable.requested.split(" ")[1] === "USD" ?
+                            <div className="singleDeliverable__detail singleDeliverable__detail--main">
+                                <div className="singleDeliverable__label">Amount Requested in WAX</div>
+                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice)) + " WAX"}</div>
+                            </div>
+                            : null
+                        }
+                         
                         <img className={`singleDeliverable__arrow ${isAccordionOpen ? "singleDeliverable__arrow--up" : ""}`} src={arrow} alt="Arrow indicating this is an accordion"/>
                     </div>
                 </Accordion.Toggle>

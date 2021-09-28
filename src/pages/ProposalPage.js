@@ -35,10 +35,15 @@ export default function RenderProposalPage(props){
     const [statusComment, setStatusComment] = useState(false);
     const [voteSupply, setVoteSupply] = useState(0);
     const [passing, setPassing] = useState(false);
-
+    
     const votingEndsIn = moment(endTime, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     const readableEndTime = moment(endTime).format("MMMM Do, YYYY [at] h:mm:ss a [UTC]");
 
+    useEffect(() => {
+        props.loadWaxUsdPrice();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
     function updateProposalDeleted(boolean){
         setProposalDeleted(boolean);
     }
@@ -123,8 +128,32 @@ export default function RenderProposalPage(props){
                                 }
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Total Requested Funds</div>
-                                    <div className="proposalPage__amount">{proposal.total_requested_funds}</div>
+                                    <div className="proposalPage__amount">
+                                        {requestedAmountToFloat(proposal.total_requested_funds)
+                                        + " " + proposal.total_requested_funds.split(" ")[1]}
+                                    </div>
                                 </div>
+                                {requestedAmountToFloat(proposal.remaining_funds) > 0  ?
+                                    <div className="proposalPage__details">
+                                        <div className="proposalPage__label">Remaining Funds</div>
+                                        <div className="proposalPage__amount">
+                                             {requestedAmountToFloat(proposal.remaining_funds)
+                                            + " " + proposal.remaining_funds.split(" ")[1]}
+                                        </div>
+                                    </div>
+                                    : null}
+                                {proposal.total_paid_funds ?
+                                    <div className="proposalPage__details">
+                                        <div className="proposalPage__label">Total Claimed Funds</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds) + " " + proposal.total_paid_funds.split(" ")[1]}</div>
+                                    </div>
+                                 : null}
+                                {proposal.to_be_paid_funds && requestedAmountToFloat(proposal.to_be_paid_funds) > 0 ?
+                                    <div className="proposalPage__details">
+                                        <div className="proposalPage__label">To be paid Funds</div>
+                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds) + " " + proposal.to_be_paid_funds.split(" ")[1]}</div>
+                                    </div>
+                                : null}
                             </div>
                             </div>
                     </div>
@@ -159,7 +188,8 @@ export default function RenderProposalPage(props){
                 });
                 let responseProposal = resp.rows[0]
                 if( responseProposal){
-                    responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds) + ' ' + GLOBAL_VARS.TOKEN_SYMBOL;
+                    responseProposal.total_requested_funds = requestedAmountToFloat(responseProposal.total_requested_funds, responseProposal.total_requested_funds.split(" ")[1])
+                        + ' ' + responseProposal.total_requested_funds.split(" ")[1];
                 }
                 setProposal(responseProposal);
 
@@ -197,7 +227,7 @@ export default function RenderProposalPage(props){
                     json: true,
                 });
 
-                setVoteSupply(requestedAmountToFloat(resp.rows[0].supply, "VOTE"));
+                setVoteSupply(requestedAmountToFloat(resp.rows[0].supply));
             } catch(e){
                 console.log(e);
             }
@@ -272,7 +302,7 @@ export default function RenderProposalPage(props){
             </div>
         )
     }
-    if(queryingProposal){
+    if(queryingProposal || !props.minRequested || !props.waxUsdPrice || props.queryingAvailableFunds){
         return <RenderLoadingPage />
     }
     if(!proposal){
@@ -291,7 +321,7 @@ export default function RenderProposalPage(props){
                 showAlert={showAlert}
                 votingEndsIn={votingEndsIn}
                 rerunProposalQuery={rerunProposalQuery}
-                updateProposalDeleted={updateProposalDeleted}
+                updateProposalDeleted={updateProposalDeleted}                
             />
             <RenderProposerMenu
                 activeUser={props.activeUser}
@@ -300,6 +330,7 @@ export default function RenderProposalPage(props){
                 showAlert={showAlert}
                 rerunProposalQuery={rerunProposalQuery}
                 updateProposalDeleted={updateProposalDeleted}
+                minRequested={props.minRequested}
             />
             {RenderProposalInfo()}
             <RenderDeliverablesList
@@ -308,6 +339,8 @@ export default function RenderProposalPage(props){
                 proposal={proposal}
                 showAlert={showAlert}
                 rerunProposalQuery={rerunProposalQuery}
+                waxUsdPrice={props.waxUsdPrice}
+                availableFunds={props.availableFunds}
             />
         </div>
     )

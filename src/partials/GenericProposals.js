@@ -156,6 +156,7 @@ export default function RenderGenericProposals(props) {
                 getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.FAILED_KEY, getStatBounds),
                 getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.CANCELLED_KEY, getStatBounds),
                 getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.COMPLETED_KEY, getStatBounds),
+                getProposals(GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE, GLOBAL_VARS.FAILED_DRAFT_KEY, getStatBounds),
             ];
         } else {
             promiseList = props.queryArgs.map(queryArg => {

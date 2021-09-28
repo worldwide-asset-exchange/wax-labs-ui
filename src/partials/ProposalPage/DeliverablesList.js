@@ -19,7 +19,7 @@ export default function RenderDeliverablesList(props){
     const [deliverables, setDeliverables] = useState([]);
 
     const [statusList, setStatusList] = useQueryString(globals.STATUS_QUERY_STRING_KEY, []);
-
+        
     async function getDeliverablesData(){
         try{
             let delivs = await wax.rpc.get_table_rows({
@@ -97,6 +97,8 @@ export default function RenderDeliverablesList(props){
                             deliverable={deliverable}
                             rerunProposalQuery={props.rerunProposalQuery}
                             showAlert={props.showAlert}
+                            waxUsdPrice={props.waxUsdPrice}
+                            availableFunds={props.availableFunds}
                         />
                     </div>
                 )

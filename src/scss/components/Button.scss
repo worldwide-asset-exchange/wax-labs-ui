@@ -87,6 +87,7 @@ $button-typography-color: #332B1F;
     }
     &--approval,
     &--rejection,
+    &--askchanges,
     &--approvalNoIcon {
         background-repeat: no-repeat;
         background-position-y: center;
@@ -128,6 +129,21 @@ $button-typography-color: #332B1F;
         &:disabled {
             &:hover {
                 background-color: $red-dark;
+                color: rgba(255, 255, 255, 0.85);
+            }
+        }
+    }
+    &--askchanges {
+    	background-image: none;
+    	background-color: $orange-dark;
+    	padding-right: $spacing-s;
+    	&:hover {
+      	    background-color: $orange-medium;
+            color: rgba(255, 255, 255, 0.85);
+        }   
+        &:disabled {
+            &:hover {
+                background-color: $orange-dark;
                 color: rgba(255, 255, 255, 0.85);
             }
         }

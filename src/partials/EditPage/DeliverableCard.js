@@ -147,7 +147,7 @@ export const RenderDeliverableCard = ({
                             name="requested_amount"
                             pattern="^[0-9]*\.?[0-9]{0,2}$"
                             disabled={priceInUsd ? false : true}
-                            value={deliverable.requested_amount ? deliverable.requested_amount : ""} 
+                            value={Number(deliverable.requested_amount) > 0 ? deliverable.requested_amount : ""} 
                             onChange={(event) => {
                                 if (event.target.validity.valid ) {
                                     setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));

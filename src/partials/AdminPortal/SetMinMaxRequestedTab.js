@@ -144,6 +144,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
                 <>
                 <div className="setMinMaxRequested__section">
                     <h4>Current minimum requested value</h4>
+                        <p>
                         {requestedAmountToFloat(props.minRequested) + " " + props.minRequested.split(" ")[1]}
                         {" "}
                         {
@@ -151,17 +152,19 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 `(${calculateWAXPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)} WAX)`
                                 : `(${calculateUSDPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)} USD)`
                             
-                        }
-                        
+                        }   
+                        </p>
                     <h4>Current maximum requested value</h4>
-                        {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}
-                        {" "}
-                        {
-                            props.maxRequested.split(" ")[1] === "USD" ?
-                                `(${calculateWAXPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)} WAX)`
-                                : `(${calculateUSDPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)} USD)`
-                            
-                        }
+                        <p>
+                            {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}
+                            {" "}
+                            {
+                                props.maxRequested.split(" ")[1] === "USD" ?
+                                    `(${calculateWAXPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)} WAX)`
+                                    : `(${calculateUSDPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)} USD)`
+                                
+                            }
+                        </p>
                 </div>
                 <div className="setMinMaxRequested__section">
                     <h4>Set new min requested</h4>

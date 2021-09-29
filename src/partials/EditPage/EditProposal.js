@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -33,6 +33,9 @@ export default function RenderEditProposal(props){
 
 
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
+    
+    const navigate = useNavigate();
+
     
     useEffect(() => {
         props.loadWaxUsdPrice();
@@ -244,7 +247,7 @@ export default function RenderEditProposal(props){
             }
             showAlert(alertObj);
             rerunProposalQuery();
-
+            navigate(`${GLOBAL_VARS.PROPOSAL_PAGE_LINK}/${proposal.proposal_id}`);
         } catch(e){
             let alertObj = {
                 ...GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.ERROR,

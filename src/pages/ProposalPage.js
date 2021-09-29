@@ -133,7 +133,8 @@ export default function RenderProposalPage(props){
                                         + " " + proposal.total_requested_funds.split(" ")[1]}
                                     </div>
                                 </div>
-                                {requestedAmountToFloat(proposal.remaining_funds) > 0  ?
+                                {Number(requestedAmountToFloat(proposal.remaining_funds)) > 0 &&
+                                    requestedAmountToFloat(proposal.remaining_funds) !== requestedAmountToFloat(proposal.total_requested_funds) ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">Remaining Funds</div>
                                         <div className="proposalPage__amount">

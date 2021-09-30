@@ -246,12 +246,17 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
                 <div className="input__errorMessage">{categoryErrorMessage}</div>
             </div>
             {!hideTotalRequested ? (
-                <div className="proposalInputContainer__fieldset">
-                    <div className="input__label">Total amount requested</div>
-                    <h4>{totalRequested}</h4>
-                    <div className="input__label">Total amount requested in WAX</div>
-                    <h4>{totalRequestedWAX}</h4>
-                </div>    
+                <div className="proposalInputContainer__totalRequested">
+                    <div className="input__label">
+                        Total amount requested
+                        <h4>{totalRequested}</h4>
+                    </div>
+                        
+                    <div className="input__label">
+                        Total WAX amount requested
+                        <h4>{totalRequestedWAX}</h4>
+                    </div>
+            </div>    
             ) : (
                 ''
             )}

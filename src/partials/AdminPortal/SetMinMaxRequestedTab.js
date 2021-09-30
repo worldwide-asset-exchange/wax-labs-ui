@@ -10,8 +10,9 @@ import SimpleReactValidator from 'simple-react-validator';
 import RenderLoadingPage from '../LoadingPage';
 
 import './SetMinMaxRequestedTab.scss';
-import { requestedAmountToFloat } from '../../utils/util';
+import { requestedAmountToFloat, numberWithCommas } from '../../utils/util';
 import { calculateWAXPrice, calculateUSDPrice } from '../../utils/delphioracle';
+import SwitchArrow from '../../icons/SwitchArrow';
 
 const validator = new SimpleReactValidator();
 
@@ -145,23 +146,23 @@ export default function RenderSetMinMaxRequestedTab(props) {
                 <div className="setMinMaxRequested__section">
                     <h4>Current minimum requested value</h4>
                         <p>
-                        {requestedAmountToFloat(props.minRequested) + " " + props.minRequested.split(" ")[1]}
-                        {" "}
+                        {numberWithCommas(requestedAmountToFloat(props.minRequested)).toString()  + " " + props.minRequested.split(" ")[1]}
+                        {"  "}
                         {
                             props.minRequested.split(" ")[1] === "USD" ?
-                                `(${calculateWAXPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)} WAX)`
-                                : `(${calculateUSDPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)} USD)`
+                                `(${numberWithCommas(calculateWAXPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)).toString()} WAX)`
+                                : `(${numberWithCommas(calculateUSDPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)).toString()} USD)`
                             
                         }   
                         </p>
                     <h4>Current maximum requested value</h4>
                         <p>
-                            {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}
-                            {" "}
+                            {numberWithCommas(requestedAmountToFloat(props.maxRequested)).toString() + " " + props.maxRequested.split(" ")[1]}
+                            {"  "}
                             {
                                 props.maxRequested.split(" ")[1] === "USD" ?
-                                    `(${calculateWAXPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)} WAX)`
-                                    : `(${calculateUSDPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)} USD)`
+                                    `(${numberWithCommas(calculateWAXPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)).toString()} WAX)`
+                                    : `(${numberWithCommas(calculateUSDPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)).toString()} USD)`
                                 
                             }
                         </p>
@@ -179,7 +180,6 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="min-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={minPriceUsd ? false : true}
                                 value={newMinRequested ? newMinRequested : ""}
                                 onChange={(e) => {
                                     if (e.target.validity.valid || !e.target.value) {
@@ -190,12 +190,13 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 }}
                             />
                         </div>
-                        <button onClick={() => {
+                        
+                        <button className="button swap_currency button--primary" onClick={() => {
                             setMinPriceUsd(!minPriceUsd);
                             if (!(minWaxPrice > 0) || isNaN(minWaxPrice)) setMinWaxPrice("");
                             if (!(newMinRequested > 0) || isNaN(newMinRequested)) setNewMinRequested("");
                         }
-                        }> Change currency </button>
+                        }> <SwitchArrow /> </button>
                         <div className="setMinMaxRequested_fieldset">
                             <label className="input__label">New minimum requested WAX</label>
                             <input
@@ -205,8 +206,8 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="min-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={minPriceUsd ? true : false}
-                                value={minWaxPrice}
+                                disabled={true}
+                                placeholder={Number(minWaxPrice) > 0 ? minWaxPrice : ""}
                                 onChange={(e) => {
                                     if (e.target.validity.valid || !e.target.value) {
                                         setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxUsdPrice)));
@@ -230,7 +231,6 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="min-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={minPriceUsd ? true : false}
                                 value={minWaxPrice}
                                 onChange={(e) => {
                                     if (e.target.validity.valid || !e.target.value) {
@@ -241,12 +241,12 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 }}
                             />
                         </div>
-                        <button onClick={() => {
+                        <button className="button swap_currency button--primary" onClick={() => {
                             setMinPriceUsd(!minPriceUsd);
                             if (!(minWaxPrice > 0) || isNaN(minWaxPrice)) setMinWaxPrice("");
                             if (!(newMinRequested > 0) || isNaN(newMinRequested)) setNewMinRequested("");
                         }
-                        }> Change currency </button>
+                        }> <SwitchArrow /> </button>
                         <div className="setMinMaxRequested_fieldset">
                             <label className="input__label">New minimum requested USD</label>
                             <input
@@ -256,8 +256,8 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="min-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={minPriceUsd ? false : true}
-                                value={newMinRequested ? newMinRequested : ""}
+                                disabled={true}
+                                placeholder={Number(newMinRequested) > 0 ? newMinRequested : ""}
                                 onChange={(e) => {
                                     if (e.target.validity.valid || !e.target.value) {
                                         setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxUsdPrice)));
@@ -296,12 +296,12 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 }}
                             />
                         </div>
-                        <button onClick={() => {
+                        <button className="button--primary button swap_currency" onClick={() => {
                             setMaxPriceUsd(!maxPriceUsd);
                             if (!(maxWaxPrice > 0) || isNaN(maxWaxPrice)) setMaxWaxPrice("");
                             if (!(newMaxRequested > 0) || isNaN(newMaxRequested)) setNewMaxRequested("");
                         }
-                        }> Change currency </button>
+                        }> <SwitchArrow /> </button>
                         <div className="setMinMaxRequested_fieldset">
                             <label className="input__label">New maximum requested WAX</label>
                             <input
@@ -347,12 +347,12 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 }}
                             />
                         </div>
-                        <button onClick={() => {
+                        <button className="button swap_currency button--primary" onClick={() => {
                             setMaxPriceUsd(!maxPriceUsd);
                             if (!(maxWaxPrice > 0) || isNaN(maxWaxPrice)) setMaxWaxPrice("");
                             if (!(newMaxRequested > 0) || isNaN(newMaxRequested)) setNewMaxRequested("");
                         }
-                        }> Change currency </button>
+                        }> <SwitchArrow /> </button>
                             <div className="setMinMaxRequested_fieldset">
                             <label className="input__label">New maximum requested USD</label>
                             <input

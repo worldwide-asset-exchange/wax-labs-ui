@@ -122,6 +122,7 @@ $button-typography-color: #332B1F;
     &--rejection {
         background-image: url('../../images/dislike.svg');
         background-color: $red-dark;
+        
         &:hover {
             background-color: $red-medium;
             color: rgba(255, 255, 255, 0.85)

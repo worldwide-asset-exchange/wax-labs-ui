@@ -290,6 +290,9 @@ export default function RenderAdminMenu(props){
                             <label className="input__label">Enter the rejection reason</label>
                             <textarea className="textarea" value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>
                             <button className="button button--rejection" onClick={()=>reviewProposal(false, false)}>Reject proposal</button>
+                            
+                        </div>
+                        <div className="adminMenu__askchanges">
                             <button className="button button--askchanges" onClick={() => reviewProposal(false, true)}>Ask for changes </button>
                         </div>
                     </div>

@@ -11,6 +11,8 @@
     flex-direction: column;
     align-items: flex-start;
 
+    
+
     &__actions {
         display: flex;
         justify-content: flex-end;
@@ -22,9 +24,10 @@
 
         .button {
             margin: 0 $spacing-xs 0 0 !important;
-            align-self: flex-start;
-        }
+            align-self: flex-start;  
+        }      
     }
+
     &__arrow {
         padding: $spacing-xxs;
         background-color: $gray-dark;
@@ -56,6 +59,14 @@
         max-width: 240px;
         margin-bottom: $spacing-xs;
     }
+
+    &__swapCurrency {
+        .swap_currency {
+            display: flex;
+            margin: $spacing-xs auto;  
+        }
+    }
+
     &__popover {
         background-color: $modal-background-color;
         .popover-header {

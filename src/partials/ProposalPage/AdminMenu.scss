@@ -56,6 +56,11 @@
         flex-direction: column;
         margin-top: $spacing-s;
 
+        .button, .input__label {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         @include breakpoint(tablet-landscape-up) {
             margin-top: 0;
         }
@@ -67,6 +72,25 @@
         }
         .button {
             margin-top: $spacing-xs;
+        }
+    }
+
+    &__askchanges {
+        display: flex;
+        flex-direction: column;
+        margin-top: $spacing-s;
+        margin-left: $spacing-m;
+        
+
+        .button {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: $spacing-xs;
+
+        }
+
+        @include breakpoint(tablet-landscape-up) {
+            margin-top: 0;
         }
     }
 }

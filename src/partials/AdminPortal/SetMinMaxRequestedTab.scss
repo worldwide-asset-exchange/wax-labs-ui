@@ -6,7 +6,37 @@
     @include mainPadding;
     @include minPageHeight;
 
-    display: flex;
-    flex-direction: column;
+    &__section {
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: $spacing-xs;
+
+        p {
+            margin-top: $spacing-xxs;
+            margin-bottom: $spacing-s;
+            text-align: center;
+            font-size: 140%;
+            font-weight: bold;
+        }
+
+        .button {
+            margin-top: $spacing-s;
+            margin-bottom: $spacing-s;
+            align-self: center;
+
+        }
+
+        .swap_currency {
+            margin-top: $spacing-xs;
+            margin-bottom: $spacing-xs;  
+            align-self: center;
+        }
+    }
+
+    &__fieldset {
+        margin-right: $spacing-xxs;
+        width: 75px;
+    }
 
 }

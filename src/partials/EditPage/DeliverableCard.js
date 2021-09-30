@@ -4,6 +4,7 @@ import { Overlay, Popover } from 'react-bootstrap';
 import { ItemTypes } from "./ItemTypes";
 import SimpleReactValidator from 'simple-react-validator';
 import ArrowIcon from '../../icons/ArrowIcon';
+import SwitchArrow from "../../icons/SwitchArrow";
 import { calculateWAXPrice, calculateUSDPrice } from "../../utils/delphioracle";
 
 
@@ -137,129 +138,130 @@ export const RenderDeliverableCard = ({
             </div>
             {priceInUsd ?
                 <>
-                    <div className="deliverableCard__fieldset">
-                        <label className="input__label">Requested USD</label>
-                        <input
-                            className={`${
-                                requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
-                            }`}
-                            type="text"
-                            name="requested_amount"
-                            pattern="^[0-9]*\.?[0-9]{0,2}$"
-                            disabled={priceInUsd ? false : true}
-                            value={Number(deliverable.requested_amount) > 0 ? deliverable.requested_amount : ""} 
-                            onChange={(event) => {
-                                if (event.target.validity.valid ) {
-                                    setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
-                                    const eventmodified = {
-                                        target: {
-                                            value: Number(event.target.value),
-                                            name: event.target.name,
-                                            type: "number"
-                                        }
-                                    }
-                                    updateCard(eventmodified, index);
-                                }
-                            }}
-                        />
-                    </div>
-                    <button onClick={() => {
-                        setPriceInUsd(!priceInUsd);
-                        if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
-                    }
-                    }> Change currency </button>
-                    <div className="deliverableCard__fieldset">
-                        <label className="input__label">Requested WAX</label>
-                        <input
-                            className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
+                    <div className="deliverableCard__swapCurrency">
+                        <div className="deliverableCard__fieldset">
+                            <label className="input__label">Requested USD</label>
+                            <input
+                                className={`${
+                                    requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
                                 }`}
-                            type="text"
-                            name="requested_amount"
-                            pattern="^[0-9]*\.?[0-9]{0,2}$"
-                            disabled={priceInUsd ? true : false}
-                            value={waxPrice}
-                            onChange={(event) => {
-                                if (event.target.validity.valid) {
-                                    setWaxPrice(event.target.value);
-                                    const eventmodified = {
-                                        target: {
-                                            value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
-                                            name: "requested_amount",
-                                            type: "number",
+                                type="text"
+                                name="requested_amount"
+                                pattern="^[0-9]*\.?[0-9]{0,2}$"
+                                value={Number(deliverable.requested_amount) > 0 ? deliverable.requested_amount : ""} 
+                                onChange={(event) => {
+                                    if (event.target.validity.valid ) {
+                                        setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
+                                        const eventmodified = {
+                                            target: {
+                                                value: Number(event.target.value),
+                                                name: event.target.name,
+                                                type: "number"
+                                            }
                                         }
+                                        updateCard(eventmodified, index);
                                     }
-                                    updateCard(eventmodified, index);
-                                }
-                            }}
-                        />
-                    </div>
-                    <div className="input__errorMessage">
-                            {requestedErrorMessage}
-                            {totalRequestedErrorMessage}
+                                }}
+                            />
+                        </div>
+                        
+                        <button className="button swap_currency button--primary " onClick={() => {
+                            setPriceInUsd(!priceInUsd);
+                            if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
+                        }}> <SwitchArrow /> </button>
+                        
+                        <div className="deliverableCard__fieldset">
+                            <label className="input__label">Requested WAX</label>
+                            <input
+                                className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
+                                    }`}
+                                type="text"
+                                name="requested_amount"
+                                pattern="^[0-9]*\.?[0-9]{0,2}$"
+                                disabled={true}
+                                placeholder={Number(waxPrice) > 0 ? waxPrice : ""}
+                                onChange={(event) => {
+                                    if (event.target.validity.valid) {
+                                        setWaxPrice(event.target.value);
+                                        const eventmodified = {
+                                            target: {
+                                                value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
+                                                name: "requested_amount",
+                                                type: "number",
+                                            }
+                                        }
+                                        updateCard(eventmodified, index);
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div className="input__errorMessage">
+                                {requestedErrorMessage}
+                                {totalRequestedErrorMessage}
+                        </div>
                     </div>
                 </>    
                 : <>
-                    <div className="deliverableCard__fieldset">
-                        <label className="input__label">Requested WAX</label>
-                        <input
-                            className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
+                    <div className="deliverableCard__swapCurrency">
+                        <div className="deliverableCard__fieldset">
+                            <label className="input__label">Requested WAX</label>
+                            <input
+                                className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
+                                    }`}
+                                type="text"
+                                name="requested_amount"
+                                pattern="^[0-9]*\.?[0-9]{0,2}$"
+                                value={waxPrice}
+                                onChange={(event) => {
+                                    if (event.target.validity.valid ) {
+                                        setWaxPrice(event.target.value);
+                                        const eventmodified = {
+                                            target: {
+                                                value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
+                                                name: "requested_amount",
+                                                type: "number",
+                                            }
+                                        }
+                                        updateCard(eventmodified, index);
+                                    }
+                                }}
+                            />
+                        </div>
+                        <button className="button swap_currency button--primary" onClick={() => {
+                            setPriceInUsd(!priceInUsd);
+                            if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
+                        }}> <SwitchArrow/> </button>
+                        <div className="deliverableCard__fieldset">
+                            <label className="input__label">Requested USD</label>
+                            <input
+                                className={`${
+                                    requestedErrorMessage ? 'input input--error' : 'input'
                                 }`}
-                            type="text"
-                            name="requested_amount"
-                            pattern="^[0-9]*\.?[0-9]{0,2}$"
-                            disabled={priceInUsd ? true : false}
-                            value={waxPrice}
-                            onChange={(event) => {
-                                if (event.target.validity.valid ) {
-                                    setWaxPrice(event.target.value);
-                                    const eventmodified = {
-                                        target: {
-                                            value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
-                                            name: "requested_amount",
-                                            type: "number",
+                                type="text"
+                                name="requested_amount" 
+                                pattern="^[0-9]*\.?[0-9]{0,2}$"
+                                disabled={true}
+                                placeholder={Number(deliverable.requested_amount) > 0 ? deliverable.requested_amount : ""} 
+                                onChange={(event) => {
+                                    if (event.target.validity.valid ) {
+                                        setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
+                                        const eventmodified = {
+                                            target: {
+                                                value: Number(event.target.value),
+                                                name: event.target.name,
+                                                type: "number"
+                                            }
                                         }
+                                        updateCard(eventmodified, index);
                                     }
-                                    updateCard(eventmodified, index);
-                                }
-                            }}
-                        />
-                    </div>
-                    <button onClick={() => {
-                        setPriceInUsd(!priceInUsd);
-                        if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
-                    }
-                    }> Change currency </button>
-                    <div className="deliverableCard__fieldset">
-                        <label className="input__label">Requested USD</label>
-                        <input
-                            className={`${
-                                requestedErrorMessage ? 'input input--error' : 'input'
-                            }`}
-                            type="text"
-                            name="requested_amount" 
-                            pattern="^[0-9]*\.?[0-9]{0,2}$"
-                            disabled={priceInUsd ? false : true}
-                            value={deliverable.requested_amount} 
-                            onChange={(event) => {
-                                if (event.target.validity.valid ) {
-                                    setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
-                                    const eventmodified = {
-                                        target: {
-                                            value: Number(event.target.value),
-                                            name: event.target.name,
-                                            type: "number"
-                                        }
-                                    }
-                                    updateCard(eventmodified, index);
-                                }
-                            }}
-                        />
-                        <div className="input__errorMessage">
-                            {requestedErrorMessage}
-                            {totalRequestedErrorMessage}
+                                }}
+                            />
+                            <div className="input__errorMessage">
+                                {requestedErrorMessage}
+                                {totalRequestedErrorMessage}
+                            </div>
                         </div>
                     </div>
-                    
                 </>
             }
             

@@ -30,8 +30,8 @@ export default function RenderSetMinMaxRequestedTab(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
-    const minRequestedErrorMessage = validator.message('new minimum requested', newMinRequested, `min:0.0001,num|max:${requestedAmountToFloat(props.maxRequested) - 0.0001},num`);
-    const maxRequestedErrorMessage = validator.message('new maximum requested', newMaxRequested, `min:${requestedAmountToFloat(props.minRequested) - 0.0001},num`);
+    const minRequestedErrorMessage = validator.message('new minimum usd requested', newMinRequested, `min:0.0001,num|max:${requestedAmountToFloat(props.maxRequested) - 0.0001},num`);
+    const maxRequestedErrorMessage = validator.message('new maximum usd requested', newMaxRequested, `min:${requestedAmountToFloat(props.minRequested) - 0.0001},num`);
 
     useEffect(()=>{
         if(props.showValidatorMessages){
@@ -190,7 +190,9 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 }}
                             />
                         </div>
-                        
+                        <div className="input__errorMessage">
+                            {minRequestedErrorMessage}
+                        </div>  
                         <button className="button swap_currency button--primary" onClick={() => {
                             setMinPriceUsd(!minPriceUsd);
                             if (!(minWaxPrice > 0) || isNaN(minWaxPrice)) setMinWaxPrice("");
@@ -216,10 +218,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                     }
                                 }}
                             />
-                        </div>
-                        <div className="input__errorMessage">
-                            {minRequestedErrorMessage}
-                        </div>    
+                        </div>  
                     </>    
                     : <>
                         <div className="setMinMaxRequested_fieldset">
@@ -296,6 +295,9 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 }}
                             />
                         </div>
+                        <div className="input__errorMessage">
+                            {maxRequestedErrorMessage}
+                        </div> 
                         <button className="button--primary button swap_currency" onClick={() => {
                             setMaxPriceUsd(!maxPriceUsd);
                             if (!(maxWaxPrice > 0) || isNaN(maxWaxPrice)) setMaxWaxPrice("");
@@ -321,10 +323,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                     }
                                 }}
                             />
-                        </div>
-                        <div className="input__errorMessage">
-                            {minRequestedErrorMessage}
-                        </div>    
+                        </div>   
                     </>    
                     : <>
                         <div className="setMinMaxRequested_fieldset">

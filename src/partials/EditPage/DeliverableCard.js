@@ -164,7 +164,10 @@ export const RenderDeliverableCard = ({
                                 }}
                             />
                         </div>
-                        
+                        <div className="input__errorMessage">
+                                {requestedErrorMessage}
+                                {totalRequestedErrorMessage}
+                        </div>
                         <button className="button swap_currency button--primary " onClick={() => {
                             setPriceInUsd(!priceInUsd);
                             if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
@@ -194,10 +197,6 @@ export const RenderDeliverableCard = ({
                                     }
                                 }}
                             />
-                        </div>
-                        <div className="input__errorMessage">
-                                {requestedErrorMessage}
-                                {totalRequestedErrorMessage}
                         </div>
                     </div>
                 </>    

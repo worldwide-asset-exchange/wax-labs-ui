@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
 Routes,
 Route,
+useNavigate
 } from 'react-router-dom'
 import * as waxjs from "@waxio/waxjs/dist";
 
@@ -23,6 +24,7 @@ import { sleep } from './utils/util';
 import { getWaxUsdPrice } from './utils/delphioracle';
 
 export default function App(props) {
+  const navigate = useNavigate();
   const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
   const [isAdmin, setIsAdmin ] = useState(false);
   const [queryingAdmin, setQueryingAdmin] = useState(true);
@@ -150,7 +152,7 @@ export default function App(props) {
         <RenderHeader
           activeUser={props.ual.activeUser}
           loginModal={props.ual.showModal}
-          logout={props.ual.logout}
+          logout={() => {props.ual.logout(); navigate("/");}}
           isAdmin={isAdmin}
           queryingAdmin={queryingAdmin}
           queryingCategories={queryingConfigs}

@@ -4,7 +4,7 @@ import update from 'immutability-helper';
 import * as waxjs from "@waxio/waxjs/dist";
 
 import { RenderDeliverableCard } from './DeliverableCard';
-import { randomEosioName, requestedAmountToFloat } from '../../utils/util';
+import { numberWithCommas, randomEosioName, requestedAmountToFloat } from '../../utils/util';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderLoadingPage from '../LoadingPage';
@@ -204,8 +204,8 @@ export const RenderDeliverablesContainer = (props) => {
                     <div className="deliverablesContainer__amountRequirements">
                         <p>
                             The sum of requested funds in your deliverables must be more than{" "}
-                            {requestedAmountToFloat(props.minRequested) + " " + props.minRequested.split(" ")[1]}{" "}
-                            and less than {requestedAmountToFloat(props.maxRequested) + " " + props.maxRequested.split(" ")[1]}.
+                            {numberWithCommas(requestedAmountToFloat(props.minRequested)).toString() + " " + props.minRequested.split(" ")[1]}{" "}
+                            and less than {numberWithCommas(requestedAmountToFloat(props.maxRequested)).toString() + " " + props.maxRequested.split(" ")[1]}.
                         </p>
                     </div>
                     <div className="deliverablesContainer__items">

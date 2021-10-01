@@ -30,7 +30,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
-    const minRequestedErrorMessage = validator.message('new minimum usd requested', newMinRequested, `min:0.0001,num|max:${requestedAmountToFloat(props.maxRequested) - 0.0001},num`);
+    const minRequestedErrorMessage = validator.message('new minimum usd requested', newMinRequested, `min:0.01,num|max:${requestedAmountToFloat(props.maxRequested) - 0.0001},num`);
     const maxRequestedErrorMessage = validator.message('new maximum usd requested', newMaxRequested, `min:${requestedAmountToFloat(props.minRequested) - 0.0001},num`);
 
     useEffect(()=>{
@@ -73,7 +73,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
     }
 
     async function setMinRequested() {
-        if(!validator.fieldValid("new minimum requested") || !newMinRequested){
+        if (!validator.fieldValid("new minimum usd requested") || !newMinRequested) {
             props.showAlert(GLOBAL_ALERTS.INVALID_DATA_ALERT_DICT.WARN);
             props.setShowValidatorMessages(props.showValidatorMessages + 1);
             return;
@@ -106,7 +106,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
        
     }
     async function setMaxRequested() {
-        if(!validator.fieldValid("new maximum requested") || !newMaxRequested){
+        if(!validator.fieldValid("new maximum usd requested") || !newMaxRequested){
             props.showAlert(GLOBAL_ALERTS.INVALID_DATA_ALERT_DICT.WARN);
             props.setShowValidatorMessages(props.showValidatorMessages + 1);
             return;
@@ -185,7 +185,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                     if (e.target.validity.valid || !e.target.value) {
                                         setNewMinRequested(e.target.value);
                                         setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxUsdPrice)));
-                                        validator.fieldValid("new minimum requested");
+                                        validator.fieldValid("new minimum usd requested");
                                     }
                                 }}
                             />
@@ -210,13 +210,6 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
                                 disabled={true}
                                 placeholder={Number(minWaxPrice) > 0 ? minWaxPrice : ""}
-                                onChange={(e) => {
-                                    if (e.target.validity.valid || !e.target.value) {
-                                        setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxUsdPrice)));
-                                        setMinWaxPrice(e.target.value);
-                                        validator.fieldValid("new minimum requested");
-                                    }
-                                }}
                             />
                         </div>  
                     </>    
@@ -235,7 +228,7 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                     if (e.target.validity.valid || !e.target.value) {
                                         setNewMinRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxUsdPrice)));
                                         setMinWaxPrice(e.target.value);
-                                        validator.fieldValid("new minimum requested");
+                                        validator.fieldValid("new minimum usd requested");
                                     }
                                 }}
                             />
@@ -257,13 +250,6 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
                                 disabled={true}
                                 placeholder={Number(newMinRequested) > 0 ? newMinRequested : ""}
-                                onChange={(e) => {
-                                    if (e.target.validity.valid || !e.target.value) {
-                                        setMinWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxUsdPrice)));
-                                        setMinWaxPrice("");
-                                        validator.fieldValid("new minimum requested");
-                                    }
-                                }}
                             />
                         </div>
                         <div className="input__errorMessage">
@@ -284,13 +270,12 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="max-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={maxPriceUsd ? false : true}
                                 value={newMaxRequested ? newMaxRequested : ""}
                                 onChange={(e) => {
                                     if (e.target.validity.valid || !e.target.value) {
                                         setNewMaxRequested(e.target.value);
                                         setMaxWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxUsdPrice)));
-                                        validator.fieldValid("new maximum requested");
+                                        validator.fieldValid("new maximum usd requested");
                                     }
                                 }}
                             />
@@ -313,15 +298,8 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="max-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={maxPriceUsd ? true : false}
-                                value={maxWaxPrice}
-                                onChange={(e) => {
-                                    if (e.target.validity.valid || !e.target.value) {
-                                        setMaxWaxPrice(e.target.value);
-                                        setNewMaxRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxUsdPrice)));
-                                        validator.fieldValid("new maximum requested");
-                                    }
-                                }}
+                                disabled={true}
+                                placeholder={Number(maxWaxPrice) > 0 ? maxWaxPrice : ""}
                             />
                         </div>   
                     </>    
@@ -335,13 +313,12 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="max-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={maxPriceUsd ? true : false}
                                 value={maxWaxPrice}
                                 onChange={(e) => {
                                     if (e.target.validity.valid || !e.target.value) {
                                         setMaxWaxPrice(e.target.value);
                                         setNewMaxRequested(requestedAmountToFloat(calculateUSDPrice(e.target.value, props.waxUsdPrice)));
-                                        validator.fieldValid("new maximum requested");
+                                        validator.fieldValid("new maximum usd requested");
                                     }
                                 }}
                             />
@@ -361,15 +338,8 @@ export default function RenderSetMinMaxRequestedTab(props) {
                                 type="text"
                                 name="max-requested"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={maxPriceUsd ? false : true}
-                                value={newMaxRequested ? newMaxRequested : ""}
-                                onChange={(e) => {
-                                    if (e.target.validity.valid || !e.target.value) {
-                                        setNewMaxRequested(e.target.value);
-                                        setMaxWaxPrice(requestedAmountToFloat(calculateWAXPrice(e.target.value, props.waxUsdPrice)));
-                                        validator.fieldValid("new maximum requested");
-                                    }
-                                }}
+                                disabled={true}
+                                placeholder={Number(newMaxRequested) > 0 ? newMaxRequested : ""}
                             />
                         </div>
                         <div className="input__errorMessage">

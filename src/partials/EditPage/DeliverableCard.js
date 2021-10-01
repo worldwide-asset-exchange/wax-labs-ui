@@ -29,7 +29,7 @@ export const RenderDeliverableCard = ({
     const [target, setTarget] = useState(null);
     const [priceInUsd, setPriceInUsd] = useState(true);
     const [waxPrice, setWaxPrice] = useState(deliverable.requested_amount ? requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxUsdPrice)): "");
-    const [usdPrice, setUsdPrice] = useState("");
+    const [usdPrice, setUsdPrice] = useState(deliverable.requested_amount ? deliverable.requested_amount : "");
 
     const [, drop] = useDrop({
         accept: ItemTypes.CARD,

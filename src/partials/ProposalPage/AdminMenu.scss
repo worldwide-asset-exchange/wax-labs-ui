@@ -53,7 +53,7 @@
     }
 
     &__reject, &__askchanges {
-        display: flex;
+        display: inline-block;
         flex-direction: column; 
 
         .input__label {
@@ -73,7 +73,9 @@
         }
 
         textarea {
-            width: 85%;
+            display: flex;
+            width: 100%;
+            max-width: 243px;
         }
         
     }
@@ -84,7 +86,7 @@
     }
 
     &__accordionContent {
-        display: flex;
-        flex-direction: column;        
+        display: inline-block;
+        flex-direction: column;
     }
 }

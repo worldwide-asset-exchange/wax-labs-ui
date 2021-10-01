@@ -1,7 +1,7 @@
 @import './variables';
 
 @mixin mainPadding {
-    padding: $spacing-s;
+    padding: $spacing-xs;
 
     @include breakpoint(tablet-up) {
         padding-top: $spacing-xxl;

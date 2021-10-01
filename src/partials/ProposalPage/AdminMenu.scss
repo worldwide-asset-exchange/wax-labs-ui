@@ -53,8 +53,10 @@
     }
 
     &__reject, &__askchanges {
-        display: inline-block;
-        flex-direction: column; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
         .input__label {
             margin-top: $spacing-s;
@@ -77,16 +79,21 @@
             width: 100%;
             max-width: 243px;
         }
-        
     }
 
     &__accordion {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+            gap: $spacing-s;
+        }
     }
 
     &__accordionContent {
-        display: inline-block;
+        display: flex;
         flex-direction: column;
+        min-width: 280px;
     }
 }

@@ -290,7 +290,7 @@ export default function RenderAdminMenu(props){
                         <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
                         <Accordion className="adminMenu__accordion">
                             <div className="adminMenu__accordionContent">
-                                <Accordion.Toggle eventKey="0" as="div">
+                                <Accordion.Toggle eventKey="0" as="div" className="adminMenu__toggle">
                                     <button className="button button--rejection">Reject proposal</button>
                                 </Accordion.Toggle>
                                 <Accordion.Collapse eventKey="0">
@@ -302,13 +302,13 @@ export default function RenderAdminMenu(props){
                                 </Accordion.Collapse>
                             </div>
                             <div className="adminMenu__accordionContent">
-                                <Accordion.Toggle eventKey="1" as="div" className="adminMenu__accordionContent">
+                                <Accordion.Toggle eventKey="1" as="div" className="adminMenu__toggle">
                                     <button className="button button--askchanges">Ask for changes</button>
                                 </Accordion.Toggle>
                                 <Accordion.Collapse eventKey="1" >
                                     <div className="adminMenu__askchanges">
-                                        <label className="input__label">Enter the rejection reason and changes needed</label>
-                                        <textarea className="textarea" value={rejectionReason} onChange={(e) => { setRejectionReason(e.target.value) }} />                         
+                                        <label className="input__label">Enter the required changes</label>
+                                        <textarea className="textarea" value={rejectionReason} onChange={(e) => { setRejectionReason(e.target.value) }} />
                                         <button className="button button--secondary" onClick={() => reviewProposal(false, true)}> Submit review </button>
                                     </div>
                                 </Accordion.Collapse>

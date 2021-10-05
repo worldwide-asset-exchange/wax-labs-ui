@@ -144,18 +144,18 @@ export default function RenderProposalPage(props){
                                         </div>
                                     </div>
                                     : null}
-                                {proposal.total_paid_funds ?
-                                    <div className="proposalPage__details">
-                                        <div className="proposalPage__label">Total Claimed Funds</div>
-                                        <div className="proposalPage__amount">{numberWithCommas(requestedAmountToFloat(proposal.total_paid_funds)).toString() + " " + proposal.total_paid_funds.split(" ")[1]}</div>
-                                    </div>
-                                 : null}
                                 {proposal.to_be_paid_funds && requestedAmountToFloat(proposal.to_be_paid_funds) > 0 ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">To be claimed Funds</div>
                                         <div className="proposalPage__amount">{numberWithCommas(requestedAmountToFloat(proposal.to_be_paid_funds)).toString() + " " + proposal.to_be_paid_funds.split(" ")[1]}</div>
                                     </div>
                                 : null}
+                                {proposal.total_paid_funds ?
+                                    <div className="proposalPage__details">
+                                        <div className="proposalPage__label">Total Claimed Funds</div>
+                                        <div className="proposalPage__amount">{numberWithCommas(requestedAmountToFloat(proposal.total_paid_funds)).toString() + " " + proposal.total_paid_funds.split(" ")[1]}</div>
+                                    </div>
+                                 : null}
                             </div>
                             </div>
                     </div>

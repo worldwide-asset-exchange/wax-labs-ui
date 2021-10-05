@@ -4,7 +4,7 @@ import * as waxjs from '@waxio/waxjs/dist';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from '../../utils/alerts';
-import { randomEosioName, requestedAmountToFloat, tagStyle } from '../../utils/util';
+import { randomEosioName, requestedAmountToFloat, numberWithCommas, tagStyle } from '../../utils/util';
 import { Accordion } from 'react-bootstrap';
 
 import './ProposerMenu.scss';
@@ -315,7 +315,7 @@ export default function RenderProposerMenu(props) {
                         <button className="button button--text" onClick={cancelProposal}>
                             Cancel proposal
                         </button>
-                        {requestedAmountToFloat(props.proposal.total_requested_funds) - requestedAmountToFloat(props.minRequested) > 0  ?
+                        {requestedAmountToFloat(props.proposal.total_requested_funds) - requestedAmountToFloat(props.minRequested) >= 0  ?
                             <button className="button button--primary" onClick={submitProp}>
                             Submit Proposal
                             </button>
@@ -327,7 +327,7 @@ export default function RenderProposerMenu(props) {
                             Number(requestedAmountToFloat(props.proposal.total_requested_funds)) > 0 &&
                         requestedAmountToFloat(props.proposal.total_requested_funds) - requestedAmountToFloat(props.minRequested) < 0    
                             ?
-                            `In order to submit the proposal, total requested funds must be more than $${requestedAmountToFloat(props.minRequested)} USD`
+                            `In order to submit the proposal, total requested funds must be more than $${numberWithCommas(requestedAmountToFloat(props.minRequested)).toString()} USD`
                             : null
                         }
                     </div>

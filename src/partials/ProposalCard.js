@@ -6,7 +6,7 @@ Link
 import moment from 'moment';
 
 import * as globals from "../utils/vars"
-import {tagStyle} from "../utils/util"
+import {numberWithCommas, requestedAmountToFloat, tagStyle} from "../utils/util"
 import './ProposalCard.scss'
 
 function votingInformation(votingEndsIn) {
@@ -24,7 +24,6 @@ export default function RenderProposalCard(props){
 
     const proposal = props.proposal;
     const hideStatus = props.hideStatus ? props.hideStatus : false;
-    const readableAmount = proposal.total_requested_funds.split(".")[0] + " " + proposal.total_requested_funds.split(" ")[1];
 
     const votingEndsIn = moment(proposal.vote_end_time, "YYYY-MM-DDTHH:mm:ss[Z]").parseZone().fromNow();
     // Leaving this here because I expect it to be used soon. - JS
@@ -63,7 +62,8 @@ export default function RenderProposalCard(props){
                         <div className="proposalCard__label">Requested amount</div>
                         <div className="proposalCard__requestedAmount">
                             {proposal.total_requested_funds.split(" ")[1] === "USD" ? "$" : ""}
-                            {readableAmount}
+                            {numberWithCommas(requestedAmountToFloat(proposal.total_requested_funds)).toString()
+                                + " " + proposal.total_requested_funds.split(" ")[1]}
                         </div>
                     </div>
                 </div>

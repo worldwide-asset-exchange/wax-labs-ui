@@ -5,6 +5,8 @@ import { Modal } from 'react-bootstrap';
 import * as GLOBAL_VARS from "../../utils/vars";
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 
+import { Accordion } from 'react-bootstrap';
+
 import './AdminMenu.scss'
 
 export default function RenderAdminMenu(props){
@@ -142,7 +144,7 @@ export default function RenderAdminMenu(props){
         }
     }
 
-    async function reviewProposal(approve) {
+    async function reviewProposal(approve,edit) {
         let activeUser = props.activeUser;
         let alertObj = {}
 
@@ -167,6 +169,7 @@ export default function RenderAdminMenu(props){
                         data: {
                             proposal_id: id,
                             approve: approve,
+			     draft: edit,
                             memo: approve ? "": rejectionReason
                         },
                     },
@@ -280,16 +283,38 @@ export default function RenderAdminMenu(props){
                 <div>
                     <div className="adminMenu__actions">
                         <button className="button button--secondary" onClick={()=>toggleShowReviewerModal(true)}>{`${props.proposal.reviewer ? "Update" : "Set"}`} reviewer</button>
-                        <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true)}>Approve proposal</button>
+                        <button className="button button--approval" disabled={!props.proposal.reviewer} onClick={()=>reviewProposal(true, true)}>Approve proposal</button>
                         <button className="button button--approvalNoIcon" disabled={!props.proposal.reviewer} onClick={()=>skipVoting()}>Approve and skip voting</button>
                     </div>
                     <div className="adminMenu__actions adminMenu__actions--row">
                         <button className="button button--text" onClick={cancelProposal}>Cancel proposal</button>
-                        <div className="adminMenu__reject">
-                            <label className="input__label">Enter the rejection reason</label>
-                            <textarea className="textarea" value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>
-                            <button className="button button--rejection" onClick={()=>reviewProposal(false)}>Reject proposal</button>
-                        </div>
+                        <Accordion className="adminMenu__accordion">
+                            <div className="adminMenu__accordionContent">
+                                <Accordion.Toggle eventKey="1" as="div" className="adminMenu__toggle">
+                                    <button className="button button--askchanges">Ask for changes</button>
+                                </Accordion.Toggle>
+                                <Accordion.Collapse eventKey="1" >
+                                    <div className="adminMenu__askchanges">
+                                        <label className="input__label">Enter the required changes</label>
+                                        <textarea className="textarea" value={rejectionReason} onChange={(e) => { setRejectionReason(e.target.value) }} />
+                                        <button className="button button--secondary" onClick={() => reviewProposal(false, true)}> Submit review </button>
+                                    </div>
+                                </Accordion.Collapse>
+                            </div>
+                            <div className="adminMenu__accordionContent">
+                                <Accordion.Toggle eventKey="0" as="div" className="adminMenu__toggle">
+                                    <button className="button button--rejection">Reject proposal</button>
+                                </Accordion.Toggle>
+                                <Accordion.Collapse eventKey="0">
+                                    <div className="adminMenu__reject">
+                                        <label className="input__label">Enter the rejection reason</label>
+                                        <textarea className="textarea"  value={rejectionReason} onChange={(e)=>{setRejectionReason(e.target.value)}}/>
+                                        <button className="button button--secondary" onClick={() => reviewProposal(false, false)}> Submit Review </button>
+                                    </div>
+                                </Accordion.Collapse>
+                            </div>
+                        </Accordion>
+
                     </div>
                 </div>
             )

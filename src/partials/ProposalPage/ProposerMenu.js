@@ -4,7 +4,7 @@ import * as waxjs from '@waxio/waxjs/dist';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from '../../utils/alerts';
-import { randomEosioName, requestedAmountToFloat, tagStyle } from '../../utils/util';
+import { randomEosioName, requestedAmountToFloat, numberWithCommas, tagStyle } from '../../utils/util';
 import { Accordion } from 'react-bootstrap';
 
 import './ProposerMenu.scss';
@@ -298,8 +298,7 @@ export default function RenderProposerMenu(props) {
                                 <p className="proposerMenu__body">
                                     Once you're satisfied with all the information, you can
                                     <span className="bold">Submit proposal </span>
-                                    to be reviewed by the admin. Note that if rejected, you'll have to create another
-                                    proposal for submission.
+                                    to be reviewed by the admin.  
                                 </p>
                                 <p className="proposerMenu__body">
                                     Either you or the admin can also <span className="bold">Cancel proposal</span>. This
@@ -316,9 +315,21 @@ export default function RenderProposerMenu(props) {
                         <button className="button button--text" onClick={cancelProposal}>
                             Cancel proposal
                         </button>
-                        <button className="button button--primary" onClick={submitProp}>
+                        {requestedAmountToFloat(props.proposal.total_requested_funds) - requestedAmountToFloat(props.minRequested) >= 0  ?
+                            <button className="button button--primary" onClick={submitProp}>
                             Submit Proposal
-                        </button>
+                            </button>
+                            : null
+                        }
+                    </div>
+                    <div className="input__errorMessage">
+                        {
+                            Number(requestedAmountToFloat(props.proposal.total_requested_funds)) > 0 &&
+                        requestedAmountToFloat(props.proposal.total_requested_funds) - requestedAmountToFloat(props.minRequested) < 0    
+                            ?
+                            `In order to submit the proposal, total requested funds must be more than $${numberWithCommas(requestedAmountToFloat(props.minRequested)).toString()} USD`
+                            : null
+                        }
                     </div>
                 </React.Fragment>
             );
@@ -343,6 +354,45 @@ export default function RenderProposerMenu(props) {
                         </Accordion.Collapse>
                     </Accordion>
                     <div className="proposerMenu__actions">
+                        <button className="button button--text" onClick={cancelProposal}>
+                            Cancel proposal
+                        </button>
+                    </div>
+                </React.Fragment>
+            );
+        } else if (props.proposal.status === GLOBAL_VARS.FAILED_DRAFT_KEY) {
+            return (
+                <React.Fragment>
+                    <Accordion className="proposerMenu__accordion">
+                        <Accordion.Toggle as="div" eventKey="0">
+                            <button className="button button--secondary">Next steps</button>
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="0">
+                            <div className="proposerMenu__accordionContent">
+                                <p className="proposerMenu__body">
+                                    To submit again proposal to be reviewed by the admin you need to {' '}
+                                    <span className="bold">modify your deliverables</span> first. For that, choose{' '}
+                                    <span className="bold">Edit proposal</span>.
+                                </p>
+                                <p className="proposerMenu__body">
+                                    Once you modify any deliverable information, the proposal's status{' '}
+                                    will be changed to <span className="bold">Drafting</span> and you will be able to{" "}
+                                    <span className="bold">Submit proposal </span>
+                                    to be reviewed by the admin. Note that if a proposal is sent {' '}
+                                    multiple times it can be rejected permanently.
+                                </p>
+                                <p className="proposerMenu__body">
+                                    Either you or the admin can also <span className="bold">Cancel proposal</span>. This
+                                    will block the proposal to be edited and eventually approved. Note that you won't be
+                                    refunded.
+                                </p>
+                            </div>
+                        </Accordion.Collapse>
+                    </Accordion>
+                    <div className="proposerMenu__actions">
+                        <Link className="button button--text" to="edit">
+                            Edit proposal
+                        </Link>
                         <button className="button button--text" onClick={cancelProposal}>
                             Cancel proposal
                         </button>

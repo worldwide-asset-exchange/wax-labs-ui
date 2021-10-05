@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate } from 'react-router-dom';
 import * as waxjs from "@waxio/waxjs/dist";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -33,7 +33,15 @@ export default function RenderEditProposal(props){
 
 
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
+    
+    const navigate = useNavigate();
 
+    
+    useEffect(() => {
+        props.loadWaxUsdPrice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
     async function getProposalData(){
         while(true){
             try{
@@ -163,7 +171,7 @@ export default function RenderEditProposal(props){
             data: {
                 proposal_id: id,
                 deliverable_id: deliverableId,
-                requested_amount: deliverable.requested_amount.toFixed(8) + " WAX",
+                requested_amount: Number(deliverable.requested_amount).toFixed(4) + " USD",
                 recipient: deliverable.recipient,
                 small_description: deliverable.small_description,
                 days_to_complete: deliverable.days_to_complete,
@@ -239,7 +247,7 @@ export default function RenderEditProposal(props){
             }
             showAlert(alertObj);
             rerunProposalQuery();
-
+            navigate(`${GLOBAL_VARS.PROPOSAL_PAGE_LINK}/${proposal.proposal_id}`);
         } catch(e){
             let alertObj = {
                 ...GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.ERROR,
@@ -265,18 +273,16 @@ export default function RenderEditProposal(props){
         // Updating total requested as a sum of deliverables requested.
         if(deliverablesLists.toAdd){
             let total = 0;
-            deliverablesLists.toAdd.map((deliverable, index)=>{
-                if((typeof deliverable.requested_amount) === "number"){
-                    total += deliverable.requested_amount
-                }
-                return ""
+            deliverablesLists.toAdd.map((deliverable, index) => {
+                total += Number(deliverable.requested_amount);
+                return "";
             })
             setTotalRequested(total);
         }
     },[deliverablesLists]);
 
 
-    if(queryingProposal){
+    if(queryingProposal || !props.waxUsdPrice){
         return <RenderLoadingPage/>
     }
 
@@ -302,6 +308,11 @@ export default function RenderEditProposal(props){
                 activeUser={props.activeUser}
                 showValidatorMessages={showValidatorMessages}
                 updateValidatorData={updateProposalValidationData}
+                queryingMinMaxRequested={props.queryingMinMaxRequested}
+                minRequested={props.minRequested}
+                maxRequested={props.maxRequested}
+                totalRequestedErrorMessage={totalRequestedErrorMessage}
+                waxUsdPrice={props.waxUsdPrice}
             />
             <DndProvider
                 backend={HTML5Backend}
@@ -317,6 +328,10 @@ export default function RenderEditProposal(props){
                     queryingDeliverables={queryingDeliverables}
                     runningQuery={runningDeliverableQuery}
                     showAlert={showAlert}
+                    queryingMinMaxRequested={props.queryingMinMaxRequested}
+                    minRequested={props.minRequested}
+                    maxRequested={props.maxRequested}
+                    waxUsdPrice={props.waxUsdPrice}
                 />
             </DndProvider>
             <button

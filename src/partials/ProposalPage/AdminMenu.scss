@@ -21,6 +21,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin: $spacing-s 0;
 
         @include breakpoint(tablet-landscape-up) {
             flex-direction: row;
@@ -32,7 +33,7 @@
 
             @include breakpoint(tablet-landscape-up) {
                 flex-direction: row;
-                align-items: flex-end;
+                align-items: flex-start;
 
                 margin-top: $spacing-s;
             }
@@ -51,22 +52,48 @@
         margin-top: 16px;
     }
 
-    &__reject {
+    &__reject, &__askchanges {
         display: flex;
         flex-direction: column;
-        margin-top: $spacing-s;
+        align-items: center;
+        justify-content: center;
+
+        .input__label {
+            margin-top: $spacing-s;
+        }
 
         @include breakpoint(tablet-landscape-up) {
             margin-top: 0;
         }
 
         .input {
-
             background-color: $overlay-01;
-
         }
+
         .button {
             margin-top: $spacing-xs;
         }
+
+        textarea {
+            display: flex;
+            width: 100%;
+            max-width: 243px;
+        }
+    }
+
+    &__accordion {
+        display: flex;
+        flex-direction: column;
+
+        @include breakpoint(tablet-up) {
+            flex-direction: row;
+            gap: $spacing-s;
+        }
+    }
+
+    &__accordionContent {
+        display: flex;
+        flex-direction: column;
+        min-width: 280px;
     }
 }

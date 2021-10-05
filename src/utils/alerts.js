@@ -10,6 +10,8 @@ export const DELIVERABLE_ID_TEMPLATE = "%deliverable_id%"
 export const PROPOSAL_ID_TEMPLATE = "%proposal_id%"
 export const REVIEWER_NAME_TEMPLATE = "%reviewer_name%"
 export const VOTE_OPTION_TEMPLATE = "%vote_option%"
+export const AVAILABLE_FUNDS_TEMPLATE = "%available_funds"
+export const REQUESTED_FUNDS_TEMPLATE = "%requested_funds"
 
 export const CANCEL_PROP_ALERT_DICT = {
     SUCCESS:
@@ -125,6 +127,13 @@ export const REVIEW_DELIVERABLE_ALERT_DICT = {
     {
         title: "We couldn't register your deliverable review.",
         body: "Something went wrong while trying to register your deliverable review. Make sure you added the report and try again.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    },
+    MISSING_FUNDS:
+    {
+        title: "We couldn't register your deliverable review. There are not enough available funds",
+        body: `There are only ${AVAILABLE_FUNDS_TEMPLATE} available funds and you are trying to approve ${REQUESTED_FUNDS_TEMPLATE}. Add more funds and try again.`,
         variant: ERROR_VARIANT,
         dismissible: true,
     }
@@ -447,6 +456,41 @@ export const SET_ADMIN_ALERT_DICT = {
         dismissible: true,
     }
 }
+
+export const SET_MIN_REQUESTED_ALERT_DICT = {
+    SUCCESS:
+    {
+        title: "New minimum requested value has been successfully set.",
+        body: "New minimum requested value has been set. Thank you for all your work! It's been a pleasure.",
+        variant: SUCCESS_VARIANT,
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "We couldn't set the new minimum requested value.",
+        body: "Something went wrong while attempting set the new minimum requested value. Please, try again.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
+export const SET_MAX_REQUESTED_ALERT_DICT = {
+    SUCCESS:
+    {
+        title: "New maximum requested value has been successfully set.",
+        body: "New maximum requested value has been set. Thank you for all your work! It's been a pleasure.",
+        variant: SUCCESS_VARIANT,
+        dismissible: true
+    },
+    ERROR:
+    {
+        title: "We couldn't set the new maximum requested value.",
+        body: "Something went wrong while attempting set the new maximum requested value. Please, try again.",
+        variant: ERROR_VARIANT,
+        dismissible: true,
+    }
+}
+
 
 
 // Please copy and paste this if you are creating a new ALERT_DICT

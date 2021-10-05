@@ -15,12 +15,27 @@
     }
 
     &__fieldset {
-        display: flex;
+        
         flex-direction: column;
         align-items: flex-start;
 
         margin-bottom: $spacing-s;
     }
+
+    &__totalRequested { 
+        display: inline-block;
+
+        .input__label {
+            display: inline-block;
+            min-width: 48.8%;
+        }
+
+        h4 {
+            margin-top: $spacing-xxs;
+            margin-bottom: $spacing-s;
+        }  
+    }
+
     &__charAmount {
         color: $typography-02;
         &--error {

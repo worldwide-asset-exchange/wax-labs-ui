@@ -321,6 +321,7 @@ export default function RenderSingleDeliverable(props) {
                         <div className="singleDeliverable__detail singleDeliverable__detail--main">
                             <div className="singleDeliverable__label">Amount requested</div>
                             <div className="singleDeliverable__info">
+                                {deliverable.requested.split(" ")[1] === "USD" ? "$" : ""}
                                 {requestedAmountToFloat(deliverable.requested)
                                     + " " + deliverable.requested.split(" ")[1]}
                             </div>

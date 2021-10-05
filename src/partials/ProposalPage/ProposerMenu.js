@@ -327,7 +327,7 @@ export default function RenderProposerMenu(props) {
                             Number(requestedAmountToFloat(props.proposal.total_requested_funds)) > 0 &&
                         requestedAmountToFloat(props.proposal.total_requested_funds) - requestedAmountToFloat(props.minRequested) < 0    
                             ?
-                            `In order to submit the proposal, total requested funds must be more than ${requestedAmountToFloat(props.minRequested)} USD`
+                            `In order to submit the proposal, total requested funds must be more than $${requestedAmountToFloat(props.minRequested)} USD`
                             : null
                         }
                     </div>

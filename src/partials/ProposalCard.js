@@ -6,7 +6,7 @@ Link
 import moment from 'moment';
 
 import * as globals from "../utils/vars"
-import {tagStyle} from "../utils/util"
+import {numberWithCommas, tagStyle} from "../utils/util"
 import './ProposalCard.scss'
 
 function votingInformation(votingEndsIn) {
@@ -63,7 +63,7 @@ export default function RenderProposalCard(props){
                         <div className="proposalCard__label">Requested amount</div>
                         <div className="proposalCard__requestedAmount">
                             {proposal.total_requested_funds.split(" ")[1] === "USD" ? "$" : ""}
-                            {readableAmount}
+                            {numberWithCommas(readableAmount).toString()}
                         </div>
                     </div>
                 </div>

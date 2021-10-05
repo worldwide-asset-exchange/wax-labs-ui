@@ -4,7 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 
 import * as waxjs from "@waxio/waxjs/dist";
 
-import {sleep, requestedAmountToFloat, tagStyle} from "../utils/util";
+import {sleep, requestedAmountToFloat, numberWithCommas, tagStyle} from "../utils/util";
 import * as GLOBAL_VARS from '../utils/vars';
 import RenderProposerMenu from '../partials/ProposalPage/ProposerMenu';
 import RenderAlerts from '../partials/Alerts/Alerts';
@@ -130,8 +130,7 @@ export default function RenderProposalPage(props){
                                     <div className="proposalPage__label">Total Requested Funds</div>
                                     <div className="proposalPage__amount">
                                         {proposal.total_requested_funds.split(" ")[1] === "USD" ? "$" : ""}
-                                        {requestedAmountToFloat(proposal.total_requested_funds)
-                                        + " " + proposal.total_requested_funds.split(" ")[1]}
+                                        {numberWithCommas(proposal.total_requested_funds).toString()}
                                     </div>
                                 </div>
                                 {Number(requestedAmountToFloat(proposal.remaining_funds)) > 0 &&
@@ -140,7 +139,7 @@ export default function RenderProposalPage(props){
                                         <div className="proposalPage__label">Remaining Funds</div>
                                         <div className="proposalPage__amount">
                                             {proposal.remaining_funds.split(" ")[1] === "USD" ? "$" : ""}
-                                            {requestedAmountToFloat(proposal.remaining_funds)
+                                            {numberWithCommas(requestedAmountToFloat(proposal.remaining_funds)).toString()
                                             + " " + proposal.remaining_funds.split(" ")[1]}
                                         </div>
                                     </div>
@@ -148,13 +147,13 @@ export default function RenderProposalPage(props){
                                 {proposal.total_paid_funds ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">Total Claimed Funds</div>
-                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.total_paid_funds) + " " + proposal.total_paid_funds.split(" ")[1]}</div>
+                                        <div className="proposalPage__amount">{numberWithCommas(requestedAmountToFloat(proposal.total_paid_funds)).toString() + " " + proposal.total_paid_funds.split(" ")[1]}</div>
                                     </div>
                                  : null}
                                 {proposal.to_be_paid_funds && requestedAmountToFloat(proposal.to_be_paid_funds) > 0 ?
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">To be claimed Funds</div>
-                                        <div className="proposalPage__amount">{requestedAmountToFloat(proposal.to_be_paid_funds) + " " + proposal.to_be_paid_funds.split(" ")[1]}</div>
+                                        <div className="proposalPage__amount">{numberWithCommas(requestedAmountToFloat(proposal.to_be_paid_funds)).toString() + " " + proposal.to_be_paid_funds.split(" ")[1]}</div>
                                     </div>
                                 : null}
                             </div>

@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as alertGlobals from "../../utils/alerts";
 import SimpleReactValidator from 'simple-react-validator';
-import { requestedAmountToFloat, tagStyle } from '../../utils/util';
+import { requestedAmountToFloat, numberWithCommas, tagStyle } from '../../utils/util';
 import { calculateWAXPrice } from '../../utils/delphioracle';
 
 import arrow from '../../images/orange-arrow.svg'
@@ -322,19 +322,19 @@ export default function RenderSingleDeliverable(props) {
                             <div className="singleDeliverable__label">Amount requested</div>
                             <div className="singleDeliverable__info">
                                 {deliverable.requested.split(" ")[1] === "USD" ? "$" : ""}
-                                {requestedAmountToFloat(deliverable.requested)
-                                    + " " + deliverable.requested.split(" ")[1]}
+                                {numberWithCommas(requestedAmountToFloat(deliverable.requested)
+                                    + " " + deliverable.requested.split(" ")[1]).toString()}
                             </div>
                         </div>
                         {deliverable.status === 4 || deliverable.status === 6 ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
                                 <div className="singleDeliverable__label">{deliverable.status === 4 ? "To be claimed" : "Claimed"}</div>
-                                <div className="singleDeliverable__info">{requestedAmountToFloat(deliverable.claimable_wax) + " WAX"}</div>
+                                <div className="singleDeliverable__info">{numberWithCommas(requestedAmountToFloat(deliverable.claimable_wax)).toString() + " WAX"}</div>
                             </div>  
                             : deliverable.requested.split(" ")[1] === "USD" ?
                             <div className="singleDeliverable__detail singleDeliverable__detail--main">
                                 <div className="singleDeliverable__label">Amount Requested in WAX</div>
-                                <div className="singleDeliverable__info">{Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice)) + " WAX"}</div>
+                                <div className="singleDeliverable__info">{numberWithCommas(Number(calculateWAXPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice))).toString() + " WAX"}</div>
                             </div>
                             : null
                         }

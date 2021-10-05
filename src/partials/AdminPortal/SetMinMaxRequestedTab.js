@@ -146,23 +146,25 @@ export default function RenderSetMinMaxRequestedTab(props) {
                 <div className="setMinMaxRequested__section">
                     <h4>Current minimum requested value</h4>
                         <p>
+                        {props.minRequested.split(" ")[1] === "USD" ? "$" : ""}
                         {numberWithCommas(requestedAmountToFloat(props.minRequested)).toString()  + " " + props.minRequested.split(" ")[1]}
                         {"  "}
                         {
                             props.minRequested.split(" ")[1] === "USD" ?
                                 `(${numberWithCommas(calculateWAXPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)).toString()} WAX)`
-                                : `(${numberWithCommas(calculateUSDPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)).toString()} USD)`
+                                : `($${numberWithCommas(calculateUSDPrice(requestedAmountToFloat(props.minRequested), props.waxUsdPrice)).toString()} USD)`
                             
                         }   
                         </p>
                     <h4>Current maximum requested value</h4>
                         <p>
+                            {props.maxRequested.split(" ")[1] === "USD" ? "$" : ""}
                             {numberWithCommas(requestedAmountToFloat(props.maxRequested)).toString() + " " + props.maxRequested.split(" ")[1]}
                             {"  "}
                             {
                                 props.maxRequested.split(" ")[1] === "USD" ?
                                     `(${numberWithCommas(calculateWAXPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)).toString()} WAX)`
-                                    : `(${numberWithCommas(calculateUSDPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)).toString()} USD)`
+                                    : `($${numberWithCommas(calculateUSDPrice(requestedAmountToFloat(props.maxRequested), props.waxUsdPrice)).toString()} USD)`
                                 
                             }
                         </p>

@@ -61,7 +61,10 @@ export default function RenderProposalCard(props){
                     </div>
                     <div>
                         <div className="proposalCard__label">Requested amount</div>
-                        <div className="proposalCard__requestedAmount">{readableAmount}</div>
+                        <div className="proposalCard__requestedAmount">
+                            {proposal.total_requested_funds.split(" ")[1] === "USD" ? "$" : ""}
+                            {readableAmount}
+                        </div>
                     </div>
                 </div>
             </div>

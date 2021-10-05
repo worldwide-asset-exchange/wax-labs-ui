@@ -129,6 +129,7 @@ export default function RenderProposalPage(props){
                                 <div className="proposalPage__details">
                                     <div className="proposalPage__label">Total Requested Funds</div>
                                     <div className="proposalPage__amount">
+                                        {proposal.total_requested_funds.split(" ")[1] === "USD" ? "$" : ""}
                                         {requestedAmountToFloat(proposal.total_requested_funds)
                                         + " " + proposal.total_requested_funds.split(" ")[1]}
                                     </div>
@@ -138,7 +139,8 @@ export default function RenderProposalPage(props){
                                     <div className="proposalPage__details">
                                         <div className="proposalPage__label">Remaining Funds</div>
                                         <div className="proposalPage__amount">
-                                             {requestedAmountToFloat(proposal.remaining_funds)
+                                            {proposal.remaining_funds.split(" ")[1] === "USD" ? "$" : ""}
+                                            {requestedAmountToFloat(proposal.remaining_funds)
                                             + " " + proposal.remaining_funds.split(" ")[1]}
                                         </div>
                                     </div>

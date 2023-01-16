@@ -9,7 +9,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { Anchor } from 'ual-anchor';
-// import { Scatter } from 'ual-scatter';
 import { Wax } from '@eosdacio/ual-wax';
 
 import { UALProvider, withUAL } from 'ual-reactjs-renderer';
@@ -25,7 +24,6 @@ const waxChain = {
 
 const AppWithUAL = withUAL(App);
 const appName = "Wax Labs";
-// const scatter = new Scatter([waxChain], { appName: appName });
 const anchor = new Anchor([waxChain], { appName: appName });
 const waxcloud = new Wax([waxChain], { appName: appName });
 

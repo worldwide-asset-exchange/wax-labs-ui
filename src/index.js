@@ -9,7 +9,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { Anchor } from 'ual-anchor';
-import { Scatter } from 'ual-scatter';
+// import { Scatter } from 'ual-scatter';
 import { Wax } from '@eosdacio/ual-wax';
 
 import { UALProvider, withUAL } from 'ual-reactjs-renderer';
@@ -25,12 +25,12 @@ const waxChain = {
 
 const AppWithUAL = withUAL(App);
 const appName = "Wax Labs";
-const scatter = new Scatter([waxChain], { appName: appName });
+// const scatter = new Scatter([waxChain], { appName: appName });
 const anchor = new Anchor([waxChain], { appName: appName });
 const waxcloud = new Wax([waxChain], { appName: appName });
 
 ReactDOM.render(
-    <UALProvider chains={[waxChain]} authenticators={[waxcloud, anchor, scatter ]} appName={appName}>
+    <UALProvider chains={[waxChain]} authenticators={[waxcloud, anchor ]} appName={appName}>
       <Router>
         <AppWithUAL />
       </Router>
@@ -41,4 +41,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();

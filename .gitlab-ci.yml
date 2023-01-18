@@ -11,6 +11,7 @@ workflow:
     - if: '$CI_COMMIT_BRANCH'
 
 build-test-deploy-testnet:
+  image: node:14-alpine
   script:
     - yarn install
     - yarn build:testnet

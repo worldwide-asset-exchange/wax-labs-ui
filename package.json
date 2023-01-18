@@ -34,9 +34,8 @@
     "react-tag-autocomplete": "^6.1.0",
     "react-vis": "^1.11.7",
     "simple-react-validator": "^1.5.1",
-    "ual-anchor": "^0.5.1",
+    "ual-anchor": "1.0.2",
     "ual-reactjs-renderer": "^0.3.1",
-    "ual-scatter": "^0.3.0",
     "env-cmd": "^10.1.0"
   },
   "scripts": {

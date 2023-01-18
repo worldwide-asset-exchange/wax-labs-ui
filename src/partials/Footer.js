@@ -27,6 +27,14 @@ function RenderFooter(props) {
             <div className="footer__waxLabs">
                 <img src={WAXLabs} alt="WAX logo inside a beaker" />
                 <p className="footer__disclaimer">{`© ${new Date().getFullYear()} WAX, Worldwide Asset eXchange™ All rights reserved.`}</p>
+                <div className="footer__legal">
+                    <a href="https://www.wax.io/terms-of-service" target="__blank" className="footer__legalLink">
+                        Terms of Service
+                    </a>
+                    <a href="https://www.wax.io/privacy-policy" target="__blank" className="footer__legalLink">
+                        Privacy Policy
+                    </a>
+                </div>
             </div>
             <div className="footer__images">
                 <img src={PoweredByWax} alt="Powered by WAX." className="footer__poweredByWAX" />

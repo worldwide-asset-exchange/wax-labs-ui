@@ -12,6 +12,9 @@ workflow:
 
 build-test-deploy-testnet:
   image: node:14-alpine
+  before_script:
+    - apt get update
+    - apt -y install rsync
   script:
     - yarn install
     - yarn build:testnet
@@ -34,3 +37,14 @@ build-test-feature:
       - build/
   rules:
     - if: '$CI_COMMIT_BRANCH != "testnet" && $CI_COMMIT_BRANCH != "main"'
+  
+build-test-deploy-mainnet:
+  script:
+    - yarn install
+    - yarn build:prod
+  stage: prod
+  artifacts:
+    paths:
+    - build/
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

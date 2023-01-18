@@ -70,4 +70,16 @@
             }
         }
     }
+    &__legal {
+        display: flex;
+        gap: $spacing-s;
+    }
+    &__legalLink {
+        color: $typography-02;
+
+        &:hover {
+            color: $typography-01;
+            text-decoration: underline;
+        }
+    }
 }

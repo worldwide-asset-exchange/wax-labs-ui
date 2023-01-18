@@ -1,4 +1,7 @@
 ---
+default:
+  image: node:14-alpine
+
 stages:
   - test
   - prod
@@ -20,6 +23,7 @@ build-test-deploy-testnet:
     - if: '$CI_COMMIT_BRANCH == "testnet"'
 
 build-test-feature:
+  image: node:14-alpine
   script:
     - yarn install
     - yarn build:testnet
@@ -29,14 +33,3 @@ build-test-feature:
       - build/
   rules:
     - if: '$CI_COMMIT_BRANCH != "testnet" && $CI_COMMIT_BRANCH != "main"'
-
-build-test-deploy-mainnet:
-  script:
-    - yarn install
-    - yarn build:prod
-  stage: prod
-  artifacts:
-    paths:
-      - build/
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'

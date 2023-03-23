@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import {useSearchParams, useLocation} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useSearchParams, useLocation } from 'react-router-dom';
 
-import {Tab, Nav} from 'react-bootstrap';
+import { Tab, Nav } from 'react-bootstrap';
 
 import useQueryString from '../utils/useQueryString';
 import * as GLOBAL_VARS from '../utils/vars';
@@ -11,7 +11,7 @@ import RenderProfileTab from '../partials/AccountPortal/ProfileTab';
 import RenderAlerts from '../partials/Alerts/Alerts';
 import RenderUserProposalsTab from '../partials/AccountPortal/UserProposalsTab';
 import RenderDeliverablesToReviewTab from '../partials/AccountPortal/DeliverablesToReviewTab';
-import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
+import { getProfileData } from '../partials/Profile/CRUD/QueryProfile';
 
 import { sleep } from '../utils/util';
 import RenderLoadingPage from '../partials/LoadingPage';
@@ -23,14 +23,19 @@ import DeliverablesToReviewIcon from '../icons/DeliverablesToReviewIcon';
 
 import './Portal.scss';
 
-export default function Renderportal (props) {
-
-    const [tabString, setTabString] = useQueryString(GLOBAL_VARS.TAB_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_TAB_KEY);
-    const [modeString, setModeString] = useQueryString(GLOBAL_VARS.MODE_QUERY_STRING_KEY, GLOBAL_VARS.DEFAULT_EVENT_KEY);
+export default function Renderportal(props) {
+    const [tabString, setTabString] = useQueryString(
+        GLOBAL_VARS.TAB_QUERY_STRING_KEY,
+        GLOBAL_VARS.DEFAULT_TAB_KEY
+    );
+    const [modeString, setModeString] = useQueryString(
+        GLOBAL_VARS.MODE_QUERY_STRING_KEY,
+        GLOBAL_VARS.DEFAULT_EVENT_KEY
+    );
 
     const [accountName, setAccountName] = useState(null);
 
-    let [searchParams, ] = useSearchParams();
+    let [searchParams] = useSearchParams();
 
     let location = useLocation();
 
@@ -41,40 +46,42 @@ export default function Renderportal (props) {
 
     const [alertList, setAlertList] = useState([]);
 
-    function updateModeString (string) {
+    function updateModeString(string) {
         setModeString(string);
     }
 
-    useEffect(()=>{
-        let newTabString = searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_TAB_KEY;
-        let newModeString = searchParams.get(GLOBAL_VARS.MODE_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_EVENT_KEY;
+    useEffect(() => {
+        let newTabString =
+            searchParams.get(GLOBAL_VARS.TAB_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_TAB_KEY;
+        let newModeString =
+            searchParams.get(GLOBAL_VARS.MODE_QUERY_STRING_KEY) || GLOBAL_VARS.DEFAULT_EVENT_KEY;
 
-        setTabString({value: newTabString, skipUpdateQS: true});
-        setModeString({value: newModeString, skipUpdateQS: true});
+        setTabString({ value: newTabString, skipUpdateQS: true });
+        setModeString({ value: newModeString, skipUpdateQS: true });
 
         //eslint-disable-next-line
     }, [location]);
 
-
-    useEffect(()=>{
-
+    useEffect(() => {
         let cancelled = false;
 
-        if(accountName){
+        if (accountName) {
             setQueryingUserProfile(true);
-            getProfileData(accountName).then(profileData => {
-                if(!cancelled){
+            getProfileData(accountName).then((profileData) => {
+                if (!cancelled) {
                     setUserProfile(profileData);
                     setQueryingUserProfile(false);
                 }
-            })
+            });
         }
 
-        const cleanup = () => {cancelled = true};
+        const cleanup = () => {
+            cancelled = true;
+        };
         return cleanup;
     }, [accountName, queryCount]);
 
-    function showAlert(alertObj){
+    function showAlert(alertObj) {
         // Make a copy.
         let alerts = alertList.slice(0);
         // Push new alert to the copied list
@@ -83,30 +90,30 @@ export default function Renderportal (props) {
         setAlertList(alerts);
     }
 
-    function removeAlert(index){
+    function removeAlert(index) {
         // Make a copy.
         let alerts = alertList.slice(0);
         // remove alert at index.
-        alerts.splice(index,1);
+        alerts.splice(index, 1);
         // Update the list.
         setAlertList(alerts);
     }
 
-    useEffect(()=>{
-        if(props.activeUser){
+    useEffect(() => {
+        if (props.activeUser) {
             setAccountName(props.activeUser.accountName);
         }
     }, [props.activeUser]);
 
-    async function rerunProfileQuery(){
+    async function rerunProfileQuery() {
         setQueryingUserProfile(true);
         setModeString(GLOBAL_VARS.DISPLAY_EVENT_KEY);
         await sleep(3500);
         setQueryCount(queryCount + 1);
     }
 
-    if(!props.activeUser){
-        return (<RenderLoadingPage/>);
+    if (!props.activeUser) {
+        return <RenderLoadingPage />;
     }
 
     return (
@@ -115,32 +122,51 @@ export default function Renderportal (props) {
                 alertList={alertList}
                 removeAlert={removeAlert}
             />
-            <Tab.Container activeKey={tabString} id="account-portal" onSelect={(key)=>setTabString(key)}>
+            <Tab.Container
+                activeKey={tabString}
+                id="account-portal"
+                onSelect={(key) => setTabString(key)}
+            >
                 <Nav className="portal__tabs">
                     <Nav.Link
                         eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}
                         className="portal__tab"
                         activeClassName="portal__tab--active"
                     >
-                        <BalanceIcon/>
+                        <BalanceIcon />
                         <span className="portal__tabTitle">Balance</span>
                     </Nav.Link>
-                    <Nav.Link eventKey={GLOBAL_VARS.PROFILE_TAB_KEY} className="portal__tab" activeClassName="portal__tab--active">
-                        <ProfileIcon/>
+                    <Nav.Link
+                        eventKey={GLOBAL_VARS.PROFILE_TAB_KEY}
+                        className="portal__tab"
+                        activeClassName="portal__tab--active"
+                    >
+                        <ProfileIcon />
                         <span className="portal__tabTitle">Profile</span>
                     </Nav.Link>
-                    <Nav.Link eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY} className="portal__tab" activeClassName="portal__tab--active">
-                        <MyProposalsIcon/>
+                    <Nav.Link
+                        eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY}
+                        className="portal__tab"
+                        activeClassName="portal__tab--active"
+                    >
+                        <MyProposalsIcon />
                         <span className="portal__tabTitle">My proposals</span>
                     </Nav.Link>
-                    <Nav.Link eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY} className="portal__tab" activeClassName="portal__tab--active">
-                        <DeliverablesToReviewIcon/>
+                    <Nav.Link
+                        eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY}
+                        className="portal__tab"
+                        activeClassName="portal__tab--active"
+                    >
+                        <DeliverablesToReviewIcon />
                         <span className="portal__tabTitle">Deliverables to review</span>
                     </Nav.Link>
                 </Nav>
                 <Tab.Content className="portal__content">
                     <Tab.Pane eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}>
-                        <RenderBalanceTab activeUser={props.activeUser} showAlert={showAlert} />
+                        <RenderBalanceTab
+                            activeUser={props.activeUser}
+                            showAlert={showAlert}
+                        />
                     </Tab.Pane>
                     <Tab.Pane eventKey={GLOBAL_VARS.PROFILE_TAB_KEY}>
                         <RenderProfileTab
@@ -161,7 +187,7 @@ export default function Renderportal (props) {
                             subtitle="Your proposals"
                             categories={props.categories}
                             activeUser={props.activeUser}
-                            showCreateButton={true}
+                            showCreateButton
                             profile={userProfile}
                             defaultStatus={[]}
                             tabString={tabString}
@@ -180,5 +206,5 @@ export default function Renderportal (props) {
                 </Tab.Content>
             </Tab.Container>
         </div>
-    )
+    );
 }

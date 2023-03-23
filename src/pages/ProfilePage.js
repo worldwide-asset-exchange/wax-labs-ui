@@ -1,48 +1,48 @@
-import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import RenderUserProposalsTab from '../partials/AccountPortal/UserProposalsTab';
 import RenderLoadingPage from '../partials/LoadingPage';
-import {getProfileData} from '../partials/Profile/CRUD/QueryProfile';
+import { getProfileData } from '../partials/Profile/CRUD/QueryProfile';
 import RenderProfileDisplay from '../partials/Profile/ProfileDisplay';
 
-import './ProfilePage.scss'
+import './ProfilePage.scss';
 
-export default function RenderProfilePage(props){
-    const {accountName} = useParams();
+export default function RenderProfilePage(props) {
+    const { accountName } = useParams();
     const [userProfile, setUserProfile] = useState(null);
     const [queryingUserProfile, setQueryingUserProfile] = useState(true);
 
-    useEffect(()=>{
-        
+    useEffect(() => {
         let cancelled = false;
-        
-        if(accountName){
+
+        if (accountName) {
             setQueryingUserProfile(true);
-            getProfileData(accountName).then(profileData => {
-                if(!cancelled){
+            getProfileData(accountName).then((profileData) => {
+                if (!cancelled) {
                     setUserProfile(profileData);
                     setQueryingUserProfile(false);
                 }
-            })
+            });
         }
-        
-        const cleanup = () => {cancelled = true};
+
+        const cleanup = () => {
+            cancelled = true;
+        };
         return cleanup;
     }, [accountName]);
 
-    return(
+    return (
         <div>
             <div className="profilePage">
-                {
-                    queryingUserProfile ?
-                    <RenderLoadingPage/>
-                    :
+                {queryingUserProfile ? (
+                    <RenderLoadingPage />
+                ) : (
                     <RenderProfileDisplay
                         profile={userProfile}
                         notFoundMessage={`${accountName} hasn't created a profile yet.`}
-                    />            
-                }                
+                    />
+                )}
             </div>
             <div>
                 <RenderUserProposalsTab
@@ -55,5 +55,5 @@ export default function RenderProfilePage(props){
                 />
             </div>
         </div>
-    )
+    );
 }

@@ -1,35 +1,48 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { useRef, useState, useEffect } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 import { Overlay, Popover } from 'react-bootstrap';
-import { ItemTypes } from "./ItemTypes";
+import { ItemTypes } from './ItemTypes';
 import SimpleReactValidator from 'simple-react-validator';
 import ArrowIcon from '../../icons/ArrowIcon';
-import SwitchArrow from "../../icons/SwitchArrow";
-import { calculateWAXPrice, calculateUSDPrice } from "../../utils/delphioracle";
-
+import SwitchArrow from '../../icons/SwitchArrow';
+import { calculateWAXPrice, calculateUSDPrice } from '../../utils/delphioracle';
 
 import './DeliverableCard.scss';
-import { requestedAmountToFloat } from "../../utils/util";
+import { requestedAmountToFloat } from '../../utils/util';
 
 const validator = new SimpleReactValidator();
 
 const style = {
-    cursor: "move"
+    cursor: 'move'
 };
 export const RenderDeliverableCard = ({
-    id, text, showValidatorMessages, waxUsdPrice,
+    id,
+    text,
+    showValidatorMessages,
+    waxUsdPrice,
     updateDeliverablesValidation,
-    index, moveCard, updateCard,
-    deliverable, removeCard,
-    isLast, totalRequestedErrorMessage,
-    hasShownTooltip}) => {
+    index,
+    moveCard,
+    updateCard,
+    deliverable,
+    removeCard,
+    isLast,
+    totalRequestedErrorMessage,
+    hasShownTooltip
+}) => {
     const ref = useRef(null);
     const [refreshComponent, setRefreshComponent] = useState(0);
     const [show, setShow] = useState(false);
     const [target, setTarget] = useState(null);
     const [priceInUsd, setPriceInUsd] = useState(true);
-    const [waxPrice, setWaxPrice] = useState(deliverable.requested_amount ? requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxUsdPrice)): "");
-    const [usdPrice, setUsdPrice] = useState(deliverable.requested_amount ? deliverable.requested_amount : "");
+    const [waxPrice, setWaxPrice] = useState(
+        deliverable.requested_amount
+            ? requestedAmountToFloat(calculateWAXPrice(deliverable.requested_amount, waxUsdPrice))
+            : ''
+    );
+    const [usdPrice, setUsdPrice] = useState(
+        deliverable.requested_amount ? deliverable.requested_amount : ''
+    );
 
     const [, drop] = useDrop({
         accept: ItemTypes.CARD,
@@ -65,18 +78,18 @@ export const RenderDeliverableCard = ({
 
     const opacity = isDragging ? 0.5 : 1;
 
-    useEffect(()=>{
+    useEffect(() => {
         // For some unknown reason validator is acting up unless I redo the validator.message in here.
         validator.message('requested usd', deliverable.requested_amount, 'required|min:0.01,num');
-        validator.message('recipient', deliverable.recipient, "required");
+        validator.message('recipient', deliverable.recipient, 'required');
         validator.message('small description', deliverable.small_description, 'required');
         validator.message('days to complete', deliverable.days_to_complete, 'required');
-        updateDeliverablesValidation(deliverable.id, validator.allValid())
+        updateDeliverablesValidation(deliverable.id, validator.allValid());
         // eslint-disable-next-line
     }, [deliverable]);
 
-    useEffect(()=>{
-        if(showValidatorMessages){
+    useEffect(() => {
+        if (showValidatorMessages) {
             validator.showMessages();
             setRefreshComponent(refreshComponent + 1);
         }
@@ -85,12 +98,24 @@ export const RenderDeliverableCard = ({
 
     drag(drop(ref));
     // validator.showMessages();
-    const requestedErrorMessage = validator.message('requested usd', deliverable.requested_amount, 'required|min:0.01,num')
-    const recipientErrorMessage = validator.message('recipient', deliverable.recipient, "required")
-    const descriptionErrorMessage = validator.message('small description', deliverable.small_description, 'required')
-    const daysToCompleteErrorMessage = validator.message('days to complete', deliverable.days_to_complete, 'required')
+    const requestedErrorMessage = validator.message(
+        'requested usd',
+        deliverable.requested_amount,
+        'required|min:0.01,num'
+    );
+    const recipientErrorMessage = validator.message('recipient', deliverable.recipient, 'required');
+    const descriptionErrorMessage = validator.message(
+        'small description',
+        deliverable.small_description,
+        'required'
+    );
+    const daysToCompleteErrorMessage = validator.message(
+        'days to complete',
+        deliverable.days_to_complete,
+        'required'
+    );
 
-    function handleClick (event) {
+    function handleClick(event) {
         if (!hasShownTooltip() && !show) {
             setShow(true);
             setTarget(event.target);
@@ -110,16 +135,29 @@ export const RenderDeliverableCard = ({
             style={{ ...style, opacity }}
             onClick={handleClick}
         >
-            <Overlay show={show} target={target} placement="top" container={ref.current} containerPadding={20}>
-                <Popover id="popover-contained" className="deliverableCard__popover">
+            <Overlay
+                show={show}
+                target={target}
+                placement="top"
+                container={ref.current}
+                containerPadding={20}
+            >
+                <Popover
+                    id="popover-contained"
+                    className="deliverableCard__popover"
+                >
                     <Popover.Title as="h3">You can drag your deliverables</Popover.Title>
                     <Popover.Content>
-                        Using your <strong>cursor</strong> your can rearrange your deliverables' order by dragging them to the desired position.
+                        Using your <strong>cursor</strong> your can rearrange your deliverables'
+                        order by dragging them to the desired position.
                     </Popover.Content>
                 </Popover>
             </Overlay>
             <div className="deliverableCard__actions">
-                <button className="button button--text" onClick={() => removeCard(index)}>
+                <button
+                    className="button button--text"
+                    onClick={() => removeCard(index)}
+                >
                     Remove this deliverable
                 </button>
                 <button
@@ -137,91 +175,138 @@ export const RenderDeliverableCard = ({
                     <ArrowIcon />
                 </button>
             </div>
-            {priceInUsd ?
+            {priceInUsd ? (
                 <>
                     <div className="deliverableCard__swapCurrency">
                         <div className="deliverableCard__fieldset">
                             <label className="input__label">Requested USD</label>
                             <input
                                 className={`${
-                                    requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
+                                    requestedErrorMessage || totalRequestedErrorMessage
+                                        ? 'input input--error'
+                                        : 'input'
                                 }`}
                                 type="text"
                                 name="requested_amount"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                value={usdPrice} 
+                                value={usdPrice}
                                 onChange={(event) => {
                                     if (event.target.validity.valid) {
                                         setUsdPrice(event.target.value);
-                                        setWaxPrice(requestedAmountToFloat(calculateWAXPrice(event.target.value, waxUsdPrice)));
+                                        setWaxPrice(
+                                            requestedAmountToFloat(
+                                                calculateWAXPrice(event.target.value, waxUsdPrice)
+                                            )
+                                        );
                                         const eventmodified = {
                                             target: {
                                                 value: Number(event.target.value),
                                                 name: event.target.name,
-                                                type: "number"
+                                                type: 'number'
                                             }
-                                        }
+                                        };
                                         updateCard(eventmodified, index);
                                     }
                                 }}
                             />
                         </div>
                         <div className="input__errorMessage">
-                                {requestedErrorMessage}
-                                {totalRequestedErrorMessage}
+                            {requestedErrorMessage}
+                            {totalRequestedErrorMessage}
                         </div>
-                        <button className="button swap_currency button--primary " onClick={() => {
-                            setPriceInUsd(!priceInUsd);
-                            if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
-                            if (!(usdPrice > 0) || isNaN(usdPrice)) setUsdPrice("");
-                        }}> <SwitchArrow /> </button>
-                        
+                        <button
+                            className="button swap_currency button--primary "
+                            onClick={() => {
+                                setPriceInUsd(!priceInUsd);
+                                if (!(waxPrice > 0) || isNaN(waxPrice)) {
+                                    setWaxPrice('');
+                                }
+                                if (!(usdPrice > 0) || isNaN(usdPrice)) {
+                                    setUsdPrice('');
+                                }
+                            }}
+                        >
+                            <SwitchArrow />
+                        </button>
                         <div className="deliverableCard__fieldset">
                             <label className="input__label">Requested WAX</label>
                             <input
-                                className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
-                                    }`}
+                                className={`${
+                                    requestedErrorMessage || totalRequestedErrorMessage
+                                        ? 'input input--error'
+                                        : 'input'
+                                }`}
                                 type="text"
                                 name="requested_amount"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={true}
-                                placeholder={Number(waxPrice) > 0 ? waxPrice : ""}
+                                disabled
+                                placeholder={Number(waxPrice) > 0 ? waxPrice : ''}
                             />
                         </div>
                     </div>
-                </>    
-                : <>
+                </>
+            ) : (
+                <>
                     <div className="deliverableCard__swapCurrency">
                         <div className="deliverableCard__fieldset">
                             <label className="input__label">Requested WAX</label>
                             <input
-                                className={`${requestedErrorMessage || totalRequestedErrorMessage ? 'input input--error' : 'input'
-                                    }`}
+                                className={`${
+                                    requestedErrorMessage || totalRequestedErrorMessage
+                                        ? 'input input--error'
+                                        : 'input'
+                                }`}
                                 type="text"
                                 name="requested_amount"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
                                 value={waxPrice}
                                 onChange={(event) => {
-                                    if (event.target.validity.valid ) {
+                                    if (event.target.validity.valid) {
                                         setWaxPrice(event.target.value);
-                                        setUsdPrice(Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))))
+                                        setUsdPrice(
+                                            Number(
+                                                requestedAmountToFloat(
+                                                    calculateUSDPrice(
+                                                        event.target.value,
+                                                        waxUsdPrice
+                                                    )
+                                                )
+                                            )
+                                        );
                                         const eventmodified = {
                                             target: {
-                                                value: Number(requestedAmountToFloat(calculateUSDPrice(event.target.value, waxUsdPrice))),
-                                                name: "requested_amount",
-                                                type: "number",
+                                                value: Number(
+                                                    requestedAmountToFloat(
+                                                        calculateUSDPrice(
+                                                            event.target.value,
+                                                            waxUsdPrice
+                                                        )
+                                                    )
+                                                ),
+                                                name: 'requested_amount',
+                                                type: 'number'
                                             }
-                                        }
+                                        };
                                         updateCard(eventmodified, index);
                                     }
                                 }}
                             />
                         </div>
-                        <button className="button swap_currency button--primary" onClick={() => {
-                            setPriceInUsd(!priceInUsd);
-                            if (!(waxPrice > 0) || isNaN(waxPrice)) setWaxPrice("");
-                            if (!(usdPrice > 0) || isNaN(usdPrice)) setUsdPrice("");
-                        }}> <SwitchArrow/> </button>
+                        <button
+                            className="button swap_currency button--primary"
+                            onClick={() => {
+                                setPriceInUsd(!priceInUsd);
+                                if (!(waxPrice > 0) || isNaN(waxPrice)) {
+                                    setWaxPrice('');
+                                }
+                                if (!(usdPrice > 0) || isNaN(usdPrice)) {
+                                    setUsdPrice('');
+                                }
+                            }}
+                        >
+                            {' '}
+                            <SwitchArrow />{' '}
+                        </button>
                         <div className="deliverableCard__fieldset">
                             <label className="input__label">Requested USD</label>
                             <input
@@ -229,10 +314,14 @@ export const RenderDeliverableCard = ({
                                     requestedErrorMessage ? 'input input--error' : 'input'
                                 }`}
                                 type="text"
-                                name="requested_amount" 
+                                name="requested_amount"
                                 pattern="^[0-9]*\.?[0-9]{0,2}$"
-                                disabled={true}
-                                placeholder={Number(deliverable.requested_amount) > 0 ? deliverable.requested_amount : ""} 
+                                disabled
+                                placeholder={
+                                    Number(deliverable.requested_amount) > 0
+                                        ? deliverable.requested_amount
+                                        : ''
+                                }
                             />
                             <div className="input__errorMessage">
                                 {requestedErrorMessage}
@@ -241,8 +330,8 @@ export const RenderDeliverableCard = ({
                         </div>
                     </div>
                 </>
-            }
-            
+            )}
+
             <div className="deliverableCard__fieldset">
                 <label className="input__label">Recipient</label>
                 <input

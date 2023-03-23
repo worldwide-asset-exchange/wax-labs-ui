@@ -1,27 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { getNameBounds } from '../../utils/util';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import { getProposalsWithDeliverablesInPassedStatus } from '../Deliverables/DeliverablesQueries';
 import RenderGenericProposals from '../GenericProposals';
 
-export default function RenderDeliverablesToReviewTab (props) {
-    const [queryArgs, setQueryArgs] = useState ([]);
+export default function RenderDeliverablesToReviewTab(props) {
+    const [queryArgs, setQueryArgs] = useState([]);
 
-    useEffect(()=>{
-        
-        let newQueryArgs = [{
-            queryType: GLOBAL_VARS.BY_REVIEWER_STAT_QUERY_TYPE,
-            statusKey: GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY,
-            getBounds: getNameBounds,
-            accountName: props.reviewer,
-            getProposals: getProposalsWithDeliverablesInPassedStatus,
-            deliverableStatusKeyList: [GLOBAL_VARS.REPORTED_KEY], 
-        }];
+    useEffect(() => {
+        let newQueryArgs = [
+            {
+                queryType: GLOBAL_VARS.BY_REVIEWER_STAT_QUERY_TYPE,
+                statusKey: GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY,
+                getBounds: getNameBounds,
+                accountName: props.reviewer,
+                getProposals: getProposalsWithDeliverablesInPassedStatus,
+                deliverableStatusKeyList: [GLOBAL_VARS.REPORTED_KEY]
+            }
+        ];
 
         setQueryArgs(newQueryArgs);
-        
-    },[props.reviewer, props.tabString]);
+    }, [props.reviewer, props.tabString]);
 
     return (
         <RenderGenericProposals
@@ -32,9 +32,7 @@ export default function RenderDeliverablesToReviewTab (props) {
             activeUser={props.activeUser}
             defaultStatus={[GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY]}
             queryArgs={queryArgs}
-            noStatusFilter={true}
+            noStatusFilter
         />
-    )
-
-
+    );
 }

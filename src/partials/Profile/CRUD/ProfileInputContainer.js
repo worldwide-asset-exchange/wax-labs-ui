@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
 import * as GLOBAL_VARS from '../../../utils/vars';
@@ -6,64 +6,90 @@ import './ProfileInputContainer.scss';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProfileInputContainer (props) {
-
+export default function RenderProfileInputContainer(props) {
     const [editableProfile, setEditableProfile] = useState({
-        bio: "",
-        contact: "",
-        country: "",
-        full_name: "",
-        image_url: "",
-        website: "",
-        wax_account: "",
-        group_name: "",
+        bio: '',
+        contact: '',
+        country: '',
+        full_name: '',
+        image_url: '',
+        website: '',
+        wax_account: '',
+        group_name: ''
     });
 
     const [refreshPage, setRefreshPage] = useState(0);
 
-    function handleInputChange(event){
+    function handleInputChange(event) {
         let value = event.target.value;
         let name = event.target.name;
-        let profileCopy = {...editableProfile};
+        let profileCopy = { ...editableProfile };
         profileCopy[name] = value;
         setEditableProfile(profileCopy);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         props.updateValidatorData(validator.allValid());
         // eslint-disable-next-line
     }, [editableProfile])
 
-    useEffect(()=>{
+    useEffect(() => {
         setRefreshPage(refreshPage + 1);
-        if(props.showValidatorMessages){
+        if (props.showValidatorMessages) {
             validator.showMessages();
-        }
-        else{
+        } else {
             validator.hideMessages();
         }
         // eslint-disable-next-line
     }, [props.showValidatorMessages]);
 
-    useEffect(()=>{
-        if(props.profile){
-            setEditableProfile({...editableProfile, ...props.profile});
+    useEffect(() => {
+        if (props.profile) {
+            setEditableProfile({ ...editableProfile, ...props.profile });
         }
         // eslint-disable-next-line
     }, [props.profile]);
 
-    useEffect(()=>{
+    useEffect(() => {
         props.updateEditableProfile(editableProfile);
         // eslint-disable-next-line
     }, [editableProfile]);
 
-    const fullNameErrorMessage = validator.message('full name', editableProfile.full_name, 'required|max:64');
-    const countryErrorMessage = validator.message('country', editableProfile.country, 'required|max:64');
-    const imageUrlErrorMessage = validator.message('image url', editableProfile.image_url, `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`);
-    const webSiteErrorMessage = validator.message('website', editableProfile.website, 'required|max:128');
-    const biographyErrorMesssage = validator.message('biography', editableProfile.bio, 'required|max:512');
-    const telegramHandleErrorMessage = validator.message('telegram handle', editableProfile.contact, 'required|max:32');
-    const groupNameErrorMessage = validator.message('group name', editableProfile.group_name, 'required|max:64');
+    const fullNameErrorMessage = validator.message(
+        'full name',
+        editableProfile.full_name,
+        'required|max:64'
+    );
+    const countryErrorMessage = validator.message(
+        'country',
+        editableProfile.country,
+        'required|max:64'
+    );
+    const imageUrlErrorMessage = validator.message(
+        'image url',
+        editableProfile.image_url,
+        `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`
+    );
+    const webSiteErrorMessage = validator.message(
+        'website',
+        editableProfile.website,
+        'required|max:128'
+    );
+    const biographyErrorMesssage = validator.message(
+        'biography',
+        editableProfile.bio,
+        'required|max:512'
+    );
+    const telegramHandleErrorMessage = validator.message(
+        'telegram handle',
+        editableProfile.contact,
+        'required|max:32'
+    );
+    const groupNameErrorMessage = validator.message(
+        'group name',
+        editableProfile.group_name,
+        'required|max:64'
+    );
 
     return (
         <div className="profileInputContainer">
@@ -130,7 +156,9 @@ export default function RenderProfileInputContainer (props) {
             <div className="profileInputContainer__input">
                 <label>Biography</label>
                 <textarea
-                    className={`${biographyErrorMesssage ? 'textarea textarea--error' : 'textarea'}`}
+                    className={`${
+                        biographyErrorMesssage ? 'textarea textarea--error' : 'textarea'
+                    }`}
                     value={editableProfile.bio}
                     name="bio"
                     onChange={handleInputChange}

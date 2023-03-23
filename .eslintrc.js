@@ -10,13 +10,7 @@ module.exports = {
             version: '18'
         }
     },
-    extends: [
-        'airbnb',
-        'airbnb/hooks',
-        'eslint:recommended',
-        'plugin:react/recommended',
-        'plugin:prettier/recommended'
-    ],
+    extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
     parserOptions: {
         ecmaFeatures: {
             jsx: true
@@ -54,7 +48,7 @@ module.exports = {
         'semi-spacing': 'warn',
         'space-in-parens': ['error', 'never'],
         'space-before-blocks': ['error'],
-        'max-len': ['error', { code: 120, ignoreUrls: true }],
+        'max-len': ['error', { code: 140, ignoreUrls: true }],
         // React rules
         'react/jsx-tag-spacing': 'error',
         'react/jsx-boolean-value': 'error',
@@ -63,7 +57,7 @@ module.exports = {
         'react/jsx-indent-props': 'error',
         'react/jsx-max-props-per-line': 'off',
         'react/jsx-no-duplicate-props': 'error',
-        'react/jsx-no-undef': 'warn',
+        'react/jsx-no-undef': 'off',
         'react/jsx-sort-props': 'off',
         'react/jsx-uses-react': 'warn',
         'react/jsx-uses-vars': 'error',
@@ -71,7 +65,7 @@ module.exports = {
         'react/no-did-update-set-state': 'warn',
         'react/no-direct-mutation-state': 'error',
         'react/no-danger': 'warn',
-        'react/no-multi-comp': 'warn',
+        'react/no-multi-comp': 'off',
         'react/no-set-state': 'off',
         'react/no-unknown-property': 'warn',
         'react/self-closing-comp': 'error',
@@ -83,6 +77,7 @@ module.exports = {
         'react/prop-types': 'off',
         'react/display-name': 'off',
         'react/forbid-prop-types': 'off',
-        'react/sort-prop-types': 'off'
+        'react/sort-prop-types': 'off',
+        'react/no-unescaped-entities': 'off'
     }
 };

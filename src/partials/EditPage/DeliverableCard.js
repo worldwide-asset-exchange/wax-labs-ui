@@ -3,8 +3,8 @@ import { useDrag, useDrop } from 'react-dnd';
 import { Overlay, Popover } from 'react-bootstrap';
 import { ItemTypes } from './ItemTypes';
 import SimpleReactValidator from 'simple-react-validator';
-import ArrowIcon from '../../icons/ArrowIcon';
-import SwitchArrow from '../../icons/SwitchArrow';
+import { ReactComponent as ArrowIcon } from '../../icons/ArrowIcon.svg';
+import { ReactComponent as SwitchArrow } from '../../icons/SwitchArrow.svg';
 import { calculateWAXPrice, calculateUSDPrice } from '../../utils/delphioracle';
 
 import './DeliverableCard.scss';

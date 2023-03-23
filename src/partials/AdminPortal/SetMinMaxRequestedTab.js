@@ -10,7 +10,7 @@ import RenderLoadingPage from '../LoadingPage';
 import './SetMinMaxRequestedTab.scss';
 import { requestedAmountToFloat, numberWithCommas } from '../../utils/util';
 import { calculateWAXPrice, calculateUSDPrice } from '../../utils/delphioracle';
-import SwitchArrow from '../../icons/SwitchArrow';
+import { ReactComponent as SwitchArrow } from '../../icons/SwitchArrow.svg';
 
 const validator = new SimpleReactValidator();
 

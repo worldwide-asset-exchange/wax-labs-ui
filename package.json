@@ -6,7 +6,7 @@
   "dependencies": {
     "@eosdacio/ual-wax": "^1.3.0",
     "@waxio/waxjs": "^1.0.2",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.2",
     "eosjs": "^21.0.3",
     "immutability-helper": "^3.1.1",
     "int64-buffer": "^1.0.0",
@@ -43,8 +43,8 @@
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.6",
     "react-scripts": "^5.0.1",
-    "rewire": "^6.0.0",
-    "sass": "^1.59.3"
+    "sass": "^1.59.3",
+    "sass-migrator": "^1.7.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -54,9 +54,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .js,.jsx"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

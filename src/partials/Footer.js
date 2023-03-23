@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import TwitterIcon from '../icons/TwitterIcon';
-import TelegramIcon from '../icons/TelegramIcon';
-import DiscordIcon from '../icons/DiscordIcon';
+import { ReactComponent as TwitterIcon } from '../icons/TwitterIcon.svg';
+import { ReactComponent as TelegramIcon } from '../icons/TelegramIcon.svg';
+import { ReactComponent as DiscordIcon } from '../icons/DiscordIcon.svg';
 import builtWithLove from '../images/built-with-love.svg';
 import PoweredByWax from '../images/powered-by-WAX.svg';
 

@@ -21,7 +21,7 @@ import review from '../images/proposalLifecycle/review.png';
 
 import VotingProposal from '../images/proposalLifecycle/VotingProposal';
 
-import RightArrowIcon from '../icons/RightArrowIcon';
+import { ReactComponent as RightArrowIcon } from '../icons/RightArrowIcon.svg';
 
 import './Home.scss';
 

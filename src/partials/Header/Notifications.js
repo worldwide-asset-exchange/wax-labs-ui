@@ -2,8 +2,8 @@ import DropDown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 
 import * as GLOBAL_VARS from '../../utils/vars';
-import BellIcon from '../../icons/BellIcon';
-import RingingBellIcon from '../../icons/RingingBellIcon';
+import { ReactComponent as BellIcon } from '../../icons/BellIcon.svg';
+import { ReactComponent as RingingBellIcon } from '../../icons/RingingBellIcon.svg';
 
 import './Notifications.scss';
 

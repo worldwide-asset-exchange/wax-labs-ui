@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import './VotingProposal.scss';
 
 function RenderTime(timeObj) {

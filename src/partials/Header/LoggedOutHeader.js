@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import * as GLOBAL_VARS from '../../utils/vars';
 import RenderSignInButton from '../SignInButton';
 import labsIcon from '../../images/Header/WAXlabs-logo.svg';
-import ProposalIcon from '../../icons/ProposalIcon';
+import { ReactComponent as ProposalIcon } from '../../icons/ProposalIcon.svg';
 
 export default function RenderLoggedOutHeader(props) {
     return (

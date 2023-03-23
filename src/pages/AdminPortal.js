@@ -15,12 +15,12 @@ import RenderRemoveProfilesTab from '../partials/AdminPortal/RemoveProfilesTab';
 import RenderTransferAdminRoleTab from '../partials/AdminPortal/TransferAdminRoleTab';
 import RenderSetMinMaxRequestedTab from '../partials/AdminPortal/SetMinMaxRequestedTab';
 
-import ReviewProposalIcon from '../icons/ReviewProposalIcon';
-import CategoriesIcon from '../icons/CategoriesIcon';
-import VotingPeriodIcon from '../icons/VotingPeriodIcon';
-import RemoveProfileIcon from '../icons/RemoveProfileIcon';
-import TransferRoleIcon from '../icons/TransferRoleIcon';
-import BalanceIcon from '../icons/BalanceIcon';
+import { ReactComponent as ReviewProposalIcon } from '../icons/ReviewProposalIcon.svg';
+import { ReactComponent as CategoriesIcon } from '../icons/CategoriesIcon.svg';
+import { ReactComponent as VotingPeriodIcon } from '../icons/VotingPeriodIcon.svg';
+import { ReactComponent as RemoveProfileIcon } from '../icons/RemoveProfileIcon.svg';
+import { ReactComponent as TransferRoleIcon } from '../icons/TransferRoleIcon.svg';
+import { ReactComponent as BalanceIcon } from '../icons/BalanceIcon.svg';
 
 import './Portal.scss';
 

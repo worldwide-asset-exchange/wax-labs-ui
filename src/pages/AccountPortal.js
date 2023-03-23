@@ -16,10 +16,10 @@ import { getProfileData } from '../partials/Profile/CRUD/QueryProfile';
 import { sleep } from '../utils/util';
 import RenderLoadingPage from '../partials/LoadingPage';
 
-import BalanceIcon from '../icons/BalanceIcon';
-import ProfileIcon from '../icons/ProfileIcon';
-import MyProposalsIcon from '../icons/MyProposalsIcon';
-import DeliverablesToReviewIcon from '../icons/DeliverablesToReviewIcon';
+import { ReactComponent as BalanceIcon } from '../icons/BalanceIcon.svg';
+import { ReactComponent as ProfileIcon } from '../icons/ProfileIcon.svg';
+import { ReactComponent as MyProposalsIcon } from '../icons/MyProposalsIcon.svg';
+import { ReactComponent as DeliverablesToReviewIcon } from '../icons/DeliverablesToReviewIcon.svg';
 
 import './Portal.scss';
 

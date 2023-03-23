@@ -14,9 +14,9 @@ import {
 } from './NotificationQueries';
 
 import labsIcon from '../../images/Header/WAXlabs-logo.svg';
-import ProposalIcon from '../../icons/ProposalIcon';
-import PortalIcon from '../../icons/PortalIcon';
-import AdminIcon from '../../icons/AdminIcon';
+import { ReactComponent as ProposalIcon } from '../../icons/ProposalIcon.svg';
+import { ReactComponent as PortalIcon } from '../../icons/PortalIcon.svg';
+import { ReactComponent as AdminIcon } from '../../icons/AdminIcon.svg';
 
 export default function RenderLoggedInHeader(props) {
     const [notifications, setNotifications] = useState([]);

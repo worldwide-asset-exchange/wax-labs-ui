@@ -94,7 +94,6 @@ export default function RenderAdminPortal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.CATEGORIES_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <CategoriesIcon />
                         <span className="portal__tabTitle">Manage categories</span>
@@ -102,7 +101,6 @@ export default function RenderAdminPortal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.SET_VOTING_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <VotingPeriodIcon />
                         <span className="portal__tabTitle">Set voting period</span>
@@ -110,7 +108,6 @@ export default function RenderAdminPortal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.REMOVE_PROFILE_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <RemoveProfileIcon />
                         <span className="portal__tabTitle">Remove profile</span>
@@ -118,7 +115,6 @@ export default function RenderAdminPortal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.TRANSFER_ADMIN_ROLE_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <TransferRoleIcon />
                         <span className="portal__tabTitle">Transfer admin role</span>
@@ -126,7 +122,6 @@ export default function RenderAdminPortal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.SET_MIN_MAX_REQUESTED_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <BalanceIcon />
                         <span className="portal__tabTitle">Set min/max USD requested</span>

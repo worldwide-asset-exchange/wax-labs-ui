@@ -131,7 +131,6 @@ export default function Renderportal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.BALANCE_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <BalanceIcon />
                         <span className="portal__tabTitle">Balance</span>
@@ -139,7 +138,6 @@ export default function Renderportal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.PROFILE_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <ProfileIcon />
                         <span className="portal__tabTitle">Profile</span>
@@ -147,7 +145,6 @@ export default function Renderportal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.MY_PROPOSALS_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <MyProposalsIcon />
                         <span className="portal__tabTitle">My proposals</span>
@@ -155,7 +152,6 @@ export default function Renderportal(props) {
                     <Nav.Link
                         eventKey={GLOBAL_VARS.DELIVERABLES_TO_REVIEW_TAB_KEY}
                         className="portal__tab"
-                        activeClassName="portal__tab--active"
                     >
                         <DeliverablesToReviewIcon />
                         <span className="portal__tabTitle">Deliverables to review</span>

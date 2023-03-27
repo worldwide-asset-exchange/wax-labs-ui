@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import { getProposals, getStatBounds } from '../../utils/util';
-import RenderGenericProposals from '../GenericProposals';
+import GenericProposals from '../GenericProposals';
 
 export default function RenderProposalsToReviewTab(props) {
     const [queryArgs, setQueryArgs] = useState(null);
@@ -22,7 +22,7 @@ export default function RenderProposalsToReviewTab(props) {
     }, [props.reviewer, props.tabString]);
 
     return (
-        <RenderGenericProposals
+        <GenericProposals
             subtitle="These proposals are waiting for review"
             noProposalsMessage="No proposals found with current filters, try clearing the filters."
             categories={props.categories}

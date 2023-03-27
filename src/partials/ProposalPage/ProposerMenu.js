@@ -289,13 +289,13 @@ export default function RenderProposerMenu(props) {
             return (
                 <>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Toggle
+                        <Accordion.Button
                             as="div"
                             eventKey="0"
                         >
                             <button className="button button--secondary">Next steps</button>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        </Accordion.Button>
+                        <Accordion.Body eventKey="0">
                             <div className="proposerMenu__accordionContent">
                                 <p className="proposerMenu__body">
                                     To submit your proposal to be reviewed by the admin you need to{' '}
@@ -314,7 +314,7 @@ export default function RenderProposerMenu(props) {
                                     won't be refunded.
                                 </p>
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                     <div className="proposerMenu__actions">
                         <Link
@@ -356,13 +356,13 @@ export default function RenderProposerMenu(props) {
             return (
                 <>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Toggle
+                        <Accordion.Button
                             as="div"
                             eventKey="0"
                         >
                             <button className="button button--secondary">Next steps</button>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        </Accordion.Button>
+                        <Accordion.Body eventKey="0">
                             <div className="proposerMenu__accordionContent">
                                 <p className="proposerMenu__body">
                                     Your proposal has been submitted and is currently being reviewed
@@ -374,7 +374,7 @@ export default function RenderProposerMenu(props) {
                                     won't be refunded.
                                 </p>
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                     <div className="proposerMenu__actions">
                         <button
@@ -390,13 +390,13 @@ export default function RenderProposerMenu(props) {
             return (
                 <>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Toggle
+                        <Accordion.Button
                             as="div"
                             eventKey="0"
                         >
                             <button className="button button--secondary">Next steps</button>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        </Accordion.Button>
+                        <Accordion.Body eventKey="0">
                             <div className="proposerMenu__accordionContent">
                                 <p className="proposerMenu__body">
                                     To submit again proposal to be reviewed by the admin you need to{' '}
@@ -418,7 +418,7 @@ export default function RenderProposerMenu(props) {
                                     won't be refunded.
                                 </p>
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                     <div className="proposerMenu__actions">
                         <Link
@@ -440,13 +440,13 @@ export default function RenderProposerMenu(props) {
             return (
                 <>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Toggle
+                        <Accordion.Button
                             as="div"
                             eventKey="0"
                         >
                             <button className="button button--secondary">Next steps</button>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        </Accordion.Button>
+                        <Accordion.Body eventKey="0">
                             <div className="proposerMenu__accordionContent">
                                 <p className="proposerMenu__body">
                                     Your proposal has been approved by the admin. You can{' '}
@@ -459,7 +459,7 @@ export default function RenderProposerMenu(props) {
                                     won't be refunded.
                                 </p>
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                     <div className="proposerMenu__actions">
                         <button
@@ -481,13 +481,13 @@ export default function RenderProposerMenu(props) {
             return (
                 <>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Toggle
+                        <Accordion.Button
                             as="div"
                             eventKey="0"
                         >
                             <button className="button button--secondary">Next steps</button>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        </Accordion.Button>
+                        <Accordion.Body eventKey="0">
                             <div className="proposerMenu__accordionContent">
                                 {!props.votingEndsIn.includes('ago') && (
                                     <p className="proposerMenu__body">
@@ -508,7 +508,7 @@ export default function RenderProposerMenu(props) {
                                     This will mark your proposal as cancelled.
                                 </p>
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                     <div className="proposerMenu__actions">
                         <button
@@ -536,13 +536,13 @@ export default function RenderProposerMenu(props) {
             return (
                 <>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Toggle
+                        <Accordion.Button
                             as="div"
                             eventKey="0"
                         >
                             <button className="button button--secondary">Next steps</button>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
+                        </Accordion.Button>
+                        <Accordion.Body eventKey="0">
                             <div className="proposerMenu__accordionContent">
                                 <p className="proposerMenu__body">
                                     Your proposal has reached the end of its lifecycle.
@@ -552,7 +552,7 @@ export default function RenderProposerMenu(props) {
                                     remove your proposal from the blockchain.
                                 </p>
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                     <div className="proposerMenu__actions">
                         <button
@@ -567,14 +567,14 @@ export default function RenderProposerMenu(props) {
         } else if (props.proposal.status === GLOBAL_VARS.PROPOSAL_INPROGRESS_KEY) {
             return (
                 <>
-                    <Accordion.Toggle
+                    <Accordion.Button
                         as="div"
                         eventKey="0"
                     >
                         <button className="button button--secondary">Next steps</button>
-                    </Accordion.Toggle>
+                    </Accordion.Button>
                     <Accordion className="proposerMenu__accordion">
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Body eventKey="0">
                             <p className="proposerMenu__body">
                                 To <span className="bold">update a deliverable</span> click on the
                                 "Submit report" button, and enter a link that proves the deliverable
@@ -582,7 +582,7 @@ export default function RenderProposerMenu(props) {
                                 You will be able to claim the requested funds of each individual
                                 deliverable separetely, as soon as each is accepted.
                             </p>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                 </>
             );

@@ -89,11 +89,13 @@ export const RenderDeliverablesContainer = (props) => {
     }
 
     function createNewDeliv() {
-        let deliverables = [...editableDeliverables];
-        if (deliverables.length >= GLOBAL_VARS.MAX_DELIVERABLES) {
+        if (editableDeliverables.length >= GLOBAL_VARS.MAX_DELIVERABLES) {
             alertMaxDeliverables();
             return;
         }
+
+        let deliverables = [...editableDeliverables];
+
         let deliverable = {
             id: randomEosioName(),
             recipient: props.activeUser.accountName,

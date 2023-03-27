@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import * as waxjs from '@waxio/waxjs/dist';
 import * as GLOBAL_VARS from '../utils/vars';
 
-import RenderGenericProposals from '../partials/GenericProposals';
+import GenericProposals from '../partials/GenericProposals';
 import RenderProposalPage from './ProposalPage';
 import RenderEditProposal from '../partials/EditPage/EditProposal';
 import RenderCreateProposalPage from '../partials/CreateProposalPage/CreateProposalPage';
@@ -57,7 +57,7 @@ export default function RenderProposals(props) {
                 <Route
                     path="/"
                     element={
-                        <RenderGenericProposals
+                        <GenericProposals
                             noProposalsMessage="The list for these filters is empty. Try changing the filters."
                             categories={categories}
                             profile={profile}

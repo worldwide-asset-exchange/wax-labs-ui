@@ -1,4 +1,5 @@
-
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 @import './scss/variables';
 @import './scss/typography';
 
@@ -812,4 +813,31 @@ main {
 
 .admin-portal .admin-dashboard-item .label {
   display: block;
+}
+
+.alert-dismissible {
+  padding-right: $close-font-size + $alert-padding-x * 2;
+
+  .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: $alert-padding-y $alert-padding-x;
+
+    background-color: transparent;
+    border: 0;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+
+    &:after {
+      content: '×';
+      display: block;
+    }
+  }
 }

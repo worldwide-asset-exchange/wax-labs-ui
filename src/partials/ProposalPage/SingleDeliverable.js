@@ -371,7 +371,7 @@ export default function RenderSingleDeliverable(props) {
     return (
         <div className="singleDeliverable">
             <Accordion>
-                <Accordion.Toggle
+                <Accordion.Button
                     as="div"
                     eventKey="0"
                     onClick={updateAccordionState}
@@ -429,8 +429,8 @@ export default function RenderSingleDeliverable(props) {
                             alt="Arrow indicating this is an accordion"
                         />
                     </div>
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="0">
+                </Accordion.Button>
+                <Accordion.Body eventKey="0">
                     <div className="singleDeliverable__body">
                         <div className="singleDeliverable__informationGroup">
                             <div className="singleDeliverable__detail">
@@ -501,7 +501,7 @@ export default function RenderSingleDeliverable(props) {
                             </>
                         )}
                     </div>
-                </Accordion.Collapse>
+                </Accordion.Body>
             </Accordion>
         </div>
     );

@@ -352,7 +352,7 @@ export default function RenderAdminMenu(props) {
                         </button>
                         <Accordion className="adminMenu__accordion">
                             <div className="adminMenu__accordionContent">
-                                <Accordion.Toggle
+                                <Accordion.Button
                                     eventKey="1"
                                     as="div"
                                     className="adminMenu__toggle"
@@ -360,8 +360,8 @@ export default function RenderAdminMenu(props) {
                                     <button className="button button--askchanges">
                                         Ask for changes
                                     </button>
-                                </Accordion.Toggle>
-                                <Accordion.Collapse eventKey="1">
+                                </Accordion.Button>
+                                <Accordion.Body eventKey="1">
                                     <div className="adminMenu__askchanges">
                                         <label className="input__label">
                                             Enter the required changes
@@ -381,10 +381,10 @@ export default function RenderAdminMenu(props) {
                                             Submit review{' '}
                                         </button>
                                     </div>
-                                </Accordion.Collapse>
+                                </Accordion.Body>
                             </div>
                             <div className="adminMenu__accordionContent">
-                                <Accordion.Toggle
+                                <Accordion.Button
                                     eventKey="0"
                                     as="div"
                                     className="adminMenu__toggle"
@@ -392,8 +392,8 @@ export default function RenderAdminMenu(props) {
                                     <button className="button button--rejection">
                                         Reject proposal
                                     </button>
-                                </Accordion.Toggle>
-                                <Accordion.Collapse eventKey="0">
+                                </Accordion.Button>
+                                <Accordion.Body eventKey="0">
                                     <div className="adminMenu__reject">
                                         <label className="input__label">
                                             Enter the rejection reason
@@ -413,7 +413,7 @@ export default function RenderAdminMenu(props) {
                                             Submit Review{' '}
                                         </button>
                                     </div>
-                                </Accordion.Collapse>
+                                </Accordion.Body>
                             </div>
                         </Accordion>
                     </div>

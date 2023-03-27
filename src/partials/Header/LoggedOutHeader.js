@@ -32,8 +32,9 @@ export default function RenderLoggedOutHeader(props) {
             >
                 <NavLink
                     to={GLOBAL_VARS.PROPOSALS_HEADER_LINK}
-                    className="header__link"
-                    activeClassName="header__link--active"
+                    className={({ isActive }) =>
+                        isActive ? 'header__link header__link--active' : 'header__link'
+                    }
                 >
                     <ProposalIcon />
                     Proposals

@@ -39,17 +39,20 @@ export default function RenderLoggedInHeader(props) {
                     getAdminToReviewNotifications()
                 ];
             }
-            Promise.all(promiseList).then((values) => {
-                let notifications = [];
-                values.forEach((list) => {
-                    notifications = [...notifications, ...list];
-                });
-                // if dependency arrays changes cause useEffect to run again, we don't update state.
-                if (!cancelled) {
-                    setNotifications(notifications);
-                    setQuerying(false);
-                }
-            });
+            Promise.all(promiseList)
+                .then((values) => {
+                    console.debug(4343243);
+                    let notifications = [];
+                    values.forEach((list) => {
+                        notifications = [...notifications, ...list];
+                    });
+                    // if dependency arrays changes cause useEffect to run again, we don't update state.
+                    if (!cancelled) {
+                        setNotifications(notifications);
+                        setQuerying(false);
+                    }
+                })
+                .catch(() => setQuerying(false));
         }
         // Needed because if querying admin hasn't happened yet, we might get wrong notification list...
         // Causing some weird interface behaviour (loading, x notifications => loading, y notifications)
@@ -87,16 +90,18 @@ export default function RenderLoggedInHeader(props) {
             >
                 <NavLink
                     to={GLOBAL_VARS.PROPOSALS_HEADER_LINK}
-                    className="header__link"
-                    activeClassName="header__link--active"
+                    className={({ isActive }) =>
+                        isActive ? 'header__link header__link--active' : 'header__link'
+                    }
                 >
                     <ProposalIcon />
                     Proposals
                 </NavLink>
                 <NavLink
                     to={GLOBAL_VARS.ACCOUNT_PORTAL_LINK}
-                    className="header__link"
-                    activeClassName="header__link--active"
+                    className={({ isActive }) =>
+                        isActive ? 'header__link header__link--active' : 'header__link'
+                    }
                 >
                     <PortalIcon />
                     Portal
@@ -104,8 +109,9 @@ export default function RenderLoggedInHeader(props) {
                 {props.isAdmin && (
                     <NavLink
                         to={GLOBAL_VARS.ADMIN_PORTAL_LINK}
-                        className="header__link"
-                        activeClassName="header__link--active"
+                        className={({ isActive }) =>
+                            isActive ? 'header__link header__link--active' : 'header__link'
+                        }
                     >
                         <AdminIcon />
                         Admin

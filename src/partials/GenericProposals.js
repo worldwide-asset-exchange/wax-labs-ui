@@ -15,7 +15,17 @@ import { Accordion } from 'react-bootstrap';
 
 import './GenericProposals.scss';
 
-export default function RenderGenericProposals(props) {
+export default function RenderGenericProposals({
+    categories,
+    queryArgs,
+    noStatusFilter,
+    subtitle,
+    noProposalsMessage,
+    showCreateButton,
+    activeUser,
+    profile,
+    loginModal
+}) {
     // list of proposals that were got from the query. Supposed to update
     // whenever queryArgs changes.
     const [proposals, setProposals] = useState([]);
@@ -60,11 +70,11 @@ export default function RenderGenericProposals(props) {
         if (!categoriesList) {
             return true;
         } else if (!Array.isArray(categoriesList)) {
-            return categoriesList === props.categories[proposal.category];
+            return categoriesList === categories[proposal.category];
         } else if (!categoriesList.length) {
             return true;
         } else {
-            return categoriesList.includes(props.categories[proposal.category]);
+            return categoriesList.includes(categories[proposal.category]);
         }
     }
 
@@ -132,8 +142,6 @@ export default function RenderGenericProposals(props) {
         let filterString = getQueryStringValue(GLOBAL_VARS.SEARCH_QUERY_STRING_KEY) || '';
 
         setFilterString({ value: filterString, skipUpdateQS: true });
-
-        //eslint-disable-next-line
     }, [location]);
 
     useEffect(() => {
@@ -141,7 +149,7 @@ export default function RenderGenericProposals(props) {
         setQuerying(true);
         let promiseList = [];
         // by default search for all proposals
-        if (!props.queryArgs) {
+        if (!queryArgs) {
             promiseList = [
                 getProposals(
                     GLOBAL_VARS.BY_STAT_CAT_QUERY_TYPE,
@@ -190,7 +198,7 @@ export default function RenderGenericProposals(props) {
                 )
             ];
         } else {
-            promiseList = props.queryArgs.map((queryArg) => {
+            promiseList = queryArgs.map((queryArg) => {
                 return queryArg.getProposals(
                     queryArg.queryType,
                     queryArg.statusKey,
@@ -216,26 +224,20 @@ export default function RenderGenericProposals(props) {
             cancelled = true;
         };
         return cleanup;
-    }, [props.queryArgs]);
+    }, [queryArgs]);
 
     return (
         <div className="genericProposals">
-            <h4>{props.subtitle}</h4>
+            <h4>{subtitle}</h4>
             <div className="genericProposals__filters">
                 <div className="genericProposals__filter">
                     <Accordion>
-                        <Accordion.Toggle
-                            eventKey="1"
-                            className="button button--secondary"
-                        >
+                        <Accordion.Button className="button button--secondary">
                             Filter proposals by status and category
-                        </Accordion.Toggle>
-                        <Accordion.Collapse
-                            eventKey="1"
-                            className="genericProposals__filtersGroup"
-                        >
+                        </Accordion.Button>
+                        <Accordion.Body className="genericProposals__filtersGroup">
                             <div>
-                                {!props.noStatusFilter && (
+                                {!noStatusFilter && (
                                     <RenderFilter
                                         title="Status Filters"
                                         currentList={statusList}
@@ -247,11 +249,11 @@ export default function RenderGenericProposals(props) {
                                 <RenderFilter
                                     title="Category Filters"
                                     currentList={categoriesList}
-                                    fullList={props.categories}
+                                    fullList={categories}
                                     updateCurrentList={updateCategoriesList}
                                 />
                             </div>
-                        </Accordion.Collapse>
+                        </Accordion.Body>
                     </Accordion>
                 </div>
                 <div className="genericProposals__search">
@@ -259,9 +261,7 @@ export default function RenderGenericProposals(props) {
                     <input
                         value={filterString}
                         type="text"
-                        onChange={(event) => {
-                            setFilterString(event.target.value);
-                        }}
+                        onChange={(event) => setFilterString(event.target.value)}
                         placeholder="Proposal's title, description or proposer"
                         className="input"
                     />
@@ -269,15 +269,15 @@ export default function RenderGenericProposals(props) {
             </div>
             <div className="genericProposals__actions">
                 <div className="genericProposals__createProposal">
-                    {props.showCreateButton &&
-                        (!props.activeUser ? (
+                    {showCreateButton &&
+                        (!activeUser ? (
                             <button
                                 className="button button--text"
-                                onClick={props.loginModal}
+                                onClick={loginModal}
                             >
                                 Log in to create a proposal
                             </button>
-                        ) : !props.profile ? (
+                        ) : !profile ? (
                             <p>
                                 To create a proposal you need to{' '}
                                 <Link
@@ -322,8 +322,8 @@ export default function RenderGenericProposals(props) {
                 ) : (
                     <RenderProposalList
                         proposalsList={filteredProposals}
-                        categories={props.categories}
-                        noProposalsMessage={props.noProposalsMessage}
+                        categories={categories}
+                        noProposalsMessage={noProposalsMessage}
                     />
                 )}
             </div>

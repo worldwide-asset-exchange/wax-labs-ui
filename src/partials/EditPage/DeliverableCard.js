@@ -70,7 +70,8 @@ export const RenderDeliverableCard = ({
     });
 
     const [{ isDragging }, drag] = useDrag({
-        item: { type: ItemTypes.CARD, id, index },
+        type: ItemTypes.CARD,
+        item: () => ({ id }),
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
         })
@@ -146,11 +147,11 @@ export const RenderDeliverableCard = ({
                     id="popover-contained"
                     className="deliverableCard__popover"
                 >
-                    <Popover.Title as="h3">You can drag your deliverables</Popover.Title>
-                    <Popover.Content>
+                    <Popover.Header as="h3">You can drag your deliverables</Popover.Header>
+                    <Popover.Body>
                         Using your <strong>cursor</strong> your can rearrange your deliverables'
                         order by dragging them to the desired position.
-                    </Popover.Content>
+                    </Popover.Body>
                 </Popover>
             </Overlay>
             <div className="deliverableCard__actions">

@@ -335,13 +335,15 @@ export default function RenderAdminMenu(props) {
                         >
                             Approve proposal
                         </button>
-                        <button
-                            className="button button--approvalNoIcon"
-                            disabled={!props.proposal.reviewer}
-                            onClick={() => skipVoting()}
-                        >
-                            Approve and skip voting
-                        </button>
+                        {props.activeUser.chainId === GLOBAL_VARS.TESTNET_CHAIN_ID && (
+                            <button
+                                className="button button--approvalNoIcon"
+                                disabled={!props.proposal.reviewer}
+                                onClick={() => skipVoting()}
+                            >
+                                Approve and skip voting
+                            </button>
+                        )}
                     </div>
                     <div className="adminMenu__actions adminMenu__actions--row">
                         <button

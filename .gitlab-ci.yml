@@ -3,33 +3,17 @@ default:
   image: node:14-alpine
 
 stages:
-  - test
-  - prod
+  - deploy
 
 workflow:
   rules:
     - if: '$CI_COMMIT_BRANCH'
 
-build-test-deploy-testnet:
+build-and-deploy-testnet:
   script:
     - yarn install
     - yarn build:testnet
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -avz build/ root@labs.wax.eosdetroit.io:/var/www/waxlabs-ui
-  stage: test
-  artifacts:
-    paths:
-      - build/
+    - cd build && rsync -e "ssh -o StrictHostKeyChecking=no" -avz . root@142.93.203.27:/usr/share/nginx/html/waxlabs --delete
+  stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "testnet"'
-
-build-test-feature:
-  image: node:14-alpine
-  script:
-    - yarn install
-    - yarn build:testnet
-  stage: test
-  artifacts:
-    paths:
-      - build/
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "testnet" && $CI_COMMIT_BRANCH != "main"'

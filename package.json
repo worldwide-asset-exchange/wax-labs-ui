@@ -17,7 +17,7 @@
     "int64-buffer": "^1.0.0",
     "moment": "^2.29.1",
     "next": "^9.5.3",
-    "node-sass": "4.14.1",
+    "sass": "^1.60.0",
     "query-string": "^6.13.7",
     "react": "^16.13.1",
     "react-bootstrap": "^1.4.0",

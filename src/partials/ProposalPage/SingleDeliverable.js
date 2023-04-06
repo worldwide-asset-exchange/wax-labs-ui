@@ -468,7 +468,7 @@ export default function RenderSingleDeliverable(props) {
                                     rel="noopener noreferrer"
                                     className="inlineLink"
                                 >
-                                    View rejection report
+                                    View reviewer's comments
                                 </a>
                             )}
                             {deliverable.report && (

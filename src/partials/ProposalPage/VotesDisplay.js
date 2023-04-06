@@ -107,10 +107,10 @@ export default function RenderVoteDisplay(props) {
 
                 props.updateVotes({ yes: yesVotes, no: noVotes });
                 props.updateEndTime(end_time);
-             } catch(e){
-                 console.error(e);
-             }
-         }
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
 
     async function castVote(event) {
@@ -208,7 +208,7 @@ export default function RenderVoteDisplay(props) {
     }, [props.proposal])
 
     if (props.proposal.ballot_name) {
-        const totalVotes = parseFloat(props.votes.yes) + parseFloat(props.votes.no)
+        const totalVotes = parseFloat(props.votes.yes) + parseFloat(props.votes.no);
 
         return (
             <div className="votesDisplay">

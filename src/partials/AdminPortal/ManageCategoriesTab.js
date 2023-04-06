@@ -66,6 +66,15 @@ export default function RenderManageCategoriesTab(props) {
 
     async function addNewCategory() {
         let activeUser = props.activeUser;
+        const EOS_NAME_LENGTH = 12;
+        if (newCategory?.length < EOS_NAME_LENGTH) {
+            let alertObj = {
+                ...GLOBAL_ALERTS.ADD_CATEGORY_ALERT_DICT.ERROR,
+                details:
+                    'The new category needs to have at least ' + EOS_NAME_LENGTH + ' characters'
+            };
+            props.showAlert(alertObj);
+        }
         let actionList = [createAddCategoryAction()];
 
         try {
@@ -121,6 +130,12 @@ export default function RenderManageCategoriesTab(props) {
                     onChange={(event) => setNewCategory(event.target.value)}
                     className="input"
                 />
+                <button
+                    className="button button--primary"
+                    onClick={() => addNewCategory()}
+                >
+                    Add new category
+                </button>
                 <div className="manageCategories__requirements">
                     <p>Category name must be EOSIO compliant:</p>
                     <ul className="manageCategories__requirementsList">
@@ -128,12 +143,6 @@ export default function RenderManageCategoriesTab(props) {
                         <li>Must contain from 3 and 12 characters.</li>
                     </ul>
                 </div>
-                <button
-                    className="button button--primary"
-                    onClick={() => addNewCategory()}
-                >
-                    Add new category
-                </button>
             </div>
             {props.queryingCategories ? (
                 <RenderLoadingPage />

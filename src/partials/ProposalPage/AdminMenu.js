@@ -354,68 +354,68 @@ export default function RenderAdminMenu(props) {
                         </button>
                         <Accordion className="adminMenu__accordion">
                             <div className="adminMenu__accordionContent">
-                                <Accordion.Button
-                                    eventKey="1"
-                                    as="div"
-                                    className="adminMenu__toggle"
-                                >
-                                    <button className="button button--askchanges">
-                                        Ask for changes
-                                    </button>
-                                </Accordion.Button>
-                                <Accordion.Body eventKey="1">
-                                    <div className="adminMenu__askchanges">
-                                        <label className="input__label">
-                                            Enter the required changes
-                                        </label>
-                                        <textarea
-                                            className="textarea"
-                                            value={rejectionReason}
-                                            onChange={(e) => {
-                                                setRejectionReason(e.target.value);
-                                            }}
-                                        />
-                                        <button
-                                            className="button button--secondary"
-                                            onClick={() => reviewProposal(false, true)}
-                                        >
-                                            {' '}
-                                            Submit review{' '}
-                                        </button>
-                                    </div>
-                                </Accordion.Body>
-                            </div>
-                            <div className="adminMenu__accordionContent">
-                                <Accordion.Button
+                                <Accordion.Item
                                     eventKey="0"
                                     as="div"
                                     className="adminMenu__toggle"
                                 >
-                                    <button className="button button--rejection">
+                                    <Accordion.Header className="adminMenu__askchanges-header">
+                                        Ask for changes
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="adminMenu__askchanges-body">
+                                            <label className="input__label">
+                                                Enter the required changes
+                                            </label>
+                                            <textarea
+                                                className="textarea"
+                                                value={rejectionReason}
+                                                onChange={(e) => {
+                                                    setRejectionReason(e.target.value);
+                                                }}
+                                            />
+                                            <button
+                                                className="button button--secondary"
+                                                onClick={() => reviewProposal(false, true)}
+                                            >
+                                                {' '}
+                                                Submit review{' '}
+                                            </button>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </div>
+                            <div className="adminMenu__accordionContent">
+                                <Accordion.Item
+                                    eventKey="1"
+                                    as="div"
+                                    className="adminMenu__toggle"
+                                >
+                                    <Accordion.Header className="adminMenu__reject-header">
                                         Reject proposal
-                                    </button>
-                                </Accordion.Button>
-                                <Accordion.Body eventKey="0">
-                                    <div className="adminMenu__reject">
-                                        <label className="input__label">
-                                            Enter the rejection reason
-                                        </label>
-                                        <textarea
-                                            className="textarea"
-                                            value={rejectionReason}
-                                            onChange={(e) => {
-                                                setRejectionReason(e.target.value);
-                                            }}
-                                        />
-                                        <button
-                                            className="button button--secondary"
-                                            onClick={() => reviewProposal(false, false)}
-                                        >
-                                            {' '}
-                                            Submit Review{' '}
-                                        </button>
-                                    </div>
-                                </Accordion.Body>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="adminMenu__reject-body">
+                                            <label className="input__label">
+                                                Enter the rejection reason
+                                            </label>
+                                            <textarea
+                                                className="textarea"
+                                                value={rejectionReason}
+                                                onChange={(e) => {
+                                                    setRejectionReason(e.target.value);
+                                                }}
+                                            />
+                                            <button
+                                                className="button button--secondary"
+                                                onClick={() => reviewProposal(false, false)}
+                                            >
+                                                {' '}
+                                                Submit Review{' '}
+                                            </button>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </div>
                         </Accordion>
                     </div>

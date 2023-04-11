@@ -5,12 +5,9 @@ stages:
   - build
 
 build-and-deploy-testnet:
-  image:
-    name: node:16-alpine
   script:
     - yarn install
     - yarn build:testnet
-    - apk add rsync || true
     - cd build && rsync -e "ssh -o StrictHostKeyChecking=no" -avz . root@142.93.203.27:/usr/share/nginx/html/waxlabs --delete
   stage: deploy
   rules:

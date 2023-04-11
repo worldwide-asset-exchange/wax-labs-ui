@@ -10,6 +10,7 @@ build-and-deploy-testnet:
   script:
     - yarn install
     - yarn build:testnet
+    - apk add rsync
     - cd build && rsync -e "ssh -o StrictHostKeyChecking=no" -avz . root@142.93.203.27:/usr/share/nginx/html/waxlabs --delete
   stage: deploy
   rules:

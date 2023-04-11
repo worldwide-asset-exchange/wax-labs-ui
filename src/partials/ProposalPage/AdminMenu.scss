@@ -52,7 +52,7 @@
         margin-top: 16px;
     }
 
-    &__reject, &__askchanges {
+    &__reject-body, &__askchanges-body {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -81,6 +81,74 @@
         }
     }
 
+    &__reject-header, &__askchanges-header {
+        .accordion-button {
+            @include p--bold;
+            border-radius: 100px;
+            padding: 10px $spacing-s; //guarantees height of 44px at least
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: none;
+            transition: all 0.2s ease-in-out;
+
+            background-repeat: no-repeat;
+            background-position-y: center;
+            background-position-x: right;
+
+            background-position-x: calc(100% - #{$spacing-s});
+            background-size: 20px;
+
+            color: rgba(255, 255, 255, 0.85);
+
+            @include breakpoint(desktop-up) {
+                padding: $spacing-xxs $spacing-s;
+            }
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            &:disabled {
+                opacity: 0.4;
+                cursor: default;
+            }
+        }
+    }
+
+     &__reject-header .accordion-button {
+        background-image: url('../../images/dislike.svg');
+        background-color: $red-dark;
+        padding-right: 47px !important;
+
+        &:hover {
+            background-color: $red-medium;
+            color: rgba(255, 255, 255, 0.85)
+        }
+        &:disabled {
+            &:hover {
+                background-color: $red-dark;
+                color: rgba(255, 255, 255, 0.85);
+            }
+        }
+    }
+
+    &__askchanges-header .accordion-button {
+        background-image: none;
+    	background-color: $orange-dark;
+    	padding-right: $spacing-s;
+    	&:hover {
+      	    background-color: $orange-medium;
+            color: rgba(255, 255, 255, 0.85);
+        }
+        &:disabled {
+            &:hover {
+                background-color: $orange-dark;
+                color: rgba(255, 255, 255, 0.85);
+            }
+        }
+    }
     &__accordion {
         display: flex;
         flex-direction: column;

@@ -1,230 +1,238 @@
-import React, { useEffect, useState } from 'react';
-import {
-Routes,
-Route,
-useNavigate
-} from 'react-router-dom'
-import * as waxjs from "@waxio/waxjs/dist";
+import { useEffect, useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import * as waxjs from '@waxio/waxjs/dist';
 
 import './scss/components/ScrollBar.scss';
 import './App.scss';
 
-import RenderHome from './pages/Home.js';
-import RenderErrorPage from './pages/ErrorPage.js';
-import RenderAccountPortal from './pages/AccountPortal.js';
-import RenderProposals from './pages/Proposals.js';
-import RenderAdminPortal from './pages/AdminPortal.js';
+import RenderHome from './pages/Home';
+import RenderErrorPage from './pages/ErrorPage';
+import RenderAccountPortal from './pages/AccountPortal';
+import RenderProposals from './pages/Proposals';
+import RenderAdminPortal from './pages/AdminPortal';
 import RenderProfilePage from './pages/ProfilePage';
 
 import * as GLOBAL_VARS from './utils/vars';
 
-import RenderFooter from './partials/Footer.js';
+import RenderFooter from './partials/Footer';
 import RenderHeader from './partials/Header/Header';
 import { sleep } from './utils/util';
 import { getWaxUsdPrice } from './utils/delphioracle';
 
 export default function App(props) {
-  const navigate = useNavigate();
-  const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
-  const [isAdmin, setIsAdmin ] = useState(false);
-  const [queryingAdmin, setQueryingAdmin] = useState(true);
+    const navigate = useNavigate();
+    const wax = new waxjs.WaxJS({
+        rpcEndpoint: process.env.REACT_APP_WAX_RPC,
+        tryAutoLogin: false
+    });
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [queryingAdmin, setQueryingAdmin] = useState(true);
 
-  const [categories, setCategories] = useState([]);
-  const [deprecatedCategories, setDeprecatedCategories] = useState([]);
-  const [votingDuration, setVotingDuration] = useState(60);
-  const [minRequested, setMinRequested] = useState("");
-  const [maxRequested, setMaxRequested] = useState("");
-  const [availableFunds, setAvailableFunds] = useState("");
-  const [queryingConfigs, setQueryingConfigs] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [deprecatedCategories, setDeprecatedCategories] = useState([]);
+    const [votingDuration, setVotingDuration] = useState(60);
+    const [minRequested, setMinRequested] = useState('');
+    const [maxRequested, setMaxRequested] = useState('');
+    const [availableFunds, setAvailableFunds] = useState('');
+    const [queryingConfigs, setQueryingConfigs] = useState(true);
 
-  const [configQueryCount, setConfigQueryCount] = useState(0);
-  const [adminQueryCount, setAdminQueryCount] = useState(0);
-  const [waxUsdPrice, setWaxUsdPrice] = useState(0);
+    const [configQueryCount, setConfigQueryCount] = useState(0);
+    const [adminQueryCount, setAdminQueryCount] = useState(0);
+    const [waxUsdPrice, setWaxUsdPrice] = useState(0);
 
+    function loadWaxUsdPrice() {
+        getWaxUsdPrice(setWaxUsdPrice);
+    }
 
-  function loadWaxUsdPrice() {
-    getWaxUsdPrice(setWaxUsdPrice);
-  }
+    useEffect(() => {
+        let cancelled = false;
 
-
-
-  useEffect(()=>{
-    let cancelled = false;
-    async function checkAdmin(){
-      setQueryingAdmin(true);
-      try {
-        let resp = await wax.rpc.get_table_rows({
-            code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-            scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-            table: GLOBAL_VARS.CONFIG_TABLE,
-            json: true,
-            limit: 1
-        });
-        const adminAccount = resp.rows[0].admin_acct;
-        // if dependency arrays changes cause useEffect to run again, we don't update state.
-        if(!cancelled){
-          if (props.ual.activeUser && props.ual.activeUser.accountName === adminAccount){
-            setIsAdmin(true);
-          } else {
-            setIsAdmin(false);
-          }
-          setQueryingAdmin(false);
+        async function checkAdmin() {
+            setQueryingAdmin(true);
+            try {
+                let resp = await wax.rpc.get_table_rows({
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.CONFIG_TABLE,
+                    json: true,
+                    limit: 1
+                });
+                const adminAccount = resp.rows[0].admin_acct;
+                // if dependency arrays changes cause useEffect to run again, we don't update state.
+                if (!cancelled) {
+                    if (props.ual.activeUser && props.ual.activeUser.accountName === adminAccount) {
+                        setIsAdmin(true);
+                    } else {
+                        setIsAdmin(false);
+                    }
+                    setQueryingAdmin(false);
+                }
+            } catch (e) {
+                console.debug(e);
+            }
         }
 
-      } catch(e) {
-        console.log(e);
-      }
+        checkAdmin();
+
+        const cleanup = () => {
+            cancelled = true;
+        };
+
+        return cleanup;
+        // eslint-disable-next-line
+    }, [props.ual.activeUser, adminQueryCount]);
+
+    //Callback that reruns the query after a small delay
+    //it is called in case certain actions that are expected to change
+    //configs are called
+    async function rerunConfigQuery() {
+        setQueryingConfigs(true);
+        await sleep(3500);
+        setConfigQueryCount(configQueryCount + 1);
     }
 
-
-    checkAdmin();
-
-    const cleanup = () => {cancelled = true;}
-
-    return cleanup
-    // eslint-disable-next-line
-  },[props.ual.activeUser, adminQueryCount]);
-
-
-  //Callback that reruns the query after a small delay
-  //it is called in case certain actions that are expected to change
-  //configs are called
-  async function rerunConfigQuery(){
-    setQueryingConfigs(true);
-    await sleep(3500);
-    setConfigQueryCount(configQueryCount + 1);
-  }
-
-  // called when SetAdmin action is called
-  async function rerunCheckAdmin(){
-    setQueryingAdmin(true);
-    await sleep(3500);
-    setAdminQueryCount(adminQueryCount + 1);
-  }
-
-  useEffect(()=>{
-    let cancelled = false;
-    async function getCategories() {
-      setQueryingConfigs(true);
-      try {
-          let resp = await wax.rpc.get_table_rows({
-                code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
-                table: GLOBAL_VARS.CONFIG_TABLE,
-                json: true,
-                limit: 1
-          });
-          if(!cancelled){
-            if (resp.rows.length){
-              setCategories(resp.rows[0].categories);
-              setDeprecatedCategories(resp.rows[0].cat_deprecated);
-              setVotingDuration(resp.rows[0].vote_duration);
-              setMinRequested(resp.rows[0].min_requested);
-              setMaxRequested(resp.rows[0].max_requested);
-              setAvailableFunds(resp.rows[0].available_funds);
-            }
-            else{
-              setCategories([]);
-              setDeprecatedCategories([]);
-              setVotingDuration(60);
-              setMinRequested("");
-              setMaxRequested("");
-              setAvailableFunds("");
-            }
-            setQueryingConfigs(false);
-          }
-      } catch(e) {
-          console.log(e);
-      }
+    // called when SetAdmin action is called
+    async function rerunCheckAdmin() {
+        setQueryingAdmin(true);
+        await sleep(3500);
+        setAdminQueryCount(adminQueryCount + 1);
     }
 
-    getCategories();
+    useEffect(() => {
+        let cancelled = false;
 
-    const cleanup = () => {cancelled = true;}
+        async function getCategories() {
+            setQueryingConfigs(true);
+            try {
+                let resp = await wax.rpc.get_table_rows({
+                    code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    scope: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
+                    table: GLOBAL_VARS.CONFIG_TABLE,
+                    json: true,
+                    limit: 1
+                });
+                if (!cancelled) {
+                    if (resp.rows.length) {
+                        setCategories(resp.rows[0].categories);
+                        setDeprecatedCategories(resp.rows[0].cat_deprecated);
+                        setVotingDuration(resp.rows[0].vote_duration);
+                        setMinRequested(resp.rows[0].min_requested);
+                        setMaxRequested(resp.rows[0].max_requested);
+                        setAvailableFunds(resp.rows[0].available_funds);
+                    } else {
+                        setCategories([]);
+                        setDeprecatedCategories([]);
+                        setVotingDuration(60);
+                        setMinRequested('');
+                        setMaxRequested('');
+                        setAvailableFunds('');
+                    }
+                    setQueryingConfigs(false);
+                }
+            } catch (e) {
+                console.debug(e);
+            }
+        }
 
-    return cleanup
-    // eslint-disable-next-line
-  }, [configQueryCount])
+        getCategories();
 
-  return (
-    <div className="App">
-      <div className="wrapper">
-        <RenderHeader
-          activeUser={props.ual.activeUser}
-          loginModal={props.ual.showModal}
-          logout={() => {props.ual.logout(); navigate("/");}}
-          isAdmin={isAdmin}
-          queryingAdmin={queryingAdmin}
-          queryingCategories={queryingConfigs}
-          categories={categories}
-        />
-        <main>
-          <div className="content">
-            <Routes>
-            <Route path="/" element={<RenderHome categories={categories}/>} />
-            <Route path="proposals/*"
-              element={
-                <RenderProposals
-                  activeUser={props.ual.activeUser}
-                  isAdmin={isAdmin}
-                  categories={categories}
-                  deprecatedCategories={deprecatedCategories}
-                  queryingMinMaxRequested={queryingConfigs}
-                  minRequested={minRequested}
-                  maxRequested={maxRequested}
-                  loginModal={props.ual.showModal}
-                  loadWaxUsdPrice={loadWaxUsdPrice}
-                  waxUsdPrice={waxUsdPrice}
-                  queryingAvailableFunds={queryingConfigs}
-                  availableFunds={availableFunds}
+        const cleanup = () => {
+            cancelled = true;
+        };
+
+        return cleanup;
+        // eslint-disable-next-line
+    }, [configQueryCount])
+
+    return (
+        <div className="App">
+            <div className="wrapper">
+                <RenderHeader
+                    activeUser={props.ual.activeUser}
+                    loginModal={props.ual.showModal}
+                    logout={() => {
+                        props.ual.logout();
+                        navigate('/');
+                    }}
+                    isAdmin={isAdmin}
+                    queryingAdmin={queryingAdmin}
+                    queryingCategories={queryingConfigs}
+                    categories={categories}
                 />
-              }
-            />
-            <Route path="account/*"
-              element={
-                <RenderAccountPortal
-                  activeUser={props.ual.activeUser}
-                  categories={categories}
-
-                />
-              }
-            />
-            <Route path="admin/*"
-              element={
-                <RenderAdminPortal
-                  activeUser={props.ual.activeUser}
-                  categories={categories}
-                  isAdmin={isAdmin}
-                  queryingAdmin={queryingAdmin}
-                  queryingConfigs={queryingConfigs}
-                  deprecatedCategories={deprecatedCategories}
-                  rerunConfigQuery={rerunConfigQuery}
-                  votingDuration={votingDuration}
-                  minRequested={minRequested}
-                  maxRequested={maxRequested}
-                  rerunAdminQuery={rerunCheckAdmin}
-                  loadWaxUsdPrice={loadWaxUsdPrice}
-                  waxUsdPrice={waxUsdPrice}
-                />
-              }
-            />
-            <Route
-              path="profile/:accountName/*"
-              element={
-                <RenderProfilePage
-                  categories={categories}
-                  isAdmin={isAdmin}
-                  activeUser={props.ual.activeUser}
-                />
-              }
-            />
-            <Route path="*" element={<RenderErrorPage />} />
-            </Routes>
-          </div>
-        </main>
-      </div>
-      <RenderFooter />
-    </div>
-  );
-
+                <main>
+                    <div className="content">
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={<RenderHome categories={categories} />}
+                            />
+                            <Route
+                                path="proposals/*"
+                                element={
+                                    <RenderProposals
+                                        activeUser={props.ual.activeUser}
+                                        isAdmin={isAdmin}
+                                        categories={categories}
+                                        deprecatedCategories={deprecatedCategories}
+                                        queryingMinMaxRequested={queryingConfigs}
+                                        minRequested={minRequested}
+                                        maxRequested={maxRequested}
+                                        loginModal={props.ual.showModal}
+                                        loadWaxUsdPrice={loadWaxUsdPrice}
+                                        waxUsdPrice={waxUsdPrice}
+                                        queryingAvailableFunds={queryingConfigs}
+                                        availableFunds={availableFunds}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="account/*"
+                                element={
+                                    <RenderAccountPortal
+                                        activeUser={props.ual.activeUser}
+                                        categories={categories}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="admin/*"
+                                element={
+                                    <RenderAdminPortal
+                                        activeUser={props.ual.activeUser}
+                                        categories={categories}
+                                        isAdmin={isAdmin}
+                                        queryingAdmin={queryingAdmin}
+                                        queryingConfigs={queryingConfigs}
+                                        deprecatedCategories={deprecatedCategories}
+                                        rerunConfigQuery={rerunConfigQuery}
+                                        votingDuration={votingDuration}
+                                        minRequested={minRequested}
+                                        maxRequested={maxRequested}
+                                        rerunAdminQuery={rerunCheckAdmin}
+                                        loadWaxUsdPrice={loadWaxUsdPrice}
+                                        waxUsdPrice={waxUsdPrice}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="profile/:accountName/*"
+                                element={
+                                    <RenderProfilePage
+                                        categories={categories}
+                                        isAdmin={isAdmin}
+                                        activeUser={props.ual.activeUser}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="*"
+                                element={<RenderErrorPage />}
+                            />
+                        </Routes>
+                    </div>
+                </main>
+            </div>
+            <RenderFooter />
+        </div>
+    );
 }

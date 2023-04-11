@@ -1,15 +1,12 @@
 ---
-default:
-  image: node:14-alpine
-
 stages:
+  - test
   - deploy
-
-workflow:
-  rules:
-    - if: '$CI_COMMIT_BRANCH'
+  - build
 
 build-and-deploy-testnet:
+  image:
+    name: node:16-alpine
   script:
     - yarn install
     - yarn build:testnet
@@ -17,3 +14,27 @@ build-and-deploy-testnet:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "testnet"'
+
+build-production:
+  image:
+    name: node:16-alpine
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_TAG'
+  allow_failure: false
+  script:
+    - yarn install
+    - yarn build:prod
+  artifacts:
+    paths:
+      - build/
+
+validate-pr:
+  image:
+    name: node:16-alpine
+  stage: test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - yarn install
+    - yarn lint --max-warnings=0

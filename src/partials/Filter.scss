@@ -14,16 +14,25 @@
         justify-content: center;
         align-items: center;
 
+        input[type=checkbox] {
+            position: absolute;
+            clip: rect(0,0,0,0);
+            pointer-events: none;
+
+            &:checked + label {
+                border: 1px solid $orange-gradient;
+                color: $orange-light !important;
+                background-color: $orange-background;
+            }
+        }
+
         @include breakpoint(tablet-up) {
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: flex-start;
         }
-        .active {
-            border: 1px solid $orange-gradient;
-            color: $orange-light;
-            background-color: $orange-background;
-        }
+
+
     }
     &__item {
         /* removes default checkbox/radio element */
@@ -34,17 +43,18 @@
             pointer-events: none;
         }
 
-        padding: $spacing-xxxs $spacing-xs;
-        border: 1px solid $overlay-01;
-        border-radius: 20px;
+        padding: $spacing-xxxs $spacing-xs !important;
+        border: 1px solid $overlay-01 !important;
+        border-radius: 20px !important;
 
-        color: $typography-02;
+        color: $typography-02 !important;
         text-align: center;
 
-        cursor: pointer;
-
-        margin-left: $spacing-xxs;
+        margin-left: $spacing-xxs !important;
         transition: all 0.2s ease-in;
 
+        background: transparent;
+
+        flex: 0 1 auto !important;
     }
 }

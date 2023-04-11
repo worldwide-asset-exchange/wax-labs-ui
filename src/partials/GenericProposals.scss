@@ -38,6 +38,11 @@
                 display: none;
             }
         }
+        .collapse {
+            @include breakpoint(tablet-landscape-up) {
+                display: block;
+            }
+        }
     }
     &__search {
         max-width: 500px;

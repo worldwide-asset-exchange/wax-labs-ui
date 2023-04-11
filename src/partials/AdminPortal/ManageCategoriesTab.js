@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import RenderCategoryCard from './CategoryCard';
 
 import * as GLOBAL_VARS from '../../utils/vars';
@@ -8,101 +8,114 @@ import RenderLoadingPage from '../LoadingPage';
 import './ManageCategoriesTab.scss';
 
 export default function RenderManageCategoriesTab(props) {
-
     const [nonDeprecatedCategories, setNonDeprecatedCategories] = useState([]);
     const [newCategory, setNewCategory] = useState([]);
 
-    useEffect(()=>{
-        let cancelled = false
-        if(props.queryingCategories){
-            return
+    useEffect(() => {
+        let cancelled = false;
+        if (props.queryingCategories) {
+            return;
         }
-        function filterDeprecated(category){
-            return !(props.deprecatedCategories.includes(category));
+        function filterDeprecated(category) {
+            return !props.deprecatedCategories.includes(category);
         }
 
         let nonDeprecatedCategories = props.categories.filter(filterDeprecated);
 
-        if(!cancelled){
+        if (!cancelled) {
             setNonDeprecatedCategories(nonDeprecatedCategories);
         }
 
-        const cleanup = () => cancelled = true;
-        return cleanup;
+        return () => {
+            cancelled = true;
+        };
     }, [props.categories, props.deprecatedCategories, props.queryingCategories]);
 
-    function createDeleteCategoryAction(category){
+    function createDeleteCategoryAction(category) {
         let activeUser = props.activeUser;
         return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.REMOVE_CATEGORY_ACTION,
-            authorization: [{
-                actor: activeUser.accountName,
-                permission: activeUser.requestPermission,
-            }],
+            authorization: [
+                {
+                    actor: activeUser.accountName,
+                    permission: activeUser.requestPermission
+                }
+            ],
             data: {
-                category_name: category,
+                category_name: category
             }
-        }
+        };
     }
-    function createAddCategoryAction(){
+    function createAddCategoryAction() {
         let activeUser = props.activeUser;
         return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.ADD_CATEGORY_ACTION,
-            authorization: [{
-                actor: activeUser.accountName,
-                permission: activeUser.requestPermission,
-            }],
+            authorization: [
+                {
+                    actor: activeUser.accountName,
+                    permission: activeUser.requestPermission
+                }
+            ],
             data: {
-                new_category: newCategory,
+                new_category: newCategory
             }
-        }
+        };
     }
 
-    async function addNewCategory(){
+    async function addNewCategory() {
         let activeUser = props.activeUser;
+        const EOS_NAME_LENGTH = 12;
+        if (newCategory?.length < EOS_NAME_LENGTH) {
+            let alertObj = {
+                ...GLOBAL_ALERTS.ADD_CATEGORY_ALERT_DICT.ERROR,
+                details:
+                    'The new category needs to have at least ' + EOS_NAME_LENGTH + ' characters'
+            };
+            props.showAlert(alertObj);
+        }
         let actionList = [createAddCategoryAction()];
 
         try {
-            await activeUser.signTransaction (
-                {actions: actionList}
-                , {
+            await activeUser.signTransaction(
+                { actions: actionList },
+                {
                     blocksBehind: 3,
-                    expireSeconds: 30,
+                    expireSeconds: 30
                 }
             );
             props.showAlert(GLOBAL_ALERTS.ADD_CATEGORY_ALERT_DICT.SUCCESS);
             props.rerunCategoriesQuery();
-        } catch(e){
-            console.log(e);
+        } catch (e) {
+            console.debug(e);
             let alertObj = {
                 ...GLOBAL_ALERTS.ADD_CATEGORY_ALERT_DICT.ERROR,
                 details: e.message
-            }
+            };
             props.showAlert(alertObj);
         }
     }
-    async function deleteCategory(category){
+    async function deleteCategory(category) {
         let activeUser = props.activeUser;
         let actionList = [createDeleteCategoryAction(category)];
 
         try {
-            await activeUser.signTransaction (
-                {actions: actionList}
-                , {
+            await activeUser.signTransaction(
+                { actions: actionList },
+                {
                     blocksBehind: 3,
-                    expireSeconds: 30,
+                    expireSeconds: 30
                 }
             );
             props.showAlert(GLOBAL_ALERTS.REMOVE_CATEGORY_ALERT_DICT.SUCCESS);
             props.rerunCategoriesQuery();
-        } catch(e){
-            console.log(e);
+        } catch (e) {
+            console.debug(e);
             let alertObj = {
                 ...GLOBAL_ALERTS.REMOVE_CATEGORY_ALERT_DICT.ERROR,
                 details: e.message
-            }
+            };
             props.showAlert(alertObj);
         }
     }
@@ -114,9 +127,15 @@ export default function RenderManageCategoriesTab(props) {
                 <label className="input__label">New category</label>
                 <input
                     value={newCategory}
-                    onChange={(event)=>setNewCategory(event.target.value)}
+                    onChange={(event) => setNewCategory(event.target.value)}
                     className="input"
                 />
+                <button
+                    className="button button--primary"
+                    onClick={() => addNewCategory()}
+                >
+                    Add new category
+                </button>
                 <div className="manageCategories__requirements">
                     <p>Category name must be EOSIO compliant:</p>
                     <ul className="manageCategories__requirementsList">
@@ -124,15 +143,13 @@ export default function RenderManageCategoriesTab(props) {
                         <li>Must contain from 3 and 12 characters.</li>
                     </ul>
                 </div>
-                <button className="button button--primary" onClick={()=>addNewCategory()}>Add new category</button>
             </div>
-            {
-                props.queryingCategories ?
-                <RenderLoadingPage/>
-                :
+            {props.queryingCategories ? (
+                <RenderLoadingPage />
+            ) : (
                 <div className="manageCategories__currentCategories">
                     <h4>Current categories</h4>
-                    {nonDeprecatedCategories.map((category, index) => {
+                    {nonDeprecatedCategories.map((category) => {
                         return (
                             <div key={category}>
                                 <RenderCategoryCard
@@ -140,10 +157,10 @@ export default function RenderManageCategoriesTab(props) {
                                     deleteCategory={deleteCategory}
                                 />
                             </div>
-                        )
+                        );
                     })}
                 </div>
-            }
+            )}
         </div>
     );
 }

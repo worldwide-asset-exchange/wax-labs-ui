@@ -1,36 +1,37 @@
-import React from 'react';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
-import ToggleButton from 'react-bootstrap/ToggleButton'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 
 import './Filter.scss';
 
-export default function RenderFilter(props){
-
+export default function RenderFilter({
+    title,
+    currentList,
+    updateCurrentList,
+    fullList,
+    readableNameDict
+}) {
     return (
         <div className="filter">
-            <div className="filter__label">{props.title}</div>
+            <div className="filter__label">{title}</div>
             <ToggleButtonGroup
                 type="checkbox"
-                value={props.currentList}
-                onChange={props.updateCurrentList}
+                value={currentList}
+                onChange={updateCurrentList}
                 className="filter__group"
             >
-                {props.fullList.map((buttonName, index) => {
-                    return(
+                {fullList.map((buttonName, index) => {
+                    return (
                         <ToggleButton
                             key={index}
+                            id={`filter-button-${index}`}
                             value={buttonName}
-                            bsPrefix="filter__item"
+                            className="filter__item filter__item-primary"
                         >
-                            {
-                                props.readableNameDict ?
-                                props.readableNameDict[buttonName]
-                                : buttonName
-                            }
+                            {readableNameDict ? readableNameDict[buttonName] : buttonName}
                         </ToggleButton>
-                    )
+                    );
                 })}
             </ToggleButtonGroup>
         </div>
-    )
+    );
 }

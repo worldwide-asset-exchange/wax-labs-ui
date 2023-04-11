@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 import RenderLoadingPage from '../LoadingPage';
@@ -10,98 +10,148 @@ import { calculateWAXPrice } from '../../utils/delphioracle';
 
 const validator = new SimpleReactValidator();
 
-export default function RenderProposalInputContainer ({proposal, deprecatedCategories, hideTotalRequested, showValidatorMessages, updateValidatorData, updateEditableProposal, queryingProposal, queryingMinMaxRequested, activeUser, totalRequestedFunds, categories, minRequested, maxRequested, updateTotalRequestedErrorMessage, waxUsdPrice}) {
-
+export default function RenderProposalInputContainer({
+    proposal,
+    deprecatedCategories,
+    hideTotalRequested,
+    showValidatorMessages,
+    updateValidatorData,
+    updateEditableProposal,
+    queryingProposal,
+    queryingMinMaxRequested,
+    activeUser,
+    totalRequestedFunds,
+    categories,
+    minRequested,
+    maxRequested,
+    updateTotalRequestedErrorMessage,
+    waxUsdPrice
+}) {
     const [editableProposal, setEditableProposal] = useState({
-        title:"",
-        description:"",
-        content:"",
-        proposer:"",
-        image_url:"",
-        estimated_time:"",
-        category: "",
-        road_map: "",
+        title: '',
+        description: '',
+        content: '',
+        proposer: '',
+        image_url: '',
+        estimated_time: '',
+        category: '',
+        road_map: ''
     });
 
     const [availableCategories, setAvailableCategories] = useState([]);
 
-    const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(4) + ' USD')
-    const [totalRequestedWAX, setTotalRequestedWAX] = useState(Number(0).toFixed(8) + ' WAX')
+    const [totalRequested, setTotalRequested] = useState(Number(0).toFixed(4) + ' USD');
+    const [totalRequestedWAX, setTotalRequestedWAX] = useState(Number(0).toFixed(8) + ' WAX');
 
     const [refreshPage, setRefreshPage] = useState(0);
 
-    function handleInputChange(event){
+    function handleInputChange(event) {
         let value = event.target.value;
         let name = event.target.name;
-        let proposalCopy = {...editableProposal};
+        let proposalCopy = { ...editableProposal };
         proposalCopy[name] = value;
         setEditableProposal(proposalCopy);
-
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         function filterDeprecated(category) {
             return !deprecatedCategories.includes(category);
         }
         let availableCategories = [...categories];
         availableCategories = availableCategories.filter(filterDeprecated);
         setAvailableCategories(availableCategories);
-
     }, [categories, deprecatedCategories]);
 
-    useEffect(()=>{
+    useEffect(() => {
         updateValidatorData(validator.allValid());
 
         // eslint-disable-next-line
     }, [editableProposal, totalRequested])
 
-    useEffect(()=>{
+    useEffect(() => {
         setRefreshPage(refreshPage + 1);
-        if(showValidatorMessages){
+        if (showValidatorMessages) {
             validator.showMessages();
-        }
-        else{
+        } else {
             validator.hideMessages();
         }
         // eslint-disable-next-line
     }, [showValidatorMessages]);
 
-    useEffect(()=>{
-        setEditableProposal({...editableProposal, ...proposal});
+    useEffect(() => {
+        setEditableProposal({ ...editableProposal, ...proposal });
         // eslint-disable-next-line
     }, [proposal]);
 
-
     useEffect(() => {
-        let totalRequested = Number(totalRequestedFunds).toFixed(2) + " USD"
+        let totalRequested = Number(totalRequestedFunds).toFixed(2) + ' USD';
         setTotalRequested(totalRequested);
 
-        let totalRequestedWax = requestedAmountToFloat(calculateWAXPrice(totalRequestedFunds, waxUsdPrice)) + " WAX";
+        let totalRequestedWax =
+            requestedAmountToFloat(calculateWAXPrice(totalRequestedFunds, waxUsdPrice)) + ' WAX';
         setTotalRequestedWAX(totalRequestedWax);
 
         // Some components don't pass this callback, so only use it if it was passed.
-        if (updateTotalRequestedErrorMessage && !queryingMinMaxRequested && Number(totalRequestedFunds) > 0) {
-            updateTotalRequestedErrorMessage(validator.message('total requested in usd', totalRequestedFunds, `max:${requestedAmountToFloat(maxRequested)},num`));
+        if (
+            updateTotalRequestedErrorMessage &&
+            !queryingMinMaxRequested &&
+            Number(totalRequestedFunds) > 0
+        ) {
+            updateTotalRequestedErrorMessage(
+                validator.message(
+                    'total requested in usd',
+                    totalRequestedFunds,
+                    `max:${requestedAmountToFloat(maxRequested)},num`
+                )
+            );
         }
         // eslint-disable-next-line
     }, [totalRequestedFunds, showValidatorMessages]);
 
-    useEffect(()=>{
+    useEffect(() => {
         updateEditableProposal(editableProposal);
         // eslint-disable-next-line
     }, [editableProposal]);
 
-    if(queryingProposal || queryingMinMaxRequested){
-        return <RenderLoadingPage/>
+    if (queryingProposal || queryingMinMaxRequested) {
+        return <RenderLoadingPage />;
     }
 
-    const titleErrorMessage = validator.message('title', editableProposal.title, `required|max:${GLOBAL_VARS.MAX_TITLE_LENGTH}`);
-    const descriptionErrorMessage = validator.message('description', editableProposal.description, `required|max:${GLOBAL_VARS.MAX_DESCRIPTION_LENGTH}`);
-    const imageUrlErrorMessage = validator.message('image url', editableProposal.image_url, `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`);
-    const contentErrorMessage = validator.message('content', editableProposal.content, `required|max:${GLOBAL_VARS.MAX_BODY_LENGTH}`);
-    const categoryErrorMessage = validator.message('category', editableProposal.category, "required");
-    const estimatedTimeErrorMessage = validator.message('estimated time', editableProposal.estimated_time, "required|min:1,num");
-    const roadmapErrorMessage = validator.message('road map', editableProposal.road_map, "required");
+    const titleErrorMessage = validator.message(
+        'title',
+        editableProposal.title,
+        `required|max:${GLOBAL_VARS.MAX_TITLE_LENGTH}`
+    );
+    const descriptionErrorMessage = validator.message(
+        'description',
+        editableProposal.description,
+        `required|max:${GLOBAL_VARS.MAX_DESCRIPTION_LENGTH}`
+    );
+    const imageUrlErrorMessage = validator.message(
+        'image url',
+        editableProposal.image_url,
+        `required|max:${GLOBAL_VARS.MAX_IMGURL_LENGTH}`
+    );
+    const contentErrorMessage = validator.message(
+        'content',
+        editableProposal.content,
+        `required|max:${GLOBAL_VARS.MAX_BODY_LENGTH}`
+    );
+    const categoryErrorMessage = validator.message(
+        'category',
+        editableProposal.category,
+        'required'
+    );
+    const estimatedTimeErrorMessage = validator.message(
+        'estimated time',
+        editableProposal.estimated_time,
+        'required|min:1,num'
+    );
+    const roadmapErrorMessage = validator.message(
+        'road map',
+        editableProposal.road_map,
+        'required'
+    );
 
     return (
         <div className="proposalInputContainer">
@@ -234,10 +284,14 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
                     name="category"
                     onChange={handleInputChange}
                 >
-                    <option value={''}></option>
+                    <option value={''} />
                     {availableCategories.map((category) => {
                         return (
-                            <option className="select__option" key={category} value={category}>
+                            <option
+                                className="select__option"
+                                key={category}
+                                value={category}
+                            >
                                 {category}
                             </option>
                         );
@@ -245,20 +299,18 @@ export default function RenderProposalInputContainer ({proposal, deprecatedCateg
                 </select>
                 <div className="input__errorMessage">{categoryErrorMessage}</div>
             </div>
-            {!hideTotalRequested ? (
+            {!hideTotalRequested && (
                 <div className="proposalInputContainer__totalRequested">
                     <div className="input__label">
                         Total amount requested
                         <h4>{totalRequested}</h4>
                     </div>
-                        
+
                     <div className="input__label">
                         Total WAX amount requested
                         <h4>{totalRequestedWAX}</h4>
                     </div>
-            </div>    
-            ) : (
-                ''
+                </div>
             )}
         </div>
     );

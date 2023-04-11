@@ -1,24 +1,24 @@
-import React, {useState, useEffect} from 'react';
-import {useParams, useNavigate } from 'react-router-dom';
-import * as waxjs from "@waxio/waxjs/dist";
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import * as waxjs from '@waxio/waxjs/dist';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import * as GLOBAL_VARS from '../../utils/vars';
 import * as GLOBAL_ALERTS from '../../utils/alerts';
 import RenderAlerts from '../Alerts/Alerts';
-import {sleep} from '../../utils/util';
-import {RenderDeliverablesContainer} from './DeliverablesContainer';
+import { sleep } from '../../utils/util';
+import { RenderDeliverablesContainer } from './DeliverablesContainer';
 import RenderProposalInputContainer from './ProposalInputContainer';
 import RenderLoadingPage from '../LoadingPage';
 import RenderErrorPage from '../../pages/ErrorPage';
 
 import './EditProposal.scss';
 
-const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
+const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC, tryAutoLogin: false });
 
-export default function RenderEditProposal(props){
-    const {id} = useParams();
+export default function RenderEditProposal(props) {
+    const { id } = useParams();
     const [proposal, setProposal] = useState(null);
     const [editableProposal, setEditableProposal] = useState(null);
     const [deliverablesLists, setDeliverablesLists] = useState({});
@@ -29,22 +29,19 @@ export default function RenderEditProposal(props){
     const [totalRequested, setTotalRequested] = useState(0);
     const [validProposalData, setValidProposalData] = useState(true);
     const [validDeliverablesData, setValidDeliverablesData] = useState(true);
-    const [totalRequestedErrorMessage, setTotalRequestedErrorMessage] = useState("");
-
+    const [totalRequestedErrorMessage, setTotalRequestedErrorMessage] = useState('');
 
     const [showValidatorMessages, setShowValidatorMessages] = useState(0);
-    
-    const navigate = useNavigate();
 
-    
+    const navigate = useNavigate();
     useEffect(() => {
         props.loadWaxUsdPrice();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
-    async function getProposalData(){
-        while(true){
-            try{
+
+    async function getProposalData() {
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            try {
                 /* Querying proposal data */
                 let resp = await wax.rpc.get_table_rows({
                     code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
@@ -52,20 +49,20 @@ export default function RenderEditProposal(props){
                     table: GLOBAL_VARS.PROPOSALS_TABLE,
                     json: true,
                     lower_bound: id,
-                    upper_bound: id,
+                    upper_bound: id
                 });
                 let responseProposal = resp.rows[0];
 
                 return responseProposal;
-
-            } catch (e){
-                console.log(e);
+            } catch (e) {
+                console.debug(e);
             }
         }
     }
-    async function getContentData(){
-        while(true){
-            try{
+    async function getContentData() {
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            try {
                 /* Querying content data */
                 let resp = await wax.rpc.get_table_rows({
                     code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
@@ -73,40 +70,35 @@ export default function RenderEditProposal(props){
                     table: GLOBAL_VARS.MD_BODIES_TABLE,
                     json: true,
                     lower_bound: id,
-                    upper_bound: id,
+                    upper_bound: id
                 });
                 let responseProposal = resp.rows[0];
 
                 return responseProposal;
-
-            } catch (e){
-                console.log(e);
+            } catch (e) {
+                console.debug(e);
             }
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setQueryingProposal(true);
-        let promiseList = [
-            getContentData(),
-            getProposalData(),
-        ]
-        Promise.all(promiseList)
-        .then(values => {
+        let promiseList = [getContentData(), getProposalData()];
+        Promise.all(promiseList).then((values) => {
             let proposal = {};
 
-            values.forEach(value => {
-                proposal = {...proposal, ...value}
-            })
+            values.forEach((value) => {
+                proposal = { ...proposal, ...value };
+            });
 
             setProposal(proposal);
 
             setQueryingProposal(false);
-        })
+        });
         // eslint-disable-next-line
     }, [proposalQueryCount]);
 
-    function showAlert(alertObj){
+    function showAlert(alertObj) {
         // Make a copy.
         let alerts = alertList.slice(0);
         // Push new alert to the copied list
@@ -114,16 +106,16 @@ export default function RenderEditProposal(props){
         // Update the list.
         setAlertList(alerts);
     }
-    function removeAlert(index){
+    function removeAlert(index) {
         // Make a copy.
         let alerts = alertList.slice(0);
         // remove alert at index.
-        alerts.splice(index,1);
+        alerts.splice(index, 1);
         // Update the list.
         setAlertList(alerts);
     }
 
-    async function rerunProposalQuery(){
+    async function rerunProposalQuery() {
         // Wait 5000 miliseconds before repulling data from the chain
         // to try and avoid getting unupdated state.
         setQueryingProposal(true);
@@ -132,61 +124,66 @@ export default function RenderEditProposal(props){
         setProposalQueryCount(proposalQueryCount + 1);
     }
 
-    function updateDeliverablesLists(deliverablesObject){
+    function updateDeliverablesLists(deliverablesObject) {
         setDeliverablesLists(deliverablesObject);
     }
 
-    function updateEditableProposal(editableProposal){
+    function updateEditableProposal(editableProposal) {
         setEditableProposal(editableProposal);
     }
-    function updateTotalRequestedErrorMessage(errorMessage){
+    function updateTotalRequestedErrorMessage(errorMessage) {
         setTotalRequestedErrorMessage(errorMessage);
     }
 
-    function createRemoveDeliverableAction(deliverableId){
+    function createRemoveDeliverableAction(deliverableId) {
         let activeUser = props.activeUser;
         return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.REMOVE_DELIVERABLE_ACTION,
-            authorization: [{
-                actor: activeUser.accountName,
-                permission: activeUser.requestPermission,
-            }],
+            authorization: [
+                {
+                    actor: activeUser.accountName,
+                    permission: activeUser.requestPermission
+                }
+            ],
             data: {
                 proposal_id: id,
-                deliverable_id: deliverableId,
-            },
-        }
+                deliverable_id: deliverableId
+            }
+        };
     }
-    function createNewDeliverableAction(deliverable, deliverableId){
-
+    function createNewDeliverableAction(deliverable, deliverableId) {
         let activeUser = props.activeUser;
         return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.NEW_DELIVERABLE_ACTION,
-            authorization: [{
-                actor: activeUser.accountName,
-                permission: activeUser.requestPermission,
-            }],
+            authorization: [
+                {
+                    actor: activeUser.accountName,
+                    permission: activeUser.requestPermission
+                }
+            ],
             data: {
                 proposal_id: id,
                 deliverable_id: deliverableId,
-                requested_amount: Number(deliverable.requested_amount).toFixed(4) + " USD",
+                requested_amount: Number(deliverable.requested_amount).toFixed(4) + ' USD',
                 recipient: deliverable.recipient,
                 small_description: deliverable.small_description,
-                days_to_complete: deliverable.days_to_complete,
-            },
-        }
+                days_to_complete: deliverable.days_to_complete
+            }
+        };
     }
-    function createEditProposalAction(){
-        let activeUser = props.activeUser
+    function createEditProposalAction() {
+        let activeUser = props.activeUser;
         return {
             account: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
             name: GLOBAL_VARS.EDIT_PROPOSAL_ACTION,
-            authorization: [{
-                actor: activeUser.accountName,
-                permission: activeUser.requestPermission,
-            }],
+            authorization: [
+                {
+                    actor: activeUser.accountName,
+                    permission: activeUser.requestPermission
+                }
+            ],
             data: {
                 proposal_id: id,
                 title: editableProposal.title,
@@ -195,21 +192,20 @@ export default function RenderEditProposal(props){
                 category: props.categories[editableProposal.category],
                 image_url: editableProposal.image_url,
                 estimated_time: editableProposal.estimated_time,
-                road_map: editableProposal.road_map,
-            },
-        }
+                road_map: editableProposal.road_map
+            }
+        };
     }
 
-
-    async function updateProposal(){
+    async function updateProposal() {
         let activeUser = props.activeUser;
         let actionList = [];
-        let deliverablesObject = {...deliverablesLists};
+        let deliverablesObject = { ...deliverablesLists };
 
-        if(!validProposalData || !validDeliverablesData){
+        if (!validProposalData || !validDeliverablesData) {
             showAlert(GLOBAL_ALERTS.INVALID_DATA_ALERT_DICT.WARN);
             setShowValidatorMessages(showValidatorMessages + 1);
-            return
+            return;
         }
 
         actionList.push(createEditProposalAction());
@@ -219,79 +215,74 @@ export default function RenderEditProposal(props){
             return createRemoveDeliverableAction(deliverable.deliverable_id);
         });
         // Add the potential new deliverables, in the current order.
-        let newDelivActions = deliverablesObject.toAdd.map((deliverable, index)=>{
+        let newDelivActions = deliverablesObject.toAdd.map((deliverable, index) => {
             // creating deliverables 1-(deliverablesObject.toAdd.length)
             return createNewDeliverableAction(deliverable, index + 1);
-        })
+        });
         // Removes come before new delivs in the array.
-        actionList = [...actionList, ...removeDelivActions, ...newDelivActions]
+        actionList = [...actionList, ...removeDelivActions, ...newDelivActions];
 
         let signTransaction = {
             actions: actionList
-        }
-
+        };
 
         try {
-            await activeUser.signTransaction(
-                signTransaction
-                , {
-                    blocksBehind: 3,
-                    expireSeconds: 30
+            await activeUser.signTransaction(signTransaction, {
+                blocksBehind: 3,
+                expireSeconds: 30
             });
             // Make a copy of the success dict.
             let body = GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.SUCCESS.body.slice(0);
             body = body.replace(GLOBAL_ALERTS.PROPOSAL_ID_TEMPLATE, id);
-            let alertObj ={
+            let alertObj = {
                 ...GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.SUCCESS,
-                body: body,
-            }
+                body: body
+            };
             showAlert(alertObj);
             rerunProposalQuery();
             navigate(`${GLOBAL_VARS.PROPOSAL_PAGE_LINK}/${proposal.proposal_id}`);
-        } catch(e){
+        } catch (e) {
             let alertObj = {
                 ...GLOBAL_ALERTS.SAVE_DRAFT_ALERT_DICT.ERROR,
                 details: e.message
-            }
+            };
             showAlert(alertObj);
 
-            console.log(e);
+            console.debug(e);
         }
     }
 
-    function updateDeliverablesValidationData(isValid){
+    function updateDeliverablesValidationData(isValid) {
         setValidDeliverablesData(isValid);
     }
-    function updateProposalValidationData(isValid){
+    function updateProposalValidationData(isValid) {
         setValidProposalData(isValid);
     }
 
-    function runningDeliverableQuery(bool){
+    function runningDeliverableQuery(bool) {
         setQueryingDeliverables(bool);
     }
-    useEffect(()=>{
+    useEffect(() => {
         // Updating total requested as a sum of deliverables requested.
-        if(deliverablesLists.toAdd){
+        if (deliverablesLists.toAdd) {
             let total = 0;
             deliverablesLists.toAdd.map((deliverable, index) => {
                 total += Number(deliverable.requested_amount);
-                return "";
-            })
+                return '';
+            });
             setTotalRequested(total);
         }
-    },[deliverablesLists]);
+    }, [deliverablesLists]);
 
-
-    if(queryingProposal || !props.waxUsdPrice){
-        return <RenderLoadingPage/>
+    if (queryingProposal || !props.waxUsdPrice) {
+        return <RenderLoadingPage />;
     }
 
-    if(!proposal || !props.activeUser || (proposal.proposer !== props.activeUser.accountName))
-    {
-        console.log("error");
-        return <RenderErrorPage/>
+    if (!proposal || !props.activeUser || proposal.proposer !== props.activeUser.accountName) {
+        console.debug('error');
+        return <RenderErrorPage />;
     }
-    return(
+    return (
         <div className="editProposal">
             <RenderAlerts
                 alertList={alertList}
@@ -314,9 +305,7 @@ export default function RenderEditProposal(props){
                 totalRequestedErrorMessage={totalRequestedErrorMessage}
                 waxUsdPrice={props.waxUsdPrice}
             />
-            <DndProvider
-                backend={HTML5Backend}
-            >
+            <DndProvider backend={HTML5Backend}>
                 <RenderDeliverablesContainer
                     proposal={proposal}
                     updateDeliverablesLists={updateDeliverablesLists}
@@ -335,13 +324,13 @@ export default function RenderEditProposal(props){
                 />
             </DndProvider>
             <button
-                className='button button--primary'
+                className="button button--primary"
                 onClick={updateProposal}
-                disabled={(queryingDeliverables || queryingProposal)}
+                disabled={queryingDeliverables || queryingProposal}
             >
                 {/* Can't save before querying deliverables and proposal  */}
-                {(queryingDeliverables || queryingProposal) ? "Loading..." : "Save draft"}
+                {queryingDeliverables || queryingProposal ? 'Loading...' : 'Save draft'}
             </button>
         </div>
-    )
+    );
 }

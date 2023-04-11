@@ -1,50 +1,41 @@
 ---
-default:
-  image: node:14-alpine
-
 stages:
   - test
-  - prod
+  - deploy
+  - build
 
-workflow:
-  rules:
-    - if: '$CI_COMMIT_BRANCH'
-
-build-test-deploy-testnet:
-  image: node:14-alpine
-  before_script:
-    - apt get update
-    - apt -y install rsync
+build-and-deploy-testnet:
+  image:
+    name: node:16-alpine
   script:
     - yarn install
     - yarn build:testnet
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -avz build/ root@labs.wax.eosdetroit.io:/var/www/waxlabs-ui
-  stage: test
-  artifacts:
-    paths:
-      - build/
+    - apk add rsync || true
+    - cd build && rsync -e "ssh -o StrictHostKeyChecking=no" -avz . root@142.93.203.27:/usr/share/nginx/html/waxlabs --delete
+  stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "testnet"'
 
-build-test-feature:
-  image: node:14-alpine
-  script:
-    - yarn install
-    - yarn build:testnet
-  stage: test
-  artifacts:
-    paths:
-      - build/
+build-production:
+  image:
+    name: node:16-alpine
+  stage: build
   rules:
-    - if: '$CI_COMMIT_BRANCH != "testnet" && $CI_COMMIT_BRANCH != "main"'
-  
-build-test-deploy-mainnet:
+    - if: '$CI_COMMIT_TAG'
+  allow_failure: false
   script:
     - yarn install
     - yarn build:prod
-  stage: prod
   artifacts:
     paths:
-    - build/
+      - build/
+
+validate-pr:
+  image:
+    name: node:16-alpine
+  stage: test
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - yarn install
+    - yarn lint --max-warnings=0

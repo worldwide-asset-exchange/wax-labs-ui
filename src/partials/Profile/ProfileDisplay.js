@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
+import { useState } from 'react';
 import './ProfileDisplay.scss';
 import * as GLOBAL_VARS from '../../utils/vars';
 
-export default function RenderProfileDisplay(props){
+export default function RenderProfileDisplay(props) {
     const [imageError, setImageError] = useState(false);
-    if(props.profile){
+    if (props.profile) {
         return (
             <div className="profileDisplay">
                 <img
-                    src={imageError ? GLOBAL_VARS.DEFAULT_PROPOSAL_IMAGE_URL : props.profile.image_url}
+                    src={
+                        imageError
+                            ? GLOBAL_VARS.DEFAULT_PROPOSAL_IMAGE_URL
+                            : props.profile.image_url
+                    }
                     alt="User provided"
                     className="profileDisplay__image"
                     onError={() => setImageError(true)}
@@ -41,10 +45,5 @@ export default function RenderProfileDisplay(props){
         );
     }
 
-    return(
-        <div>
-            {props.notFoundMessage}
-        </div>
-    )
-
+    return <div>{props.notFoundMessage}</div>;
 }

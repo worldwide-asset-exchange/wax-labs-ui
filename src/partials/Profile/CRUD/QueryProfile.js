@@ -1,14 +1,10 @@
-
-import * as waxjs from "@waxio/waxjs/dist";
+import * as waxjs from '@waxio/waxjs/dist';
 
 import * as GLOBAL_VARS from '../../../utils/vars';
 
-const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
+const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC, tryAutoLogin: false });
 
-
-
-export async function getProfileData(nameToQuery){
-
+export async function getProfileData(nameToQuery) {
     try {
         let resp = await wax.rpc.get_table_rows({
             code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
@@ -21,11 +17,8 @@ export async function getProfileData(nameToQuery){
         });
         let profileData = resp.rows[0];
         return profileData;
-            
     } catch (e) {
-        console.log(e);
+        console.debug(e);
         return null;
     }
-    
-
 }

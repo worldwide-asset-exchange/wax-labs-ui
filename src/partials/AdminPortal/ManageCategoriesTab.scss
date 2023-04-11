@@ -10,6 +10,7 @@
     &__fieldset {
         display: flex;
         flex-direction: column;
+        gap: $spacing-xs;
 
         margin-bottom: $spacing-l;
 

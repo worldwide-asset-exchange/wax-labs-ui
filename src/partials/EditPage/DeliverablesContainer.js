@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import {useParams} from 'react-router-dom';
+import { useState, useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import update from 'immutability-helper';
-import * as waxjs from "@waxio/waxjs/dist";
+import * as waxjs from '@waxio/waxjs/dist';
 
 import { RenderDeliverableCard } from './DeliverableCard';
 import { numberWithCommas, randomEosioName, requestedAmountToFloat } from '../../utils/util';
@@ -12,17 +12,16 @@ import { calculateUSDPrice } from '../../utils/delphioracle';
 
 import './DeliverablesContainer.scss';
 
-const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC ,  tryAutoLogin: false });
+const wax = new waxjs.WaxJS({ rpcEndpoint: process.env.REACT_APP_WAX_RPC, tryAutoLogin: false });
 
 export const RenderDeliverablesContainer = (props) => {
-
-    const {id} = useParams();
+    const { id } = useParams();
 
     // We need one set of them to have a copy of the state of the table deliverables
     // because we are going to use it on the save draft step.
     const [deliverables, setDeliverables] = useState([]);
 
-    // Another set for the editable ones (the ones the user will update/re order).
+    // Another set for the editable ones (the ones the user will update/re-order).
     const [editableDeliverables, setEditableDeliverables] = useState([]);
 
     // dict to keep track of validation. The reason I did not go for a list
@@ -32,23 +31,23 @@ export const RenderDeliverablesContainer = (props) => {
     const [deliverablesValidation, setDeliverablesValidation] = useState({});
     const [shownTooltip, setShownTooltip] = useState(false);
 
-    useEffect(()=>{
-        if(props.proposal){
+    useEffect(() => {
+        if (props.proposal) {
             getDeliverablesData();
         }
         // eslint-disable-next-line
     }, [props.proposal]);
 
-    useEffect(()=>{
-        if(deliverables){
+    useEffect(() => {
+        if (deliverables) {
             let copyDeliverables = [...deliverables];
             let deliverablesValidation = {};
-            copyDeliverables = copyDeliverables.map((deliverable, index)=>{
+            copyDeliverables = copyDeliverables.map((deliverable, index) => {
                 // we create/store a unique (at least very hard to collide) id.
                 deliverable.id = randomEosioName();
                 // we use this id as key, in the deliverablesValidation dict.
                 deliverablesValidation[deliverable.id] = true;
-                return deliverable
+                return deliverable;
             });
             // we set the deliverablesValidation dict.
             setDeliverablesValidation(deliverablesValidation);
@@ -57,18 +56,21 @@ export const RenderDeliverablesContainer = (props) => {
         // eslint-disable-next-line
     }, [deliverables])
 
-    useEffect(()=>{
-        // We update the parent state with local deliverables information (we are removing the old ones
+    useEffect(() => {
+        // We update the parent state with local deliverables' information (we are removing the old ones
         // adding the new ones)
-        props.updateDeliverablesLists({toAdd:[...editableDeliverables], toRemove:[...deliverables]})
+        props.updateDeliverablesLists({
+            toAdd: [...editableDeliverables],
+            toRemove: [...deliverables]
+        });
         // eslint-disable-next-line
     },[editableDeliverables]);
 
-    useEffect(()=>{
+    useEffect(() => {
         let allValid = true;
         // If any of them is false, all valid will be false
         // because of agregating &&
-        for(var [,value] of Object.entries(deliverablesValidation)){
+        for (var [, value] of Object.entries(deliverablesValidation)) {
             allValid = allValid && value;
         }
         // update parent state
@@ -76,72 +78,76 @@ export const RenderDeliverablesContainer = (props) => {
         // eslint-disable-next-line
     }, [deliverablesValidation])
 
-    function alertMaxDeliverables(){
-        props.showAlert({...GLOBAL_ALERTS.TOO_MANY_DELIVERABLES_ALERT_DICT.WARN})
+    function alertMaxDeliverables() {
+        props.showAlert({ ...GLOBAL_ALERTS.TOO_MANY_DELIVERABLES_ALERT_DICT.WARN });
     }
 
-    function updateDeliverablesValidation(id, isValid){
-        let deliverablesValidationCopy = {...deliverablesValidation};
+    function updateDeliverablesValidation(id, isValid) {
+        let deliverablesValidationCopy = { ...deliverablesValidation };
         deliverablesValidationCopy[id] = isValid;
         setDeliverablesValidation(deliverablesValidationCopy);
     }
 
-    function createNewDeliv(){
-        let deliverables = [...editableDeliverables]
-        if(deliverables.length >= GLOBAL_VARS.MAX_DELIVERABLES){
+    function createNewDeliv() {
+        if (editableDeliverables.length >= GLOBAL_VARS.MAX_DELIVERABLES) {
             alertMaxDeliverables();
             return;
         }
+
+        let deliverables = [...editableDeliverables];
+
         let deliverable = {
             id: randomEosioName(),
             recipient: props.activeUser.accountName,
-            requested_amount: ""
-        }
+            requested_amount: ''
+        };
         deliverables.push(deliverable);
         setEditableDeliverables(deliverables);
     }
 
-
-    async function getDeliverablesData(){
+    async function getDeliverablesData() {
         props.runningQuery(true);
-        try{
+        try {
             let delivs = await wax.rpc.get_table_rows({
                 code: GLOBAL_VARS.LABS_CONTRACT_ACCOUNT,
                 scope: id,
                 table: GLOBAL_VARS.DELIVERABLES_TABLE,
                 json: true,
-                limit: 1000,
+                limit: 1000
             });
             let deliverables = [...delivs.rows];
-            deliverables = deliverables.map(deliverable => {
-                if (deliverable.requested.split(" ")[1] === "USD") {
+            deliverables = deliverables.map((deliverable) => {
+                if (deliverable.requested.split(' ')[1] === 'USD') {
                     deliverable.requested_amount = requestedAmountToFloat(deliverable.requested);
                 } else {
-                    deliverable.requested_amount = calculateUSDPrice(requestedAmountToFloat(deliverable.requested), props.waxUsdPrice); 
+                    deliverable.requested_amount = calculateUSDPrice(
+                        requestedAmountToFloat(deliverable.requested),
+                        props.waxUsdPrice
+                    );
                 }
-                return deliverable
-            })
+                return deliverable;
+            });
             setDeliverables(deliverables);
-        } catch (e){
-            console.log(e);
+        } catch (e) {
+            console.debug(e);
         }
         props.runningQuery(false);
     }
 
     function updateDeliverable(event, index) {
-        const updatedDeliverable = {...editableDeliverables[index]};
+        const updatedDeliverable = { ...editableDeliverables[index] };
         updatedDeliverable[event.target.name] = event.target.value;
-        if(event.target.type === "number"){
-            if(event.target.value !== ""){
+        if (event.target.type === 'number') {
+            if (event.target.value !== '') {
                 updatedDeliverable[event.target.name] = parseFloat(event.target.value);
             }
         }
         // chang it for his updated version
-        setEditableDeliverables(update(editableDeliverables, {
-            $splice: [
-                [index, 1, updatedDeliverable],
-            ],
-        }));
+        setEditableDeliverables(
+            update(editableDeliverables, {
+                $splice: [[index, 1, updatedDeliverable]]
+            })
+        );
     }
 
     function hasShownTooltip() {
@@ -153,36 +159,42 @@ export const RenderDeliverablesContainer = (props) => {
         }
     }
 
-    const removeCard = useCallback((index)=>{
-        let copyValidation = {...deliverablesValidation}
-        delete copyValidation[editableDeliverables[index].id];
-        setDeliverablesValidation(copyValidation);
-        setEditableDeliverables(update(editableDeliverables, {
-            $splice: [
-                [index, 1],
-            ],
-        }));
-        //eslint-disable-next-line
+    const removeCard = useCallback(
+        (index) => {
+            let copyValidation = { ...deliverablesValidation };
+            delete copyValidation[editableDeliverables[index].id];
+            setDeliverablesValidation(copyValidation);
+            setEditableDeliverables(
+                update(editableDeliverables, {
+                    $splice: [[index, 1]]
+                })
+            );
+            //eslint-disable-next-line
     }, [editableDeliverables]);
 
-    const moveCard = useCallback((dragIndex, hoverIndex) => {
-        const deliverable = editableDeliverables[dragIndex];
-        setEditableDeliverables(update(editableDeliverables, {
-            $splice: [
-                [dragIndex, 1],
-                [hoverIndex, 0, deliverable],
-            ],
-        }));
-    }, [editableDeliverables]);
+    const moveCard = useCallback(
+        (dragIndex, hoverIndex) => {
+            const deliverable = editableDeliverables[dragIndex];
+            setEditableDeliverables(
+                update(editableDeliverables, {
+                    $splice: [
+                        [dragIndex, 1],
+                        [hoverIndex, 0, deliverable]
+                    ]
+                })
+            );
+        },
+        [editableDeliverables]
+    );
 
     const renderCard = (deliverable, index) => {
         return (
             <RenderDeliverableCard
                 key={deliverable.id}
-                isLast={index === (editableDeliverables.length - 1)}
+                isLast={index === editableDeliverables.length - 1}
                 index={index}
                 id={deliverable.id}
-                text={(index + 1) + ") " + deliverable.requested}
+                text={index + 1 + ') ' + deliverable.requested}
                 totalRequestedErrorMessage={props.totalRequestedErrorMessage}
                 showValidatorMessages={props.showValidatorMessages}
                 deliverable={deliverable}
@@ -192,29 +204,47 @@ export const RenderDeliverablesContainer = (props) => {
                 moveCard={moveCard}
                 hasShownTooltip={hasShownTooltip}
                 waxUsdPrice={props.waxUsdPrice}
-            />);
+            />
+        );
     };
     return (
         <div className="deliverablesContainer">
-            
-            {props.queryingDeliverables || props.queryingMinMaxRequested ?
-                <RenderLoadingPage/>
-                :
+            {props.queryingDeliverables || props.queryingMinMaxRequested ? (
+                <RenderLoadingPage />
+            ) : (
                 <>
                     <div className="deliverablesContainer__amountRequirements">
                         <p>
-                            The sum of requested funds in your deliverables must be more than{" "}
-                            {numberWithCommas(requestedAmountToFloat(props.minRequested)).toString() + " " + props.minRequested.split(" ")[1]}{" "}
-                            and less than {numberWithCommas(requestedAmountToFloat(props.maxRequested)).toString() + " " + props.maxRequested.split(" ")[1]}.
+                            The sum of requested funds in your deliverables must be more than{' '}
+                            {numberWithCommas(
+                                requestedAmountToFloat(props.minRequested)
+                            ).toString() +
+                                ' ' +
+                                props.minRequested.split(' ')[1]}{' '}
+                            and less than{' '}
+                            {numberWithCommas(
+                                requestedAmountToFloat(props.maxRequested)
+                            ).toString() +
+                                ' ' +
+                                props.maxRequested.split(' ')[1]}
+                            .
                         </p>
                     </div>
                     <div className="deliverablesContainer__items">
-                        <div>{editableDeliverables.map((deliverable, i) => renderCard(deliverable, i))}</div>
-                        <button className="button button--secondary" onClick={createNewDeliv}>Add new deliverable</button>
+                        <div>
+                            {editableDeliverables.map((deliverable, i) =>
+                                renderCard(deliverable, i)
+                            )}
+                        </div>
+                        <button
+                            className="button button--secondary"
+                            onClick={createNewDeliv}
+                        >
+                            Add new deliverable
+                        </button>
                     </div>
                 </>
-            }
+            )}
         </div>
     );
-
 };

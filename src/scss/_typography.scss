@@ -1,10 +1,12 @@
+@use "sass:math";
+
 @import './responsiveness';
 @import './variables';
 
 $baseFontSize: 16px;
 
 @function pxToRem($size) {
-  $remSize: $size / $baseFontSize;
+  $remSize: math.div($size, $baseFontSize);
   @return #{$remSize}rem;
 }
 

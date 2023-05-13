@@ -69,9 +69,9 @@ export default function RenderProposalPage(props) {
                     <div className="proposalPage__column">
                         <h1>{proposal.title}</h1>
                         <p className="proposalPage__paragraph--bold">{proposal.description}</p>
-                        <p>{body}</p>
+                        <p className="line-breaks">{body}</p>
                         <p className="proposalPage__label">Financial Roadmap</p>
-                        <p>{proposal.road_map}</p>
+                        <p className="line-breaks">{proposal.road_map}</p>
                     </div>
                     <div className="proposalPage__column">
                         <div className="proposalPage__status">
@@ -98,7 +98,7 @@ export default function RenderProposalPage(props) {
                                 {statusComment && (
                                     <div>
                                         <label>Status comment</label>
-                                        <p>{statusComment}</p>
+                                        <p className="line-breaks">{statusComment}</p>
                                     </div>
                                 )}
                             </div>
@@ -169,11 +169,11 @@ export default function RenderProposalPage(props) {
                                             To be claimed Funds
                                         </div>
                                         <div className="proposalPage__amount">
-                                            {numberWithCommas(
+                                            {`${numberWithCommas(
                                                 requestedAmountToFloat(proposal.to_be_paid_funds)
-                                            ).toString() +
-                                                ' ' +
-                                                proposal.to_be_paid_funds.split(' ')[1]}
+                                            ).toString()} ${
+                                                proposal.to_be_paid_funds.split(' ')[1]
+                                            }`}
                                         </div>
                                     </div>
                                 ) : null}
@@ -183,11 +183,11 @@ export default function RenderProposalPage(props) {
                                             Total Claimed Funds
                                         </div>
                                         <div className="proposalPage__amount">
-                                            {numberWithCommas(
+                                            {`${numberWithCommas(
                                                 requestedAmountToFloat(proposal.total_paid_funds)
-                                            ).toString() +
-                                                ' ' +
-                                                proposal.total_paid_funds.split(' ')[1]}
+                                            ).toString()} ${
+                                                proposal.total_paid_funds.split(' ')[1]
+                                            }`}
                                         </div>
                                     </div>
                                 ) : null}

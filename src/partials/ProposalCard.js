@@ -62,7 +62,7 @@ export default function RenderProposalCard(props) {
                 <div>
                     <div className="proposalCard__id">#{proposal.proposal_id}</div>
                     <h3 className="proposalCard__title">{proposal.title}</h3>
-                    <div className="proposalCard__description">
+                    <div className="proposalCard__description line-breaks">
                         <em>{proposal.description}</em>
                     </div>
                 </div>
@@ -76,11 +76,9 @@ export default function RenderProposalCard(props) {
                         <div className="proposalCard__label">Requested amount</div>
                         <div className="proposalCard__requestedAmount">
                             {proposal.total_requested_funds.split(' ')[1] === 'USD' ? '$' : ''}
-                            {numberWithCommas(
+                            {`${numberWithCommas(
                                 requestedAmountToFloat(proposal.total_requested_funds)
-                            ).toString() +
-                                ' ' +
-                                proposal.total_requested_funds.split(' ')[1]}
+                            ).toString()} ${proposal.total_requested_funds.split(' ')[1]}`}
                         </div>
                     </div>
                 </div>

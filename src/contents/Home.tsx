@@ -22,81 +22,77 @@ export const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className="flex flex-col items-center justify-center text-center text-high-contrast">
-      <div className="display-1 mt-40 max-w-[800px]">{strings.homeTitle}</div>
-      <div className="m-8">
+    <>
+      <header className="mx-auto mt-40 flex max-w-[832px] flex-col items-center justify-center px-4 text-center">
+        <h1 className="display-1 mb-8 text-high-contrast">{strings.homeTitle}</h1>
         <Button variant="primary">{strings.seeProposals}</Button>
-      </div>
-      <div className="my-40 grid grid-cols-1 gap-1 text-start md:grid-cols-2">
-        <div className="grid grid-rows-2 gap-1">
-          <div className="grid gap-1">
-            <div className="title-2 rounded-xl bg-subtle p-12">{strings.homeDescription}</div>
+      </header>
+      <div className="mx-auto my-40 grid w-full max-w-7xl grid-cols-2 gap-1 px-1 text-high-contrast md:grid-cols-4 md:grid-rows-4 md:px-4">
+        <div className="order-1 col-span-2 rounded-xl bg-subtle p-12 md:order-none md:row-span-2">
+          <h2 className="title-2">{strings.homeDescription}</h2>
+        </div>
+        <div className="order-4 col-span-1 flex flex-col justify-between rounded-xl bg-[#212C59] p-12 text-[#899CF8] md:order-none md:row-span-2">
+          <div>
+            <h2 className="display-1">{stats.inReview}</h2>
+            <h3 className="label-2 mt-1">{strings.inReview}</h3>
           </div>
-          <div className="grid gap-1">
-            <div className="rounded-xl bg-subtle p-12">
-              <div className="label-2">{strings.operationalFunds}</div>
-              <div className="title-2">
-                {stats.operationalFunds.toLocaleString('en-US', { minimumFractionDigits: 2 })} {strings.wax}
-              </div>
-            </div>
-            <div className="rounded-xl bg-subtle p-12">
-              <div className="label-2">{strings.additionalFunds}</div>
-              <div className="title-2">
-                {stats.additionalFunds.toLocaleString('en-US', { minimumFractionDigits: 2 })} {strings.wax}
-              </div>
-            </div>
+          <div className="flex justify-end">
+            <Button square variant="secondary">
+              <MdKeyboardArrowRight size={24} />
+            </Button>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-1">
-          <div className="flex flex-col justify-between gap-2 rounded-xl bg-[#212C59] p-12 text-[#899CF8]">
-            <div>
-              <div className="display-1">{stats.inReview}</div>
-              <div className="label-2">{strings.inReview}</div>
-            </div>
-            <div className="flex justify-end">
-              <Button square variant="secondary">
-                <MdKeyboardArrowRight size={24} />
-              </Button>
-            </div>
+        <div className="order-5 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#4A250D] p-12 text-[#F09150] md:order-none md:row-span-2">
+          <div>
+            <h2 className="display-1">{stats.inVoting}</h2>
+            <h3 className="label-2 m-1">{strings.inVoting}</h3>
           </div>
-          <div className="flex flex-col justify-between gap-2 rounded-xl bg-[#4A250D] p-12 text-[#F09150]">
-            <div>
-              <div className="display-1">{stats.inVoting}</div>
-              <div className="label-2">{strings.inVoting}</div>
-            </div>
-            <div className="flex justify-end">
-              <Button square variant="secondary">
-                <MdKeyboardArrowRight size={24} />
-              </Button>
-            </div>
-          </div>
-          <div className="flex flex-col justify-between gap-2 rounded-xl bg-[#3F2353] p-12 text-[#B57DE9]">
-            <div>
-              <div className="display-1">{stats.inProgress}</div>
-              <div className="label-2">{strings.inProgress}</div>
-            </div>
-            <div className="flex justify-end">
-              <Button square variant="secondary">
-                <MdKeyboardArrowRight size={24} />
-              </Button>
-            </div>
-          </div>
-          <div className="flex flex-col justify-between gap-2 rounded-xl bg-[#213824] p-12 text-[#7BBF7C]">
-            <div>
-              <div className="display-1">{stats.completed}</div>
-              <div className="label-2">{strings.completed}</div>
-            </div>
-            <div className="flex justify-end">
-              <Button square variant="secondary">
-                <MdKeyboardArrowRight size={24} />
-              </Button>
-            </div>
+          <div className="flex justify-end">
+            <Button square variant="secondary">
+              <MdKeyboardArrowRight size={24} />
+            </Button>
           </div>
         </div>
+        <div className="order-2 col-span-2 rounded-xl bg-subtle p-12 md:order-none md:row-span-1">
+          <h2 className="label-2 mb-1">{strings.operationalFunds}</h2>
+          <p className="title-2">
+            {stats.operationalFunds.toLocaleString('en-US', { minimumFractionDigits: 2 })} {strings.wax}
+          </p>
+        </div>
+        <div className="order-6 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#3F2353] p-12 text-[#B57DE9] md:order-none md:row-span-2">
+          <div>
+            <h2 className="display-1">{stats.inProgress}</h2>
+            <h3 className="label-2 mt-1">{strings.inProgress}</h3>
+          </div>
+          <div className="flex justify-end">
+            <Button square variant="secondary">
+              <MdKeyboardArrowRight size={24} />
+            </Button>
+          </div>
+        </div>
+        <div className="order-7 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#213824] p-12 text-[#7BBF7C] md:order-none md:row-span-2">
+          <div>
+            <h2 className="display-1">{stats.completed}</h2>
+            <h3 className="label-2 mt-1">{strings.completed}</h3>
+          </div>
+          <div className="flex justify-end">
+            <Button square variant="secondary">
+              <MdKeyboardArrowRight size={24} />
+            </Button>
+          </div>
+        </div>
+        <div className="order-3 col-span-2 rounded-xl bg-subtle p-12 md:order-none md:row-span-1">
+          <h2 className="label-2 mb-1">{strings.additionalFunds}</h2>
+          <p className="title-2">
+            {stats.additionalFunds.toLocaleString('en-US', { minimumFractionDigits: 2 })} {strings.wax}
+          </p>
+        </div>
       </div>
-      <div className="display-2">{strings.theProposalLifecycle}</div>
-      <div className="body-1 m-4">{strings.proposalLifecycleDescription}</div>
-      <img className="mb-30 mt-2 rounded-xl" src={proposalLifecycleImg} />
-    </div>
+      <div className="flex flex-col items-center justify-center px-4 text-center text-high-contrast">
+        <h2 className="display-2">{strings.theProposalLifecycle}</h2>
+        <p className="body-1 m-4">{strings.proposalLifecycleDescription}</p>
+        <img className="mb-30 mt-2 rounded-xl" src={proposalLifecycleImg} />
+      </div>
+    </>
   )
 }

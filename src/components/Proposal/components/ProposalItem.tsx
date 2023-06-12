@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import {
   MdAttachMoney,
   MdFingerprint,
@@ -8,28 +7,13 @@ import {
   MdPlaylistAddCheck
 } from 'react-icons/md'
 
-import { StatusTag, StatusType } from '@/components/StatusTag'
-
-interface ProposalListProps {
-  view?: 'grid' | 'list'
-  children: ReactNode
-}
-
-function ProposalList({ view = 'grid', children }: ProposalListProps) {
-  return (
-    <div
-      data-view={view}
-      className="group/proposal-list grid-col-1 mx-auto grid w-full max-w-7xl gap-1 px-1 md:grid-cols-2 md:gap-4 md:px-4 lg:grid-cols-3 data-[view=list]:lg:grid-cols-1"
-    >
-      {children}
-    </div>
-  )
-}
+import { StatusTag } from '@/components/StatusTag'
+import { proposalStatus } from '@/resources/proposalStatus'
 
 interface ProposalItemProps {
   title: string
   shortDescription: string
-  status: StatusType
+  status: proposalStatus
   deliverables: string
   id: string | number
   requestedAmount: string
@@ -38,7 +22,7 @@ interface ProposalItemProps {
   lastUpdate: string
 }
 
-function ProposalItem({
+export function ProposalItem({
   title,
   shortDescription,
   status,
@@ -103,9 +87,4 @@ function ProposalItem({
       </div>
     </div>
   )
-}
-
-export const Proposal = {
-  List: ProposalList,
-  Item: ProposalItem
 }

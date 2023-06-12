@@ -3,6 +3,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md'
 
 import proposalLifecycleImg from '@/assets/proposal-lifecycle.png'
 import { Button } from '@/components/Button'
+import { proposalStatus } from '@/resources/proposalStatus'
 import strings from '@/resources/strings'
 
 const mockedStats = {
@@ -34,7 +35,7 @@ export function Home() {
         <div className="order-4 col-span-1 flex flex-col justify-between rounded-xl bg-[#212C59] p-12 text-[#899CF8] md:order-none md:row-span-2">
           <div>
             <h2 className="display-1">{stats.inReview}</h2>
-            <h3 className="label-2 mt-1">{strings.inReview}</h3>
+            <h3 className="label-2 mt-1">{proposalStatus.REVIEW}</h3>
           </div>
           <div className="flex justify-end">
             <Button square variant="secondary">
@@ -45,7 +46,7 @@ export function Home() {
         <div className="order-5 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#4A250D] p-12 text-[#F09150] md:order-none md:row-span-2">
           <div>
             <h2 className="display-1">{stats.inVoting}</h2>
-            <h3 className="label-2 m-1">{strings.inVoting}</h3>
+            <h3 className="label-2 m-1">{proposalStatus.VOTING}</h3>
           </div>
           <div className="flex justify-end">
             <Button square variant="secondary">
@@ -62,7 +63,7 @@ export function Home() {
         <div className="order-6 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#3F2353] p-12 text-[#B57DE9] md:order-none md:row-span-2">
           <div>
             <h2 className="display-1">{stats.inProgress}</h2>
-            <h3 className="label-2 mt-1">{strings.inProgress}</h3>
+            <h3 className="label-2 mt-1">{proposalStatus.PROGRESS}</h3>
           </div>
           <div className="flex justify-end">
             <Button square variant="secondary">
@@ -73,7 +74,7 @@ export function Home() {
         <div className="order-7 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#213824] p-12 text-[#7BBF7C] md:order-none md:row-span-2">
           <div>
             <h2 className="display-1">{stats.completed}</h2>
-            <h3 className="label-2 mt-1">{strings.completed}</h3>
+            <h3 className="label-2 mt-1">{proposalStatus.COMPLETE}</h3>
           </div>
           <div className="flex justify-end">
             <Button square variant="secondary">

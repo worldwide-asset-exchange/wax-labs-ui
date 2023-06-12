@@ -30,7 +30,7 @@ export function AppBar() {
             <Nav.Item>
               <Nav.Button
                 onClick={() => {
-                  console.log('sign in')
+                  console.debug('sign in')
                 }}
               >
                 Sign in
@@ -41,7 +41,7 @@ export function AppBar() {
         {isAuthenticated && (
           <Nav.Button
             onClick={() => {
-              console.log('notification')
+              console.debug('notification')
             }}
           >
             <MdOutlineNotifications size={24} />

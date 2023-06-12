@@ -2,7 +2,8 @@ import { FaDiscord, FaTelegramPlane, FaTwitter } from 'react-icons/fa'
 
 import dlt from '@/assets/dlt.svg'
 import wax from '@/assets/wax.svg'
-import { Button } from '@/components/Button'
+import { Link } from '@/components/Link'
+import strings from '@/resources/strings'
 
 export function Footer() {
   return (
@@ -12,44 +13,27 @@ export function Footer() {
           <div className="flex flex-1 items-center gap-8">
             <img src={wax} alt="" />
             <div className="flex flex-none items-center gap-2">
-              <a
-                href="https://twitter.com/WAX_io"
-                target="_blank"
-                className="rounded-md p-3 text-high-contrast duration-150 hover:bg-subtle"
-                rel="noreferrer"
-              >
+              <Link href="https://twitter.com/WAX_io" square>
                 <FaTwitter size={24} />
-              </a>
-              <a
-                href="https://go.wax.io/Discord"
-                target="_blank"
-                className="rounded-md p-3 text-high-contrast duration-150 hover:bg-subtle"
-                rel="noreferrer"
-              >
+              </Link>
+              <Link href="https://go.wax.io/Discord" square>
                 <FaDiscord size={24} />
-              </a>
-              <a
-                href="https://t.me/wax_io"
-                target="_blank"
-                className="rounded-md p-3 text-high-contrast duration-150 hover:bg-subtle"
-                rel="noreferrer"
-              >
+              </Link>
+              <Link href="https://t.me/wax_io" square>
                 <FaTelegramPlane size={24} />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex flex-none items-center gap-2">
-            <Button to="/" variant="link" square>
-              Terms of Service
-            </Button>
-            <Button to="/" variant="link" square>
-              Privacy Policy
-            </Button>
+            <Link to="/" variant="link" square>
+              {strings.termsOfService}
+            </Link>
+            <Link to="/" variant="link" square>
+              {strings.privacyPolicy}
+            </Link>
           </div>
         </div>
-        <p className="body-2 pb-16 pt-8 text-center text-high-contrast md:text-left">
-          Copyright © 2023 WAX, Worldwide Asset eXchange™ All rights reserved.
-        </p>
+        <p className="body-2 pb-16 pt-8 text-center text-high-contrast md:text-left">{strings.copyright}</p>
         <a
           href="https://detroitledger.tech/"
           target="_blank"

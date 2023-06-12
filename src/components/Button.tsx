@@ -1,30 +1,23 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { ReactNode } from 'react'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'link'
-  to?: string
+  type?: 'button' | 'submit'
+  disabled?: boolean
   active?: boolean
   square?: boolean
+  onClick?: () => void
   children: ReactNode
 }
 
-export function Button({ variant, to, active, square, children, ...props }: ButtonProps) {
+export function Button({ variant, type = 'button', active, square, disabled, children }: ButtonProps) {
   const className = ['btn', variant ?? 'default', square ? 'square' : '', active ? 'active' : '']
     .join(' ')
     .replace(/\s+/g, ' ')
     .trim()
 
-  if (to) {
-    return (
-      <Link className={className} to={to}>
-        {children}
-      </Link>
-    )
-  }
-
   return (
-    <button className={className} type={props.type ?? 'button'} {...props}>
+    <button className={className} type={type} disabled={disabled}>
       {children}
     </button>
   )

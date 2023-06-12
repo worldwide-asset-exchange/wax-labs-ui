@@ -1,15 +1,6 @@
-export type StatusType =
-  | 'in drafting'
-  | 'in review'
-  | 'approved'
-  | 'in voting'
-  | 'in progress'
-  | 'cancelled'
-  | 'rejected'
-  | 'completed'
-
+import { proposalStatus } from '@/resources/proposalStatus'
 interface StatusTagProps {
-  status: StatusType
+  status: proposalStatus
 }
 
 export function StatusTag({ status }: StatusTagProps) {

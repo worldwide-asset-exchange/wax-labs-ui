@@ -4,7 +4,10 @@ import { MdKeyboardArrowDown, MdSearch } from 'react-icons/md'
 import { Button } from '@/components/Button'
 import { Header } from '@/components/Header'
 import { Input } from '@/components/Input'
+import { Link } from '@/components/Link'
 import { Proposal } from '@/components/Proposal'
+import { proposalStatus } from '@/resources/proposalStatus'
+import strings from '@/resources/strings'
 
 export function Proposals() {
   const [view, setView] = useState<'grid' | 'list'>('grid')
@@ -19,14 +22,14 @@ export function Proposals() {
         <Header.Content>
           <Header.Button
             onClick={() => {
-              console.log('click')
+              console.debug('click')
             }}
           >
-            All Proposals
+            {strings.allProposals}
           </Header.Button>
         </Header.Content>
         <Header.Action>
-          <Button variant="primary">Create proposal</Button>
+          <Link variant="primary">{strings.createProposal}</Link>
         </Header.Action>
       </Header.Root>
 
@@ -38,13 +41,13 @@ export function Proposals() {
         </div>
         <div className="flex-none">
           <Button active>
-            Categories
+            {strings.categories}
             <span className="label-1 rounded-full bg-accent px-2 text-ui-element">1</span>
           </Button>
         </div>
         <div className="flex-none">
           <Button>
-            Status
+            {strings.status}
             <MdKeyboardArrowDown size={24} />
           </Button>
         </div>
@@ -53,7 +56,7 @@ export function Proposals() {
         </div>
         <div className="flex-none">
           <Button>
-            Created last
+            {strings.createdLast}
             <MdKeyboardArrowDown size={24} />
           </Button>
         </div>
@@ -65,7 +68,7 @@ export function Proposals() {
             key={proposal}
             title="PFP Project Generator"
             shortDescription="We're developing a free to use PFP generator. Users will be able to create rules that define their PFP project."
-            status="completed"
+            status={proposalStatus.COMPLETE}
             deliverables="3 deliverables"
             id="523"
             requestedAmount="45,000 USD"
@@ -77,7 +80,7 @@ export function Proposals() {
       </Proposal.List>
 
       <div className="flex justify-center p-8">
-        <Button>Load More</Button>
+        <Button>{strings.loadMore}</Button>
       </div>
     </>
   )

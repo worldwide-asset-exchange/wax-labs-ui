@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
-import { MdKeyboardArrowDown } from 'react-icons/md'
+import { ReactNode } from 'react';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 
 interface HeaderButtonProps {
-  children: ReactNode
-  onClick: () => void
+  children: ReactNode;
+  onClick: () => void;
 }
 
 export function HeaderButton({ children, onClick }: HeaderButtonProps) {
@@ -16,5 +16,5 @@ export function HeaderButton({ children, onClick }: HeaderButtonProps) {
       <h1 className="title-2 text-high-contrast">{children}</h1>
       <MdKeyboardArrowDown size={24} className="text-accent" />
     </button>
-  )
+  );
 }

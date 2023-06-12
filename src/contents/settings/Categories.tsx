@@ -1,3 +1,3 @@
 export function Categories() {
-  return 'Categories'
+  return 'Categories';
 }

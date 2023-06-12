@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-import { AppBar } from '@/components/AppBar'
-import { Footer } from '@/components/Footer'
+import { AppBar } from '@/components/AppBar';
+import { Footer } from '@/components/Footer';
 
 export function AppLayout() {
   return (
@@ -10,5 +10,5 @@ export function AppLayout() {
       <Outlet />
       <Footer />
     </>
-  )
+  );
 }

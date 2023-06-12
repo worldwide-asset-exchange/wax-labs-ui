@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 interface NavItemProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function NavItem({ children }: NavItemProps) {
-  return <li>{children}</li>
+  return <li>{children}</li>;
 }

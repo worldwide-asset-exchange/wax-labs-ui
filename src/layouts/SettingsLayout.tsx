@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-import { Header } from '@/components/Header'
-import string from '@/resources/strings'
+import { Header } from '@/components/Header';
+import string from '@/resources/strings';
 
 export function SettingsLayout() {
   return (
@@ -11,5 +11,5 @@ export function SettingsLayout() {
       </Header.Root>
       <Outlet />
     </>
-  )
+  );
 }

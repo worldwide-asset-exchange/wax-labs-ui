@@ -1,9 +1,9 @@
-import { FaDiscord, FaTelegramPlane, FaTwitter } from 'react-icons/fa'
+import { FaDiscord, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
 
-import dlt from '@/assets/dlt.svg'
-import wax from '@/assets/wax.svg'
-import { Link } from '@/components/Link'
-import strings from '@/resources/strings'
+import dlt from '@/assets/dlt.svg';
+import wax from '@/assets/wax.svg';
+import { Link } from '@/components/Link';
+import strings from '@/resources/strings';
 
 export function Footer() {
   return (
@@ -44,5 +44,5 @@ export function Footer() {
         </a>
       </div>
     </footer>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
-import { NavLink as RouterNavLink } from 'react-router-dom'
+import { ReactNode } from 'react';
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
 interface NavLinkProps {
-  to: string
-  children: ReactNode
+  to: string;
+  children: ReactNode;
 }
 
 export function NavLink({ to, children }: NavLinkProps) {
@@ -14,5 +14,5 @@ export function NavLink({ to, children }: NavLinkProps) {
     >
       {children}
     </RouterNavLink>
-  )
+  );
 }

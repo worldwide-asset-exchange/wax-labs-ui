@@ -1,14 +1,14 @@
-import { forwardRef, InputHTMLAttributes, ReactNode, Ref, useId } from 'react'
-import { MdOutlineErrorOutline } from 'react-icons/md'
+import { forwardRef, InputHTMLAttributes, ReactNode, Ref, useId } from 'react';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  error?: string | boolean
-  children?: ReactNode
+  label?: string;
+  error?: string | boolean;
+  children?: ReactNode;
 }
 
 function InputComponent({ label, error, children, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
-  const id = useId()
+  const id = useId();
 
   return (
     <div data-error={!!error} className="group/input">
@@ -36,7 +36,7 @@ function InputComponent({ label, error, children, ...props }: InputProps, ref: R
       </div>
       {error && <span className="body-3 mt-2 block text-[#ED6E6D]">{error}</span>}
     </div>
-  )
+  );
 }
 
-export const Input = forwardRef(InputComponent)
+export const Input = forwardRef(InputComponent);

@@ -1,13 +1,13 @@
-import { forwardRef, Ref, TextareaHTMLAttributes, useId } from 'react'
-import { MdOutlineErrorOutline } from 'react-icons/md'
+import { forwardRef, Ref, TextareaHTMLAttributes, useId } from 'react';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string
-  error?: string | boolean
+  label?: string;
+  error?: string | boolean;
 }
 
 function TextAreaComponent({ label, error, ...props }: TextAreaProps, ref: Ref<HTMLTextAreaElement>) {
-  const id = useId()
+  const id = useId();
 
   return (
     <div data-error={!!error} className="group/input">
@@ -33,7 +33,7 @@ function TextAreaComponent({ label, error, ...props }: TextAreaProps, ref: Ref<H
       </div>
       {error && <span className="body-3 mt-2 block text-[#ED6E6D]">{error}</span>}
     </div>
-  )
+  );
 }
 
-export const TextArea = forwardRef(TextAreaComponent)
+export const TextArea = forwardRef(TextAreaComponent);

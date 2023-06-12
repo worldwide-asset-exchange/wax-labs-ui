@@ -6,5 +6,5 @@ export enum proposalStatus {
   PROGRESS = 'in progress',
   CANCELLED = 'cancelled',
   REJECTED = 'rejected',
-  COMPLETE = 'completed'
+  COMPLETE = 'completed',
 }

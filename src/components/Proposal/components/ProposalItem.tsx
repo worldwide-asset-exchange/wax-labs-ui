@@ -4,22 +4,22 @@ import {
   MdOutlineCalendarToday,
   MdOutlineLabel,
   MdOutlinePerson,
-  MdPlaylistAddCheck
-} from 'react-icons/md'
+  MdPlaylistAddCheck,
+} from 'react-icons/md';
 
-import { StatusTag } from '@/components/StatusTag'
-import { proposalStatus } from '@/resources/proposalStatus'
+import { StatusTag } from '@/components/StatusTag';
+import { proposalStatus } from '@/resources/proposalStatus';
 
 interface ProposalItemProps {
-  title: string
-  shortDescription: string
-  status: proposalStatus
-  deliverables: string
-  id: string | number
-  requestedAmount: string
-  proposer: string
-  category: string
-  lastUpdate: string
+  title: string;
+  shortDescription: string;
+  status: proposalStatus;
+  deliverables: string;
+  id: string | number;
+  requestedAmount: string;
+  proposer: string;
+  category: string;
+  lastUpdate: string;
 }
 
 export function ProposalItem({
@@ -31,7 +31,7 @@ export function ProposalItem({
   requestedAmount,
   proposer,
   category,
-  lastUpdate
+  lastUpdate,
 }: ProposalItemProps) {
   return (
     <div className="group/proposal-item flex cursor-pointer flex-col divide-y divide-subtle-light rounded-xl bg-subtle p-4 duration-150 hover:ring-1 hover:ring-accent-dark group-data-[view=list]/proposal-list:lg:flex-row group-data-[view=list]/proposal-list:lg:divide-y-0">
@@ -86,5 +86,5 @@ export function ProposalItem({
         </div>
       </div>
     </div>
-  )
+  );
 }

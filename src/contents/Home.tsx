@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
-import { MdKeyboardArrowRight } from 'react-icons/md'
+import { useEffect, useState } from 'react';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
-import proposalLifecycleImg from '@/assets/proposal-lifecycle.png'
-import { Button } from '@/components/Button'
-import { proposalStatus } from '@/resources/proposalStatus'
-import strings from '@/resources/strings'
+import proposalLifecycleImg from '@/assets/proposal-lifecycle.png';
+import { Button } from '@/components/Button';
+import { proposalStatus } from '@/resources/proposalStatus';
+import strings from '@/resources/strings';
 
 const mockedStats = {
   inReview: 2,
@@ -12,15 +12,15 @@ const mockedStats = {
   inProgress: 14,
   completed: 28,
   operationalFunds: 689210,
-  additionalFunds: 159469353.65
-}
+  additionalFunds: 159469353.65,
+};
 
 export function Home() {
-  const [stats, setStats] = useState(mockedStats)
+  const [stats, setStats] = useState(mockedStats);
 
   useEffect(() => {
-    setStats(mockedStats)
-  }, [])
+    setStats(mockedStats);
+  }, []);
 
   return (
     <>
@@ -95,5 +95,5 @@ export function Home() {
         <img className="mb-30 mt-2 rounded-xl" src={proposalLifecycleImg} />
       </div>
     </>
-  )
+  );
 }

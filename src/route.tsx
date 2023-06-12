@@ -1,10 +1,10 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 
-import { Home } from '@/contents/Home'
-import { Proposals } from '@/contents/Proposals'
-import { Categories } from '@/contents/settings/Categories'
-import { AppLayout } from '@/layouts/AppLayout'
-import { SettingsLayout } from '@/layouts/SettingsLayout'
+import { Home } from '@/contents/Home';
+import { Proposals } from '@/contents/Proposals';
+import { Categories } from '@/contents/settings/Categories';
+import { AppLayout } from '@/layouts/AppLayout';
+import { SettingsLayout } from '@/layouts/SettingsLayout';
 
 export const route = createBrowserRouter(
   createRoutesFromElements(
@@ -16,4 +16,4 @@ export const route = createBrowserRouter(
       </Route>
     </Route>
   )
-)
+);

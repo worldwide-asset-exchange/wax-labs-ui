@@ -1,22 +1,22 @@
-import { ReactNode, useEffect, useState } from 'react'
-import { MdClose, MdMenu } from 'react-icons/md'
-import { useLocation } from 'react-router-dom'
+import { ReactNode, useEffect, useState } from 'react';
+import { MdClose, MdMenu } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
 
 interface NavRootProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function NavRoot({ children }: NavRootProps) {
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false);
 
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
-    setShowMenu(false)
-  }, [location])
+    setShowMenu(false);
+  }, [location]);
 
   function toggleMenu() {
-    setShowMenu((state) => !state)
+    setShowMenu(state => !state);
   }
 
   return (
@@ -30,5 +30,5 @@ export function NavRoot({ children }: NavRootProps) {
       </button>
       {children}
     </nav>
-  )
+  );
 }

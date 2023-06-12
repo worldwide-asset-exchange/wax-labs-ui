@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { MdKeyboardArrowDown, MdSearch } from 'react-icons/md'
+import { useState } from 'react';
+import { MdKeyboardArrowDown, MdSearch } from 'react-icons/md';
 
-import { Button } from '@/components/Button'
-import { Header } from '@/components/Header'
-import { Input } from '@/components/Input'
-import { Link } from '@/components/Link'
-import { Proposal } from '@/components/Proposal'
-import { proposalStatus } from '@/resources/proposalStatus'
-import strings from '@/resources/strings'
+import { Button } from '@/components/Button';
+import { Header } from '@/components/Header';
+import { Input } from '@/components/Input';
+import { Link } from '@/components/Link';
+import { Proposal } from '@/components/Proposal';
+import { proposalStatus } from '@/resources/proposalStatus';
+import strings from '@/resources/strings';
 
 export function Proposals() {
-  const [view, setView] = useState<'grid' | 'list'>('grid')
+  const [view, setView] = useState<'grid' | 'list'>('grid');
 
   function handleOnClick() {
-    setView((state) => (state === 'grid' ? 'list' : 'grid'))
+    setView(state => (state === 'grid' ? 'list' : 'grid'));
   }
 
   return (
@@ -22,7 +22,7 @@ export function Proposals() {
         <Header.Content>
           <Header.Button
             onClick={() => {
-              console.debug('click')
+              console.debug('click');
             }}
           >
             {strings.allProposals}
@@ -63,7 +63,7 @@ export function Proposals() {
       </div>
 
       <Proposal.List view={view}>
-        {[1, 2, 3, 4].map((proposal) => (
+        {[1, 2, 3, 4].map(proposal => (
           <Proposal.Item
             key={proposal}
             title="PFP Project Generator"
@@ -83,5 +83,5 @@ export function Proposals() {
         <Button>{strings.loadMore}</Button>
       </div>
     </>
-  )
+  );
 }

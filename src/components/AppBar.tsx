@@ -1,10 +1,10 @@
-import { MdOutlineNotifications } from 'react-icons/md'
+import { MdOutlineNotifications } from 'react-icons/md';
 
-import Logo from '@/assets/logo.svg'
-import { Nav } from '@/components/Nav'
+import Logo from '@/assets/logo.svg';
+import { Nav } from '@/components/Nav';
 
 export function AppBar() {
-  const isAuthenticated = true
+  const isAuthenticated = true;
 
   return (
     <header className="sticky left-0 top-0 z-30 flex items-center justify-between border-b border-subtle-light bg-app p-4 pb-[calc(1rem-1px)]">
@@ -30,7 +30,7 @@ export function AppBar() {
             <Nav.Item>
               <Nav.Button
                 onClick={() => {
-                  console.debug('sign in')
+                  console.debug('sign in');
                 }}
               >
                 Sign in
@@ -41,7 +41,7 @@ export function AppBar() {
         {isAuthenticated && (
           <Nav.Button
             onClick={() => {
-              console.debug('notification')
+              console.debug('notification');
             }}
           >
             <MdOutlineNotifications size={24} />
@@ -49,5 +49,5 @@ export function AppBar() {
         )}
       </Nav.Root>
     </header>
-  )
+  );
 }

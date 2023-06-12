@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 interface ProposalListProps {
-  view?: 'grid' | 'list'
-  children: ReactNode
+  view?: 'grid' | 'list';
+  children: ReactNode;
 }
 
 export function ProposalList({ view = 'grid', children }: ProposalListProps) {
@@ -13,5 +13,5 @@ export function ProposalList({ view = 'grid', children }: ProposalListProps) {
     >
       {children}
     </div>
-  )
+  );
 }

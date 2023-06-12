@@ -1,8 +1,8 @@
-import { forwardRef, InputHTMLAttributes, Ref } from 'react'
+import { forwardRef, InputHTMLAttributes, Ref } from 'react';
 
 interface ToggleFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string
-  type: 'checkbox' | 'radio'
+  label: string;
+  type: 'checkbox' | 'radio';
 }
 
 function ToggleFieldComponent({ label, type, ...props }: ToggleFieldProps, ref: Ref<HTMLInputElement>) {
@@ -16,7 +16,7 @@ function ToggleFieldComponent({ label, type, ...props }: ToggleFieldProps, ref: 
       />
       <span className="label-1 select-none text-high-contrast peer-checked:text-accent">{label}</span>
     </label>
-  )
+  );
 }
 
-export const ToggleField = forwardRef(ToggleFieldComponent)
+export const ToggleField = forwardRef(ToggleFieldComponent);

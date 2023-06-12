@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 interface NavButtonProps {
-  onClick: () => void
-  children: ReactNode
+  onClick: () => void;
+  children: ReactNode;
 }
 
 export function NavButton({ onClick, children }: NavButtonProps) {
@@ -14,5 +14,5 @@ export function NavButton({ onClick, children }: NavButtonProps) {
     >
       {children}
     </button>
-  )
+  );
 }

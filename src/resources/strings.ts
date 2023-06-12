@@ -35,7 +35,7 @@ const strings = {
 
   termsOfService: 'Terms of Service',
   privacyPolicy: 'Privacy Policy',
-  copyright: 'Copyright © 2023 WAX, Worldwide Asset eXchange™ All rights reserved.'
-}
+  copyright: 'Copyright © 2023 WAX, Worldwide Asset eXchange™ All rights reserved.',
+};
 
-export default strings
+export default strings;

@@ -12,6 +12,9 @@ export default {
       body: ['Open Sans', 'sans-serif'],
     },
     extend: {
+      screens: {
+        'max-md': { max: '767px' }
+      },
       colors: {
         'accent': {
           DEFAULT: "#F78E1E",
@@ -19,6 +22,7 @@ export default {
         },
         'app': '#171717',
         'subtle': '#262626',
+        'subtle-light': '#333333',
         'ui-element': '#404040',
         'low-contrast': '#D4D4D4',
         'high-contrast': '#FFFFFF',
@@ -27,6 +31,7 @@ export default {
     },
   },
   plugins: [
+    require('@tailwindcss/forms'),
     plugin(function({ addComponents }) {
       addComponents({
         '.display-1': {
@@ -52,6 +57,9 @@ export default {
         },
         '.body-2': {
           'font': '400 1rem/1.5rem "Open Sans", sans-serif'
+        },
+        '.body-3': {
+          'font': '400 0.875rem/1.375rem "Open Sans", sans-serif'
         },
         '.label-1': {
           'font': '700 1rem/1.5rem "Open Sans", sans-serif'

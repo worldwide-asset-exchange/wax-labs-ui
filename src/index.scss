@@ -8,11 +8,30 @@
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
     }
+
+    [type='checkbox'],
+    [type='radio'] {
+        &:checked {
+            background-image: url('check-mark.svg');
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    [type='checkbox'] {
+        @apply rounded-sm
+    }
+
+    [type='radio'] {
+        @apply rounded-full
+    }
 }
 
 @layer components {
     .btn {
-        @apply flex items-center gap-2 rounded-md border border-transparent px-[calc(1.5rem-1px)] py-[calc(0.75rem-1px)] label-1 duration-150 ease-in-out hover:underline;
+        @apply flex items-center gap-2 rounded-md border border-transparent px-[calc(1.5rem-1px)] py-[calc(0.75rem-1px)] label-1 duration-150 ease-in-out hover:underline focus:ring-1 focus:ring-accent-dark focus:outline-0;
         
         &.square {
             @apply px-[calc(0.75rem-1px)];
@@ -40,6 +59,42 @@
     
         &.link {
             @apply border-transparent bg-transparent text-high-contrast;
+        }
+    }
+
+    .status-tag {
+        @apply label-2 inline-block px-4 py-2 rounded-full whitespace-nowrap;
+
+        &.in-drafting {
+            @apply bg-[#173743] text-[#57BFD4];
+        }
+
+        &.in-review {
+            @apply bg-[#212C59] text-[#899CF8];
+        }
+
+        &.approved {
+            @apply bg-[#183832] text-[#5AC2B3];
+        }
+
+        &.in-voting {
+            @apply bg-[#4A250D] text-[#F09150];
+        }
+
+        &.in-progress {
+            @apply bg-[#3F2353] text-[#B57DE9];
+        }
+
+        &.cancelled {
+            @apply bg-[#4E1F21] text-[#ED6E6D];
+        }
+
+        &.rejected {
+            @apply bg-[#4E2018] text-[#E07258];
+        }
+
+        &.completed {
+            @apply bg-[#213824] text-[#7BBF7C];
         }
     }
 }

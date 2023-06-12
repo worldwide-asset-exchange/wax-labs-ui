@@ -1,11 +1,7 @@
-import { Home } from './contents/Home'
+import { RouterProvider } from 'react-router-dom'
 
-export const App: React.FC = () => {
-  return (
-    <>
-      <Home />
-    </>
-  )
+import { route } from '@/route'
+
+export function App() {
+  return <RouterProvider router={route} />
 }
-
-export default App

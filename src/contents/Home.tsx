@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { FaSpinner } from 'react-icons/fa';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import {

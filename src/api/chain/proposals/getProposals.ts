@@ -1,13 +1,6 @@
 import wax from '@/api/chain';
 import { Proposal } from '@/api/models/proposal.ts';
-import {
-  INDEX_POSITION,
-  KEY_TYPE,
-  LABS_CONTRACT_ACCOUNT,
-  ProposalFilterType,
-  ProposalStatusKey,
-  Tables,
-} from '@/constants.ts';
+import { INDEX_POSITION, KEY_TYPE, LABS_CONTRACT_ACCOUNT, ProposalFilterType, Tables } from '@/constants.ts';
 
 export interface ProposalResponse {
   proposals: Proposal[] | null;
@@ -15,30 +8,26 @@ export interface ProposalResponse {
   more: boolean;
 }
 
-interface ProposalsFilterRange {
-  queryType: ProposalFilterType;
-  lowerBound: string;
-  upperBound: string;
+interface ProposalsFilter {
+  queryType?: ProposalFilterType;
+  lowerBound?: string;
+  upperBound?: string;
 }
 
-export interface ProposalsFilter extends ProposalsFilterRange {
-  statusKey: ProposalStatusKey;
-}
-
-async function getProposalRange({
+async function _getProposalRangeLimit({
   queryType,
   lowerBound,
   upperBound,
-}: ProposalsFilterRange): Promise<ProposalResponse> {
+}: ProposalsFilter): Promise<ProposalResponse> {
   const { rows, next_key, more } = await wax.rpc.get_table_rows({
     code: LABS_CONTRACT_ACCOUNT,
     scope: LABS_CONTRACT_ACCOUNT,
     table: Tables.PROPOSALS,
     json: true,
-    key_type: KEY_TYPE[queryType],
-    index_position: INDEX_POSITION[queryType],
-    lower_bound: lowerBound,
-    upper_bound: upperBound,
+    ...(queryType != null ? { key_type: KEY_TYPE[queryType] } : {}),
+    ...(queryType != null ? { INDEX_POSITION: INDEX_POSITION[queryType] } : {}),
+    ...(lowerBound != null ? { lower_bound: lowerBound } : {}),
+    ...(upperBound != null ? { upper_bound: upperBound } : {}),
     limit: 1000,
   });
 
@@ -52,7 +41,11 @@ export async function getProposals({ queryType, lowerBound, upperBound }: Propos
 
   try {
     for (;;) {
-      const { proposals, more, next_key } = await getProposalRange({ queryType, upperBound, lowerBound: nextKey });
+      const { proposals, more, next_key } = await _getProposalRangeLimit({
+        queryType,
+        upperBound,
+        lowerBound: nextKey,
+      });
 
       proposalsArray.push(...(proposals || []));
 

@@ -1,25 +1,11 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
-
-/**
- * Execute Chain actions. Requires a signed-in user
- *
- * @throws {Error}
- */
-export async function execute(activeUser: WaxUser, actions: Action<unknown>[]) {
-  try {
-    return await activeUser.signTransaction(
-      { actions },
-      {
-        blocksBehind: 3,
-        expireSeconds: 30,
-      }
-    );
-  } catch (e) {
-    const actionNames = actions.map(a => `\`${a.name}\``).join(', ');
-    console.error(`Executing actions: ${actionNames}`, e);
-
-    throw e;
-  }
-}
+export { addCategory } from './addCategory';
+export { createProposal } from './createProposal';
+export { deleteCategory } from './deleteCategory';
+export { editProposal } from './editProposal';
+export { execute } from './execute';
+export { removeProfile } from './removeProfile';
+export { setAdmin } from './setAdmin';
+export { setMaxRequested } from './setMaxRequested';
+export { setMinRequested } from './setMinRequested';
+export { transferFunds } from './transferFunds';
+export { withdraw } from './withdraw';

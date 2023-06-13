@@ -1,6 +1,9 @@
 export { completedProposals } from './completedProposals';
 export { configData } from './configData';
+export { deliverables } from './deliverables';
 export { inProgressProposals } from './inProgressProposals';
 export { inReviewProposals } from './inReviewProposals';
 export { inVotingProposals } from './inVotingProposals';
+export { proposalContentData } from './proposalContentData';
+export { singleProposal } from './singleProposal';
 export { userProposals } from './userProposals';

@@ -3,7 +3,7 @@ import { GetTableRowsResult } from '@/api/models';
 import { Profile } from '@/api/models/profile.ts';
 import { LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
 
-export default async function fetchProfile(profile: string) {
+export default async function accountProfile(profile: string) {
   try {
     const { rows } = (await wax.rpc.get_table_rows({
       code: LABS_CONTRACT_ACCOUNT,

@@ -7,6 +7,8 @@ export const {
   VITE_LABS_CONTRACT_ACCOUNT: LABS_CONTRACT_ACCOUNT,
 } = import.meta.env;
 
+export const DRAFT_PROP_AMOUNT = '100.00000000 WAX';
+
 export const TOKEN_SYMBOL = 'WAX';
 
 export const PLACEHOLDER_IMAGE = 'https://wax.nyc3.cdn.digitaloceanspaces.com/default-wax-image.svg';

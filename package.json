@@ -17,6 +17,7 @@
     "@waxio/waxjs": "^1.5.0-beta.1",
     "@radix-ui/react-dialog": "^1.0.4",
     "axios": "^1.4.0",
+    "eosjs": "^22.1.0",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^7.0.2",
     "i18next-http-backend": "^2.2.1",

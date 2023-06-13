@@ -22,3 +22,7 @@ export interface MinRequested {
 export interface MaxRequested {
   new_max_requested: string;
 }
+
+export interface SetAdmin {
+  new_admin: string;
+}

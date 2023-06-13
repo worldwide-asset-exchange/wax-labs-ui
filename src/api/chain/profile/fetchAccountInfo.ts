@@ -1,24 +1,23 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
 import wax from '@/api/chain';
+import { GetTableRowsResult } from '@/api/models';
 import { LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
-import { toFloat } from '@/utils/parser.ts';
+import { currencyToFloat } from '@/utils/parser.ts';
 
-export async function fetchAccountInfo({ activeUser }: { activeUser: WaxUser }): Promise<number | null> {
+export async function fetchAccountInfo({ accountName }: { accountName: string }): Promise<number | null> {
   try {
-    const resp = await wax.rpc.get_table_rows({
+    const { rows } = (await wax.rpc.get_table_rows({
       code: LABS_CONTRACT_ACCOUNT,
-      scope: activeUser.accountName,
+      scope: accountName,
       table: Tables.ACCOUNTS,
       json: true,
       limit: 1,
-    });
+    })) as GetTableRowsResult<{ balance: string | null }>;
 
-    if (resp.rows.length) {
-      return toFloat(resp.rows[0].balance);
+    if (rows.length) {
+      return currencyToFloat(rows?.[0]?.balance);
     }
   } catch (e) {
-    console.error('getAccountInfo error', e);
+    console.error('fetchAccountInfo error', e);
   }
 
   return null;

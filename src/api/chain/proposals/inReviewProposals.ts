@@ -2,7 +2,7 @@ import { getProposals } from '@/api/chain/proposals/getProposals.ts';
 import { statBounds } from '@/api/chain/proposals/proposalBounds.ts';
 import { ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
-export function submittedProposals() {
+export function inReviewProposals() {
   const { upperBound, lowerBound } = statBounds(ProposalStatusKey.SUBMITTED);
 
   return getProposals({

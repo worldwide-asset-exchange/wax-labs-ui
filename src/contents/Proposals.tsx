@@ -15,9 +15,9 @@ import { Header } from '@/components/Header';
 import { Input } from '@/components/Input';
 import { Link } from '@/components/Link';
 import { Proposal } from '@/components/Proposal';
+import { ProposalStatus } from '@/constants.ts';
 import { toggleView } from '@/components/Proposal/proposalView';
 import { ToggleField } from '@/components/ToggleField';
-import { proposalStatus } from '@/resources/proposalStatus';
 
 export function Proposals() {
   const filterBarRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);

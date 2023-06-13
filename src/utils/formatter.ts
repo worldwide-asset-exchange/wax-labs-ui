@@ -1,11 +1,19 @@
-export function calculateWAXPrice(formattedUSDPrice: number, intendedDelphiMedian: number): string {
-  if (intendedDelphiMedian) {
-    return (formattedUSDPrice / (intendedDelphiMedian / 1e4)).toFixed(2);
-  } else {
+import { TOKEN_SYMBOL } from '@/constants.ts';
+
+const numberFormatter = new Intl.NumberFormat(undefined, {
+  style: 'decimal',
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 2,
+});
+
+export function formatDecimal(waxValue: number | null) {
+  if (!waxValue) {
     return '0';
   }
+
+  return numberFormatter.format(waxValue);
 }
 
-export function calculateUSDPrice(formattedWAXPrice: number, intendedDelphiMedian: number): string {
-  return (formattedWAXPrice * (intendedDelphiMedian / 1e4)).toFixed(2);
+export function formatWax(waxValue: number | null) {
+  return `${formatDecimal(waxValue)} ${TOKEN_SYMBOL}`;
 }

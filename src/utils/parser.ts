@@ -1,9 +1,13 @@
-export function toFloat(str: string) {
+export function toFloat(str: string | null) {
+  if (str == null) {
+    return null;
+  }
+
   return parseFloat(parseFloat(str).toFixed(2));
 }
 
-export function requestedAmountToFloat(requestedAmount: string | null | number) {
-  if (requestedAmount == null || isNaN(requestedAmount as number)) {
+export function currencyToFloat(requestedAmount: string | null | number) {
+  if (requestedAmount == null) {
     return null;
   }
 
@@ -11,10 +15,7 @@ export function requestedAmountToFloat(requestedAmount: string | null | number) 
     return requestedAmount;
   }
 
-  return toFloat((requestedAmount as string).split(' ')[0]);
-}
+  const result = toFloat((requestedAmount as string).split(' ')[0]);
 
-export function numberWithCommas(n) {
-  const parts = n.toString().split('.');
-  return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[1] ? '.' + parts[1] : '');
+  return result && !isNaN(result) ? result : null;
 }

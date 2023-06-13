@@ -1,4 +1,11 @@
-export const { WAX_RPC, WAX_PROTOCOL, WAX_HOST, WAX_PORT, APP_NAME, LABS_CONTRACT_ACCOUNT } = import.meta.env;
+export const {
+  VITE_WAX_RPC: WAX_RPC,
+  VITE_WAX_PROTOCOL: WAX_PROTOCOL,
+  VITE_WAX_HOST: WAX_HOST,
+  VITE_WAX_PORT: WAX_PORT,
+  VITE_APP_NAME: APP_NAME,
+  VITE_LABS_CONTRACT_ACCOUNT: LABS_CONTRACT_ACCOUNT,
+} = import.meta.env;
 
 export const TOKEN_SYMBOL = 'WAX';
 
@@ -85,6 +92,17 @@ export enum ProposalFilterType {
   BY_PROPOSER_STAT = 'BY_PROPOSER_STAT',
   BY_REVIEWER_STAT = 'BY_REVIEWER_STAT',
   BY_BALLOT = 'BY_BALLOT',
+}
+
+export enum ProposalStatus {
+  DRAFTING = 'in drafting',
+  REVIEW = 'in review',
+  APPROVED = 'approved',
+  VOTING = 'in voting',
+  PROGRESS = 'in progress',
+  CANCELLED = 'cancelled',
+  REJECTED = 'rejected',
+  COMPLETE = 'completed',
 }
 
 const I64 = 'i64';

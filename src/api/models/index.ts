@@ -9,3 +9,10 @@ export interface Action<T> {
   authorization: Authorization[];
   data: T;
 }
+
+export interface GetTableRowsResult<T> {
+  rows: T[];
+  more: boolean;
+  next_key: string;
+  next_key_bytes: string;
+}

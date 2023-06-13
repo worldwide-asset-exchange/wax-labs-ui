@@ -1,6 +1,7 @@
-import { proposalStatus } from '@/resources/proposalStatus';
+import { ProposalStatus } from '@/constants.ts';
+
 interface StatusTagProps {
-  status: proposalStatus;
+  status: ProposalStatus;
 }
 
 export function StatusTag({ status }: StatusTagProps) {

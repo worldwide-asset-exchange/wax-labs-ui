@@ -54,7 +54,7 @@ export async function getProposals({ queryType, lowerBound, upperBound }: Propos
     for (;;) {
       const { proposals, more, next_key } = await getProposalRange({ queryType, upperBound, lowerBound: nextKey });
 
-      proposalsArray.concat(proposals || []);
+      proposalsArray.push(...(proposals || []));
 
       if (!more) {
         break;

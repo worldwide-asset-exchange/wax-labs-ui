@@ -15,13 +15,13 @@ export function Footer() {
           <div className="flex flex-1 items-center gap-8">
             <img src={wax} alt="" />
             <div className="flex flex-none items-center gap-2">
-              <Link href="https://twitter.com/WAX_io" square>
+              <Link newWindow to="https://twitter.com/WAX_io" square>
                 <FaTwitter size={24} />
               </Link>
-              <Link href="https://go.wax.io/Discord" square>
+              <Link newWindow to="https://go.wax.io/Discord" square>
                 <FaDiscord size={24} />
               </Link>
-              <Link href="https://t.me/wax_io" square>
+              <Link newWindow to="https://t.me/wax_io" square>
                 <FaTelegramPlane size={24} />
               </Link>
             </div>

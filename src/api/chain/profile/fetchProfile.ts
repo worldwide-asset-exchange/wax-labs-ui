@@ -1,10 +1,11 @@
 import wax from '@/api/chain';
+import { GetTableRowsResult } from '@/api/models';
 import { Profile } from '@/api/models/profile.ts';
 import { LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
 
 export default async function fetchProfile(profile: string) {
   try {
-    const { rows } = await wax.rpc.get_table_rows({
+    const { rows } = (await wax.rpc.get_table_rows({
       code: LABS_CONTRACT_ACCOUNT,
       scope: LABS_CONTRACT_ACCOUNT,
       table: Tables.PROFILES,
@@ -12,7 +13,7 @@ export default async function fetchProfile(profile: string) {
       lower_bound: profile,
       upper_bound: profile,
       limit: 1,
-    });
+    })) as GetTableRowsResult<{ profile?: Profile }>;
 
     return rows?.[0]?.profile as Profile;
   } catch (e) {

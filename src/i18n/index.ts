@@ -5,7 +5,7 @@ import { initReactI18next } from 'react-i18next';
 
 i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
   debug: true,
-  fallbackLng: 'en-us',
+  fallbackLng: 'en-US',
 });
 
 export default i18n;

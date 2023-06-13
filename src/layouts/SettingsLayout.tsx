@@ -24,7 +24,7 @@ export function SettingsLayout() {
           {({ isActive }) => (
             <Tabs.Item active={isActive}>
               <MdOutlineLabel size={24} />
-              Categories
+              {t('categories')}
             </Tabs.Item>
           )}
         </NavLink>
@@ -32,7 +32,7 @@ export function SettingsLayout() {
           {({ isActive }) => (
             <Tabs.Item active={isActive}>
               <MdOutlineHowToVote size={24} />
-              Voting period
+              {t('votingPeriod')}
             </Tabs.Item>
           )}
         </NavLink>
@@ -40,7 +40,7 @@ export function SettingsLayout() {
           {({ isActive }) => (
             <Tabs.Item active={isActive}>
               <MdOutlinePersonRemove size={24} />
-              Remove profile
+              {t('removeProfile')}
             </Tabs.Item>
           )}
         </NavLink>
@@ -48,7 +48,7 @@ export function SettingsLayout() {
           {({ isActive }) => (
             <Tabs.Item active={isActive}>
               <MdOutlineAdminPanelSettings size={24} />
-              Admin role
+              {t('adminRole')}
             </Tabs.Item>
           )}
         </NavLink>
@@ -56,7 +56,7 @@ export function SettingsLayout() {
           {({ isActive }) => (
             <Tabs.Item active={isActive}>
               <MdOutlineAttachMoney size={24} />
-              Usd requested
+              {t('USDRequested')}
             </Tabs.Item>
           )}
         </NavLink>

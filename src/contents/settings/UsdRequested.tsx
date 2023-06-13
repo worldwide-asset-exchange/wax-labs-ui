@@ -1,3 +1,3 @@
-export function UsdRequested() {
-  return 'UsdRequested';
+export function USDRequested() {
+  return 'USDRequested';
 }

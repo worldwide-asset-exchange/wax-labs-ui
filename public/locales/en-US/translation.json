@@ -34,6 +34,10 @@
   "sortBy": "Sort by",
 
   "settings": "Settings",
+  "votingPeriod": "Voting Period",
+  "removeProfile": "Remove Profile",
+  "adminRole": "Admin Role",
+  "USDRequested": "USD Requested",
 
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",

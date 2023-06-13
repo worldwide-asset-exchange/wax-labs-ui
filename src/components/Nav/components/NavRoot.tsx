@@ -21,6 +21,7 @@ export function NavRoot({ children }: NavRootProps) {
 
   return (
     <nav data-status={showMenu ? 'visible' : 'hidden'} className="group/nav flex gap-2">
+      {children}
       <button
         type="button"
         onClick={toggleMenu}
@@ -28,7 +29,6 @@ export function NavRoot({ children }: NavRootProps) {
       >
         {showMenu ? <MdClose size={24} /> : <MdMenu size={24} />}
       </button>
-      {children}
     </nav>
   );
 }

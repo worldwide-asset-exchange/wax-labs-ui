@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { forwardRef, ReactNode, Ref } from 'react';
 
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
@@ -10,15 +10,20 @@ interface ButtonProps {
   children: ReactNode;
 }
 
-export function Button({ variant, type = 'button', active, square, disabled, children }: ButtonProps) {
+function ButtonComponent(
+  { variant, type = 'button', active, square, disabled, onClick, children }: ButtonProps,
+  ref: Ref<HTMLButtonElement>
+) {
   const className = ['btn', variant ?? 'default', square ? 'square' : '', active ? 'active' : '']
     .join(' ')
     .replace(/\s+/g, ' ')
     .trim();
 
   return (
-    <button className={className} type={type} disabled={disabled}>
+    <button ref={ref} className={className} type={type} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   );
 }
+
+export const Button = forwardRef(ButtonComponent);

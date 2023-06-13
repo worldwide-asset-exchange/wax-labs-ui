@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MdKeyboardArrowDown, MdSearch } from 'react-icons/md';
 
 import { Button } from '@/components/Button';
@@ -7,10 +8,11 @@ import { Input } from '@/components/Input';
 import { Link } from '@/components/Link';
 import { Proposal } from '@/components/Proposal';
 import { proposalStatus } from '@/resources/proposalStatus';
-import strings from '@/resources/strings';
 
 export function Proposals() {
   const [view, setView] = useState<'grid' | 'list'>('grid');
+
+  const { t } = useTranslation();
 
   function handleOnClick() {
     setView(state => (state === 'grid' ? 'list' : 'grid'));
@@ -25,11 +27,11 @@ export function Proposals() {
               console.debug('click');
             }}
           >
-            {strings.allProposals}
+            {t('allProposals')}
           </Header.Button>
         </Header.Content>
         <Header.Action>
-          <Link variant="primary">{strings.createProposal}</Link>
+          <Link variant="primary">{t('createProposal')}</Link>
         </Header.Action>
       </Header.Root>
 
@@ -41,13 +43,13 @@ export function Proposals() {
         </div>
         <div className="flex-none">
           <Button active>
-            {strings.categories}
+            {t('categories')}
             <span className="label-1 rounded-full bg-accent px-2 text-ui-element">1</span>
           </Button>
         </div>
         <div className="flex-none">
           <Button>
-            {strings.status}
+            {t('status')}
             <MdKeyboardArrowDown size={24} />
           </Button>
         </div>
@@ -56,7 +58,7 @@ export function Proposals() {
         </div>
         <div className="flex-none">
           <Button>
-            {strings.createdLast}
+            {t('createdLast')}
             <MdKeyboardArrowDown size={24} />
           </Button>
         </div>
@@ -80,7 +82,7 @@ export function Proposals() {
       </Proposal.List>
 
       <div className="flex justify-center p-8">
-        <Button>{strings.loadMore}</Button>
+        <Button>{t('loadMore')}</Button>
       </div>
     </>
   );

@@ -1,11 +1,13 @@
+import { useTranslation } from 'react-i18next';
 import { FaDiscord, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
 
 import dlt from '@/assets/dlt.svg';
 import wax from '@/assets/wax.svg';
 import { Link } from '@/components/Link';
-import strings from '@/resources/strings';
 
 export function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-app pt-8">
       <div className="mx-auto max-w-7xl border-t border-subtle-light px-4 py-16">
@@ -26,14 +28,14 @@ export function Footer() {
           </div>
           <div className="flex flex-none items-center gap-2">
             <Link to="/" variant="link" square>
-              {strings.termsOfService}
+              {t('termsOfService')}
             </Link>
             <Link to="/" variant="link" square>
-              {strings.privacyPolicy}
+              {t('privacyPolicy')}
             </Link>
           </div>
         </div>
-        <p className="body-2 pb-16 pt-8 text-center text-high-contrast md:text-left">{strings.copyright}</p>
+        <p className="body-2 pb-16 pt-8 text-center text-high-contrast md:text-left">{t('copyright')}</p>
         <a
           href="https://detroitledger.tech/"
           target="_blank"

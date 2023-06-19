@@ -7,6 +7,9 @@ export const {
   VITE_LABS_CONTRACT_ACCOUNT: LABS_CONTRACT_ACCOUNT,
 } = import.meta.env;
 
+const I64 = 'i64';
+const I128 = 'i128';
+
 export const DRAFT_PROP_AMOUNT = '100.00000000 WAX';
 
 export const TOKEN_SYMBOL = 'WAX';
@@ -16,7 +19,7 @@ export const PLACEHOLDER_IMAGE = 'https://wax.nyc3.cdn.digitaloceanspaces.com/de
 export const DELPHIORACLE_CONTRACT_ACCOUNT = 'delphioracle';
 export const DELPHIORACLE_WAXPUSD_PAIR = 'waxpusd';
 export const DELPHIORACLE_DATAPOINTS_TABLE = 'datapoints';
-export const DELPHIORACLE_KEY_TYPE = 'i64';
+export const DELPHIORACLE_KEY_TYPE = I64;
 
 export const EOSIO_TOKEN_CODE = 'eosio.token';
 
@@ -48,6 +51,7 @@ export enum Actions {
   SUBMIT_REPORT = 'submitreport',
   WITHDRAW = 'withdraw',
   CLAIM_FUNDS = 'claimfunds',
+  TRANSFER = 'transfer',
 }
 
 export enum Tables {
@@ -106,9 +110,6 @@ export enum ProposalStatus {
   REJECTED = 'rejected',
   COMPLETE = 'completed',
 }
-
-const I64 = 'i64';
-const I128 = 'i128';
 
 export const INDEX_POSITION: Record<ProposalFilterType, number> = {
   [ProposalFilterType.DEFAULT]: 1,

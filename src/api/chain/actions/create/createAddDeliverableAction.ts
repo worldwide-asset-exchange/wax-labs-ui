@@ -4,7 +4,7 @@ import { Action } from '@/api/models';
 import { AddDeliverable } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface AddDeliverableAction {
+export interface CreateAddDeliverableAction {
   deliverableId: number;
   proposalId: number;
   daysToComplete: string;
@@ -22,10 +22,10 @@ export default function createAddDeliverableAction({
   smallDescription,
   recipient,
   activeUser: { accountName, requestPermission },
-}: AddDeliverableAction): Action<AddDeliverable> {
+}: CreateAddDeliverableAction): Action<AddDeliverable> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
-    name: Actions.EDIT_PROPOSAL,
+    name: Actions.NEW_DELIVERABLE,
     authorization: [
       {
         actor: accountName,

@@ -25,8 +25,9 @@ export interface EditProposalRequest {
   image_url: string;
   estimated_time: number;
   content: string;
-  deliverables: string;
   road_map: string;
 }
 
-export type NewProposalRequest = Omit<EditProposalRequest, 'proposal_id'>;
+export interface NewProposalRequest extends Omit<EditProposalRequest, 'proposal_id'> {
+  deliverables: number;
+}

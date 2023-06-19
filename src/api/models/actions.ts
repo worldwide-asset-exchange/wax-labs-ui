@@ -36,18 +36,19 @@ export interface TransferFunds {
 
 export interface EditProposal {
   proposal_id: string;
-  proposer: string;
-  category: string;
   title: string;
   description: string;
+  mdbody: string;
+  category: string;
   image_url: string;
   estimated_time: number;
-  mdbody: string;
-  deliverables_count: string;
   road_map: string;
 }
 
-export type CreateProposal = Omit<EditProposal, 'proposal_id'>;
+export interface CreateProposal extends Omit<EditProposal, 'proposal_id'> {
+  proposer: string;
+  deliverables_count: number;
+}
 
 export interface RemoveDeliverable {
   proposal_id: number;

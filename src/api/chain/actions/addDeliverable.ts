@@ -1,4 +1,6 @@
-import createAddDeliverableAction, { AddDeliverableAction } from '@/api/chain/actions/create/addDeliverableAction.ts';
+import createAddDeliverableAction, {
+  CreateAddDeliverableAction,
+} from '@/api/chain/actions/create/createAddDeliverableAction.ts';
 
 import { execute } from './execute';
 
@@ -10,7 +12,7 @@ export async function removeDeliverable({
   requestedAmount,
   smallDescription,
   daysToComplete,
-}: AddDeliverableAction) {
+}: CreateAddDeliverableAction) {
   return await execute(activeUser, [
     createAddDeliverableAction({
       deliverableId,

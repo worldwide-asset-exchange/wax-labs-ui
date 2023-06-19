@@ -1,21 +1,21 @@
 import { WaxUser } from '@eosdacio/ual-wax';
 
 import { Action } from '@/api/models';
-import { SetAdmin } from '@/api/models/actions';
+import { NewCategory } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface SetAdminAction {
-  newAdmin: string;
+export interface CreateAddCategoryAction {
+  category: string;
   activeUser: WaxUser;
 }
 
-export default function createSetAdminAction({
-  newAdmin,
+export default function createAddCategoryAction({
+  category,
   activeUser: { accountName, requestPermission },
-}: SetAdminAction): Action<SetAdmin> {
+}: CreateAddCategoryAction): Action<NewCategory> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
-    name: Actions.SET_ADMIN,
+    name: Actions.ADD_CATEGORY,
     authorization: [
       {
         actor: accountName,
@@ -23,7 +23,7 @@ export default function createSetAdminAction({
       },
     ],
     data: {
-      new_admin: newAdmin,
+      new_category: category,
     },
   };
 }

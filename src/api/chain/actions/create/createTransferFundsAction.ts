@@ -4,16 +4,16 @@ import { Action } from '@/api/models';
 import { TransferFunds } from '@/api/models/actions';
 import { Actions, DRAFT_PROP_AMOUNT, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface TransferFundsAction {
+export interface CreateTransferFundsAction {
   activeUser: WaxUser;
 }
 
 export default function createTransferFundsAction({
   activeUser: { accountName, requestPermission },
-}: TransferFundsAction): Action<TransferFunds> {
+}: CreateTransferFundsAction): Action<TransferFunds> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
-    name: Actions.WITHDRAW,
+    name: Actions.TRANSFER,
     authorization: [
       {
         actor: accountName,

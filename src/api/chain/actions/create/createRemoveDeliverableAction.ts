@@ -4,7 +4,7 @@ import { Action } from '@/api/models';
 import { RemoveDeliverable } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface RemoveDeliverableAction {
+export interface CreateRemoveDeliverableAction {
   deliverableId: number;
   proposalId: number;
   activeUser: WaxUser;
@@ -14,7 +14,7 @@ export default function createRemoveDeliverableAction({
   deliverableId,
   proposalId,
   activeUser: { accountName, requestPermission },
-}: RemoveDeliverableAction): Action<RemoveDeliverable> {
+}: CreateRemoveDeliverableAction): Action<RemoveDeliverable> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.REMOVE_DELIVERABLE,

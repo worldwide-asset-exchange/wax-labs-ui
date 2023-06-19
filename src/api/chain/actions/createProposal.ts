@@ -1,11 +1,13 @@
-import createNewProposalAction, { NewProposalAction } from '@/api/chain/actions/create/newProposalAction.ts';
-import createTransferFundsAction from '@/api/chain/actions/create/transferFundsAction.ts';
+import createNewProposalAction, {
+  CreateNewProposalAction,
+} from '@/api/chain/actions/create/createNewProposalAction.ts';
+import createTransferFundsAction from '@/api/chain/actions/create/createTransferFundsAction.ts';
 import { Action } from '@/api/models';
 import { CreateProposal as CreateProposalResponse, TransferFunds } from '@/api/models/actions.ts';
 
 import { execute } from './execute';
 
-export interface CreateProposal extends NewProposalAction {
+export interface CreateProposal extends CreateNewProposalAction {
   transferFunds?: boolean;
 }
 

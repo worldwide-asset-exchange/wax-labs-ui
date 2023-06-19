@@ -1,22 +1,22 @@
 import { WaxUser } from '@eosdacio/ual-wax';
 
 import { Action } from '@/api/models';
-import { EditProposal } from '@/api/models/actions';
-import { EditProposalRequest } from '@/api/models/proposal.ts';
+import { CreateProposal } from '@/api/models/actions';
+import { NewProposalRequest } from '@/api/models/proposal.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface EditProposalAction {
-  proposal: EditProposalRequest;
+export interface CreateNewProposalAction {
+  proposal: NewProposalRequest;
   activeUser: WaxUser;
 }
 
-export default function createEditProposalAction({
+export default function createNewProposalAction({
   proposal,
   activeUser: { accountName, requestPermission },
-}: EditProposalAction): Action<EditProposal> {
+}: CreateNewProposalAction): Action<CreateProposal> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
-    name: Actions.WITHDRAW,
+    name: Actions.DRAFT_PROPOSAL,
     authorization: [
       {
         actor: accountName,
@@ -24,7 +24,6 @@ export default function createEditProposalAction({
       },
     ],
     data: {
-      proposal_id: proposal.proposal_id,
       proposer: accountName,
       category: proposal.category,
       title: proposal.title,

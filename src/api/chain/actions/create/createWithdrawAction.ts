@@ -4,7 +4,7 @@ import { Action } from '@/api/models';
 import { Withdraw } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT, TOKEN_SYMBOL } from '@/constants';
 
-export interface WithdrawAction {
+export interface CreateWithdrawAction {
   quantity: number;
   activeUser: WaxUser;
 }
@@ -12,7 +12,7 @@ export interface WithdrawAction {
 export default function createWithdrawAction({
   quantity,
   activeUser: { accountName, requestPermission },
-}: WithdrawAction): Action<Withdraw> {
+}: CreateWithdrawAction): Action<Withdraw> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.WITHDRAW,

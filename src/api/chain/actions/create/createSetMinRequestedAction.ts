@@ -1,21 +1,21 @@
 import { WaxUser } from '@eosdacio/ual-wax';
 
 import { Action } from '@/api/models';
-import { DeleteCategory } from '@/api/models/actions';
+import { MinRequested } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface DeleteCategoryAction {
-  category: string;
+export interface CreateSetMinRequestedAction {
+  minRequested: number;
   activeUser: WaxUser;
 }
 
-export default function createDeleteCategoryAction({
-  category,
+export default function createSetMinRequestedAction({
+  minRequested,
   activeUser: { accountName, requestPermission },
-}: DeleteCategoryAction): Action<DeleteCategory> {
+}: CreateSetMinRequestedAction): Action<MinRequested> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
-    name: Actions.REMOVE_CATEGORY,
+    name: Actions.SET_MIN_REQUESTED,
     authorization: [
       {
         actor: accountName,
@@ -23,7 +23,7 @@ export default function createDeleteCategoryAction({
       },
     ],
     data: {
-      category_name: category,
+      new_min_requested: `${minRequested.toFixed(4)} USD`,
     },
   };
 }

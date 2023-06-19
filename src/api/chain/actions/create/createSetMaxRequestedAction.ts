@@ -1,21 +1,21 @@
 import { WaxUser } from '@eosdacio/ual-wax';
 
 import { Action } from '@/api/models';
-import { NewCategory } from '@/api/models/actions';
+import { MaxRequested } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface AddCategoryAction {
-  category: string;
+export interface CreateSetMaxRequestedAction {
+  maxRequested: number;
   activeUser: WaxUser;
 }
 
-export default function createAddCategoryAction({
-  category,
+export default function createSetMaxRequestedAction({
+  maxRequested,
   activeUser: { accountName, requestPermission },
-}: AddCategoryAction): Action<NewCategory> {
+}: CreateSetMaxRequestedAction): Action<MaxRequested> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
-    name: Actions.ADD_CATEGORY,
+    name: Actions.SET_MAX_REQUESTED,
     authorization: [
       {
         actor: accountName,
@@ -23,7 +23,7 @@ export default function createAddCategoryAction({
       },
     ],
     data: {
-      new_category: category,
+      new_max_requested: `${maxRequested.toFixed(4)} USD`,
     },
   };
 }

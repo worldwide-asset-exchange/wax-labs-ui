@@ -4,7 +4,7 @@ import { Action } from '@/api/models';
 import { Profile } from '@/api/models/actions';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants';
 
-export interface RemoveProfileAction {
+export interface CreateRemoveProfileAction {
   waxAccount?: string | null;
   activeUser: WaxUser;
 }
@@ -12,7 +12,7 @@ export interface RemoveProfileAction {
 export default function createRemoveProfileAction({
   waxAccount,
   activeUser: { accountName, requestPermission },
-}: RemoveProfileAction): Action<Profile> {
+}: CreateRemoveProfileAction): Action<Profile> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.REMOVE_PROFILE,

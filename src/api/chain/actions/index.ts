@@ -1,11 +1,1 @@
-export { addCategory } from './addCategory';
-export { createProposal } from './createProposal';
-export { deleteCategory } from './deleteCategory';
-export { editProposal } from './editProposal';
 export { execute } from './execute';
-export { removeProfile } from './removeProfile';
-export { setAdmin } from './setAdmin';
-export { setMaxRequested } from './setMaxRequested';
-export { setMinRequested } from './setMinRequested';
-export { transferFunds } from './transferFunds';
-export { withdraw } from './withdraw';

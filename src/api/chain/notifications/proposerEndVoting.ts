@@ -1,5 +1,5 @@
-import { getProposals } from '@/api/chain/proposals/getProposals.ts';
-import { nameBounds } from '@/api/chain/proposals/proposalBounds.ts';
+import { getProposals } from '@/api/chain/proposals/query/getProposals.ts';
+import { nameBounds } from '@/api/chain/proposals/query/proposalBounds.ts';
 import { WaxLabsNotification } from '@/api/models/notifications.ts';
 import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 

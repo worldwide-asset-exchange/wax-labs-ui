@@ -1,17 +1,18 @@
-import { forwardRef, ReactNode, Ref } from 'react';
+import { ReactNode } from 'react';
 
-import { getDataViewDefault } from '../proposalView';
+import { ProposalFilter } from './ProposalFilter';
 
 interface ProposalRootProps {
   children: ReactNode;
 }
 
-function ProposalRootComponent({ children }: ProposalRootProps, ref: Ref<HTMLDivElement>) {
+export function ProposalRoot({ children }: ProposalRootProps) {
+  const dataView = localStorage.getItem('@WaxLabs:v1:proposal-view') ?? 'grid';
+
   return (
-    <div ref={ref} data-view={getDataViewDefault} className="group/proposal-root space-y-4">
+    <div data-view={dataView} className="group/proposal-root space-y-4">
+      <ProposalFilter />
       {children}
     </div>
   );
 }
-
-export const ProposalRoot = forwardRef(ProposalRootComponent);

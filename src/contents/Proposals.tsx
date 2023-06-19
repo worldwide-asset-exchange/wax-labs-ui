@@ -1,68 +1,43 @@
-import { RefObject, useRef } from 'react';
+import { useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  MdOutlineAdd,
-  MdOutlineFilterList,
-  MdOutlineKeyboardArrowDown,
-  MdOutlineSearch,
-  MdOutlineViewColumn,
-  MdOutlineViewList,
-} from 'react-icons/md';
+import { MdOutlineAdd } from 'react-icons/md';
+import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/Button';
-import { FilterModal } from '@/components/FilterModal';
 import { Header } from '@/components/Header';
-import { Input } from '@/components/Input';
 import { Link } from '@/components/Link';
 import { Proposal } from '@/components/Proposal';
-import { toggleView } from '@/components/Proposal/proposalView';
-import { ToggleField } from '@/components/ToggleField';
+import { ProposalFilterWhose } from '@/components/Proposal/components/ProposalFilterWhose';
 import { ProposalStatus } from '@/constants.ts';
 
 export function Proposals() {
-  const filterBarRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const proposalRootRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-
   const { t } = useTranslation();
 
-  function handleToggleView() {
-    const proposalRootElement = proposalRootRef.current;
+  const [searchParams] = useSearchParams();
 
-    if (!proposalRootElement) return;
+  const methods = useForm({
+    defaultValues: {
+      search: searchParams.get('search') ?? '',
+      whose: searchParams.get('whose') ?? t('allProposals'),
+      categories: searchParams.get('categories')?.split(',') ?? [],
+      status: searchParams.get('status')?.split(',') ?? [],
+      sortBy: searchParams.get('sortBy') ?? 'Created last',
+    },
+  });
 
-    toggleView(proposalRootElement);
-  }
-
-  function handleToggleShowSearchField() {
-    const element = filterBarRef.current;
-    if (element) {
-      element.dataset.searchField = element.dataset.searchField === 'visible' ? 'hidden' : 'visible';
-    }
-  }
+  useEffect(() => {
+    console.debug('Fetch...');
+    console.debug(methods.getValues());
+  }, [methods, methods.formState.submitCount]);
 
   return (
-    <>
+    <FormProvider {...methods}>
       <Header.Root>
         <Header.Content>
-          <FilterModal.Root>
-            <FilterModal.Trigger>
-              <Header.Button>{t('allProposals')}</Header.Button>
-            </FilterModal.Trigger>
-            <FilterModal.Content title={t('allProposals')}>
-              <form action="">
-                <fieldset className="flex flex-col gap-1 p-4">
-                  <ToggleField name="whoseProposal" type="radio" label="All proposals" />
-                  <ToggleField name="whoseProposal" type="radio" label="My proposals" />
-                  <ToggleField name="whoseProposal" type="radio" label="Proposals to review" />
-                </fieldset>
-                <footer className="flex items-center justify-end p-4">
-                  <Button variant="primary" type="submit">
-                    Apply
-                  </Button>
-                </footer>
-              </form>
-            </FilterModal.Content>
-          </FilterModal.Root>
+          <ProposalFilterWhose>
+            <Header.Button>{methods.getValues('whose')}</Header.Button>
+          </ProposalFilterWhose>
         </Header.Content>
         <Header.Action>
           <Link variant="primary" to="create">
@@ -72,121 +47,7 @@ export function Proposals() {
         </Header.Action>
       </Header.Root>
 
-      <Proposal.Root ref={proposalRootRef}>
-        <div
-          data-search-field="hidden"
-          ref={filterBarRef}
-          className="group/filter-bar relative mx-auto flex max-w-7xl gap-4 px-4 max-md:w-full data-[search-field=hidden]:max-md:overflow-x-auto"
-        >
-          <div className="flex flex-1 gap-4 group-data-[search-field=hidden]/filter-bar:max-lg:hidden">
-            <div className="flex-none lg:hidden">
-              <Button onClick={handleToggleShowSearchField} square>
-                <MdOutlineFilterList size={24} />
-              </Button>
-            </div>
-            <div className="flex-1">
-              <Input placeholder="Search by name, description and proposer's account">
-                <MdOutlineSearch size={24} />
-              </Input>
-            </div>
-          </div>
-          <div className="flex-none lg:hidden group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-            <Button onClick={handleToggleShowSearchField} square>
-              <MdOutlineSearch size={24} />
-            </Button>
-          </div>
-          <div className="flex-none group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-            <FilterModal.Root>
-              <FilterModal.Trigger>
-                <Button active>
-                  {t('categories')}
-                  <span className="label-1 rounded-full bg-accent px-2 text-ui-element">1</span>
-                </Button>
-              </FilterModal.Trigger>
-              <FilterModal.Content title={t('categories')}>
-                <form action="">
-                  <fieldset className="flex flex-col gap-1 p-4">
-                    <ToggleField type="checkbox" label="marketing" />
-                    <ToggleField type="checkbox" label="infra.tools" />
-                    <ToggleField type="checkbox" label="dev.tools" />
-                    <ToggleField type="checkbox" label="governance" />
-                    <ToggleField type="checkbox" label="other" />
-                  </fieldset>
-                  <footer className="flex items-center justify-between p-4">
-                    <Button variant="tertiary">Clean</Button>
-                    <Button variant="primary" type="submit">
-                      Apply
-                    </Button>
-                  </footer>
-                </form>
-              </FilterModal.Content>
-            </FilterModal.Root>
-          </div>
-          <div className="flex-none group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-            <FilterModal.Root>
-              <FilterModal.Trigger>
-                <Button>
-                  {t('status')}
-                  <MdOutlineKeyboardArrowDown size={24} />
-                </Button>
-              </FilterModal.Trigger>
-              <FilterModal.Content title={t('status')}>
-                <form action="">
-                  <fieldset className="grid grid-cols-2 gap-1 p-4">
-                    {Object.entries(ProposalStatus).map(([statusKey, statusValue]) => (
-                      <ToggleField key={statusKey} type="checkbox" label={statusValue} />
-                    ))}
-                  </fieldset>
-                  <footer className="flex items-center justify-between p-4">
-                    <Button variant="tertiary">Clean</Button>
-                    <Button variant="primary" type="submit">
-                      Apply
-                    </Button>
-                  </footer>
-                </form>
-              </FilterModal.Content>
-            </FilterModal.Root>
-          </div>
-          <div className="flex-none max-md:hidden group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-            <Button onClick={handleToggleView} square>
-              <div className="group/view flex gap-4">
-                <div className="group-data-[view=grid]/proposal-root:text-accent">
-                  <MdOutlineViewColumn size={24} />
-                </div>
-                <div className="group-data-[view=list]/proposal-root:text-accent">
-                  <MdOutlineViewList size={24} />
-                </div>
-              </div>
-            </Button>
-          </div>
-          <div className="flex-none group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-            <FilterModal.Root>
-              <FilterModal.Trigger>
-                <Button>
-                  {t('createdLast')}
-                  <MdOutlineKeyboardArrowDown size={24} />
-                </Button>
-              </FilterModal.Trigger>
-              <FilterModal.Content title={t('sortBy')}>
-                <form action="">
-                  <fieldset className="flex flex-col gap-1 p-4">
-                    <ToggleField name="sortBy" type="radio" label="Created last" />
-                    <ToggleField name="sortBy" type="radio" label="Created first" />
-                    <ToggleField name="sortBy" type="radio" label="Lowest Wax amount requested" />
-                    <ToggleField name="sortBy" type="radio" label="Highest Wax amount requested" />
-                    <ToggleField name="sortBy" type="radio" label="Last updated" />
-                  </fieldset>
-                  <footer className="flex items-center justify-end p-4">
-                    <Button variant="primary" type="submit">
-                      Apply
-                    </Button>
-                  </footer>
-                </form>
-              </FilterModal.Content>
-            </FilterModal.Root>
-          </div>
-        </div>
-
+      <Proposal.Root>
         <Proposal.List>
           {[1, 2, 3, 4].map(proposal => (
             <Proposal.Item
@@ -207,6 +68,6 @@ export function Proposals() {
           <Button>{t('loadMore')}</Button>
         </Proposal.Footer>
       </Proposal.Root>
-    </>
+    </FormProvider>
   );
 }

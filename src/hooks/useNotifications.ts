@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 
-import proposerEndVoting from '@/api/chain/notifications/proposerEndVoting.ts';
+import proposerEndVotingNotifications from '@/api/chain/notifications/proposerEndVotingNotifications.ts';
 import { WaxLabsNotification } from '@/api/models/notifications.ts';
 
 const READ_NOTIFICATIONS_STORAGE = 'waxlabs:readNotifications';
@@ -13,7 +13,7 @@ export function useNotifications({ accountName }: { accountName: string }): {
   const [notifications, setNotifications] = useState<WaxLabsNotification[]>([]);
 
   useInterval(() => {
-    Promise.all([proposerEndVoting({ accountName })]).then(notifications => {
+    Promise.all([proposerEndVotingNotifications({ accountName })]).then(notifications => {
       setNotifications(notifications.flat());
     });
   }, 10e3);

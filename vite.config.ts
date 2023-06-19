@@ -32,18 +32,19 @@ export default defineConfig({
       output: {
         manualChunks: id => {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('scheduler') || id.includes('router')) {
+            if (id.includes('router')) {
+              return 'react-router';
+            } else if (id.includes('react') || id.includes('scheduler') || id.includes('wax')) {
               return 'react';
             } else if (id.includes('buffer')) {
               return 'buffer';
-            } else if (id.includes('wax')) {
-              return 'waxjs';
             }
 
-            return 'vendor'; // all other package goes here
+            return 'vendor';
           }
         },
       },
     },
   },
 });
+

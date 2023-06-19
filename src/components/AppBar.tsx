@@ -1,7 +1,7 @@
 import { MdOutlineNotifications } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 import Logo from '@/assets/logo.svg';
-import { Link } from '@/components/Link.tsx';
 import { Nav } from '@/components/Nav';
 
 export function AppBar() {

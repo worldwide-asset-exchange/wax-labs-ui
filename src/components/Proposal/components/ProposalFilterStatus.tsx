@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import { FilterModal } from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
-import { proposalStatus } from '@/resources/proposalStatus';
+import { ProposalStatus } from '@/constants.ts';
 
 export function ProposalFilterStatus() {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export function ProposalFilterStatus() {
       <FilterModal.Content title={t('status')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="grid grid-cols-2 gap-1 p-4">
-            {Object.entries(proposalStatus).map(([statusKey, statusValue]) => (
+            {Object.entries(ProposalStatus).map(([statusKey, statusValue]) => (
               <ToggleField
                 key={statusKey}
                 {...register('status')}

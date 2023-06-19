@@ -6,7 +6,6 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { debounce } from '@/resources/debounce';
 
 import { ProposalFilterCategories } from './ProposalFilterCategories';
 import { ProposalFilterSortBy } from './ProposalFilterSortBy';
@@ -66,7 +65,7 @@ export function ProposalFilter() {
         <div className="flex-1">
           <Input
             {...register('search', {
-              onChange: debounce(handleSearchTerm),
+              onChange: handleSearchTerm,
             })}
             placeholder={t('searchPlaceholder') as string}
           >

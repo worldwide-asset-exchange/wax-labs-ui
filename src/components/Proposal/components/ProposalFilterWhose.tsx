@@ -62,7 +62,7 @@ export function ProposalFilterWhose({ children }: ProposalFilterWhose) {
           </fieldset>
           <footer className="flex items-center justify-end p-4">
             <Button variant="primary" type="submit">
-              {t('whose')}
+              {t('apply')}
             </Button>
           </footer>
         </form>

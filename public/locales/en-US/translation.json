@@ -25,11 +25,16 @@
   "additionalFunds": "Additional funds",
 
   "allProposals": "All Proposals",
+  "myProposals": "My proposals",
+  "proposalsToReview": "Proposals to review",
   "createProposal": "Create proposal",
   "categories": "Categories",
   "status": "Status",
   "createdLast": "Created last",
   "loadMore": "Load More",
+  "clean": "Clean",
+  "apply": "Apply",
+  "searchPlaceholder": "Name, description and proposer's account",
 
   "sortBy": "Sort by",
 

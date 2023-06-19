@@ -14,12 +14,12 @@ import { Link } from '@/components/Link';
 import { ProposalStatus } from '@/constants.ts';
 
 interface HomeDashBoard {
-  inReview: number | 0;
-  inVoting: number | 0;
-  inProgress: number | 0;
-  completed: number | 0;
-  operationalFunds: string | 0;
-  additionalFunds: string | 0;
+  inReview: number;
+  inVoting: number;
+  inProgress: number;
+  completed: number;
+  operationalFunds: string;
+  additionalFunds: string;
 }
 
 export function Home() {

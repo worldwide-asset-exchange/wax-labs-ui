@@ -111,6 +111,10 @@ export enum ProposalStatus {
   COMPLETE = 'completed',
 }
 
+export enum NotificationType {
+  PROPOSAL,
+}
+
 export const INDEX_POSITION: Record<ProposalFilterType, number> = {
   [ProposalFilterType.DEFAULT]: 1,
   [ProposalFilterType.BY_STAT_CAT]: 2,
@@ -162,5 +166,3 @@ export const PATTERN: Record<ProposalFilterType, { key: ProposalStatus; byteSize
   ],
   [ProposalFilterType.BY_BALLOT]: [{ key: ProposalStatus.BALLOT, byteSize: 8 }],
 };
-
-export const PROPOSAL_INDEXES = {};

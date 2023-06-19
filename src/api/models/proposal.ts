@@ -1,5 +1,5 @@
 export interface Proposal {
-  proposal_id: string;
+  proposal_id: number;
   image_url: string;
   title: string;
   description: string;
@@ -18,7 +18,7 @@ export interface ProposalContent {
 }
 
 export interface EditProposalRequest {
-  proposal_id: string;
+  proposal_id: number;
   title: string;
   category: string;
   description: string;

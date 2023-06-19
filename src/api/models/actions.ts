@@ -35,7 +35,7 @@ export interface TransferFunds {
 }
 
 export interface EditProposal {
-  proposal_id: string;
+  proposal_id: number;
   title: string;
   description: string;
   mdbody: string;

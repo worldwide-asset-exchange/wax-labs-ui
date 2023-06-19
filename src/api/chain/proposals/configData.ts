@@ -87,7 +87,7 @@ export async function configData(): Promise<ConfigData> {
 
       break;
     } catch (e) {
-      console.error('configData', e);
+      console.error('[configData] Error', e);
     }
   }
 

@@ -10,7 +10,7 @@ export function userProposals({
   proposalStatusKey: ProposalStatusKey;
   accountName: string;
 }): Promise<Proposal[]> {
-  const { upperBound, lowerBound } = nameBounds(proposalStatusKey, accountName);
+  const { upperBound, lowerBound } = nameBounds({ statusKey: proposalStatusKey, accountName });
 
   return getProposals({
     queryType: ProposalFilterType.BY_PROPOSER_STAT,

@@ -17,7 +17,7 @@ export default async function accountProfile(profile: string) {
 
     return rows?.[0]?.profile as Profile;
   } catch (e) {
-    console.error('Error while getting profile', e);
+    console.error('[accountProfile] Error', e);
     return null;
   }
 }

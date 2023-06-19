@@ -17,7 +17,7 @@ export async function accountBalance({ accountName }: { accountName: string }): 
       return currencyToFloat(rows?.[0]?.balance);
     }
   } catch (e) {
-    console.error('fetchAccountInfo error', e);
+    console.error('[accountBalance] Error', e);
   }
 
   return null;

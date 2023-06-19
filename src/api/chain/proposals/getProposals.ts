@@ -34,7 +34,7 @@ async function _getProposalRangeLimit({
   return { proposals: rows, next_key, more };
 }
 
-export async function getProposals({ queryType, lowerBound, upperBound }: ProposalsFilter) {
+export async function getProposals({ queryType, lowerBound, upperBound }: ProposalsFilter): Promise<Proposal[]> {
   const proposalsArray: Proposal[] = [];
 
   let nextKey = lowerBound;
@@ -56,7 +56,7 @@ export async function getProposals({ queryType, lowerBound, upperBound }: Propos
       nextKey = next_key as string;
     }
   } catch (e) {
-    console.error('Error while getting proposals', e);
+    console.error('[getProposals] Error', e);
   }
 
   return proposalsArray;

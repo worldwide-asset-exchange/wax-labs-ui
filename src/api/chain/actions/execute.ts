@@ -18,7 +18,7 @@ export async function execute(activeUser: WaxUser, actions: Action<unknown>[]) {
     );
   } catch (e) {
     const actionNames = actions.map(a => `\`${a.name}\``).join(', ');
-    console.error(`Executing actions: ${actionNames}`, e);
+    console.error(`[${actionNames}] Executing actions`, e);
 
     throw e;
   }

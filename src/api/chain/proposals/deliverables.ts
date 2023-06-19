@@ -34,7 +34,7 @@ export async function deliverables({
         }),
       };
     } catch (e) {
-      console.error('Error while getting deliverables', e);
+      console.error('[deliverables] Error', e);
     }
   }
 }

@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { Serialize } from 'eosjs';
 import { Uint64LE } from 'int64-buffer';
 
@@ -26,11 +27,14 @@ export function statBounds(statusKey: ProposalStatusKey): ProposalBounds {
   };
 }
 
-export function nameBounds(statusKey: ProposalStatusKey, accountName: string): ProposalBounds {
-  const sb = new Serialize.SerialBuffer({
-    textEncoder: new TextEncoder(),
-    textDecoder: new TextDecoder(),
-  });
+export function nameBounds({
+  statusKey,
+  accountName,
+}: {
+  statusKey: ProposalStatusKey;
+  accountName: string;
+}): ProposalBounds {
+  const sb = new Serialize.SerialBuffer();
   sb.pushName(accountName);
 
   const reversedArray = new Uint8Array(16);

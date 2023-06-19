@@ -17,7 +17,7 @@ export async function proposalContentData({ proposalId }: { proposalId: string }
 
       return rows?.[0];
     } catch (e) {
-      console.error('Error while getting deliverables', e);
+      console.error('[proposalContentData] Error', e);
     }
   }
 }

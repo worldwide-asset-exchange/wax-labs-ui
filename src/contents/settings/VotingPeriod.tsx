@@ -1,3 +1,3 @@
 export function VotingPeriod() {
-  return 'VotingPeriod';
+  return <>VotingPeriod</>;
 }

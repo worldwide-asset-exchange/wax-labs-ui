@@ -15,9 +15,9 @@ import { Header } from '@/components/Header';
 import { Input } from '@/components/Input';
 import { Link } from '@/components/Link';
 import { Proposal } from '@/components/Proposal';
-import { ProposalStatus } from '@/constants.ts';
 import { toggleView } from '@/components/Proposal/proposalView';
 import { ToggleField } from '@/components/ToggleField';
+import { ProposalStatus } from '@/constants.ts';
 
 export function Proposals() {
   const filterBarRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -133,7 +133,7 @@ export function Proposals() {
               <FilterModal.Content title={t('status')}>
                 <form action="">
                   <fieldset className="grid grid-cols-2 gap-1 p-4">
-                    {Object.entries(proposalStatus).map(([statusKey, statusValue]) => (
+                    {Object.entries(ProposalStatus).map(([statusKey, statusValue]) => (
                       <ToggleField key={statusKey} type="checkbox" label={statusValue} />
                     ))}
                   </fieldset>
@@ -193,7 +193,7 @@ export function Proposals() {
               key={proposal}
               title="PFP Project Generator"
               shortDescription="We're developing a free to use PFP generator. Users will be able to create rules that define their PFP project."
-              status={proposalStatus.COMPLETE}
+              status={ProposalStatus.COMPLETE}
               deliverables="3 deliverables"
               id="523"
               requestedAmount="45,000 USD"

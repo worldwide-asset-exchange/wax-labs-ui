@@ -1,3 +1,3 @@
 export function RemoveProfile() {
-  return 'RemoveProfile';
+  return <>RemoveProfile</>;
 }

@@ -5,7 +5,7 @@ import { Proposals } from '@/contents/Proposals';
 import { AdminRole } from '@/contents/settings/AdminRole';
 import { Categories } from '@/contents/settings/Categories';
 import { RemoveProfile } from '@/contents/settings/RemoveProfile';
-import { USDRequested } from '@/contents/settings/USDRequested';
+import { USDRequested } from '@/contents/settings/USDRequested.tsx';
 import { VotingPeriod } from '@/contents/settings/VotingPeriod';
 import { AppLayout } from '@/layouts/AppLayout';
 import { SettingsLayout } from '@/layouts/SettingsLayout';

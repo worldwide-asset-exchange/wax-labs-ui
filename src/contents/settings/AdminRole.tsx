@@ -1,3 +1,3 @@
 export function AdminRole() {
-  return 'AdminRole';
+  return <>AdminRole</>;
 }

@@ -1,0 +1,11 @@
+export { createProposal } from './actions/createProposal.ts';
+export { editProposal } from './actions/editProposal.ts';
+export { completedProposals } from './query/completedProposals.ts';
+export { configData } from './query/configData.ts';
+export { deliverables } from './query/deliverables.ts';
+export { inProgressProposals } from './query/inProgressProposals.ts';
+export { inReviewProposals } from './query/inReviewProposals.ts';
+export { inVotingProposals } from './query/inVotingProposals.ts';
+export { proposalContentData } from './query/proposalContentData.ts';
+export { singleProposal } from './query/singleProposal.ts';
+export { userProposals } from './query/userProposals.ts';

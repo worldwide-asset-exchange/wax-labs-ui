@@ -8,12 +8,12 @@ import {
 } from 'react-icons/md';
 
 import { StatusTag } from '@/components/StatusTag';
-import { proposalStatus } from '@/resources/proposalStatus';
+import { ProposalStatus } from '@/constants.ts';
 
 interface ProposalItemProps {
   title: string;
   shortDescription: string;
-  status: proposalStatus;
+  status: ProposalStatus;
   deliverables: string;
   id: string | number;
   requestedAmount: string;

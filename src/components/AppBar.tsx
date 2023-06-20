@@ -9,7 +9,7 @@ export function AppBar() {
 
   return (
     <header className="sticky left-0 top-0 z-30 flex items-center justify-between border-b border-subtle-light bg-app p-4 pb-[calc(1rem-1px)]">
-      <Link to="/">
+      <Link to="/" className="rounded-md p-2">
         <img src={Logo} alt="" />
       </Link>
       <Nav.Root>

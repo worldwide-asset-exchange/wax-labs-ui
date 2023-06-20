@@ -11,7 +11,7 @@ function HeaderButtonComponent({ children, ...props }: HeaderButtonProps, ref: R
       ref={ref}
       {...props}
       type="button"
-      className="-ml-2 flex flex-nowrap items-center gap-2 whitespace-nowrap rounded-md px-2 py-1 duration-150 hover:bg-subtle focus:ring-1 focus:ring-accent-dark"
+      className="-ml-2 flex flex-nowrap items-center gap-2 whitespace-nowrap rounded-md px-2 py-1 duration-150 hover:bg-subtle"
     >
       <h1 className="title-2 text-high-contrast">{children}</h1>
       <MdKeyboardArrowDown size={24} className="text-accent" />

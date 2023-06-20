@@ -25,7 +25,7 @@ export function NavRoot({ children }: NavRootProps) {
       <button
         type="button"
         onClick={toggleMenu}
-        className="label-1 z-10 block rounded-md px-4 py-3 text-low-contrast duration-150 focus:outline-none focus:ring-1 focus:ring-accent-dark md:hidden"
+        className="label-1 z-10 block rounded-md px-4 py-3 text-low-contrast duration-150 md:hidden"
       >
         {showMenu ? <MdClose size={24} /> : <MdMenu size={24} />}
       </button>

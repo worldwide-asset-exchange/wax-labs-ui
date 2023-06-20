@@ -9,6 +9,10 @@
         text-rendering: optimizeLegibility;
     }
 
+    *:focus {
+        @apply ring-1 ring-accent-dark outline-0;
+    }
+
     [type='checkbox'],
     [type='radio'] {
         &:checked {
@@ -31,7 +35,7 @@
 
 @layer components {
     .btn {
-        @apply flex items-center gap-2 rounded-md border border-transparent px-[calc(1.5rem-1px)] py-[calc(0.75rem-1px)] label-1 duration-150 ease-in-out hover:underline focus:ring-1 focus:ring-accent-dark focus:outline-0;
+        @apply flex items-center gap-2 rounded-md border border-transparent px-[calc(1.5rem-1px)] py-[calc(0.75rem-1px)] label-1 duration-150 ease-in-out hover:underline;
         
         &.square {
             @apply px-[calc(0.75rem-1px)];

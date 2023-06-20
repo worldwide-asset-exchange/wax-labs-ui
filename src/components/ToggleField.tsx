@@ -12,7 +12,7 @@ function ToggleFieldComponent({ label, type, ...props }: ToggleFieldProps, ref: 
         {...props}
         ref={ref}
         type={type}
-        className="peer m-[0.1875rem] h-[1.125rem] w-[1.125rem] border-2 border-white bg-transparent text-accent focus:outline-none focus:ring-accent-dark"
+        className="peer m-[0.1875rem] h-[1.125rem] w-[1.125rem] border-2 border-white bg-transparent text-accent"
       />
       <span className="label-1 select-none text-high-contrast peer-checked:text-accent">{label}</span>
     </label>

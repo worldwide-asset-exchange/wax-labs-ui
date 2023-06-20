@@ -1,11 +1,5 @@
-import { ProposalFooter } from './components/ProposalFooter';
-import { ProposalItem } from './components/ProposalItem';
-import { ProposalList } from './components/ProposalList';
-import { ProposalRoot } from './components/ProposalRoot';
-
-export const Proposal = {
-  Root: ProposalRoot,
-  List: ProposalList,
-  Item: ProposalItem,
-  Footer: ProposalFooter,
-};
+export { ProposalFooter as Footer } from './components/ProposalFooter';
+export { ProposalItem as Item } from './components/ProposalItem';
+export { ProposalItemSkeleton as ItemSkeleton } from './components/ProposalItemSkeleton';
+export { ProposalList as List } from './components/ProposalList';
+export { ProposalRoot as Root } from './components/ProposalRoot';

@@ -10,6 +10,7 @@ export interface Proposal {
   category: string;
   categories: Record<string, string>;
   vote_end_time: string;
+  update_ts: string;
 }
 
 export interface ProposalContent {

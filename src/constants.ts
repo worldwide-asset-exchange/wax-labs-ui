@@ -82,7 +82,7 @@ export enum ProposalStatusKey {
   FAILED_DRAFT = 9,
 }
 
-export enum ProposalStatus {
+export enum ProposalStatus2 {
   STATUS = 'status',
   PROPOSAL_ID = 'proposal_id',
   CATEGORY = 'category',
@@ -142,27 +142,27 @@ export const KEY_TYPE: Record<ProposalFilterType, string> = {
   [ProposalFilterType.BY_BALLOT]: I64,
 };
 
-export const PATTERN: Record<ProposalFilterType, { key: ProposalStatus; byteSize: number }[]> = {
-  [ProposalFilterType.DEFAULT]: [{ key: ProposalStatus.PROPOSAL_ID, byteSize: 8 }],
+export const PATTERN: Record<ProposalFilterType, { key: ProposalStatus2; byteSize: number }[]> = {
+  [ProposalFilterType.DEFAULT]: [{ key: ProposalStatus2.PROPOSAL_ID, byteSize: 8 }],
   [ProposalFilterType.BY_STAT_CAT]: [
-    { key: ProposalStatus.STATUS, byteSize: 1 },
-    { key: ProposalStatus.CATEGORY, byteSize: 1 },
-    { key: ProposalStatus.PROPOSAL_ID, byteSize: 6 },
+    { key: ProposalStatus2.STATUS, byteSize: 1 },
+    { key: ProposalStatus2.CATEGORY, byteSize: 1 },
+    { key: ProposalStatus2.PROPOSAL_ID, byteSize: 6 },
   ],
   [ProposalFilterType.BY_CAT_STAT]: [
-    { key: ProposalStatus.CATEGORY, byteSize: 1 },
-    { key: ProposalStatus.STATUS, byteSize: 1 },
-    { key: ProposalStatus.PROPOSAL_ID, byteSize: 6 },
+    { key: ProposalStatus2.CATEGORY, byteSize: 1 },
+    { key: ProposalStatus2.STATUS, byteSize: 1 },
+    { key: ProposalStatus2.PROPOSAL_ID, byteSize: 6 },
   ],
   [ProposalFilterType.BY_PROPOSER_STAT]: [
-    { key: ProposalStatus.PROPOSER, byteSize: 8 },
-    { key: ProposalStatus.STATUS, byteSize: 1 },
-    { key: ProposalStatus.PROPOSAL_ID, byteSize: 7 },
+    { key: ProposalStatus2.PROPOSER, byteSize: 8 },
+    { key: ProposalStatus2.STATUS, byteSize: 1 },
+    { key: ProposalStatus2.PROPOSAL_ID, byteSize: 7 },
   ],
   [ProposalFilterType.BY_REVIEWER_STAT]: [
-    { key: ProposalStatus.REVIEWER, byteSize: 8 },
-    { key: ProposalStatus.STATUS, byteSize: 1 },
-    { key: ProposalStatus.PROPOSAL_ID, byteSize: 7 },
+    { key: ProposalStatus2.REVIEWER, byteSize: 8 },
+    { key: ProposalStatus2.STATUS, byteSize: 1 },
+    { key: ProposalStatus2.PROPOSAL_ID, byteSize: 7 },
   ],
-  [ProposalFilterType.BY_BALLOT]: [{ key: ProposalStatus.BALLOT, byteSize: 8 }],
+  [ProposalFilterType.BY_BALLOT]: [{ key: ProposalStatus2.BALLOT, byteSize: 8 }],
 };

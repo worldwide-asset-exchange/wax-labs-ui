@@ -1,15 +1,14 @@
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-import { Button } from '@/components/Button';
+import { inReviewProposals } from '@/api/chain/proposals';
 import { Header } from '@/components/Header';
 import { Link } from '@/components/Link';
-import { Proposal } from '@/components/Proposal';
+import * as Proposal from '@/components/Proposal';
 import { ProposalFilterWhose } from '@/components/Proposal/components/ProposalFilterWhose';
-import { ProposalStatus } from '@/constants.ts';
 
 export function Proposals() {
   const { t } = useTranslation();
@@ -26,10 +25,14 @@ export function Proposals() {
     },
   });
 
-  useEffect(() => {
-    console.debug('Fetch...');
-    console.debug(methods.getValues());
-  }, [methods, methods.formState.submitCount]);
+  const status = methods.getValues('status');
+
+  const { isLoading, data: proposals } = useQuery({
+    queryKey: ['proposals', status.join(',')],
+    queryFn: () => {
+      return inReviewProposals().then(response => response);
+    },
+  });
 
   return (
     <FormProvider {...methods}>
@@ -40,7 +43,7 @@ export function Proposals() {
           </ProposalFilterWhose>
         </Header.Content>
         <Header.Action>
-          <Link variant="primary" to="create">
+          <Link variant="primary" to="/create-proposal">
             <MdOutlineAdd size={24} className="md:hidden" />
             <span className="max-md:hidden">{t('createProposal')}</span>
           </Link>
@@ -48,25 +51,30 @@ export function Proposals() {
       </Header.Root>
 
       <Proposal.Root>
-        <Proposal.List>
-          {[1, 2, 3, 4].map(proposal => (
-            <Proposal.Item
-              key={proposal}
-              title="PFP Project Generator"
-              shortDescription="We're developing a free to use PFP generator. Users will be able to create rules that define their PFP project."
-              status={ProposalStatus.COMPLETE}
-              deliverables="3 deliverables"
-              id="523"
-              requestedAmount="45,000 USD"
-              proposer="hyogasereiou"
-              category="other"
-              lastUpdate="Jan 10th, 2023"
-            />
-          ))}
-        </Proposal.List>
-        <Proposal.Footer>
-          <Button>{t('loadMore')}</Button>
-        </Proposal.Footer>
+        {isLoading ? (
+          <Proposal.List>
+            {[...Array(6).keys()].map(item => (
+              <Proposal.ItemSkeleton key={item} />
+            ))}
+          </Proposal.List>
+        ) : (
+          <Proposal.List>
+            {proposals?.map(proposal => (
+              <Proposal.Item
+                key={proposal.proposal_id}
+                title={proposal.title}
+                shortDescription={proposal.description}
+                // status={proposal.status}
+                deliverables={proposal.deliverables}
+                id={proposal.proposal_id}
+                requestedAmount={proposal.total_requested_funds}
+                proposer={proposal.proposer}
+                category={proposal.category}
+                lastUpdate={proposal.update_ts}
+              />
+            ))}
+          </Proposal.List>
+        )}
       </Proposal.Root>
     </FormProvider>
   );

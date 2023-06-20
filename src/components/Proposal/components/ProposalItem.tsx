@@ -8,7 +8,7 @@ import {
 } from 'react-icons/md';
 
 import { StatusTag } from '@/components/StatusTag';
-import { ProposalStatus } from '@/constants.ts';
+import { ProposalStatus } from '@/constants';
 
 interface ProposalItemProps {
   title: string;

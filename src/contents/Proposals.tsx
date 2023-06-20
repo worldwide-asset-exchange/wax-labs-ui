@@ -1,16 +1,14 @@
-import { useQueries } from '@tanstack/react-query';
-import { format } from 'date-fns';
+import { useQuery } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-import { configData, inReviewProposals } from '@/api/chain/proposals';
+import { inReviewProposals } from '@/api/chain/proposals';
 import { Header } from '@/components/Header';
 import { Link } from '@/components/Link';
 import * as Proposal from '@/components/Proposal';
 import { ProposalFilterWhose } from '@/components/Proposal/components/ProposalFilterWhose';
-import { ProposalStatus } from '@/constants.ts';
 
 export function Proposals() {
   const { t } = useTranslation();
@@ -29,23 +27,12 @@ export function Proposals() {
 
   const status = methods.getValues('status');
 
-  const [proposalsQuery, configsQuery] = useQueries({
-    queries: [
-      {
-        queryKey: ['proposals', status.join(',')],
-        queryFn: () => {
-          return inReviewProposals().then(response => response);
-        },
-      },
-      {
-        queryKey: ['configs'],
-        queryFn: () => configData().then(response => response),
-      },
-    ],
+  const { isLoading, data: proposals } = useQuery({
+    queryKey: ['proposals', status.join(',')],
+    queryFn: () => {
+      return inReviewProposals().then(response => response);
+    },
   });
-
-  const { isLoading: isLoadingProposals, data: proposals } = proposalsQuery;
-  const { isLoading: isLoadingConfigs, data: configs } = configsQuery;
 
   return (
     <FormProvider {...methods}>
@@ -56,7 +43,7 @@ export function Proposals() {
           </ProposalFilterWhose>
         </Header.Content>
         <Header.Action>
-          <Link variant="primary" to="create">
+          <Link variant="primary" to="/create-proposal">
             <MdOutlineAdd size={24} className="md:hidden" />
             <span className="max-md:hidden">{t('createProposal')}</span>
           </Link>
@@ -64,7 +51,7 @@ export function Proposals() {
       </Header.Root>
 
       <Proposal.Root>
-        {isLoadingProposals || isLoadingConfigs ? (
+        {isLoading ? (
           <Proposal.List>
             {[...Array(6).keys()].map(item => (
               <Proposal.ItemSkeleton key={item} />
@@ -77,20 +64,17 @@ export function Proposals() {
                 key={proposal.proposal_id}
                 title={proposal.title}
                 shortDescription={proposal.description}
-                status={ProposalStatus.COMPLETE}
-                deliverables={`${proposal.deliverables} deliverables`}
+                // status={proposal.status}
+                deliverables={proposal.deliverables}
                 id={proposal.proposal_id}
-                requestedAmount="45,000 USD"
+                requestedAmount={proposal.total_requested_funds}
                 proposer={proposal.proposer}
-                category={configs?.categories[Number(proposal.category)] ?? ''}
-                lastUpdate={format(new Date(proposal.update_ts), 'LLL Mo, uuuu')}
+                category={proposal.category}
+                lastUpdate={proposal.update_ts}
               />
             ))}
           </Proposal.List>
         )}
-        {/* <Proposal.Footer>
-          <Button>{t('loadMore')}</Button>
-        </Proposal.Footer> */}
       </Proposal.Root>
     </FormProvider>
   );

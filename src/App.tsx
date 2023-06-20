@@ -3,7 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 
-import { queryClient } from '@/libs/queryClient';
+import { queryClient } from '@/api/queryClient';
 import { route } from '@/route';
 
 export function App() {

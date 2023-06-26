@@ -1,7 +1,2 @@
-import { TabsItem } from './components/TabsItem';
-import { TabsRoot } from './components/TabsRoot';
-
-export const Tabs = {
-  Root: TabsRoot,
-  Item: TabsItem,
-};
+export { TabsItem as Item } from './components/TabsItem';
+export { TabsRoot as Root } from './components/TabsRoot';

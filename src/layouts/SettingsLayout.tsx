@@ -9,7 +9,7 @@ import {
 import { NavLink, Outlet } from 'react-router-dom';
 
 import { Header } from '@/components/Header';
-import { Tabs } from '@/components/Tabs';
+import * as Tabs from '@/components/Tabs';
 
 export function SettingsLayout() {
   const { t } = useTranslation();

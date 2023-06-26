@@ -43,7 +43,7 @@ export function Proposals() {
           </ProposalFilterWhose>
         </Header.Content>
         <Header.Action>
-          <Link variant="primary" to="/create-proposal">
+          <Link variant="primary" to="create">
             <MdOutlineAdd size={24} className="md:hidden" />
             <span className="max-md:hidden">{t('createProposal')}</span>
           </Link>

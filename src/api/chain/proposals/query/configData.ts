@@ -64,6 +64,8 @@ async function _getSavingsData(): Promise<SavingsAccountResponse> {
 export async function configData(): Promise<ConfigData> {
   let configData: ConfigData = {} as ConfigData;
 
+  let tries = 0;
+
   for (;;) {
     try {
       const [configDataResponse, balanceResponse] = await Promise.all([_getConfigData(), _getSavingsData()]);
@@ -87,7 +89,12 @@ export async function configData(): Promise<ConfigData> {
 
       break;
     } catch (e) {
-      console.error('[configData] Error', e);
+      if (tries < 5) {
+        tries++;
+      } else {
+        console.error('[configData] Error', e);
+        break;
+      }
     }
   }
 

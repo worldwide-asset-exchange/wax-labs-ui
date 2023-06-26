@@ -113,7 +113,14 @@ export enum ProposalStatus {
 }
 
 export enum NotificationType {
-  PROPOSAL,
+  PROPOSAL_END_VOTING,
+  ADMIN_PROPOSAL_END_VOTING,
+  START_VOTING,
+  PROPOSAL_IN_PROGRESS,
+  DELIVERABLES_TO_REVIEW,
+  CLAIM_DELIVERABLE,
+  REJECTED_DELIVERABLE,
+  REVIEW_PENDING,
 }
 
 export const INDEX_POSITION: Record<ProposalFilterType, number> = {

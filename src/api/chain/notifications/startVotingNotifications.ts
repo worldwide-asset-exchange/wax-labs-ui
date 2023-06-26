@@ -3,13 +3,13 @@ import { nameBounds } from '@/api/chain/proposals/query/proposalBounds.ts';
 import { WaxLabsNotification } from '@/api/models/notifications.ts';
 import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
-export default async function proposerEndVotingNotifications({
+export default async function startVotingNotifications({
   accountName,
 }: {
   accountName: string;
 }): Promise<WaxLabsNotification[]> {
   try {
-    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.VOTING, accountName });
+    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.APPROVED, accountName });
 
     const proposals = await getProposals({
       queryType: ProposalFilterType.BY_PROPOSER_STAT,
@@ -17,16 +17,13 @@ export default async function proposerEndVotingNotifications({
       lowerBound,
     });
 
-    const now = new Date();
-    return proposals
-      .filter(p => new Date(p.vote_end_time) < now)
-      .map(p => ({
-        notificationType: NotificationType.PROPOSAL_END_VOTING,
-        readNotificationKey: `${NotificationType.PROPOSAL_END_VOTING}-${p.proposal_id}`,
-        id: p.proposal_id,
-      }));
+    return proposals.map(p => ({
+      notificationType: NotificationType.START_VOTING,
+      readNotificationKey: `${NotificationType.START_VOTING}-${p.proposal_id}`,
+      id: p.proposal_id,
+    }));
   } catch (e) {
-    console.error('[proposerEndVotingNotifications] Error', e);
+    console.error('[startVotingNotifications] Error', e);
 
     return [];
   }

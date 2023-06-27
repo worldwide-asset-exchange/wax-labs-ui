@@ -1,15 +1,6 @@
-import { HeaderAction } from './components/HeaderAction';
-import { HeaderButton } from './components/HeaderButton';
-import { HeaderContent } from './components/HeaderContent';
-import { HeaderRoot } from './components/HeaderRoot';
-import { HeaderSubtitle } from './components/HeaderSubtitle';
-import { HeaderTitle } from './components/HeaderTitle';
-
-export const Header = {
-  Root: HeaderRoot,
-  Content: HeaderContent,
-  Title: HeaderTitle,
-  Button: HeaderButton,
-  Subtitle: HeaderSubtitle,
-  Action: HeaderAction,
-};
+export { HeaderAction as Action } from './components/HeaderAction';
+export { HeaderButton as Button } from './components/HeaderButton';
+export { HeaderContent as Content } from './components/HeaderContent';
+export { HeaderRoot as Root } from './components/HeaderRoot';
+export { HeaderSubtitle as Subtitle } from './components/HeaderSubtitle';
+export { HeaderTitle as Title } from './components/HeaderTitle';

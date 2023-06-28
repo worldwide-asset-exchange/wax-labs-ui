@@ -25,4 +25,6 @@ export function ProposalForm() {
   if (step === 4) {
     return <ProposalFormStep4 />;
   }
+
+  return <></>;
 }

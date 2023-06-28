@@ -1,9 +1,3 @@
-import { FilterModalContent } from './components/FilterModalContent';
-import { FilterModalRoot } from './components/FilterModalRoot';
-import { FilterModalTrigger } from './components/FilterModalTrigger';
-
-export const FilterModal = {
-  Root: FilterModalRoot,
-  Content: FilterModalContent,
-  Trigger: FilterModalTrigger,
-};
+export { FilterModalContent as Content } from './components/FilterModalContent';
+export { FilterModalRoot as Root } from './components/FilterModalRoot';
+export { FilterModalTrigger as Trigger } from './components/FilterModalTrigger';

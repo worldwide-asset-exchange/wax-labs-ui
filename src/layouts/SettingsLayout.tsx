@@ -8,8 +8,8 @@ import {
 } from 'react-icons/md';
 import { NavLink, Outlet } from 'react-router-dom';
 
-import { Header } from '@/components/Header';
-import { Tabs } from '@/components/Tabs';
+import * as Header from '@/components/Header';
+import * as Tabs from '@/components/Tabs';
 
 export function SettingsLayout() {
   const { t } = useTranslation();

@@ -48,7 +48,7 @@ export function ProposalItem({
   const categoryName = configs?.categories[Number(category)];
 
   return (
-    <div className="group/proposal-item flex cursor-pointer flex-col divide-y divide-subtle-light rounded-xl bg-subtle p-4 duration-150 hover:ring-1 hover:ring-accent-dark group-data-[view=list]/proposal-root:md:flex-row group-data-[view=list]/proposal-root:md:divide-y-0">
+    <div className="group/proposal-item flex cursor-pointer flex-col divide-y divide-subtle-light overflow-hidden rounded-xl bg-subtle p-4 duration-150 hover:ring-1 hover:ring-accent-dark group-data-[view=list]/proposal-root:md:flex-row group-data-[view=list]/proposal-root:md:divide-y-0">
       <div className="flex-1 space-y-4 p-4">
         <h3 className="title-3 text-high-contrast group-hover/proposal-item:text-accent">{title}</h3>
         <p className="body-2 text-low-contrast">{shortDescription}</p>

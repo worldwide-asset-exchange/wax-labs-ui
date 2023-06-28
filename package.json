@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@eosdacio/ual-wax": "^1.9.0",
+    "@hookform/resolvers": "^3.1.1",
     "@radix-ui/react-dialog": "^1.0.4",
     "@tanstack/react-query": "^4.29.14",
     "@tanstack/react-query-devtools": "^4.29.14",
@@ -36,7 +37,8 @@
     "react-i18next": "^12.3.1",
     "react-icons": "^4.9.0",
     "react-router-dom": "^6.11.2",
-    "usehooks-ts": "^2.9.1"
+    "usehooks-ts": "^2.9.1",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^1.5.0",

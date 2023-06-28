@@ -7,7 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { configData } from '@/api/chain/proposals';
 import { Button } from '@/components/Button';
-import { FilterModal } from '@/components/FilterModal';
+import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
 

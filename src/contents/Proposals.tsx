@@ -5,7 +5,7 @@ import { MdOutlineAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
 import { inReviewProposals } from '@/api/chain/proposals';
-import { Header } from '@/components/Header';
+import * as Header from '@/components/Header';
 import { Link } from '@/components/Link';
 import * as Proposal from '@/components/Proposal';
 import { ProposalFilterWhose } from '@/components/Proposal/components/ProposalFilterWhose';
@@ -43,7 +43,7 @@ export function Proposals() {
           </ProposalFilterWhose>
         </Header.Content>
         <Header.Action>
-          <Link variant="primary" to="/create-proposal">
+          <Link variant="primary" to="create">
             <MdOutlineAdd size={24} className="md:hidden" />
             <span className="max-md:hidden">{t('createProposal')}</span>
           </Link>

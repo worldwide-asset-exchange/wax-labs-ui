@@ -5,12 +5,13 @@ export interface Proposal {
   description: string;
   proposer: string;
   total_requested_funds: string;
-  status: string;
+  status: number;
   deliverables: number;
   category: string;
   categories: Record<string, string>;
   vote_end_time: string;
   update_ts: string;
+  road_map: string;
 }
 
 export interface ProposalContent {

@@ -7,6 +7,12 @@ import { Input } from '@/components/Input';
 import { TextArea } from '@/components/TextArea';
 import { ToggleField } from '@/components/ToggleField';
 
+interface Step1Form {
+  title: string;
+  description: string;
+  category: string;
+}
+
 export function ProposalFormStep1() {
   const { t } = useTranslation();
 
@@ -18,23 +24,23 @@ export function ProposalFormStep1() {
   const {
     register,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<Step1Form>();
 
   return (
     <div className="mx-auto max-w-5xl p-1 md:px-4 md:py-8">
       <div className="space-y-6 rounded-xl bg-subtle p-8">
         <Input
           {...register('title')}
-          error={errors.title?.message as string}
+          error={errors.title?.message}
           label={t('title') as string}
           placeholder={t('titlePlaceholder') as string}
           maxLength={64}
         />
         <TextArea
-          {...register('shortDescription')}
-          error={errors.shortDescription?.message as string}
-          label={t('shortDescription') as string}
-          placeholder={t('shortDescriptionPlaceholder') as string}
+          {...register('description')}
+          error={errors.description?.message}
+          label={t('description') as string}
+          placeholder={t('descriptionPlaceholder') as string}
           rows={2}
           maxLength={160}
         />
@@ -55,17 +61,15 @@ export function ProposalFormStep1() {
               </>
             )}
           </div>
-          {errors.category && (
-            <span className="body-3 mt-2 block text-[#ED6E6D]">{errors.category?.message as string}</span>
-          )}
+          {errors.category && <span className="body-3 mt-2 block text-[#ED6E6D]">{errors.category?.message}</span>}
         </fieldset>
-        <Input
+        {/* <Input
           {...register('contact')}
           error={errors.contact?.message as string}
           label={t('contact') as string}
           placeholder={t('contactPlaceholder') as string}
           maxLength={64}
-        />
+        /> */}
       </div>
     </div>
   );

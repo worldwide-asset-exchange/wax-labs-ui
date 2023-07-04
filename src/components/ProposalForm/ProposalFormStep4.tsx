@@ -4,7 +4,15 @@ import { MdOutlineDelete, MdOutlineMoveDown, MdOutlineMoveUp } from 'react-icons
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { Proposal } from '@/layouts/ProposalFormLayout';
+
+interface Step4Form {
+  deliverables: {
+    description: string;
+    recipient: string;
+    daysToComplete: string;
+    requestedUSD: string;
+  }[];
+}
 
 export function ProposalFormStep4() {
   const { t } = useTranslation();
@@ -14,7 +22,7 @@ export function ProposalFormStep4() {
     register,
     watch,
     formState: { errors },
-  } = useFormContext<Proposal>();
+  } = useFormContext<Step4Form>();
 
   const { fields, append, remove, swap } = useFieldArray({
     control,
@@ -81,14 +89,14 @@ export function ProposalFormStep4() {
             <Input
               {...register(`deliverables.${index}.description` as const)}
               label={t('description') as string}
-              error={errors.deliverables?.[index]?.description?.message as string}
+              error={errors.deliverables?.[index]?.description?.message}
             />
             <div className="flex gap-6 max-md:flex-col">
               <div className="flex-1">
                 <Input
                   {...register(`deliverables.${index}.recipient` as const)}
                   label={t('recipient') as string}
-                  error={errors?.deliverables?.[index]?.recipient?.message as string}
+                  error={errors.deliverables?.[index]?.recipient?.message}
                 />
               </div>
               <div className="flex-1">
@@ -96,7 +104,7 @@ export function ProposalFormStep4() {
                   {...register(`deliverables.${index}.daysToComplete` as const)}
                   label={t('daysToComplete') as string}
                   placeholder={t('daysToCompletePlaceholder') as string}
-                  error={errors.deliverables?.[index]?.daysToComplete?.message as string}
+                  error={errors.deliverables?.[index]?.daysToComplete?.message}
                 />
               </div>
               <div className="flex-1">
@@ -104,7 +112,7 @@ export function ProposalFormStep4() {
                   {...register(`deliverables.${index}.requestedUSD` as const)}
                   label={t('requestedUSD') as string}
                   placeholder={t('requestedUSDPlaceholder') as string}
-                  error={errors.deliverables?.[index]?.requestedUSD?.message as string}
+                  error={errors.deliverables?.[index]?.requestedUSD?.message}
                 />
               </div>
             </div>
@@ -112,8 +120,14 @@ export function ProposalFormStep4() {
         </div>
       ))}
 
-      <div className="flex justify-center rounded-xl bg-subtle p-8">
+      <div
+        data-error={!!errors.deliverables?.message}
+        className="flex flex-col items-center justify-center gap-2 rounded-xl bg-subtle p-8 data-[error=true]:border data-[error=true]:border-[#ED6E6D]"
+      >
         <Button onClick={handleAppend}>{t('newDeliverable')}</Button>
+        {errors.deliverables?.message && (
+          <span className="body-3 text-[#ED6E6D]">{errors.deliverables.message as string}</span>
+        )}
       </div>
     </div>
   );

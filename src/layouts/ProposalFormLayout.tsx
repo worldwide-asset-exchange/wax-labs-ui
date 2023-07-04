@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineArrowBack, MdOutlineClose } from 'react-icons/md';
@@ -8,69 +8,68 @@ import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-do
 import { useInterval, useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { z } from 'zod';
 
+import { deliverables, proposalContentData, singleProposal } from '@/api/chain/proposals';
+import { Deliverables } from '@/api/models/deliverables';
 import { Button } from '@/components/Button';
 import { Link } from '@/components/Link';
 import { ProposalFormStep1Skeleton } from '@/components/ProposalForm/ProposalFormStep1Skeleton';
 import { ProposalFormTab } from '@/components/ProposalForm/ProposalFormTab';
-
-const ProposalSchema = z.object({
-  title: z.string().nonempty().max(64),
-  shortDescription: z.string().nonempty().max(160),
-  category: z
-    .string()
-    .nonempty()
-    .transform(value => Number(value)),
-  contact: z.string().nonempty().max(64),
-  coverImage: z
-    .union([z.instanceof(FileList), z.string()])
-    .refine(
-      files => {
-        if (files instanceof FileList) {
-          const [file] = files;
-          const imageTypes = ['image/gif', 'image/png', 'image/jpeg'];
-
-          if (file && !imageTypes.includes(file?.type)) {
-            return false;
-          }
-        }
-
-        return true;
-      },
-      {
-        message: 'Arquivo invalido',
-      }
-    )
-    .transform(files => files[0]),
-  complementaryFile: z.union([z.instanceof(FileList), z.string()]).transform(files => files[0]),
-  content: z.string().nonempty().max(4096),
-  financialRoadMap: z.string().nonempty().max(4096),
-  deliverables: z.array(
-    z.object({
-      description: z.string().nonempty(),
-      recipient: z.string().nonempty(),
-      daysToComplete: z
-        .string()
-        .nonempty()
-        .transform(value => Number(value)),
-      requestedUSD: z.string().nonempty(),
-    })
-  ),
-});
-
-export type Proposal = z.input<typeof ProposalSchema>;
-
-const fieldsPerStep = [
-  ['title', 'shortDescription', 'category', 'contact'],
-  ['coverImage', 'complementaryFile', 'content'],
-  ['financialRoadMap'],
-  ['deliverables'],
-] as Array<keyof Proposal>[];
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
 
 export function ProposalFormLayout() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const ProposalSchema = useMemo(() => {
+    return z.object({
+      title: z
+        .string()
+        .nonempty(t('titleErrorEmpty') as string)
+        .max(64),
+      description: z
+        .string()
+        .nonempty(t('descriptionErrorEmpty') as string)
+        .max(160),
+      category: z
+        .string()
+        .nonempty()
+        .transform(value => Number(value)),
+      imageURL: z.string(),
+      complementaryFile: z.union([z.instanceof(FileList), z.string()]).transform(files => files[0]),
+      content: z
+        .string()
+        .nonempty(t('contentErrorEmpty') as string)
+        .max(4096),
+      financialRoadMap: z
+        .string()
+        .nonempty(t('financialRoadMapErrorEmpty') as string)
+        .max(4096),
+      deliverables: z
+        .object({
+          description: z.string().nonempty(t('deliverableDescriptionErrorEmpty') as string),
+          recipient: z.string().nonempty(t('deliverableRecipientErrorEmpty') as string),
+          daysToComplete: z
+            .string()
+            .nonempty(t('deliverableDaysToCompleteErrorEmpty') as string)
+            .transform(value => Number(value)),
+          requestedUSD: z.string().nonempty(t('deliverableRequestedUSDErrorEmpty') as string),
+        })
+        .array()
+        .min(1, t('deliverableErrorEmpty') as string),
+    });
+  }, [t]);
+
+  type Proposal = z.input<typeof ProposalSchema>;
+
+  const fieldsPerStep = useMemo(() => {
+    return [
+      ['title', 'description', 'category'],
+      ['imageURL', 'complementaryFile', 'content'],
+      ['financialRoadMap'],
+      ['deliverables'],
+    ] as Array<keyof Proposal>[];
+  }, []);
 
   const [defaultValues, setDefaultValues] = useLocalStorage(PROPOSAL_DRAFT_LOCAL_STORAGE, {
     category: '0',
@@ -87,44 +86,66 @@ export function ProposalFormLayout() {
   const { width } = useWindowSize();
   const { proposalId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const stepParam = Number(searchParams.get('step'));
+  const stepParam = useMemo(() => Number(searchParams.get('step')), [searchParams]);
 
-  const currentStep = stepParam || 1;
-  const steps = [
-    {
-      title: t('detail'),
-      step: 1,
-    },
-    {
-      title: t('content'),
-      step: 2,
-    },
-    {
-      title: t('financial'),
-      step: 3,
-    },
-    {
-      title: t('deliverables'),
-      step: 4,
-    },
-  ];
+  const currentStep = useMemo(() => stepParam || 1, [stepParam]);
+  const steps = useMemo(() => {
+    return [
+      {
+        title: t('detail'),
+        step: 1,
+      },
+      {
+        title: t('content'),
+        step: 2,
+      },
+      {
+        title: t('financial'),
+        step: 3,
+      },
+      {
+        title: t('deliverables'),
+        step: 4,
+      },
+    ];
+  }, [t]);
+
   const stepsAmount = steps.length;
 
   const { data: proposal, isLoading } = useQuery<Proposal>({
-    queryKey: ['proposal', proposalId],
+    queryKey: ['proposal', proposalId, 'edit'],
     queryFn: () => {
-      return {
-        title: 'WAX Labs 3.0',
-        shortDescription:
-          'Streamlining the proposal submission process, improving reviewer/submitter communications, and refreshing the brand to be in line with other WAX properties.',
-        category: '3',
-        contact: '',
-        coverImage: '',
-        complementaryFile: '',
-        content: '',
-        financialRoadMap: '',
-        deliverables: [],
-      };
+      return Promise.all([
+        singleProposal({ proposalId: proposalId as string }),
+        proposalContentData({ proposalId: proposalId as string }),
+        deliverables({ proposalId: proposalId as string }),
+      ]).then(([proposalData, contentData, deliverablesData]) => {
+        if (proposalData.status !== 1) {
+          // To do:
+          // If the proposal is not a draft make a redirect or add a message
+          // Use enum
+        }
+
+        const formattedDeliverables = deliverablesData.deliverables.map((deliverable: Deliverables) => {
+          return {
+            description: deliverable.small_description,
+            recipient: deliverable.recipient,
+            daysToComplete: String(deliverable.days_to_complete),
+            requestedUSD: deliverable.requested,
+          };
+        });
+
+        return {
+          title: proposalData.title,
+          description: proposalData.description,
+          category: String(proposalData.category),
+          imageURL: proposalData.image_url,
+          complementaryFile: '',
+          content: contentData?.content ?? '',
+          financialRoadMap: proposalData.road_map,
+          deliverables: formattedDeliverables,
+        };
+      });
     },
     enabled: !!proposalId,
   });
@@ -159,10 +180,10 @@ export function ProposalFormLayout() {
     }
   }
 
-  function onClose() {
+  const onClose = useCallback(() => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
     navigate('/proposals');
-  }
+  }, [navigate]);
 
   function nextStep() {
     const fieldsToValidate = fieldsPerStep.find((_, stepIndex) => currentStep === stepIndex + 1) ?? [];

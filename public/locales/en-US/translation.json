@@ -47,6 +47,7 @@
   "titleErrorEmpty": "Provide a title for your proposal",
   "descriptionPlaceholder": "E.g.: The most desired commodity can now be tracked and accounted for by leveraging WAX",
   "descriptionErrorEmpty": "Provide a brief description for your proposal",
+  "categoryErrorEmpty": "Choose a category for your proposal",
   "contact": "Contact",
   "contactPlaceholder": "Telegram or email",
   "imageURL": "Image URL",
@@ -69,8 +70,18 @@
 
   "next": "Next",
   "back": "Back",
+  "addDeliverables": "Add deliverables",
+  "addLater": "Add later",
+  "continueEditing": "Continue editing",
+  "cancel": "Cancel",
+  "discard": "Discard",
   "submit": "Submit",
   "newDeliverable": "New deliverable",
+  
+  "proposalCreatedModalTitle": "Proposal was created",
+  "proposalCreatedModalDescription": "Please wait momentarily, as you will soon be able to add your deliverables.",
+  "cancelProposalModalTitle": "Cancel proposal",
+  "cancelProposalModalDescription": "You will lose all information so far.",
 
   "sortBy": "Sort by",
 

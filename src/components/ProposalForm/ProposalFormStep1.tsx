@@ -63,13 +63,6 @@ export function ProposalFormStep1() {
           </div>
           {errors.category && <span className="body-3 mt-2 block text-[#ED6E6D]">{errors.category?.message}</span>}
         </fieldset>
-        {/* <Input
-          {...register('contact')}
-          error={errors.contact?.message as string}
-          label={t('contact') as string}
-          placeholder={t('contactPlaceholder') as string}
-          maxLength={64}
-        /> */}
       </div>
     </div>
   );

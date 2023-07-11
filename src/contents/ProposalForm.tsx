@@ -8,11 +8,7 @@ import { ProposalFormStep4 } from '@/components/ProposalForm/ProposalFormStep4';
 export function ProposalForm() {
   const [searchParams] = useSearchParams();
 
-  const step = Number(searchParams.get('step')) || 1;
-
-  if (step === 1) {
-    return <ProposalFormStep1 />;
-  }
+  const step = Number(searchParams.get('step'));
 
   if (step === 2) {
     return <ProposalFormStep2 />;
@@ -26,5 +22,5 @@ export function ProposalForm() {
     return <ProposalFormStep4 />;
   }
 
-  return <></>;
+  return <ProposalFormStep1 />;
 }

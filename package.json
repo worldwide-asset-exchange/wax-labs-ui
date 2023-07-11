@@ -15,6 +15,7 @@
   "dependencies": {
     "@eosdacio/ual-wax": "^1.9.0",
     "@hookform/resolvers": "^3.1.1",
+    "@radix-ui/react-alert-dialog": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.4",
     "@tanstack/react-query": "^4.29.14",
     "@tanstack/react-query-devtools": "^4.29.14",

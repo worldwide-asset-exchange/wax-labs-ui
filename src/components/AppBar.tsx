@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { MdOutlineNotifications } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
@@ -6,7 +7,8 @@ import * as Nav from '@/components/Nav';
 import { useChain } from '@/hooks/useChain.ts';
 
 export function AppBar() {
-  const { login, logout, isAuthenticated, actor } = useChain();
+  const { t } = useTranslation();
+  const { login, isAuthenticated, actor } = useChain();
 
   return (
     <header className="sticky left-0 top-0 z-30 flex items-center justify-between border-b border-subtle-light bg-app p-4 pb-[calc(1rem-1px)]">
@@ -16,26 +18,23 @@ export function AppBar() {
       <Nav.Root>
         <Nav.List>
           <Nav.Item>
-            <Nav.Link to="/">Home</Nav.Link>
+            <Nav.Link to="/">{t('home')}</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link to="/proposals">Proposals</Nav.Link>
+            <Nav.Link to="/proposals">{t('proposals')}</Nav.Link>
           </Nav.Item>
           {isAuthenticated ? (
             <>
               <Nav.Item>
-                <Nav.Link to="/settings">Settings</Nav.Link>
+                <Nav.Link to="/settings">{t('settings')}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link to="/settings">{actor}</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Button onClick={logout}>Log out</Nav.Button>
+                <Nav.Link to="/profile">{actor}</Nav.Link>
               </Nav.Item>
             </>
           ) : (
             <Nav.Item>
-              <Nav.Button onClick={login}>Sign in</Nav.Button>
+              <Nav.Button onClick={login}>{t('signIn')}</Nav.Button>
             </Nav.Item>
           )}
         </Nav.List>

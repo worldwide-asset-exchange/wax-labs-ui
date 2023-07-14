@@ -1,7 +1,9 @@
 {
   "home": "Home",
   "proposals": "Proposals",
+  "settings": "Settings",
   "signIn": "Sign in",
+  "logOut": "Log out",
 
   "wax": "WAX",
 
@@ -85,11 +87,24 @@
 
   "sortBy": "Sort by",
 
-  "settings": "Settings",
   "votingPeriod": "Voting Period",
   "removeProfile": "Remove Profile",
   "adminRole": "Admin Role",
   "USDRequested": "USD Requested",
+
+  "profile": "Profile",
+  "editProfile": "Edit profile",
+  "biography": "Biography",
+  "groupName": "Group name",
+  "country": "Country",
+  "website": "Website",
+  "telegram": "Telegram",
+
+  "balance": "Balance",
+  "balancePlaceholder": "0 WAX",
+  "labsBalance": "Balance in the Labs Smart Contract",
+  "amount": "Amount",
+  "withdraw": "Withdraw",
 
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",

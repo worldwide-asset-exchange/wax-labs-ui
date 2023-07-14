@@ -1,14 +1,18 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 
 import { Home } from '@/contents/Home';
+import { Balance } from '@/contents/profile/Balance';
+import { MyProposals } from '@/contents/profile/MyProposals';
+import { Profile } from '@/contents/profile/Profile';
 import { ProposalForm } from '@/contents/ProposalForm';
 import { Proposals } from '@/contents/Proposals';
 import { AdminRole } from '@/contents/settings/AdminRole';
 import { Categories } from '@/contents/settings/Categories';
 import { RemoveProfile } from '@/contents/settings/RemoveProfile';
-import { USDRequested } from '@/contents/settings/USDRequested.tsx';
+import { USDRequested } from '@/contents/settings/USDRequested';
 import { VotingPeriod } from '@/contents/settings/VotingPeriod';
 import { AppLayout } from '@/layouts/AppLayout';
+import { ProfileLayout } from '@/layouts/ProfileLayout';
 import { ProposalFormLayout } from '@/layouts/ProposalFormLayout';
 import { SettingsLayout } from '@/layouts/SettingsLayout';
 
@@ -24,6 +28,11 @@ export const route = createBrowserRouter(
           <Route path="remove-profile" element={<RemoveProfile />} />
           <Route path="admin-role" element={<AdminRole />} />
           <Route path="usd-requested" element={<USDRequested />} />
+        </Route>
+        <Route path="profile" element={<ProfileLayout />}>
+          <Route path="" element={<MyProposals />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="balance" element={<Balance />} />
         </Route>
       </Route>
       <Route path="/proposals" element={<ProposalFormLayout />}>

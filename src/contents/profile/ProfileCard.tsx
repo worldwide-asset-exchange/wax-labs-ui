@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane } from 'react-icons/fa';
 import { MdLink, MdOutlineGroups, MdOutlineLanguage } from 'react-icons/md';
 
-import { Button } from '@/components/Button';
+import { Link } from '@/components/Link';
 import { useChain } from '@/hooks/useChain.ts';
 
 interface ProfileCardProps {
@@ -26,17 +26,15 @@ export function ProfileCard({ biography, groupName, country, website, telegram }
           <p className="body-2 text-high-contrast">{actor}</p>
         </div>
         <div className="flex min-w-[140px] justify-end">
-          <Button variant="secondary" onClick={() => console.debug('Edit Profile')}>
+          <Link to="/profile/edit" variant="primary">
             {t('editProfile')}
-          </Button>
+          </Link>
         </div>
       </div>
-
       <div className="flex-1 p-4">
         <p className="label-2 text-high-contrast">{t('biography')}</p>
         <p className="body-1 text-low-contrast">{biography}</p>
       </div>
-
       <div className="label-1 mx-4 flex-1 divide-y divide-subtle-light text-low-contrast">
         <div className="flex gap-4 py-4">
           <div className="flex flex-1 items-center gap-4 overflow-hidden whitespace-nowrap">

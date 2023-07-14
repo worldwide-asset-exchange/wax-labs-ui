@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 
 import { Home } from '@/contents/Home';
 import { Balance } from '@/contents/profile/Balance';
+import { EditProfile } from '@/contents/profile/EditProfile';
 import { MyProposals } from '@/contents/profile/MyProposals';
 import { Profile } from '@/contents/profile/Profile';
 import { ProposalForm } from '@/contents/ProposalForm';
@@ -32,6 +33,7 @@ export const route = createBrowserRouter(
         <Route path="profile" element={<ProfileLayout />}>
           <Route path="" element={<MyProposals />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="edit" element={<EditProfile />} />
           <Route path="balance" element={<Balance />} />
         </Route>
       </Route>

@@ -1,3 +1,5 @@
+import { ProposalStatusKey } from '@/constants.ts';
+
 export interface Proposal {
   proposal_id: number;
   image_url: string;
@@ -5,7 +7,7 @@ export interface Proposal {
   description: string;
   proposer: string;
   total_requested_funds: string;
-  status: number;
+  status: ProposalStatusKey;
   deliverables: number;
   deliverables_completed: number;
   category: number;

@@ -17,11 +17,17 @@ export default async function startVotingNotifications({
       lowerBound,
     });
 
-    return proposals.map(p => ({
-      notificationType: NotificationType.START_VOTING,
-      readNotificationKey: `${NotificationType.START_VOTING}-${p.proposal_id}`,
-      id: p.proposal_id,
-    }));
+    return proposals.map(
+      p =>
+        ({
+          notificationType: NotificationType.START_VOTING,
+          readNotificationKey: `${NotificationType.START_VOTING}-${p.proposal_id}`,
+          id: p.proposal_id,
+          title: p.title,
+          summary: p.description,
+          status: p.status,
+        } as WaxLabsNotification)
+    );
   } catch (e) {
     console.error('[startVotingNotifications] Error', e);
 

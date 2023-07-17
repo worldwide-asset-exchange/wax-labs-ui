@@ -20,11 +20,17 @@ export default async function proposerEndVotingNotifications({
     const now = new Date();
     return proposals
       .filter(p => new Date(p.vote_end_time) < now)
-      .map(p => ({
-        notificationType: NotificationType.PROPOSAL_END_VOTING,
-        readNotificationKey: `${NotificationType.PROPOSAL_END_VOTING}-${p.proposal_id}`,
-        id: p.proposal_id,
-      }));
+      .map(
+        p =>
+          ({
+            notificationType: NotificationType.PROPOSAL_END_VOTING,
+            readNotificationKey: `${NotificationType.PROPOSAL_END_VOTING}-${p.proposal_id}`,
+            id: p.proposal_id,
+            title: p.title,
+            summary: p.description,
+            status: p.status,
+          } as WaxLabsNotification)
+      );
   } catch (e) {
     console.error('[proposerEndVotingNotifications] Error', e);
 

@@ -24,6 +24,7 @@
   "rejected": "Rejected",
   "completed": "Completed",
   "deliverablesCompleted": "completed",
+  "failed": "Failed",
 
   "operationalFunds": "Operational funds",
   "additionalFunds": "Additional funds",
@@ -141,5 +142,11 @@
   "createdAt": "Created at",
   "totalClaimed": "Total Claimed",
   "reviewer": "Reviewer",
-  "totalRequested": "Total requested"
+  "totalRequested": "Total requested",
+
+  "notifications": {
+    "lastUpdatedProposalTitle": "Your Last updated proposal",
+    "deliverablesInReview": "Deliverables needing your review",
+    "deliverablesReadyToBeClaimed": "Deliverable is ready to be claimed"
+  }
 }

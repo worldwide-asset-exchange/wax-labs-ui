@@ -13,11 +13,17 @@ export default async function adminToReviewNotifications(): Promise<WaxLabsNotif
       lowerBound,
     });
 
-    return proposals.map(p => ({
-      notificationType: NotificationType.REVIEW_PENDING,
-      readNotificationKey: `${NotificationType.REVIEW_PENDING}-${p.proposal_id}`,
-      id: p.proposal_id,
-    }));
+    return proposals.map(
+      p =>
+        ({
+          notificationType: NotificationType.REVIEW_PENDING,
+          readNotificationKey: `${NotificationType.REVIEW_PENDING}-${p.proposal_id}`,
+          id: p.proposal_id,
+          title: p.title,
+          summary: p.description,
+          status: p.status,
+        } as WaxLabsNotification)
+    );
   } catch (e) {
     console.error('[adminToReviewNotifications] Error', e);
 

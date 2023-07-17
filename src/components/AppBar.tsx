@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { MdOutlineNotifications } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 import Logo from '@/assets/logo.svg';
 import * as Nav from '@/components/Nav';
+import { Notification } from '@/components/Notifications';
 import { useChain } from '@/hooks/useChain.ts';
 
 export function AppBar() {
@@ -40,15 +40,7 @@ export function AppBar() {
             </Nav.Item>
           )}
         </Nav.List>
-        {isAuthenticated && (
-          <Nav.Button
-            onClick={() => {
-              console.debug('notification');
-            }}
-          >
-            <MdOutlineNotifications size={24} />
-          </Nav.Button>
-        )}
+        {isAuthenticated && <Notification />}
       </Nav.Root>
     </header>
   );

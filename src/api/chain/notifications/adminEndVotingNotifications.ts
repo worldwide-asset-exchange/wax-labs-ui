@@ -16,11 +16,17 @@ export default async function adminEndVotingNotifications(): Promise<WaxLabsNoti
     const now = new Date();
     return proposals
       .filter(p => new Date(p.vote_end_time) < now)
-      .map(p => ({
-        notificationType: NotificationType.ADMIN_PROPOSAL_END_VOTING,
-        readNotificationKey: `${NotificationType.ADMIN_PROPOSAL_END_VOTING}-${p.proposal_id}`,
-        id: p.proposal_id,
-      }));
+      .map(
+        p =>
+          ({
+            notificationType: NotificationType.ADMIN_PROPOSAL_END_VOTING,
+            readNotificationKey: `${NotificationType.ADMIN_PROPOSAL_END_VOTING}-${p.proposal_id}`,
+            id: p.proposal_id,
+            title: p.title,
+            summary: p.description,
+            status: p.status,
+          } as WaxLabsNotification)
+      );
   } catch (e) {
     console.error('[adminEndVotingNotifications] Error', e);
 

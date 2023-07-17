@@ -29,7 +29,7 @@ export function AppBar() {
                 <Nav.Link to="/settings">{t('settings')}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link to="/profile">{actor}</Nav.Link>
+                <Nav.Link to={'/' + actor}>{actor}</Nav.Link>
               </Nav.Item>
             </>
           ) : (

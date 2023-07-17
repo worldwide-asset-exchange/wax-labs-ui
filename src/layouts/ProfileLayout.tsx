@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdLightbulbOutline, MdOutlineAccountBalanceWallet, MdPersonOutline } from 'react-icons/md';
 import { NavLink, Outlet } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/Button';
 import * as Header from '@/components/Header';
@@ -12,11 +12,12 @@ export function ProfileLayout() {
   const { t } = useTranslation();
   const { logout, isAuthenticated, actor } = useChain();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      //TODO: Go to Home page
-    }
-  }, [isAuthenticated]);
+  const { actor: actorParam } = useParams();
+
+  console.debug(isAuthenticated);
+  if (isAuthenticated === null) {
+    return <>Loading</>;
+  }
 
   return (
     <>
@@ -25,7 +26,7 @@ export function ProfileLayout() {
           <div className="h-20 min-h-[80px] w-20 min-w-[80px] rounded-full border-2"></div>
           <div className="w-full flex-col gap-1">
             <h1 className="title-1 text-high-contrast">{actor}</h1>
-            <h2 className="subtitle-1 text-high-contrast">{actor}</h2>
+            <h2 className="subtitle-1 text-high-contrast">{actorParam}</h2>
           </div>
           <div className="flex min-w-[120px] justify-end">
             <Button variant="tertiary" onClick={logout}>

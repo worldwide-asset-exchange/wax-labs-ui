@@ -24,10 +24,10 @@ export interface ChainProviderProps {
 }
 
 export function ChainProvider({ children }: ChainProviderProps) {
-  const [session, setSession] = useState<Session | undefined>();
+  const [session, setSession] = useState<Session | 'notLogged' | null>(null);
 
   useEffect(() => {
-    sessionKit.restore().then(restored => setSession(restored));
+    sessionKit.restore().then(restored => setSession((restored as Session) ?? 'notLogged'));
   }, []);
 
   async function login() {
@@ -36,8 +36,8 @@ export function ChainProvider({ children }: ChainProviderProps) {
   }
 
   async function logout() {
-    await sessionKit.logout(session);
-    setSession(undefined);
+    await sessionKit.logout(session as Session);
+    setSession('notLogged');
   }
 
   return (

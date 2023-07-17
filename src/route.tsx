@@ -30,7 +30,7 @@ export const route = createBrowserRouter(
           <Route path="admin-role" element={<AdminRole />} />
           <Route path="usd-requested" element={<USDRequested />} />
         </Route>
-        <Route path="profile" element={<ProfileLayout />}>
+        <Route path=":actor" element={<ProfileLayout />}>
           <Route path="" element={<MyProposals />} />
           <Route path="profile" element={<Profile />} />
           <Route path="edit" element={<EditProfile />} />

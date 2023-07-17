@@ -25,13 +25,15 @@ export function ProfileLayout() {
         <div className="flex w-full items-center gap-4">
           <div className="h-20 min-h-[80px] w-20 min-w-[80px] rounded-full border-2"></div>
           <div className="w-full flex-col gap-1">
-            <h1 className="title-1 text-high-contrast">{actor}</h1>
+            <h1 className="title-1 text-high-contrast">{actorParam}</h1>
             <h2 className="subtitle-1 text-high-contrast">{actorParam}</h2>
           </div>
           <div className="flex min-w-[120px] justify-end">
-            <Button variant="tertiary" onClick={logout}>
-              {t('logOut')}
-            </Button>
+            {actor == actorParam ? (
+              <Button variant="tertiary" onClick={logout}>
+                {t('logOut')}
+              </Button>
+            ) : null}
           </div>
         </div>
       </Header.Root>
@@ -52,14 +54,16 @@ export function ProfileLayout() {
             </Tabs.Item>
           )}
         </NavLink>
-        <NavLink to="balance" end>
-          {({ isActive }) => (
-            <Tabs.Item active={isActive}>
-              <MdOutlineAccountBalanceWallet size={24} />
-              {t('balance')}
-            </Tabs.Item>
-          )}
-        </NavLink>
+        {actor == actorParam ? (
+          <NavLink to="balance" end>
+            {({ isActive }) => (
+              <Tabs.Item active={isActive}>
+                <MdOutlineAccountBalanceWallet size={24} />
+                {t('balance')}
+              </Tabs.Item>
+            )}
+          </NavLink>
+        ) : null}
       </Tabs.Root>
       <Outlet />
     </>

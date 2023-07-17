@@ -3,6 +3,6 @@ import createAddCategoryAction, {
   CreateAddCategoryAction,
 } from '@/api/chain/category/actions/create/createAddCategoryAction.ts';
 
-export async function addCategory({ category, activeUser }: CreateAddCategoryAction) {
-  return await execute(activeUser, [createAddCategoryAction({ category, activeUser })]);
+export async function addCategory({ category, session }: CreateAddCategoryAction) {
+  return await execute(session, [createAddCategoryAction({ category, session })]);
 }

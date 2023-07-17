@@ -1,17 +1,14 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
+import { Action, SessionProps } from '@/api/models';
 import { AddDeliverable } from '@/api/models/actions.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
-export interface CreateAddDeliverableAction {
+export interface CreateAddDeliverableAction extends SessionProps {
   deliverableId: number;
   proposalId: number;
   daysToComplete: string;
   requestedAmount: string;
   recipient: string;
   smallDescription: string;
-  activeUser: WaxUser;
 }
 
 export default function createAddDeliverableAction({
@@ -21,15 +18,15 @@ export default function createAddDeliverableAction({
   requestedAmount,
   smallDescription,
   recipient,
-  activeUser: { accountName, requestPermission },
+  session,
 }: CreateAddDeliverableAction): Action<AddDeliverable> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.NEW_DELIVERABLE,
     authorization: [
       {
-        actor: accountName,
-        permission: requestPermission,
+        actor: session.actor.toString(),
+        permission: session.permission.toString(),
       },
     ],
     data: {

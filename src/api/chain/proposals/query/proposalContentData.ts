@@ -3,7 +3,7 @@ import { GetTableRowsResult } from '@/api/models';
 import { ProposalContent } from '@/api/models/proposal.ts';
 import { LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
 
-export async function proposalContentData({ proposalId }: { proposalId: string }): Promise<ProposalContent | null> {
+export async function proposalContentData({ proposalId }: { proposalId: number }): Promise<ProposalContent | null> {
   for (;;) {
     try {
       const { rows } = (await wax.rpc.get_table_rows({

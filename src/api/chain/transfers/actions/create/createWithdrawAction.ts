@@ -1,25 +1,21 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
+import { Action, SessionProps } from '@/api/models';
 import { Withdraw } from '@/api/models/actions.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT, TOKEN_SYMBOL } from '@/constants.ts';
 
-export interface CreateWithdrawAction {
+export interface CreateWithdrawAction extends SessionProps {
   quantity: number;
-  activeUser: WaxUser;
 }
 
-export default function createWithdrawAction({
-  quantity,
-  activeUser: { accountName, requestPermission },
-}: CreateWithdrawAction): Action<Withdraw> {
+export default function createWithdrawAction({ quantity, session }: CreateWithdrawAction): Action<Withdraw> {
+  const accountName = session.actor.toString();
+
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.WITHDRAW,
     authorization: [
       {
         actor: accountName,
-        permission: requestPermission,
+        permission: session.permission.toString(),
       },
     ],
     data: {

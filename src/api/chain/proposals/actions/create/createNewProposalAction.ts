@@ -1,26 +1,25 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
+import { Action, SessionProps } from '@/api/models';
 import { CreateProposal } from '@/api/models/actions.ts';
 import { NewProposalRequest } from '@/api/models/proposal.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
-export interface CreateNewProposalAction {
+export interface CreateNewProposalAction extends SessionProps {
   proposal: NewProposalRequest;
-  activeUser: WaxUser;
 }
 
 export default function createNewProposalAction({
   proposal,
-  activeUser: { accountName, requestPermission },
+  session,
 }: CreateNewProposalAction): Action<CreateProposal> {
+  const accountName = session.actor.toString();
+
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.DRAFT_PROPOSAL,
     authorization: [
       {
         actor: accountName,
-        permission: requestPermission,
+        permission: session.permission.toString(),
       },
     ],
     data: {

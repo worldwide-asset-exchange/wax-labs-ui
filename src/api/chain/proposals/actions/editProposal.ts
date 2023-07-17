@@ -3,10 +3,10 @@ import createEditProposalAction, {
   CreateEditProposalAction,
 } from '@/api/chain/proposals/actions/create/createEditProposalAction.ts';
 
-export async function editProposal({ activeUser, proposal }: CreateEditProposalAction) {
-  return await execute(activeUser, [
+export async function editProposal({ session, proposal }: CreateEditProposalAction) {
+  return await execute(session, [
     createEditProposalAction({
-      activeUser,
+      session,
       proposal,
     }),
   ]);

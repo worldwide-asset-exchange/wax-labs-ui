@@ -1,25 +1,22 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
+import { Action, SessionProps } from '@/api/models';
 import { MaxRequested } from '@/api/models/actions.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
-export interface CreateSetMaxRequestedAction {
+export interface CreateSetMaxRequestedAction extends SessionProps {
   maxRequested: number;
-  activeUser: WaxUser;
 }
 
 export default function createSetMaxRequestedAction({
   maxRequested,
-  activeUser: { accountName, requestPermission },
+  session,
 }: CreateSetMaxRequestedAction): Action<MaxRequested> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.SET_MAX_REQUESTED,
     authorization: [
       {
-        actor: accountName,
-        permission: requestPermission,
+        actor: session.actor.toString(),
+        permission: session.permission.toString(),
       },
     ],
     data: {

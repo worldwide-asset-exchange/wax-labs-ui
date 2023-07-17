@@ -1,25 +1,23 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
-import { Profile } from '@/api/models/actions.ts';
+import { Action, SessionProps } from '@/api/models';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
-export interface CreateRemoveProfileAction {
+export interface CreateRemoveProfileAction extends SessionProps {
   waxAccount?: string | null;
-  activeUser: WaxUser;
 }
 
 export default function createRemoveProfileAction({
   waxAccount,
-  activeUser: { accountName, requestPermission },
-}: CreateRemoveProfileAction): Action<Profile> {
+  session,
+}: CreateRemoveProfileAction): Action<{ wax_account: string }> {
+  const accountName = session.actor.toString();
+
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.REMOVE_PROFILE,
     authorization: [
       {
         actor: accountName,
-        permission: requestPermission,
+        permission: session.permission.toString(),
       },
     ],
     data: {

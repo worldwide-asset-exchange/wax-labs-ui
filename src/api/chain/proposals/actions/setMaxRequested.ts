@@ -3,6 +3,6 @@ import createSetMaxRequestedAction, {
   CreateSetMaxRequestedAction,
 } from '@/api/chain/proposals/actions/create/createSetMaxRequestedAction.ts';
 
-export async function setMaxRequested({ maxRequested, activeUser }: CreateSetMaxRequestedAction) {
-  return await execute(activeUser, [createSetMaxRequestedAction({ maxRequested, activeUser })]);
+export async function setMaxRequested({ maxRequested, session }: CreateSetMaxRequestedAction) {
+  return await execute(session, [createSetMaxRequestedAction({ maxRequested, session })]);
 }

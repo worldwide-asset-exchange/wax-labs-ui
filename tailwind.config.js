@@ -30,6 +30,7 @@ export default {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
     plugin(function ({ addComponents }) {
       addComponents({
         '.display-1': {

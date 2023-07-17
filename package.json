@@ -19,6 +19,9 @@
     "@radix-ui/react-dialog": "^1.0.4",
     "@tanstack/react-query": "^4.29.14",
     "@tanstack/react-query-devtools": "^4.29.14",
+    "@tiptap/pm": "^2.0.3",
+    "@tiptap/react": "^2.0.3",
+    "@tiptap/starter-kit": "^2.0.3",
     "@waxio/waxjs": "^1.5.0-beta.1",
     "@wharfkit/session": "^0.5.0",
     "@wharfkit/wallet-plugin-anchor": "^0.5.1",
@@ -44,6 +47,7 @@
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^1.5.0",
     "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
     "@tanstack/eslint-plugin-query": "^4.29.9",
     "@types/node": "^20.2.5",
     "@types/react": "^18.2.8",

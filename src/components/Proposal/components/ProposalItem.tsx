@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   MdAttachMoney,
@@ -47,6 +48,11 @@ export function ProposalItem({
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
   const categoryName = configs?.categories[Number(category)];
 
+  const requestedAmountFormatted = useMemo(() => {
+    const [amount, symbol] = requestedAmount.split(' ');
+    return `${Number(amount).toFixed(2)} ${symbol}`;
+  }, [requestedAmount]);
+
   return (
     <div className="group/proposal-item flex cursor-pointer flex-col divide-y divide-subtle-light overflow-hidden rounded-xl bg-subtle p-4 duration-150 hover:ring-1 hover:ring-accent-dark group-data-[view=list]/proposal-root:md:flex-row group-data-[view=list]/proposal-root:md:divide-y-0">
       <div className="flex-1 space-y-4 p-4">
@@ -77,7 +83,7 @@ export function ProposalItem({
             <div className="flex-none">
               <MdAttachMoney size={24} />
             </div>
-            <div className="flex-1 truncate">{requestedAmount}</div>
+            <div className="flex-1 truncate">{requestedAmountFormatted}</div>
           </div>
           <div className="flex flex-1 items-center gap-4 overflow-hidden whitespace-nowrap">
             <div className="flex-none">

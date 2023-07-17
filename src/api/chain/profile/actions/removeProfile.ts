@@ -3,6 +3,6 @@ import createRemoveProfileAction, {
   CreateRemoveProfileAction,
 } from '@/api/chain/profile/actions/create/createRemoveProfileAction.ts';
 
-export async function removeProfile({ waxAccount, activeUser }: CreateRemoveProfileAction) {
-  return await execute(activeUser, [createRemoveProfileAction({ waxAccount, activeUser })]);
+export async function removeProfile({ waxAccount, session }: CreateRemoveProfileAction) {
+  return await execute(session, [createRemoveProfileAction({ waxAccount, session })]);
 }

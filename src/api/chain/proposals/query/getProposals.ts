@@ -11,8 +11,8 @@ export interface ProposalResponse {
 
 interface ProposalsFilter {
   queryType?: ProposalFilterType;
-  lowerBound?: string;
-  upperBound?: string;
+  lowerBound?: number | string;
+  upperBound?: number | string;
 }
 
 async function _getProposalRangeLimit({
@@ -50,7 +50,7 @@ export async function getProposals({ queryType, lowerBound, upperBound }: Propos
         lowerBound: nextKey,
       });
 
-      proposalsArray.push(...(proposals || []));
+      proposalsArray.push(...(proposals ?? []));
 
       if (!more) {
         break;

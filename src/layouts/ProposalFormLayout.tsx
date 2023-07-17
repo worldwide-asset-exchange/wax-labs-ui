@@ -263,7 +263,7 @@ export function ProposalFormLayout() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
-        <header className="sticky left-0 top-0 flex w-full justify-between border-b border-subtle-light bg-app p-4 pb-[calc(1rem-1px)] max-md:pl-2">
+        <header className="sticky left-0 top-0 z-30 flex w-full justify-between border-b border-subtle-light bg-app p-4 pb-[calc(1rem-1px)] max-md:pl-2">
           <div className="flex flex-1 items-center gap-4">
             {width < 1024 ? (
               <>

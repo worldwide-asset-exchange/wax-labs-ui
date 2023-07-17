@@ -9,7 +9,7 @@ export async function deliverables({
   proposalId,
   statuses,
 }: {
-  proposalId: string;
+  proposalId: number;
   statuses?: ProposalStatusKey[];
 }): Promise<{ deliverables: Deliverables[] }> {
   for (;;) {

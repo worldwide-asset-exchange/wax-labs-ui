@@ -19,6 +19,16 @@ export interface ProposalContent {
   proposal_id: number;
 }
 
+export interface ProposalComment {
+  status_comment: string;
+  proposal_id: number;
+}
+
+export interface DeliverableComment {
+  status_comment: string;
+  deliverable_id: number;
+}
+
 export interface EditProposalRequest {
   proposal_id: number;
   title: string;

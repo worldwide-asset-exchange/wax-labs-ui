@@ -1,25 +1,19 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
+import { Action, SessionProps } from '@/api/models';
 import { SetAdmin } from '@/api/models/actions.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
-export interface CreateSetAdminAction {
+export interface CreateSetAdminAction extends SessionProps {
   newAdmin: string;
-  activeUser: WaxUser;
 }
 
-export default function createSetAdminAction({
-  newAdmin,
-  activeUser: { accountName, requestPermission },
-}: CreateSetAdminAction): Action<SetAdmin> {
+export default function createSetAdminAction({ session, newAdmin }: CreateSetAdminAction): Action<SetAdmin> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.SET_ADMIN,
     authorization: [
       {
-        actor: accountName,
-        permission: requestPermission,
+        actor: session.actor.toString(),
+        permission: session.permission.toString(),
       },
     ],
     data: {

@@ -6,8 +6,7 @@ import {
   MdOutlineLabel,
   MdOutlinePersonRemove,
 } from 'react-icons/md';
-import { NavLink, Outlet } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink, Outlet } from 'react-router-dom';
 
 import * as Header from '@/components/Header';
 import * as Tabs from '@/components/Tabs';
@@ -16,8 +15,6 @@ import { useChain } from '@/hooks/useChain.ts';
 export function SettingsLayout() {
   const { t } = useTranslation();
   const { isAuthenticated } = useChain();
-
-  console.debug(isAuthenticated);
 
   if (isAuthenticated == null) {
     return <>Loading</>;

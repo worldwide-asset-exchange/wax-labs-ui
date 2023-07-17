@@ -10,23 +10,13 @@ export interface ChainOptions extends ChainContextOptions {
 }
 
 export function useChain(): ChainOptions {
-  const { login, logout, session } = useContext(ChainContext);
-
-  console.debug('session:');
-  console.debug(session != null);
-  // console.debug("actor:");
-  // console.debug(session?.actor);
+  const { login, logout, isAuthenticated, session } = useContext(ChainContext);
 
   return {
     login,
     logout,
     session,
-    // isAuthenticated: Boolean(session),
-    // isAuthenticated: typeof session != null ? Boolean(session) : null,
-    // isAuthenticated: Boolean(session?.actor) ?? null,
-    // isAuthenticated: session != null ? Boolean(session) : null,
-    // isAuthenticated: session != null ? true : null,
-    isAuthenticated: session === 'notLogged' ? false : session == null ? null : true,
+    isAuthenticated,
     actor: (session as Session)?.actor?.toString(),
     permission: (session as Session)?.permission?.toString(),
   };

@@ -17,6 +17,7 @@ export function SettingsLayout() {
   const { isAuthenticated } = useChain();
 
   if (isAuthenticated == null) {
+    // TODO: Replace by Loading component
     return <>Loading</>;
   }
 

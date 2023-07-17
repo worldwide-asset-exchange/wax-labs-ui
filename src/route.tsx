@@ -4,7 +4,7 @@ import { Home } from '@/contents/Home';
 import { Balance } from '@/contents/profile/Balance';
 import { EditProfile } from '@/contents/profile/EditProfile';
 import { MyProposals } from '@/contents/profile/MyProposals';
-import { Profile } from '@/contents/profile/Profile';
+import { UserProfile } from '@/contents/profile/UserProfile';
 import { ProposalForm } from '@/contents/ProposalForm';
 import { Proposals } from '@/contents/Proposals';
 import { AdminRole } from '@/contents/settings/AdminRole';
@@ -32,7 +32,7 @@ export const route = createBrowserRouter(
         </Route>
         <Route path=":actor" element={<ProfileLayout />}>
           <Route path="" element={<MyProposals />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<UserProfile />} />
           <Route path="edit" element={<EditProfile />} />
           <Route path="balance" element={<Balance />} />
         </Route>

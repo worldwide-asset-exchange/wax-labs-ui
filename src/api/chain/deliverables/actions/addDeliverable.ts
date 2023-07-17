@@ -6,17 +6,17 @@ import createAddDeliverableAction, {
 export async function addDeliverable({
   deliverableId,
   proposalId,
-  activeUser,
+  session,
   recipient,
   requestedAmount,
   smallDescription,
   daysToComplete,
 }: CreateAddDeliverableAction) {
-  return await execute(activeUser, [
+  return await execute(session, [
     createAddDeliverableAction({
       deliverableId,
       proposalId,
-      activeUser,
+      session,
       recipient,
       requestedAmount,
       smallDescription,

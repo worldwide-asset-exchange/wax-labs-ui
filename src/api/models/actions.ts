@@ -4,7 +4,14 @@ export interface Withdraw {
 }
 
 export interface Profile {
-  wax_account: string;
+  full_name: string;
+  country: string;
+  bio: string;
+  image_url: string;
+  website: string;
+  contact: string;
+  group_name: string;
+  wax_account?: string;
 }
 
 export interface DeleteCategory {
@@ -61,3 +68,47 @@ export interface AddDeliverable extends RemoveDeliverable {
   small_description: string;
   days_to_complete: string;
 }
+
+export interface GenericProposal {
+  proposal_id: number;
+}
+
+export interface GenericProposalWithMemo extends GenericProposal {
+  memo: string;
+}
+
+export interface VotingDuration {
+  new_vote_duration: number;
+}
+
+export interface ReviewProposal {
+  proposal_id: number;
+  approve: boolean;
+  draft: boolean;
+  memo: string;
+}
+
+export interface NewReviewer {
+  proposal_id: number;
+  deliverable_id: number;
+  new_reviewer: string;
+}
+
+export interface BeginAndEndVote extends GenericProposal {
+  ballot_name: string;
+}
+
+export interface ReviewDeliverable {
+  proposal_id: number;
+  deliverable_id: number;
+  accept: boolean;
+  memo: string;
+}
+
+export interface SubmitReport extends Omit<ReviewDeliverable, 'accept' | 'memo'> {
+  proposal_id: number;
+  deliverable_id: number;
+  report: string;
+}
+
+export type ClaimFunds = Omit<ReviewDeliverable, 'accept' | 'memo'>;

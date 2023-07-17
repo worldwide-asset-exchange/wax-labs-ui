@@ -1,26 +1,23 @@
-import { WaxUser } from '@eosdacio/ual-wax';
-
-import { Action } from '@/api/models';
+import { Action, SessionProps } from '@/api/models';
 import { EditProposal } from '@/api/models/actions.ts';
 import { EditProposalRequest } from '@/api/models/proposal.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
-export interface CreateEditProposalAction {
+export interface CreateEditProposalAction extends SessionProps {
   proposal: EditProposalRequest;
-  activeUser: WaxUser;
 }
 
 export default function createEditProposalAction({
   proposal,
-  activeUser: { accountName, requestPermission },
+  session,
 }: CreateEditProposalAction): Action<EditProposal> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.EDIT_PROPOSAL,
     authorization: [
       {
-        actor: accountName,
-        permission: requestPermission,
+        actor: session.actor.toString(),
+        permission: session.permission.toString(),
       },
     ],
     data: {

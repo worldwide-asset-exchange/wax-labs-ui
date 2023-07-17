@@ -1,4 +1,5 @@
-import { WaxUser } from '@eosdacio/ual-wax';
+import { AnyAction } from '@greymass/eosio';
+import { Session } from '@wharfkit/session';
 
 import { Action } from '@/api/models';
 
@@ -7,12 +8,13 @@ import { Action } from '@/api/models';
  *
  * @throws {Error}
  */
-export async function execute(activeUser: WaxUser, actions: Action<unknown>[]) {
+export async function execute(session: Session, actions: Action<unknown>[]) {
   try {
-    return await activeUser.signTransaction(
-      { actions },
+    return await session.transact(
       {
-        blocksBehind: 3,
+        actions: actions as AnyAction[],
+      },
+      {
         expireSeconds: 30,
       }
     );

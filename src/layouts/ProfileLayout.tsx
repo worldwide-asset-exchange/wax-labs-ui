@@ -9,6 +9,7 @@ import { Profile } from '@/api/models/profile.ts';
 import { Button } from '@/components/Button';
 import * as Header from '@/components/Header';
 import * as Tabs from '@/components/Tabs';
+import { ContentSkeleton } from '@/contents/ContentSkeleton';
 import { useChain } from '@/hooks/useChain.ts';
 
 export function ProfileLayout() {
@@ -28,8 +29,7 @@ export function ProfileLayout() {
   const methods = useForm();
 
   if (isAuthenticated == null) {
-    // TODO: Replace by Loading component
-    return <>Loading</>;
+    return <ContentSkeleton />;
   }
 
   return (

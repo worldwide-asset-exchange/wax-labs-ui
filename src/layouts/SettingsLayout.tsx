@@ -10,6 +10,7 @@ import { Navigate, NavLink, Outlet } from 'react-router-dom';
 
 import * as Header from '@/components/Header';
 import * as Tabs from '@/components/Tabs';
+import { ContentSkeleton } from '@/contents/ContentSkeleton';
 import { useChain } from '@/hooks/useChain.ts';
 
 export function SettingsLayout() {
@@ -17,8 +18,7 @@ export function SettingsLayout() {
   const { isAuthenticated } = useChain();
 
   if (isAuthenticated == null) {
-    // TODO: Replace by Loading component
-    return <>Loading</>;
+    return <ContentSkeleton />;
   }
 
   if (!isAuthenticated) {

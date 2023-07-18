@@ -6,13 +6,24 @@ import {
   MdOutlineLabel,
   MdOutlinePersonRemove,
 } from 'react-icons/md';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet } from 'react-router-dom';
 
 import * as Header from '@/components/Header';
 import * as Tabs from '@/components/Tabs';
+import { ContentSkeleton } from '@/contents/ContentSkeleton';
+import { useChain } from '@/hooks/useChain.ts';
 
 export function SettingsLayout() {
   const { t } = useTranslation();
+  const { isAuthenticated } = useChain();
+
+  if (isAuthenticated == null) {
+    return <ContentSkeleton />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>

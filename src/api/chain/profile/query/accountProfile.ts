@@ -13,9 +13,9 @@ export async function accountProfile(profile: string) {
       lower_bound: profile,
       upper_bound: profile,
       limit: 1,
-    })) as GetTableRowsResult<{ profile?: Profile }>;
+    })) as GetTableRowsResult<Profile>;
 
-    return rows?.[0]?.profile as Profile;
+    return rows?.[0];
   } catch (e) {
     console.error('[accountProfile] Error', e);
     return null;

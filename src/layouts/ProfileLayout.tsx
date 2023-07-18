@@ -38,8 +38,7 @@ export function ProfileLayout() {
         <Header.Root>
           <div className="flex w-full items-center gap-4">
             <div className="h-20 min-h-[80px] w-20 min-w-[80px] rounded-full border-2">
-              {/* TODO: Substitute empty for placeholder image when available */}
-              <img src={profile?.image_url ?? ''} />
+              {profile?.image_url ? <img src={profile?.image_url} /> : <MdPersonOutline size={76} />}
             </div>
             <div className="w-full flex-col gap-1">
               <h1 className="title-1 text-high-contrast">{profile?.full_name ?? actorParam}</h1>

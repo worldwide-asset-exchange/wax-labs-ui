@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane } from 'react-icons/fa';
-import { MdLink, MdOutlineGroups, MdOutlineLanguage } from 'react-icons/md';
+import { MdLink, MdOutlineGroups, MdOutlineLanguage, MdPersonOutline } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
 import { Link } from '@/components/Link';
@@ -33,8 +33,7 @@ export function ProfileCard({
     <div className="flex flex-col gap-8 overflow-hidden rounded-xl bg-subtle p-8">
       <div className="flex w-full items-center gap-4">
         <div className="h-14 min-h-[56px] w-14 min-w-[56px] rounded-full border-2">
-          {/* TODO: Substitute empty for placeholder image when available */}
-          <img src={imageUrl ?? ''} />
+          {imageUrl ? <img src={imageUrl} /> : <MdPersonOutline size={52} />}
         </div>
         <div className="w-full flex-col gap-1">
           <h3 className="title-3 text-high-contrast">{fullName ?? actorParam}</h3>

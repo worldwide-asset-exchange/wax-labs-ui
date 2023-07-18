@@ -7,6 +7,8 @@ import { Link } from '@/components/Link';
 import { useChain } from '@/hooks/useChain.ts';
 
 interface ProfileCardProps {
+  imageUrl: string;
+  fullName: string;
   biography: string;
   groupName: string;
   country: string;
@@ -14,7 +16,15 @@ interface ProfileCardProps {
   telegram: string;
 }
 
-export function ProfileCard({ biography, groupName, country, website, telegram }: ProfileCardProps) {
+export function ProfileCard({
+  imageUrl,
+  fullName,
+  biography,
+  groupName,
+  country,
+  website,
+  telegram,
+}: ProfileCardProps) {
   const { t } = useTranslation();
   const { actor } = useChain();
   const { actor: actorParam } = useParams();
@@ -22,9 +32,12 @@ export function ProfileCard({ biography, groupName, country, website, telegram }
   return (
     <div className="flex flex-col gap-8 overflow-hidden rounded-xl bg-subtle p-8">
       <div className="flex w-full items-center gap-4">
-        <div className="h-14 min-h-[56px] w-14 min-w-[56px] rounded-full border-2"></div>
+        <div className="h-14 min-h-[56px] w-14 min-w-[56px] rounded-full border-2">
+          {/* TODO: Substitute empty for placeholder image when available */}
+          <img src={imageUrl ?? ''} />
+        </div>
         <div className="w-full flex-col gap-1">
-          <h3 className="title-3 text-high-contrast">{actorParam}</h3>
+          <h3 className="title-3 text-high-contrast">{fullName ?? actorParam}</h3>
           <p className="body-2 text-high-contrast">{actorParam}</p>
         </div>
         {actor == actorParam ? (

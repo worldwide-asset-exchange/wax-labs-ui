@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdLightbulbOutline, MdOutlineAccountBalanceWallet, MdPersonOutline } from 'react-icons/md';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
@@ -18,24 +18,25 @@ export function ProfileLayout() {
 
   const [profile, setProfile] = useState<Profile | null>(null);
 
+  useEffect(() => {
+    accountProfile(actor as string).then(response => {
+      setProfile(response);
+    });
+  }, [actor]);
+
   if (isAuthenticated == null) {
     // TODO: Replace by Loading component
     return <>Loading</>;
   }
 
-  const getProfile = async () => {
-    const response = await accountProfile(actor as string);
-    setProfile(response);
-    console.debug(response);
-  };
-
-  getProfile();
-
   return (
     <>
       <Header.Root>
         <div className="flex w-full items-center gap-4">
-          <div className="h-20 min-h-[80px] w-20 min-w-[80px] rounded-full border-2"></div>
+          <div className="h-20 min-h-[80px] w-20 min-w-[80px] rounded-full border-2">
+            {/* TODO: Substitute empty for placeholder image when available */}
+            <img src={profile?.image_url ?? ''} />
+          </div>
           <div className="w-full flex-col gap-1">
             <h1 className="title-1 text-high-contrast">{profile?.full_name ?? actorParam}</h1>
             <h2 className="subtitle-1 text-high-contrast">{actorParam}</h2>

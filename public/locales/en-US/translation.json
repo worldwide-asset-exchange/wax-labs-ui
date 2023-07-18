@@ -91,7 +91,10 @@
   "USDRequested": "USD Requested",
 
   "profile": "Profile",
+  "createProfile": "Create profile",
   "editProfile": "Edit profile",
+  "noProfile": "You have not created a profile yet",
+  "noUserProfile": "User has not created a profile yet",
   "avatar": "Avatar",
   "avatarPlaceholder": "E.g.: https://avatar.url",
   "fullName": "Full name",
@@ -107,6 +110,7 @@
   "telegram": "Telegram",
   "telegramHandle": "Telegram handle",
   "telegramPlaceholder": "E.g.: @jonas_doe",
+  "create": "Create",
   "save": "Save",
   "balance": "Balance",
   "balancePlaceholder": "0 WAX",

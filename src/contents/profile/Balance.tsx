@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { accountBalance } from '@/api/chain/profile/query/accountBalance';
@@ -13,13 +13,15 @@ export function Balance() {
 
   const [balance, setBalance] = useState<number | null>(null);
 
-  const getBalance = async () => {
-    const response = await accountBalance({ accountName: actor as string });
-    setBalance(response);
-    console.debug(response);
+  const withdraw = () => {
+    console.debug('Withdraw');
   };
 
-  getBalance();
+  useEffect(() => {
+    accountBalance({ accountName: actor as string }).then(response => {
+      setBalance(response);
+    });
+  }, [actor]);
 
   return (
     <>
@@ -45,7 +47,7 @@ export function Balance() {
               />
             </div>
             <div>
-              <Button variant="primary" onClick={() => console.debug('Withdraw')}>
+              <Button variant="primary" onClick={withdraw}>
                 {t('withdraw')}
               </Button>
             </div>

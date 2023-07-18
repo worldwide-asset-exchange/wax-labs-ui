@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { Session } from '@wharfkit/session';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { editProfile, newProfile, removeProfile } from '@/api/chain/profile';
 import { accountProfile } from '@/api/chain/profile/query/accountProfile';
 import { Profile } from '@/api/models/profile.ts';
 import { Button } from '@/components/Button';
@@ -16,29 +19,38 @@ interface CreateEditProfileProps {
 
 export function CreateEditProfile({ create }: CreateEditProfileProps) {
   const { t } = useTranslation();
-  const { actor } = useChain();
+  const { actor, session } = useChain();
 
   const randomProfile = Math.floor(Math.random() * 10);
 
-  const [profile, setProfile] = useState<Profile | null>(null);
-
-  const save = () => {
+  const save = (data: Profile) => {
     if (create) {
-      console.debug('Create profile');
+      newProfile({ profile: data, session: session as Session });
     } else {
-      console.debug('Edit profile');
+      editProfile({ profile: data, session: session as Session });
     }
+    reset();
   };
 
   const remove = () => {
-    console.debug('Remove profile');
+    removeProfile({ session: session as Session });
   };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useFormContext<Profile>();
 
   useEffect(() => {
     accountProfile(actor as string).then(response => {
-      setProfile(response);
+      if (response) {
+        Object.entries(response).forEach(([name, value]) => setValue(name as keyof Profile, value));
+      }
     });
-  }, [actor]);
+  }, [actor, setValue]);
 
   return (
     <>
@@ -47,25 +59,22 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
       </Header.Root>
       <div className="mx-auto flex max-w-7xl flex-col gap-6 overflow-hidden rounded-xl bg-subtle p-8">
         <Input
-          // {...register('imageUrl')}
-          // error={errors.imageUrl?.message}
-          value={profile?.image_url ?? undefined}
+          {...register('image_url')}
+          error={errors.image_url?.message}
           label={t('avatar') as string}
           placeholder={create ? profilePlaceholders[randomProfile].imageUrl : (t('avatarPlaceholder') as string)}
           maxLength={64}
         />
         <Input
-          // {...register('fullName')}
-          // error={errors.fullName?.message}
-          value={profile?.full_name ?? undefined}
+          {...register('full_name')}
+          error={errors.full_name?.message}
           label={t('fullName') as string}
           placeholder={create ? profilePlaceholders[randomProfile].fullName : (t('fullNamePlaceholder') as string)}
           maxLength={64}
         />
         <TextArea
-          // {...register('biography')}
-          // error={errors.biography?.message}
-          value={profile?.bio ?? undefined}
+          {...register('bio')}
+          error={errors.bio?.message}
           label={t('biography') as string}
           placeholder={create ? profilePlaceholders[randomProfile].biography : (t('biographyPlaceholder') as string)}
           rows={3}
@@ -74,9 +83,8 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
         <div className="flex w-full gap-6">
           <div className="flex w-full flex-col gap-6">
             <Input
-              // {...register('groupName')}
-              // error={errors.groupName?.message}
-              value={profile?.group_name ?? undefined}
+              {...register('group_name')}
+              error={errors.group_name?.message}
               label={t('groupName') as string}
               placeholder={
                 create ? profilePlaceholders[randomProfile].groupName : (t('groupNamePlaceholder') as string)
@@ -84,9 +92,8 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
               maxLength={64}
             />
             <Input
-              // {...register('website')}
-              // error={errors.website?.message}
-              value={profile?.website ?? undefined}
+              {...register('website')}
+              error={errors.website?.message}
               placeholder={create ? profilePlaceholders[randomProfile].website : (t('websitePlaceholder') as string)}
               label={t('website') as string}
               maxLength={64}
@@ -94,17 +101,15 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
           </div>
           <div className="flex w-full flex-col gap-6">
             <Input
-              // {...register('country')}
-              // error={errors.country?.message}
-              value={profile?.country ?? undefined}
+              {...register('country')}
+              error={errors.country?.message}
               placeholder={create ? profilePlaceholders[randomProfile].country : (t('countryPlaceholder') as string)}
               label={t('country') as string}
               maxLength={64}
             />
             <Input
-              // {...register('telegram')}
-              // error={errors.telegram?.message}
-              value={profile?.contact ?? undefined}
+              {...register('contact')}
+              error={errors.contact?.message}
               placeholder={
                 create ? profilePlaceholders[randomProfile].contact : (t('telegramHandlePlaceholder') as string)
               }
@@ -119,7 +124,7 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
               {t('removeProfile')}
             </Button>
           ) : null}
-          <Button variant="primary" onClick={save}>
+          <Button variant="primary" onClick={handleSubmit(save)}>
             {create ? t('create') : t('save')}
           </Button>
         </div>

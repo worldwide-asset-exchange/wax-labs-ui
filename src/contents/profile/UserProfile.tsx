@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
@@ -17,12 +17,11 @@ export function UserProfile() {
 
   const [profile, setProfile] = useState<Profile | null>(null);
 
-  const getProfile = async () => {
-    const response = await accountProfile(actor as string);
-    setProfile(response);
-  };
-
-  getProfile();
+  useEffect(() => {
+    accountProfile(actor as string).then(response => {
+      setProfile(response);
+    });
+  }, [actor]);
 
   return (
     <>

@@ -43,7 +43,7 @@ export function UserProfile() {
           <div className="flex w-full items-center justify-between overflow-hidden rounded-xl bg-subtle p-4">
             <p className="subtitle-1 text-low-contrast">{actor == actorParam ? t('noProfile') : t('noUserProfile')}</p>
             {actor == actorParam ? (
-              <Link to={'/' + actor + '/create'} variant="primary">
+              <Link to={`/${actor}/create`} variant="primary">
                 {t('createProfile')}
               </Link>
             ) : null}

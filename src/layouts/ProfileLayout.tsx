@@ -22,9 +22,9 @@ export function ProfileLayout() {
   const [avatar, setAvatar] = useState(<MdPerson className="text-low-contrast" size={40} />);
 
   const { data: profile, isLoading } = useQuery({
-    queryKey: ['profile', actor],
+    queryKey: ['profile', actorParam],
     queryFn: () =>
-      accountProfile(actor as string).then(response => {
+      accountProfile(actorParam as string).then(response => {
         if (response) {
           return response;
         } else {
@@ -55,11 +55,11 @@ export function ProfileLayout() {
             <h2 className="subtitle-1 text-high-contrast">{actorParam}</h2>
           </div>
           <div className="flex min-w-[120px] justify-end">
-            {actor == actorParam ? (
+            {actor == actorParam && (
               <Button variant="tertiary" onClick={logout}>
                 {t('logOut')}
               </Button>
-            ) : null}
+            )}
           </div>
         </div>
       </Header.Root>
@@ -80,7 +80,7 @@ export function ProfileLayout() {
             </Tabs.Item>
           )}
         </NavLink>
-        {actor == actorParam ? (
+        {actor == actorParam && (
           <NavLink to="balance" end>
             {({ isActive }) => (
               <Tabs.Item active={isActive}>
@@ -89,7 +89,7 @@ export function ProfileLayout() {
               </Tabs.Item>
             )}
           </NavLink>
-        ) : null}
+        )}
       </Tabs.Root>
       <Outlet />
     </>

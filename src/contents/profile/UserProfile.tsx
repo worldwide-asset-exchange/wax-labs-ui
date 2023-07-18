@@ -16,9 +16,9 @@ export function UserProfile() {
   const { actor: actorParam } = useParams();
 
   const { data: profile } = useQuery({
-    queryKey: ['profile', actor],
+    queryKey: ['profile', actorParam],
     queryFn: () =>
-      accountProfile(actor as string).then(response => {
+      accountProfile(actorParam as string).then(response => {
         if (response) {
           return response;
         } else {
@@ -46,11 +46,11 @@ export function UserProfile() {
         ) : (
           <div className="flex w-full items-center justify-between overflow-hidden rounded-xl bg-subtle p-4">
             <p className="subtitle-1 text-low-contrast">{actor == actorParam ? t('noProfile') : t('noUserProfile')}</p>
-            {actor == actorParam ? (
+            {actor == actorParam && (
               <Link to={`/${actor}/create`} variant="primary">
                 {t('createProfile')}
               </Link>
-            ) : null}
+            )}
           </div>
         )}
       </div>

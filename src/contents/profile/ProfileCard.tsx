@@ -49,13 +49,13 @@ export function ProfileCard({
           <h3 className="title-3 text-high-contrast">{fullName ?? actorParam}</h3>
           <p className="body-2 text-high-contrast">{actorParam}</p>
         </div>
-        {actor == actorParam ? (
+        {actor == actorParam && (
           <div className="flex min-w-[140px] justify-end">
             <Link to={'/' + actor + '/edit'} variant="secondary">
               {t('editProfile')}
             </Link>
           </div>
-        ) : null}
+        )}
       </div>
       <div className="flex-1 p-4">
         <p className="label-2 text-high-contrast">{t('biography')}</p>

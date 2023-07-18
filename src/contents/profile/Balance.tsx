@@ -1,20 +1,28 @@
+import { Session } from '@wharfkit/session';
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { accountBalance } from '@/api/chain/profile/query/accountBalance';
+import { withdraw } from '@/api/chain/transfers';
 import { Button } from '@/components/Button';
 import * as Header from '@/components/Header';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
 
+interface WithdrawBalance {
+  quantity: number;
+}
+
 export function Balance() {
   const { t } = useTranslation();
-  const { actor } = useChain();
+  const { actor, session } = useChain();
 
   const [balance, setBalance] = useState<number | null>(null);
 
-  const withdraw = () => {
-    console.debug('Withdraw');
+  const withdrawBalance = (data: WithdrawBalance) => {
+    withdraw({ quantity: data.quantity, session: session as Session });
+    reset();
   };
 
   useEffect(() => {
@@ -22,6 +30,13 @@ export function Balance() {
       setBalance(response);
     });
   }, [actor]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useFormContext<WithdrawBalance>();
 
   return (
     <>
@@ -39,15 +54,15 @@ export function Balance() {
           <div className="flex w-full items-end gap-6 pt-6">
             <div className="w-full">
               <Input
-                // {...register('balance')}
-                // error={errors.balance?.message}
+                {...register('quantity')}
+                error={errors.quantity?.message}
                 label={t('amount') as string}
                 placeholder={t('balancePlaceholder') as string}
                 maxLength={64}
               />
             </div>
             <div>
-              <Button variant="primary" onClick={withdraw}>
+              <Button variant="primary" onClick={handleSubmit(withdrawBalance)}>
                 {t('withdraw')}
               </Button>
             </div>

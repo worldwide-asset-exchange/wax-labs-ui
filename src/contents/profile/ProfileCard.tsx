@@ -1,10 +1,12 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane } from 'react-icons/fa';
-import { MdLink, MdOutlineGroups, MdOutlineLanguage, MdPersonOutline } from 'react-icons/md';
+import { MdLink, MdOutlineGroups, MdOutlineLanguage, MdPerson } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
 import { Link } from '@/components/Link';
 import { useChain } from '@/hooks/useChain.ts';
+import { imageExists } from '@/utils/image';
 
 interface ProfileCardProps {
   imageUrl: string;
@@ -29,11 +31,19 @@ export function ProfileCard({
   const { actor } = useChain();
   const { actor: actorParam } = useParams();
 
+  const [avatar, setAvatar] = useState(<MdPerson className="text-low-contrast" size={28} />);
+
+  useEffect(() => {
+    imageExists(imageUrl)
+      .then(() => setAvatar(<img className="h-full w-full rounded-full object-cover" src={imageUrl} />))
+      .catch(() => setAvatar(<MdPerson className="text-low-contrast" size={28} />));
+  }, [imageUrl]);
+
   return (
-    <div className="flex flex-col gap-8 overflow-hidden rounded-xl bg-subtle p-8">
+    <div className="flex w-full flex-col gap-8 overflow-hidden rounded-xl bg-subtle p-8">
       <div className="flex w-full items-center gap-4">
-        <div className="h-14 min-h-[56px] w-14 min-w-[56px] rounded-full border-2">
-          {imageUrl ? <img src={imageUrl} /> : <MdPersonOutline size={52} />}
+        <div className="flex h-14 min-h-[56px] w-14 min-w-[56px] items-center justify-center rounded-full border-2">
+          {avatar}
         </div>
         <div className="w-full flex-col gap-1">
           <h3 className="title-3 text-high-contrast">{fullName ?? actorParam}</h3>
@@ -41,7 +51,7 @@ export function ProfileCard({
         </div>
         {actor == actorParam ? (
           <div className="flex min-w-[140px] justify-end">
-            <Link to={'/' + actor + '/edit'} variant="primary">
+            <Link to={'/' + actor + '/edit'} variant="secondary">
               {t('editProfile')}
             </Link>
           </div>

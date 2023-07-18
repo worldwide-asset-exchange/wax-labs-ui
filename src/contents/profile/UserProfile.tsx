@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
@@ -15,13 +15,17 @@ export function UserProfile() {
   const { actor } = useChain();
   const { actor: actorParam } = useParams();
 
-  const [profile, setProfile] = useState<Profile | null>(null);
-
-  useEffect(() => {
-    accountProfile(actor as string).then(response => {
-      setProfile(response);
-    });
-  }, [actor]);
+  const { data: profile } = useQuery({
+    queryKey: ['profile', actor],
+    queryFn: () =>
+      accountProfile(actor as string).then(response => {
+        if (response) {
+          return response;
+        } else {
+          return {} as Profile;
+        }
+      }),
+  });
 
   return (
     <>
@@ -29,7 +33,7 @@ export function UserProfile() {
         <Header.Title>{t('profile')}</Header.Title>
       </Header.Root>
       <div className="mx-auto flex max-w-7xl items-center px-4">
-        {profile ? (
+        {profile?.full_name ? (
           <ProfileCard
             imageUrl={profile?.image_url ?? ''}
             fullName={profile?.full_name ?? ''}

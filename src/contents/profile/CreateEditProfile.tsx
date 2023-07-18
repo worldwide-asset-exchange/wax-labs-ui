@@ -1,7 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { Session } from '@wharfkit/session';
-import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
 
 import { editProfile, newProfile, removeProfile } from '@/api/chain/profile';
 import { accountProfile } from '@/api/chain/profile/query/accountProfile';
@@ -23,6 +26,39 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
 
   const randomProfile = Math.floor(Math.random() * 10);
 
+  const ProfileSchema = useMemo(() => {
+    return z.object({
+      image_url: z
+        .string()
+        .nonempty(t('avatarErrorEmpty') as string)
+        .max(256),
+      full_name: z
+        .string()
+        .nonempty(t('fullNameErrorEmpty') as string)
+        .max(64),
+      bio: z
+        .string()
+        .nonempty(t('biographyErrorEmpty') as string)
+        .max(256),
+      group_name: z
+        .string()
+        .nonempty(t('groupNameErrorEmpty') as string)
+        .max(64),
+      website: z
+        .string()
+        .nonempty(t('websiteErrorEmpty') as string)
+        .max(64),
+      country: z
+        .string()
+        .nonempty(t('countryErrorEmpty') as string)
+        .max(64),
+      contact: z
+        .string()
+        .nonempty(t('telegramErrorEmpty') as string)
+        .max(64),
+    });
+  }, [t]);
+
   const save = (data: Profile) => {
     if (create) {
       newProfile({ profile: data, session: session as Session });
@@ -36,34 +72,40 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
     removeProfile({ session: session as Session });
   };
 
+  const { data: profile } = useQuery({
+    queryKey: ['profile', actor],
+    queryFn: () =>
+      accountProfile(actor as string).then(response => {
+        if (response) {
+          return response;
+        } else {
+          return {} as Profile;
+        }
+      }),
+  });
+
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
-  } = useFormContext<Profile>();
-
-  useEffect(() => {
-    accountProfile(actor as string).then(response => {
-      if (response) {
-        Object.entries(response).forEach(([name, value]) => setValue(name as keyof Profile, value));
-      }
-    });
-  }, [actor, setValue]);
+  } = useForm<Profile>({ resolver: zodResolver(ProfileSchema), values: profile });
 
   return (
     <>
       <Header.Root>
         <Header.Title>{create ? t('createProfile') : t('editProfile')}</Header.Title>
       </Header.Root>
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 overflow-hidden rounded-xl bg-subtle p-8">
+      <form
+        onSubmit={handleSubmit(save)}
+        className="mx-auto flex max-w-7xl flex-col gap-6 overflow-hidden rounded-xl bg-subtle p-8"
+      >
         <Input
           {...register('image_url')}
           error={errors.image_url?.message}
           label={t('avatar') as string}
           placeholder={create ? profilePlaceholders[randomProfile].imageUrl : (t('avatarPlaceholder') as string)}
-          maxLength={64}
+          maxLength={256}
         />
         <Input
           {...register('full_name')}
@@ -124,11 +166,11 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
               {t('removeProfile')}
             </Button>
           ) : null}
-          <Button variant="primary" onClick={handleSubmit(save)}>
+          <Button variant="primary" type="submit">
             {create ? t('create') : t('save')}
           </Button>
         </div>
-      </div>
+      </form>
     </>
   );
 }

@@ -9,7 +9,7 @@ export default async function proposerEndVotingNotifications({
   accountName: string;
 }): Promise<WaxLabsNotification[]> {
   try {
-    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.VOTING, accountName });
+    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.VOTING_OR_ACCEPTED, accountName });
 
     const proposals = await getProposals({
       queryType: ProposalFilterType.BY_PROPOSER_STAT,

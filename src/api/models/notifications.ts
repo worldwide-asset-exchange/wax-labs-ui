@@ -8,3 +8,5 @@ export interface WaxLabsNotification {
   summary: string;
   status: ProposalStatusKey;
 }
+
+export type NotificationMapping = Record<NotificationType, WaxLabsNotification[]>;

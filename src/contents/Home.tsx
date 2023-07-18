@@ -2,48 +2,36 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
-import {
-  completedProposals,
-  configData,
-  inProgressProposals,
-  inReviewProposals,
-  inVotingProposals,
-} from '@/api/chain/proposals';
+import { completedProposals, inProgressProposals, inReviewProposals, inVotingProposals } from '@/api/chain/proposals';
 import proposalLifecycleImg from '@/assets/proposal-lifecycle.png';
 import { Link } from '@/components/Link';
 import { ProposalStatus } from '@/constants.ts';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 interface HomeDashBoard {
   inReview: number;
   inVoting: number;
   inProgress: number;
   completed: number;
-  operationalFunds: string;
-  additionalFunds: string;
 }
 
 export function Home() {
   const { t } = useTranslation();
+  const { configs } = useConfigData();
 
   const { data: stats, isLoading } = useQuery<HomeDashBoard>({
     queryKey: ['stats'],
     queryFn: () =>
-      Promise.all([
-        completedProposals(),
-        inProgressProposals(),
-        inVotingProposals(),
-        inReviewProposals(),
-        configData(),
-      ]).then(([completed, inProgress, inVoting, submitted, configData]) => {
-        return {
-          inReview: submitted.length,
-          inVoting: inVoting.length,
-          inProgress: inProgress.length,
-          completed: completed.length,
-          operationalFunds: configData.display_available_funds,
-          additionalFunds: configData.display_additional_funds,
-        };
-      }),
+      Promise.all([completedProposals(), inProgressProposals(), inVotingProposals(), inReviewProposals()]).then(
+        ([completed, inProgress, inVoting, submitted]) => {
+          return {
+            inReview: submitted.length,
+            inVoting: inVoting.length,
+            inProgress: inProgress.length,
+            completed: completed.length,
+          };
+        }
+      ),
     refetchOnWindowFocus: false,
   });
 
@@ -83,7 +71,9 @@ export function Home() {
         </div>
         <div className="order-2 col-span-2 rounded-xl bg-subtle p-12 md:order-none md:row-span-1">
           <h2 className="label-2 mb-1">{t('operationalFunds')}</h2>
-          <p className="title-2">{isLoading ? <span className="animate-pulse">-</span> : stats?.operationalFunds}</p>
+          <p className="title-2">
+            {configs == null ? <span className="animate-pulse">-</span> : configs.available_funds}
+          </p>
         </div>
         <div className="order-6 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#3F2353] p-12 text-[#B57DE9] md:order-none md:row-span-2">
           <div>
@@ -109,7 +99,9 @@ export function Home() {
         </div>
         <div className="order-3 col-span-2 rounded-xl bg-subtle p-12 md:order-none md:row-span-1">
           <h2 className="label-2 mb-1">{t('additionalFunds')}</h2>
-          <p className="title-2">{isLoading ? <span className="animate-pulse">-</span> : stats?.additionalFunds}</p>
+          <p className="title-2">
+            {configs == null ? <span className="animate-pulse">-</span> : configs.additional_funds}
+          </p>
         </div>
       </div>
       <div className="mt-44 flex flex-col items-center justify-center px-4 text-center text-high-contrast">

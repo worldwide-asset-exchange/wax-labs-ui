@@ -40,7 +40,7 @@ export async function checkDeliverablesStatus({
 
     return results.map(({ notificationType, deliverableId }) => ({ proposalId, deliverableId, notificationType }));
   } catch (e) {
-    console.debug(e);
+    console.error('[checkDeliverablesStatus]', e);
   }
 
   return [];

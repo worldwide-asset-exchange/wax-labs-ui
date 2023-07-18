@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 
-import { WaxLabsNotification } from '@/api/models/notifications.ts';
+import { NotificationMapping } from '@/api/models/notifications.ts';
 import { NotificationsContext } from '@/contexts/notifications.ts';
 
 export function useNotifications(): {
-  notifications: WaxLabsNotification[];
-  readNotification: (notification: WaxLabsNotification) => void;
+  notifications: NotificationMapping | null;
+  readNotification: (readNotificationKey: string) => void;
 } {
   const { notifications, readNotification } = useContext(NotificationsContext);
 

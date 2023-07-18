@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +11,9 @@ import {
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import { configData } from '@/api/chain/proposals';
 import { StatusTag } from '@/components/StatusTag';
 import { ProposalStatus } from '@/constants';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 interface ProposalItemProps {
   title: string;
@@ -40,14 +39,10 @@ export function ProposalItem({
   lastUpdate,
 }: ProposalItemProps) {
   const { t } = useTranslation();
-
-  const { data: configs } = useQuery({
-    queryKey: ['configs'],
-    queryFn: () => configData().then(response => response),
-  });
+  const { configs } = useConfigData();
 
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
-  const categoryName = configs?.categories[category];
+  const categoryName = configs?.categories?.[category];
 
   const requestedAmountFormatted = useMemo(() => {
     const [amount, symbol] = requestedAmount.split(' ');

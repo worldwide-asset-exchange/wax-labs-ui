@@ -9,11 +9,11 @@ import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/const
 const statusToCheck: DeliverablesStatusToCheck[] = [
   {
     notificationType: NotificationType.CLAIM_DELIVERABLE,
-    proposalStatusKey: ProposalStatusKey.ACCEPTED,
+    proposalStatusKey: ProposalStatusKey.VOTING_OR_ACCEPTED,
   },
   {
     notificationType: NotificationType.REJECTED_DELIVERABLE,
-    proposalStatusKey: ProposalStatusKey.REJECTED,
+    proposalStatusKey: ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
   },
 ];
 
@@ -23,7 +23,10 @@ export default async function proposerDeliverableNotifications({
   accountName: string;
 }): Promise<WaxLabsNotification[]> {
   try {
-    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.PROPOSAL_IN_PROGRESS, accountName });
+    const { upperBound, lowerBound } = nameBounds({
+      statusKey: ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
+      accountName,
+    });
 
     const proposals = await getProposals({
       queryType: ProposalFilterType.BY_PROPOSER_STAT,

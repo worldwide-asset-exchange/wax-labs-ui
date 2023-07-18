@@ -5,7 +5,7 @@ import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/const
 
 export default async function adminToReviewNotifications(): Promise<WaxLabsNotification[]> {
   try {
-    const { upperBound, lowerBound } = statBounds(ProposalStatusKey.SUBMITTED);
+    const { upperBound, lowerBound } = statBounds(ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS);
 
     const proposals = await getProposals({
       queryType: ProposalFilterType.BY_STAT_CAT,

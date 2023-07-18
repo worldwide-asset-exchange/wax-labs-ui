@@ -27,13 +27,18 @@ export function NotificationGroup({
     .filter(Boolean)
     .join(' ');
 
-  console.log('notifications', notifications);
-
   return (
     <div className={classNames}>
       <h4 className="text-xl font-semibold not-italic leading-7 text-white">{title}</h4>
       {notifications?.map(n => (
-        <NotificationCard title={n.title} tag={n.status} key={n.readNotificationKey} description={n.summary} />
+        <NotificationCard
+          key={n.readNotificationKey}
+          readNotificationKey={n.readNotificationKey}
+          title={n.title}
+          tag={n.status}
+          description={n.summary}
+          proposalId={n.id}
+        />
       ))}
     </div>
   );

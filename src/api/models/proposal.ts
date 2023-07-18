@@ -1,21 +1,28 @@
+import { WAXCurrency } from '@/api/models/common.ts';
 import { ProposalStatusKey } from '@/constants.ts';
 
 export interface Proposal {
   proposal_id: number;
-  image_url: string;
+  proposer: string;
+  category: number;
+  status: ProposalStatusKey;
+  ballot_name: string;
   title: string;
   description: string;
-  proposer: string;
-  total_requested_funds: string;
-  status: ProposalStatusKey;
+  image_url: string;
+  estimated_time: number;
+  total_requested_funds: WAXCurrency;
+  to_be_paid_funds: WAXCurrency;
+  total_paid_funds: WAXCurrency;
+  remaining_funds: WAXCurrency;
   deliverables: number;
   deliverables_completed: number;
-  category: number;
-  categories: Record<string, string>;
-  vote_end_time: string;
-  update_ts: string;
-  road_map: string;
   reviewer: string;
+  ballot_results: { key: string; value: string }[];
+  update_ts: string;
+  vote_end_time: string;
+  road_map: string;
+  categories?: Record<string, string>;
 }
 
 export interface ProposalContent {

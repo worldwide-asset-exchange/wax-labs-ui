@@ -24,7 +24,7 @@ interface ProposalItemProps {
   id: string | number;
   requestedAmount: string;
   proposer: string;
-  category: string;
+  category: number;
   lastUpdate: string;
 }
 
@@ -47,7 +47,7 @@ export function ProposalItem({
   });
 
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
-  const categoryName = configs?.categories[Number(category)];
+  const categoryName = configs?.categories[category];
 
   const requestedAmountFormatted = useMemo(() => {
     const [amount, symbol] = requestedAmount.split(' ');

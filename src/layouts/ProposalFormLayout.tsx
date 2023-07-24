@@ -1,13 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { marked } from 'marked';
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CgSpinner } from 'react-icons/cg';
 import { MdOutlineArrowBack, MdOutlineClose } from 'react-icons/md';
 import { Navigate, Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import TurndownService from 'turndown';
 import { useInterval, useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { z } from 'zod';
 
@@ -21,7 +19,6 @@ import { ProposalFormTab } from '@/components/ProposalForm/ProposalFormTab';
 import { useChain } from '@/hooks/useChain';
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
-const turndownService = new TurndownService();
 
 export function ProposalFormLayout() {
   const { t } = useTranslation();
@@ -116,8 +113,8 @@ export function ProposalFormLayout() {
           };
         });
 
-        const content = marked(contentData?.content ?? '');
-        const financialRoadMap = marked(proposalData.road_map);
+        const content = contentData?.content ?? '';
+        const financialRoadMap = proposalData.road_map;
 
         return {
           title: proposalData.title,
@@ -225,9 +222,8 @@ export function ProposalFormLayout() {
 
   const handleCreateProposal = useCallback(async (data: Proposal) => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
-    data.content = turndownService.turndown(data.content);
-    data.financialRoadMap = turndownService.turndown(data.financialRoadMap);
 
+    console.debug(data);
     // Api to create proposal
     setProposalCreatedModal(true);
     // Fetch to find the last proposal created
@@ -239,9 +235,6 @@ export function ProposalFormLayout() {
 
   const handleUpdateProposal = useCallback(async (data: Proposal) => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
-
-    data.content = turndownService.turndown(data.content);
-    data.financialRoadMap = turndownService.turndown(data.financialRoadMap);
 
     console.debug(data);
   }, []);

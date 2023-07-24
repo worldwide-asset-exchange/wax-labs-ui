@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CgSpinner } from 'react-icons/cg';
 import { MdOutlineArrowBack, MdOutlineClose } from 'react-icons/md';
-import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useInterval, useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { z } from 'zod';
 
@@ -16,6 +16,7 @@ import { Button } from '@/components/Button';
 import { Link } from '@/components/Link';
 import { ProposalFormStep1Skeleton } from '@/components/ProposalForm/ProposalFormStep1Skeleton';
 import { ProposalFormTab } from '@/components/ProposalForm/ProposalFormTab';
+import { useChain } from '@/hooks/useChain';
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
 
@@ -23,8 +24,10 @@ export function ProposalFormLayout() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { width } = useWindowSize();
-  const { proposalId } = useParams();
+  const params = useParams();
+  const proposalId = Number(params.proposalId);
   const [createdProposalId, setCreatedProposalId] = useState('');
+  const { isAuthenticated } = useChain();
 
   const [proposalCreatedModal, setProposalCreatedModal] = useState(false);
   const [cancelProposalModal, setCancelProposalModal] = useState(false);
@@ -91,9 +94,9 @@ export function ProposalFormLayout() {
     queryKey: ['proposal', proposalId, 'edit'],
     queryFn: () => {
       return Promise.all([
-        singleProposal({ proposalId: proposalId as string }),
-        proposalContentData({ proposalId: proposalId as string }),
-        deliverables({ proposalId: proposalId as string }),
+        singleProposal({ proposalId }),
+        proposalContentData({ proposalId }),
+        deliverables({ proposalId }),
       ]).then(([proposalData, contentData, deliverablesData]) => {
         if (proposalData.status !== 1) {
           // To do:
@@ -110,14 +113,17 @@ export function ProposalFormLayout() {
           };
         });
 
+        const content = contentData?.content ?? '';
+        const financialRoadMap = proposalData.road_map;
+
         return {
           title: proposalData.title,
           description: proposalData.description,
           category: String(proposalData.category),
           imageURL: proposalData.image_url,
           complementaryFile: '',
-          content: contentData?.content ?? '',
-          financialRoadMap: proposalData.road_map,
+          content,
+          financialRoadMap,
           deliverables: formattedDeliverables,
         };
       });
@@ -175,15 +181,17 @@ export function ProposalFormLayout() {
 
   useEffect(() => {
     function ensureValidStepQueryParam() {
-      if (!stepParam || stepParam > stepsAmount) {
+      if (!stepParam || stepParam > stepsAmount || (stepParam === 4 && !proposalId)) {
         const newParams = new URLSearchParams(searchParams);
         newParams.set('step', '1');
         setSearchParams(newParams);
       }
     }
 
-    ensureValidStepQueryParam();
-  }, [stepParam, stepsAmount, searchParams, setSearchParams]);
+    if (isAuthenticated) {
+      ensureValidStepQueryParam();
+    }
+  }, [stepParam, stepsAmount, searchParams, setSearchParams, proposalId, isAuthenticated]);
 
   const isAllCurrentStepFieldsValid = useCallback(async () => {
     const fieldsToValidate = fieldsPerStep.find((_, stepIndex) => currentStep === stepIndex + 1) ?? [];
@@ -214,8 +222,8 @@ export function ProposalFormLayout() {
 
   const handleCreateProposal = useCallback(async (data: Proposal) => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
-    console.debug(data);
 
+    console.debug(data);
     // Api to create proposal
     setProposalCreatedModal(true);
     // Fetch to find the last proposal created
@@ -227,6 +235,7 @@ export function ProposalFormLayout() {
 
   const handleUpdateProposal = useCallback(async (data: Proposal) => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
+
     console.debug(data);
   }, []);
 
@@ -259,6 +268,10 @@ export function ProposalFormLayout() {
       proposalId,
     ]
   );
+
+  if (!isAuthenticated && isAuthenticated !== null) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <FormProvider {...methods}>

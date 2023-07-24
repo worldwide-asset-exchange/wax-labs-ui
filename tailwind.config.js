@@ -35,21 +35,39 @@ export default {
       addComponents({
         '.display-1': {
           font: '600 3.75rem/3.75rem "Montserrat", sans-serif',
+          '@media (max-width: 767px)': {
+            font: '600 2.25rem/2.25rem "Montserrat", sans-serif',
+          }
         },
         '.display-2': {
           font: '600 3rem/3rem "Montserrat", sans-serif',
+          '@media (max-width: 767px)': {
+            font: '600 2rem/2rem "Montserrat", sans-serif',
+          }
         },
         '.title-1': {
           font: '600 2.25rem/2.5rem "Montserrat", sans-serif',
+          '@media (max-width: 767px)': {
+            font: '600 1.625rem/1.875rem "Montserrat", sans-serif',
+          }
         },
         '.title-2': {
           font: '600 1.75rem/2.25rem "Montserrat", sans-serif',
+          '@media (max-width: 767px)': {
+            font: '600 1.375rem/1.875rem "Montserrat", sans-serif',
+          }
         },
         '.title-3': {
           font: '600 1.25rem/1.75rem "Montserrat", sans-serif',
+          '@media (max-width: 767px)': {
+            font: '600 1.125rem/1.625rem "Montserrat", sans-serif',
+          }
         },
         '.subtitle-1': {
           font: '700 1.25rem/2rem "Open Sans", sans-serif',
+          '@media (max-width: 767px)': {
+            font: '700 1.125rem/1.875rem "Open Sans", sans-serif',
+          }
         },
         '.body-1': {
           font: '400 1.125rem/2rem "Open Sans", sans-serif',

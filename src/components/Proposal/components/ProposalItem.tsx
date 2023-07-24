@@ -10,6 +10,7 @@ import {
   MdOutlinePerson,
   MdPlaylistAddCheck,
 } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 import { configData } from '@/api/chain/proposals';
 import { StatusTag } from '@/components/StatusTag';
@@ -23,7 +24,7 @@ interface ProposalItemProps {
   id: string | number;
   requestedAmount: string;
   proposer: string;
-  category: string;
+  category: number;
   lastUpdate: string;
 }
 
@@ -46,7 +47,7 @@ export function ProposalItem({
   });
 
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
-  const categoryName = configs?.categories[Number(category)];
+  const categoryName = configs?.categories[category];
 
   const requestedAmountFormatted = useMemo(() => {
     const [amount, symbol] = requestedAmount.split(' ');
@@ -54,7 +55,10 @@ export function ProposalItem({
   }, [requestedAmount]);
 
   return (
-    <div className="group/proposal-item flex cursor-pointer flex-col divide-y divide-subtle-light overflow-hidden rounded-xl bg-subtle p-4 duration-150 hover:ring-1 hover:ring-accent-dark group-data-[view=list]/proposal-root:md:flex-row group-data-[view=list]/proposal-root:md:divide-y-0">
+    <Link
+      to={`/proposals/${id}`}
+      className="group/proposal-item flex cursor-pointer flex-col divide-y divide-subtle-light overflow-hidden rounded-xl bg-subtle p-4 duration-150 hover:ring-1 hover:ring-accent-dark group-data-[view=list]/proposal-root:md:flex-row group-data-[view=list]/proposal-root:md:divide-y-0"
+    >
       <div className="flex-1 space-y-4 p-4">
         <h3 className="title-3 text-high-contrast group-hover/proposal-item:text-accent">{title}</h3>
         <p className="body-2 text-low-contrast">{shortDescription}</p>
@@ -107,6 +111,6 @@ export function ProposalItem({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -5,6 +5,7 @@ import { Balance } from '@/contents/profile/Balance';
 import { CreateEditProfile } from '@/contents/profile/CreateEditProfile';
 import { MyProposals } from '@/contents/profile/MyProposals';
 import { UserProfile } from '@/contents/profile/UserProfile';
+import { ProposalDetail } from '@/contents/ProposalDetail';
 import { ProposalForm } from '@/contents/ProposalForm';
 import { Proposals } from '@/contents/Proposals';
 import { AdminRole } from '@/contents/settings/AdminRole';
@@ -23,6 +24,7 @@ export const route = createBrowserRouter(
       <Route path="/" element={<AppLayout />}>
         <Route path="" element={<Home />} />
         <Route path="proposals" element={<Proposals />} />
+        <Route path="proposals/:proposalId" element={<ProposalDetail />} />
         <Route path="settings" element={<SettingsLayout />}>
           <Route path="" element={<Categories />} />
           <Route path="voting-period" element={<VotingPeriod />} />

@@ -21,7 +21,9 @@ export function AppBar() {
             <Nav.Link to="/">{t('home')}</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link to="/proposals">{t('proposals')}</Nav.Link>
+            <Nav.Link to="/proposals" end>
+              {t('proposals')}
+            </Nav.Link>
           </Nav.Item>
           {isAuthenticated ? (
             <>

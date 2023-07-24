@@ -7,11 +7,13 @@ export interface Proposal {
   total_requested_funds: string;
   status: number;
   deliverables: number;
-  category: string;
+  deliverables_completed: number;
+  category: number;
   categories: Record<string, string>;
   vote_end_time: string;
   update_ts: string;
   road_map: string;
+  reviewer: string;
 }
 
 export interface ProposalContent {

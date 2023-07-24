@@ -6,4 +6,5 @@ export interface Profile {
   website: string;
   contact: string;
   group_name: string;
+  wax_account: string;
 }

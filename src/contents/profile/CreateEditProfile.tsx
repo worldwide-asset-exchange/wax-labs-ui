@@ -10,7 +10,6 @@ import { editProfile, newProfile, removeProfile } from '@/api/chain/profile';
 import { accountProfile } from '@/api/chain/profile/query/accountProfile';
 import { Profile } from '@/api/models/profile.ts';
 import { Button } from '@/components/Button';
-import * as Header from '@/components/Header';
 import { Input } from '@/components/Input';
 import { TextArea } from '@/components/TextArea';
 import profilePlaceholders from '@/contents/profile/profilePlaceholders';
@@ -92,38 +91,33 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
   } = useForm<Profile>({ resolver: zodResolver(ProfileSchema), values: profile });
 
   return (
-    <>
-      <Header.Root>
-        <Header.Title>{create ? t('createProfile') : t('editProfile')}</Header.Title>
-      </Header.Root>
-      <form
-        onSubmit={handleSubmit(save)}
-        className="mx-auto flex max-w-7xl flex-col gap-6 overflow-hidden rounded-xl bg-subtle p-8"
-      >
-        <Input
-          {...register('image_url')}
-          error={errors.image_url?.message}
-          label={t('avatar') as string}
-          placeholder={create ? profilePlaceholders[randomProfile].imageUrl : (t('avatarPlaceholder') as string)}
-          maxLength={256}
-        />
-        <Input
-          {...register('full_name')}
-          error={errors.full_name?.message}
-          label={t('fullName') as string}
-          placeholder={create ? profilePlaceholders[randomProfile].fullName : (t('fullNamePlaceholder') as string)}
-          maxLength={64}
-        />
-        <TextArea
-          {...register('bio')}
-          error={errors.bio?.message}
-          label={t('biography') as string}
-          placeholder={create ? profilePlaceholders[randomProfile].biography : (t('biographyPlaceholder') as string)}
-          rows={3}
-          maxLength={256}
-        />
-        <div className="flex w-full gap-6">
-          <div className="flex w-full flex-col gap-6">
+    <div className="mx-auto max-w-7xl">
+      <h2 className="title-2 mt-8 px-4 py-8 text-high-contrast">{create ? t('createProfile') : t('editProfile')}</h2>
+      <div className="max-w-5xl px-1 md:px-4">
+        <form onSubmit={handleSubmit(save)} className="space-y-6 rounded-xl bg-subtle p-8">
+          <Input
+            {...register('image_url')}
+            error={errors.image_url?.message}
+            label={t('avatar') as string}
+            placeholder={create ? profilePlaceholders[randomProfile].imageUrl : (t('avatarPlaceholder') as string)}
+            maxLength={256}
+          />
+          <Input
+            {...register('full_name')}
+            error={errors.full_name?.message}
+            label={t('fullName') as string}
+            placeholder={create ? profilePlaceholders[randomProfile].fullName : (t('fullNamePlaceholder') as string)}
+            maxLength={64}
+          />
+          <TextArea
+            {...register('bio')}
+            error={errors.bio?.message}
+            label={t('biography') as string}
+            placeholder={create ? profilePlaceholders[randomProfile].biography : (t('biographyPlaceholder') as string)}
+            rows={3}
+            maxLength={256}
+          />
+          <div className="grid gap-6 md:grid-cols-2 md:grid-rows-2">
             <Input
               {...register('group_name')}
               error={errors.group_name?.message}
@@ -140,8 +134,6 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
               label={t('website') as string}
               maxLength={64}
             />
-          </div>
-          <div className="flex w-full flex-col gap-6">
             <Input
               {...register('country')}
               error={errors.country?.message}
@@ -159,18 +151,19 @@ export function CreateEditProfile({ create }: CreateEditProfileProps) {
               maxLength={64}
             />
           </div>
-        </div>
-        <div className="flex w-full justify-end gap-3">
-          {!create ? (
-            <Button variant="tertiary" onClick={remove}>
-              {t('removeProfile')}
+
+          <div className="flex justify-end gap-3">
+            {!create ? (
+              <Button variant="tertiary" onClick={remove}>
+                {t('removeProfile')}
+              </Button>
+            ) : null}
+            <Button variant="primary" type="submit">
+              {create ? t('create') : t('save')}
             </Button>
-          ) : null}
-          <Button variant="primary" type="submit">
-            {create ? t('create') : t('save')}
-          </Button>
-        </div>
-      </form>
-    </>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

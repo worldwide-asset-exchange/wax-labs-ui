@@ -1,15 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-import { configData } from '@/api/chain/proposals';
 import { Button } from '@/components/Button';
 import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
+import { useConfig } from '@/hooks/useConfig';
 
 export function ProposalFilterCategories() {
   const { t } = useTranslation();
@@ -19,10 +18,7 @@ export function ProposalFilterCategories() {
 
   const { getValues, handleSubmit, register, setValue } = useFormContext();
 
-  const { data: configs } = useQuery({
-    queryKey: ['configs'],
-    queryFn: () => configData().then(response => response),
-  });
+  const { config } = useConfig();
 
   function onSubmit({ categories }: { categories?: string[] }) {
     if (!categories) return;
@@ -61,7 +57,7 @@ export function ProposalFilterCategories() {
       <FilterModal.Content title={t('categories')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="flex flex-col gap-1 p-4">
-            {configs?.categories.map((category, index) => (
+            {config?.categories.map((category, index) => (
               <ToggleField {...register('categories')} key={category} type="checkbox" label={category} value={index} />
             ))}
           </fieldset>

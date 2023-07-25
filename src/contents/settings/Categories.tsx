@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
 import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,19 +6,16 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 import { addCategory, deleteCategory } from '@/api/chain/category';
-import { configData } from '@/api/chain/proposals';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
+import { useConfig } from '@/hooks/useConfig';
 
 export function Categories() {
   const { t } = useTranslation();
   const { session } = useChain();
 
-  const { data: configs } = useQuery({
-    queryKey: ['configs'],
-    queryFn: () => configData().then(response => response),
-  });
+  const { config } = useConfig();
 
   const CategorySchema = useMemo(() => {
     return z.object({
@@ -69,7 +65,7 @@ export function Categories() {
           </div>
         </form>
         <div className="mt-4 divide-y divide-subtle-light rounded-xl bg-subtle">
-          {configs?.categories.map(category => (
+          {config?.categories.map(category => (
             <div key={category} className="flex items-center justify-between gap-6 px-8 py-4">
               <p className="body-1 text-high-contrast">{category}</p>
               <Button

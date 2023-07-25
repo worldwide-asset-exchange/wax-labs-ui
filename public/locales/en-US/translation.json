@@ -36,7 +36,7 @@
   "createProposal": "Create proposal",
   "category": "Category",
   "categoryName": "Category name",
-  "categoryNamePlaceholder": "New category name",
+  "categoryNamePlaceholder": "category",
   "categories": "Categories",
   "status": "Status",
   "createdLast": "Created last",
@@ -149,12 +149,12 @@
   "minutes": "Minutes",
   "seconds": "Seconds",
   "zeroPlaceholder": "0",
-  "timeErrorEmpty": "Please provide a valid time value",
+  "timeError": "Please provide a valid time value",
 
   "minUSDRequest": "Min USD request",
   "maxUSDRequest": "Max USD request",
   "minMaxUSDRequested": "USD Request Min/Max",
-  "USDValueErrorEmpty": "Please provide a valid USD value",
+  "USDValueError": "Please provide a valid USD value",
 
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",

@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Session } from '@wharfkit/session';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
@@ -9,37 +9,60 @@ import { setVotingDurationAction } from '@/api/chain/admin';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
+import { useConfig } from '@/hooks/useConfig';
+
+const initialVotingPeriod = { days: '0', hours: '0', minutes: '0', seconds: '0' };
 
 export function VotingPeriod() {
   const { t } = useTranslation();
   const { session } = useChain();
 
+  const { config } = useConfig();
+
+  const [currentVotingPeriod, setCurrentVotingPeriod] = useState(initialVotingPeriod);
+
+  useEffect(() => {
+    if (config?.vote_duration && config?.vote_duration > 0) {
+      setCurrentVotingPeriod({
+        days: String(Math.floor(config.vote_duration / (60 * 60 * 24))),
+        hours: String(Math.floor((config.vote_duration / (60 * 60)) % 24)),
+        minutes: String(Math.floor((config.vote_duration / 60) % 60)),
+        seconds: String(Math.floor(config.vote_duration % 60)),
+      });
+    } else {
+      setCurrentVotingPeriod(initialVotingPeriod);
+    }
+  }, [config]);
+
   const VotingPeriodSchema = useMemo(() => {
     return z.object({
       days: z
         .string()
-        .nonempty(t('timeErrorEmpty') as string)
-        .min(1),
+        .nonempty(t('timeError') as string)
+        .refine(val => Number(val) >= 0, { message: t('timeError') as string }),
       hours: z
         .string()
-        .nonempty(t('timeErrorEmpty') as string)
-        .min(1),
+        .nonempty(t('timeError') as string)
+        .refine(val => Number(val) >= 0, { message: t('timeError') as string }),
       minutes: z
         .string()
-        .nonempty(t('timeErrorEmpty') as string)
-        .min(1),
+        .nonempty(t('timeError') as string)
+        .refine(val => Number(val) >= 0, { message: t('timeError') as string }),
       seconds: z
         .string()
-        .nonempty(t('timeErrorEmpty') as string)
-        .min(1),
+        .nonempty(t('timeError') as string)
+        .refine(val => Number(val) >= 0, { message: t('timeError') as string }),
     });
   }, [t]);
 
   type VotingPeriod = z.input<typeof VotingPeriodSchema>;
 
+  const votingPeriodToSeconds = (data: VotingPeriod) => {
+    return Number(data.days) * 3600 * 24 + Number(data.hours) * 3600 + Number(data.minutes) * 60 + Number(data.seconds);
+  };
+
   const setVotingPeriod = (data: VotingPeriod) => {
-    // TODO: Verify how to convert days, hours, minutes and seconds to a single VoteDuration
-    setVotingDurationAction({ newVoteDuration: Number(data.days), session: session as Session });
+    setVotingDurationAction({ newVoteDuration: votingPeriodToSeconds(data), session: session as Session });
     reset();
   };
 
@@ -47,8 +70,8 @@ export function VotingPeriod() {
     register,
     handleSubmit,
     reset,
-    formState: { isDirty, errors },
-  } = useForm<VotingPeriod>({ resolver: zodResolver(VotingPeriodSchema) });
+    formState: { errors },
+  } = useForm<VotingPeriod>({ resolver: zodResolver(VotingPeriodSchema), values: currentVotingPeriod });
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -60,8 +83,8 @@ export function VotingPeriod() {
               {...register('days')}
               error={errors.days?.message}
               label={t('days') as string}
-              placeholder={t('zeroPlaceholder') as string}
-              maxLength={4}
+              type="number"
+              maxLength={16}
             />
           </div>
           <div className="flex-1">
@@ -69,8 +92,8 @@ export function VotingPeriod() {
               {...register('hours')}
               error={errors.hours?.message}
               label={t('hours') as string}
-              placeholder={t('zeroPlaceholder') as string}
-              maxLength={2}
+              type="number"
+              maxLength={16}
             />
           </div>
           <div className="flex-1">
@@ -78,8 +101,8 @@ export function VotingPeriod() {
               {...register('minutes')}
               error={errors.minutes?.message}
               label={t('minutes') as string}
-              placeholder={t('zeroPlaceholder') as string}
-              maxLength={2}
+              type="number"
+              maxLength={16}
             />
           </div>
           <div className="flex-1">
@@ -87,12 +110,12 @@ export function VotingPeriod() {
               {...register('seconds')}
               error={errors.seconds?.message}
               label={t('seconds') as string}
-              placeholder={t('zeroPlaceholder') as string}
-              maxLength={2}
+              type="number"
+              maxLength={16}
             />
           </div>
           <div className="flex-none pt-8">
-            <Button variant="primary" type="submit" disabled={!isDirty}>
+            <Button variant="primary" type="submit">
               {t('update')}
             </Button>
           </div>

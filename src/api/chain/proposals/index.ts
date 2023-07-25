@@ -6,7 +6,6 @@ export { createProposal } from './actions/createProposal.ts';
 export { deleteProposal } from './actions/deleteProposal.ts';
 export { editProposal } from './actions/editProposal.ts';
 export { endVoting } from './actions/endVoting.ts';
-export { setMaxRequested } from './actions/setMaxRequested.ts';
 export { submitProposal } from './actions/submitProposal.ts';
 export { submitReport } from './actions/submitReport.ts';
 export { completedProposals } from './query/completedProposals.ts';

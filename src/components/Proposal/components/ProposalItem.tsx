@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import { StatusTag } from '@/components/StatusTag';
 import { ProposalStatus } from '@/constants';
-import { useConfigData } from '@/hooks/useConfigData.ts';
+import { useConfig } from '@/hooks/useConfig';
 
 interface ProposalItemProps {
   title: string;
@@ -39,10 +39,11 @@ export function ProposalItem({
   lastUpdate,
 }: ProposalItemProps) {
   const { t } = useTranslation();
-  const { configs } = useConfigData();
+
+  const { config } = useConfig();
 
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
-  const categoryName = configs?.categories?.[category];
+  const categoryName = config?.categories[category];
 
   const requestedAmountFormatted = useMemo(() => {
     const [amount, symbol] = requestedAmount.split(' ');

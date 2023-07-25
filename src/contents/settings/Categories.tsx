@@ -45,32 +45,30 @@ export function Categories() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { isDirty, errors },
   } = useForm<Category>({ resolver: zodResolver(CategorySchema) });
 
   return (
     <div className="mx-auto max-w-7xl">
       <h2 className="title-2 mt-8 px-4 py-8 text-high-contrast">{t('categories')}</h2>
       <div className="max-w-5xl px-1 md:px-4">
-        <div className="rounded-xl bg-subtle p-8">
-          <form onSubmit={handleSubmit(addNewCategory)} className="flex gap-6">
-            <div className="flex-1">
-              <Input
-                {...register('category')}
-                error={errors.category?.message}
-                label={t('categoryName') as string}
-                placeholder={t('categoryNamePlaceholder') as string}
-                maxLength={64}
-              />
-            </div>
-            <div className="flex-none pt-8">
-              <Button variant="primary" type="submit">
-                {t('add')}
-              </Button>
-            </div>
-          </form>
-        </div>
-        <div className="mt-4 flex flex-1 flex-col divide-y divide-subtle-light rounded-xl bg-subtle">
+        <form onSubmit={handleSubmit(addNewCategory)} className="flex gap-6 rounded-xl bg-subtle p-8">
+          <div className="flex-1">
+            <Input
+              {...register('category')}
+              error={errors.category?.message}
+              label={t('categoryName') as string}
+              placeholder={t('categoryNamePlaceholder') as string}
+              maxLength={64}
+            />
+          </div>
+          <div className="flex-none pt-8">
+            <Button variant="primary" type="submit" disabled={!isDirty}>
+              {t('add')}
+            </Button>
+          </div>
+        </form>
+        <div className="mt-4 divide-y divide-subtle-light rounded-xl bg-subtle">
           {configs?.categories.map(category => (
             <div key={category} className="flex items-center justify-between gap-6 px-8 py-4">
               <p className="body-1 text-high-contrast">{category}</p>

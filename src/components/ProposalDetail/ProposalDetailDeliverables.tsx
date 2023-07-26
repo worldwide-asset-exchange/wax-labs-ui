@@ -87,7 +87,10 @@ export function ProposalDetailDeliverables({ total, completed }: ProposalDetailD
                       <Info.Item label={t('toBeClaimed')} value={deliverable.claimable_wax}>
                         <MdOutlineWhatshot size={24} />
                       </Info.Item>
-                      <Info.Item label={t('lastReviewed')} value={deliverable.review_time}>
+                      <Info.Item
+                        label={t('lastReviewed')}
+                        value={deliverable.review_time ? deliverable.review_time.toString() : ''}
+                      >
                         <MdCalendarToday size={24} />
                       </Info.Item>
                     </Info.Root>

@@ -16,7 +16,7 @@
     [type='checkbox'],
     [type='radio'] {
         &:checked {
-            background-image: url('check-mark.svg');
+            background-image: url('/check-mark.svg');
         }
 
         &:focus {

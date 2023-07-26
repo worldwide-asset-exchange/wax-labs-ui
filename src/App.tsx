@@ -7,6 +7,7 @@ import { queryClient } from '@/api/queryClient';
 import { ChainProvider } from '@/providers/chain.tsx';
 import { ConfigProvider } from '@/providers/config.tsx';
 import { NotificationsProvider } from '@/providers/notifications.tsx';
+import { ToastProvider } from '@/providers/toast';
 import { route } from '@/route';
 
 export function App() {
@@ -14,10 +15,12 @@ export function App() {
     <ChainProvider>
       <QueryClientProvider client={queryClient}>
         <ConfigProvider>
-          <NotificationsProvider>
-            <RouterProvider router={route} />
-            <ReactQueryDevtools initialIsOpen={true} />
-          </NotificationsProvider>
+          <ToastProvider>
+            <NotificationsProvider>
+              <RouterProvider router={route} />
+              <ReactQueryDevtools initialIsOpen={true} />
+            </NotificationsProvider>
+          </ToastProvider>
         </ConfigProvider>
       </QueryClientProvider>
     </ChainProvider>

@@ -35,8 +35,8 @@ export const route = createBrowserRouter(
         <Route path=":actor" element={<ProfileLayout />}>
           <Route path="" element={<MyProposals />} />
           <Route path="profile" element={<UserProfile />} />
-          <Route path="create" element={<CreateEditProfile create />} />
-          <Route path="edit" element={<CreateEditProfile create={false} />} />
+          <Route path="create" element={<CreateEditProfile />} />
+          <Route path="edit" element={<CreateEditProfile />} />
           <Route path="balance" element={<Balance />} />
         </Route>
       </Route>

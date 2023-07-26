@@ -19,9 +19,12 @@ export async function formattedConfigData(): Promise<FormattedConfigData | null>
     if (configDataResponse) {
       const availableFunds = currencyToFloat(configDataResponse.available_funds);
 
+      const catDeprecated = configDataResponse?.cat_deprecated ?? [];
+
       configDataFormatted = {
         ...configDataResponse,
         parsed_available_funds: availableFunds,
+        categories: configDataResponse?.categories.filter(category => !catDeprecated.includes(category)),
       };
     }
 

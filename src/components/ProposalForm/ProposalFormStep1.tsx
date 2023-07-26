@@ -1,11 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { configData } from '@/api/chain/proposals';
 import { Input } from '@/components/Input';
 import { TextArea } from '@/components/TextArea';
 import { ToggleField } from '@/components/ToggleField';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 interface Step1Form {
   title: string;
@@ -16,10 +15,7 @@ interface Step1Form {
 export function ProposalFormStep1() {
   const { t } = useTranslation();
 
-  const { data: configs, isLoading } = useQuery({
-    queryKey: ['configs'],
-    queryFn: () => configData().then(response => response),
-  });
+  const { configs, isLoadingConfig } = useConfigData();
 
   const {
     register,
@@ -47,7 +43,7 @@ export function ProposalFormStep1() {
         <fieldset>
           <legend className="label-1 mb-2 text-high-contrast">{t('category')}</legend>
           <div className="flex flex-wrap gap-1">
-            {isLoading ? (
+            {isLoadingConfig ? (
               <>
                 <div className="h-12 w-32 rounded-md bg-ui-element" />
                 <div className="h-12 w-32 rounded-md bg-ui-element" />

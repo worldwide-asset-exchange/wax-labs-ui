@@ -6,6 +6,7 @@
   "logOut": "Log out",
 
   "wax": "WAX",
+  "waxAccount": "WAX Account",
 
   "homeTitle": "Choose how to add value to the community",
   "homeDescription": "Growing the WAX Blockchain through decentralized and innovative proposals",
@@ -34,6 +35,8 @@
   "proposalsToReview": "Proposals to review",
   "createProposal": "Create proposal",
   "category": "Category",
+  "categoryName": "Category name",
+  "categoryNamePlaceholder": "category",
   "categories": "Categories",
   "status": "Status",
   "createdLast": "Created last",
@@ -75,11 +78,18 @@
 
   "next": "Next",
   "back": "Back",
+  "set": "Set",
+  "add": "Add",
   "addDeliverables": "Add deliverables",
   "addLater": "Add later",
   "continueEditing": "Continue editing",
   "cancel": "Cancel",
   "discard": "Discard",
+  "remove": "Remove",
+  "delete": "Delete",
+  "transfer": "Transfer",
+  "transferAdminRole": "Transfer Admin Role",
+  "update": "Update",
   "submit": "Submit",
   "newDeliverable": "New deliverable",
   
@@ -130,6 +140,21 @@
   "amount": "Amount",
   "withdraw": "Withdraw",
   "withdrawBalanceErrorEmpty": "Provide a valid quantity for withdrawal",
+
+  "waxAccountPlaceholder": "waxaccountnm.wam",
+  "waxAccountErrorEmpty": "Please provide a valid Wax Account",
+
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "seconds": "Seconds",
+  "zeroPlaceholder": "0",
+  "timeError": "Please provide a valid time value",
+
+  "minUSDRequest": "Min USD request",
+  "maxUSDRequest": "Max USD request",
+  "minMaxUSDRequested": "USD Request Min/Max",
+  "USDValueError": "Please provide a valid USD value",
 
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",

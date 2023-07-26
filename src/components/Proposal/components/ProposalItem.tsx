@@ -39,10 +39,11 @@ export function ProposalItem({
   lastUpdate,
 }: ProposalItemProps) {
   const { t } = useTranslation();
+
   const { configs } = useConfigData();
 
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
-  const categoryName = configs?.categories?.[category];
+  const categoryName = configs?.categories[category];
 
   const requestedAmountFormatted = useMemo(() => {
     const [amount, symbol] = requestedAmount.split(' ');

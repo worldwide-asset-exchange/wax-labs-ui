@@ -4,31 +4,11 @@ import { NotificationCard } from '@/components/Notifications/NotificationCard.ts
 export interface NotificationCardProps {
   title: string;
   notifications: WaxLabsNotification[];
-  borderTop?: boolean;
-  borderBottom?: boolean;
 }
 
-export function NotificationGroup({
-  title,
-  notifications,
-  borderTop = false,
-  borderBottom = false,
-}: NotificationCardProps) {
-  const classNames = [
-    'flex',
-    'flex-col',
-    'items-start',
-    'gap-4',
-    'px-6',
-    'py-4',
-    borderBottom ? '' : null,
-    borderTop ? '' : null,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
+export function NotificationGroup({ title, notifications }: NotificationCardProps) {
   return (
-    <div className={classNames}>
+    <div className="flex flex-col items-start gap-4 px-6 py-4">
       <h4 className="text-xl font-semibold not-italic leading-7 text-white">{title}</h4>
       {notifications?.map(n => (
         <NotificationCard

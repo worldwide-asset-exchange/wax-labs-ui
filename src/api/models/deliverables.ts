@@ -1,4 +1,4 @@
-import { WAXCurrency } from '@/api/models/common.ts';
+import { Currency, WAXCurrency } from '@/api/models/common.ts';
 import { ProposalStatusKey } from '@/constants.ts';
 
 export interface Deliverables {
@@ -12,5 +12,8 @@ export interface Deliverables {
   small_description: string;
   days_to_complete: number;
   claimable_wax?: string;
-  review_time?: string;
+
+  // Custom fields
+  requested_amount?: number;
+  currency?: Currency;
 }

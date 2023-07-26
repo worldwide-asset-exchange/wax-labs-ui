@@ -56,6 +56,7 @@
                 "args": "after-used",
                 "argsIgnorePattern": "^_"
             }
-        ]
+        ],
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }

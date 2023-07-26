@@ -21,4 +21,5 @@ validate-pr:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
     - yarn install
+    - yarn tsc
     - yarn lint --max-warnings=0

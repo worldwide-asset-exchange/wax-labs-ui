@@ -17,7 +17,7 @@ export function USDRequested() {
   const { t } = useTranslation();
   const { session } = useChain();
 
-  const { configs, reCache } = useConfigData();
+  const { configs, reFetch } = useConfigData();
 
   const [currentMinMaxUSDRequested, setCurrentMinMaxUSDRequested] = useState(initialMinMaxUSDRequested);
 
@@ -52,7 +52,7 @@ export function USDRequested() {
       setMinRequested({ minRequested: Number(data.min), session: session as Session }),
       setMaxRequested({ maxRequested: Number(data.max), session: session as Session }),
     ]).then(() => {
-      reCache();
+      reFetch();
       reset();
     });
   };

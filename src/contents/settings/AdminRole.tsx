@@ -14,7 +14,7 @@ import { useConfigData } from '@/hooks/useConfigData.ts';
 export function AdminRole() {
   const { t } = useTranslation();
   const { session } = useChain();
-  const { reCache } = useConfigData();
+  const { reFetch } = useConfigData();
 
   const AccountSchema = useMemo(() => {
     return z.object({
@@ -29,7 +29,7 @@ export function AdminRole() {
 
   const setNewAdmin = (data: WaxAccount) => {
     setAdmin({ newAdmin: data.account, session: session as Session }).then(() => {
-      reCache();
+      reFetch();
       reset();
     });
   };

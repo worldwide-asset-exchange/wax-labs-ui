@@ -6,11 +6,13 @@ import { noop } from '@/utils/common.ts';
 export interface ConfigContextOptions {
   configs: FormattedConfigData | null;
   isAdmin: boolean | null;
-  reCache: () => void;
+  isLoadingConfig: boolean | null;
+  reFetch: () => void;
 }
 
 export const ConfigContext = createContext<ConfigContextOptions>({
   configs: null,
   isAdmin: null,
-  reCache: noop,
+  isLoadingConfig: null,
+  reFetch: noop,
 });

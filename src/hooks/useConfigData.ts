@@ -6,10 +6,10 @@ import { ConfigContext } from '@/contexts/config.ts';
 export function useConfigData(): {
   configs: FormattedConfigData | null;
   isAdmin: boolean | null;
-  isLoadingConfig: boolean;
-  reCache: () => void;
+  isLoadingConfig: boolean | null;
+  reFetch: () => void;
 } {
-  const { isAdmin, configs, reCache } = useContext(ConfigContext);
+  const { isAdmin, configs, isLoadingConfig, reFetch } = useContext(ConfigContext);
 
-  return { isAdmin, configs, isLoadingConfig: configs == null, reCache };
+  return { isAdmin, configs, isLoadingConfig, reFetch };
 }

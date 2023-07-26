@@ -23,7 +23,7 @@ interface VotingPeriodFormProps {
 export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
   const { t } = useTranslation();
   const { session } = useChain();
-  const { reCache } = useConfigData();
+  const { reFetch } = useConfigData();
 
   const VotingPeriodSchema = useMemo(() => {
     return z.object({
@@ -75,7 +75,7 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
     setVotingDurationAction({
       newVoteDuration,
       session: session as Session,
-    }).then(() => reCache());
+    }).then(() => reFetch());
   }
 
   return (

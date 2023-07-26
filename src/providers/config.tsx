@@ -1,6 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { FormattedConfigData, formattedConfigData } from '@/api/chain/config/query/formattedConfigData.ts';
+import { formattedConfigData } from '@/api/chain/config/query/formattedConfigData.ts';
 import { ConfigContext } from '@/contexts/config.ts';
 import { useChain } from '@/hooks/useChain.ts';
 
@@ -11,23 +12,15 @@ export interface ConfigProviderProps {
 export function ConfigProvider({ children }: ConfigProviderProps) {
   const { isAuthenticated, actor } = useChain();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-  const [configData, setConfigData] = useState<FormattedConfigData | null>(null);
 
-  const retrieveConfigData = () => {
-    formattedConfigData()
-      .then(c => {
-        if (c) {
-          c.categories = c?.categories.filter(category => !c?.cat_deprecated.includes(category));
-        }
-
-        setConfigData(c);
-      })
-      .catch(() => setConfigData(null));
-  };
-
-  useEffect(() => {
-    retrieveConfigData();
-  }, []);
+  const {
+    data: configData,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ['configData'],
+    queryFn: () => formattedConfigData(),
+  });
 
   useEffect(() => {
     if (configData != null && isAuthenticated != null) {
@@ -38,10 +31,11 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
   const configProviderValue = useMemo(
     () => ({
       isAdmin,
-      configs: configData,
-      reCache: retrieveConfigData,
+      configs: configData ?? null,
+      reFetch: refetch,
+      isLoadingConfig: isLoading,
     }),
-    [configData, isAdmin]
+    [isAdmin, configData, refetch, isLoading]
   );
 
   return <ConfigContext.Provider value={configProviderValue}>{children}</ConfigContext.Provider>;

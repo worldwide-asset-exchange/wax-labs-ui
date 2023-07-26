@@ -15,7 +15,7 @@ export function Categories() {
   const { t } = useTranslation();
   const { session } = useChain();
 
-  const { configs, reCache } = useConfigData();
+  const { configs, reFetch } = useConfigData();
 
   const CategorySchema = useMemo(() => {
     return z.object({
@@ -29,12 +29,12 @@ export function Categories() {
   type Category = z.input<typeof CategorySchema>;
 
   const addNewCategory = (data: Category) => {
-    addCategory({ category: data.category, session: session as Session }).then(() => reCache());
+    addCategory({ category: data.category, session: session as Session }).then(() => reFetch());
     reset();
   };
 
   const deleteExistingCategory = (category: string) => {
-    deleteCategory({ category: category, session: session as Session }).then(() => reCache());
+    deleteCategory({ category: category, session: session as Session }).then(() => reFetch());
   };
 
   const {

@@ -24,6 +24,7 @@
   "rejected": "Rejected",
   "completed": "Completed",
   "deliverablesCompleted": "completed",
+  "failed": "Failed",
 
   "operationalFunds": "Operational funds",
   "additionalFunds": "Additional funds",
@@ -141,5 +142,17 @@
   "createdAt": "Created at",
   "totalClaimed": "Total Claimed",
   "reviewer": "Reviewer",
-  "totalRequested": "Total requested"
+  "totalRequested": "Total requested",
+
+  "notifications": {
+    "lastUpdatedProposalTitle": "Your Last updated proposal",
+    "deliverablesInReview": "Deliverables needing your review",
+    "deliverablesRejected": "Rejected deliverables",
+    "deliverablesReadyToBeClaimed": "Deliverables ready to be claimed",
+    "proposalsInProgress": "Proposals in progress",
+    "toBeReview": "Proposals needing your review",
+    "adminEndVoting": "Proposals with ended voting",
+    "endVoting": "Voting just ended",
+    "startVoting": "Voting just started"
+  }
 }

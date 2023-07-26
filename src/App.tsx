@@ -5,14 +5,20 @@ import { RouterProvider } from 'react-router-dom';
 
 import { queryClient } from '@/api/queryClient';
 import { ChainProvider } from '@/providers/chain.tsx';
+import { ConfigProvider } from '@/providers/config.tsx';
+import { NotificationsProvider } from '@/providers/notifications.tsx';
 import { route } from '@/route';
 
 export function App() {
   return (
     <ChainProvider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={route} />
-        <ReactQueryDevtools initialIsOpen={true} />
+        <ConfigProvider>
+          <NotificationsProvider>
+            <RouterProvider router={route} />
+            <ReactQueryDevtools initialIsOpen={true} />
+          </NotificationsProvider>
+        </ConfigProvider>
       </QueryClientProvider>
     </ChainProvider>
   );

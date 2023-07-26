@@ -1,3 +1,4 @@
+export { configData } from '../config/query/configData.ts';
 export { beginVoting } from './actions/beginVoting.ts';
 export { cancelProposal } from './actions/cancelProposal.ts';
 export { claimFunds } from './actions/claimFunds.ts';
@@ -9,7 +10,6 @@ export { setMaxRequested } from './actions/setMaxRequested.ts';
 export { submitProposal } from './actions/submitProposal.ts';
 export { submitReport } from './actions/submitReport.ts';
 export { completedProposals } from './query/completedProposals.ts';
-export { configData } from './query/configData.ts';
 export { deliverables } from './query/deliverables.ts';
 export { deliverablesStatusComment } from './query/deliverablesStatusComment.ts';
 export { inProgressProposals } from './query/inProgressProposals.ts';

@@ -13,6 +13,7 @@ interface ProposalsFilter {
   queryType?: ProposalFilterType;
   lowerBound?: number | string;
   upperBound?: number | string;
+  returnFirstIteration?: boolean;
 }
 
 async function _getProposalRangeLimit({
@@ -37,7 +38,12 @@ async function _getProposalRangeLimit({
   return { proposals: rows, next_key, more };
 }
 
-export async function getProposals({ queryType, lowerBound, upperBound }: ProposalsFilter): Promise<Proposal[]> {
+export async function getProposals({
+  queryType,
+  lowerBound,
+  upperBound,
+  returnFirstIteration,
+}: ProposalsFilter): Promise<Proposal[]> {
   const proposalsArray: Proposal[] = [];
 
   let nextKey = lowerBound;
@@ -52,11 +58,11 @@ export async function getProposals({ queryType, lowerBound, upperBound }: Propos
 
       proposalsArray.push(...(proposals ?? []));
 
-      if (!more) {
+      nextKey = next_key as string;
+
+      if (!more || returnFirstIteration) {
         break;
       }
-
-      nextKey = next_key as string;
     }
   } catch (e) {
     console.error('[getProposals] Error', e);

@@ -1,6 +1,12 @@
-import { NotificationType } from '@/constants.ts';
+import { NotificationType, ProposalStatusKey } from '@/constants.ts';
 
 export interface WaxLabsNotification {
   notificationType: NotificationType;
-  id: number | string;
+  readNotificationKey: string;
+  id: number;
+  title: string;
+  summary: string;
+  status: ProposalStatusKey;
 }
+
+export type NotificationMapping = Record<NotificationType, WaxLabsNotification[]>;

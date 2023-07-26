@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
-import { useConfig } from '@/hooks/useConfig';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 export function ProposalFilterCategories() {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ export function ProposalFilterCategories() {
 
   const { getValues, handleSubmit, register, setValue } = useFormContext();
 
-  const { config } = useConfig();
+  const { configs } = useConfigData();
 
   function onSubmit({ categories }: { categories?: string[] }) {
     if (!categories) return;
@@ -57,7 +57,7 @@ export function ProposalFilterCategories() {
       <FilterModal.Content title={t('categories')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="flex flex-col gap-1 p-4">
-            {config?.categories.map((category, index) => (
+            {configs?.categories.map((category, index) => (
               <ToggleField {...register('categories')} key={category} type="checkbox" label={category} value={index} />
             ))}
           </fieldset>

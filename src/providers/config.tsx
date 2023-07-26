@@ -13,10 +13,20 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [configData, setConfigData] = useState<FormattedConfigData | null>(null);
 
-  useEffect(() => {
+  const retrieveConfigData = () => {
     formattedConfigData()
-      .then(c => setConfigData(c))
+      .then(c => {
+        if (c) {
+          c.categories = c?.categories.filter(category => !c?.cat_deprecated.includes(category));
+        }
+
+        setConfigData(c);
+      })
       .catch(() => setConfigData(null));
+  };
+
+  useEffect(() => {
+    retrieveConfigData();
   }, []);
 
   useEffect(() => {
@@ -29,6 +39,7 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
     () => ({
       isAdmin,
       configs: configData,
+      reCache: retrieveConfigData,
     }),
     [configData, isAdmin]
   );

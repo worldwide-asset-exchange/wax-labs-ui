@@ -9,6 +9,7 @@ import { setVotingDurationAction } from '@/api/chain/admin';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 interface VotingPeriodFormProps {
   defaultValues: {
@@ -22,6 +23,7 @@ interface VotingPeriodFormProps {
 export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
   const { t } = useTranslation();
   const { session } = useChain();
+  const { reCache } = useConfigData();
 
   const VotingPeriodSchema = useMemo(() => {
     return z.object({
@@ -73,7 +75,7 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
     setVotingDurationAction({
       newVoteDuration,
       session: session as Session,
-    });
+    }).then(() => reCache());
   }
 
   return (

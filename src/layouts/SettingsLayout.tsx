@@ -12,16 +12,18 @@ import * as Header from '@/components/Header';
 import * as Tabs from '@/components/Tabs';
 import { ContentSkeleton } from '@/contents/ContentSkeleton';
 import { useChain } from '@/hooks/useChain.ts';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 export function SettingsLayout() {
   const { t } = useTranslation();
   const { isAuthenticated } = useChain();
+  const { isAdmin } = useConfigData();
 
-  if (isAuthenticated == null) {
+  if (isAuthenticated == null || isAdmin == null) {
     return <ContentSkeleton />;
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !isAdmin) {
     return <Navigate to="/" />;
   }
 

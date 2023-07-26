@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/Input';
 import { TextArea } from '@/components/TextArea';
 import { ToggleField } from '@/components/ToggleField';
-import { useConfig } from '@/hooks/useConfig';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 interface Step1Form {
   title: string;
@@ -15,7 +15,7 @@ interface Step1Form {
 export function ProposalFormStep1() {
   const { t } = useTranslation();
 
-  const { config, isLoadingConfig } = useConfig();
+  const { configs, isLoadingConfig } = useConfigData();
 
   const {
     register,
@@ -51,7 +51,7 @@ export function ProposalFormStep1() {
               </>
             ) : (
               <>
-                {config?.categories.map((category, index) => (
+                {configs?.categories.map((category, index) => (
                   <ToggleField {...register('category')} key={category} type="radio" label={category} value={index} />
                 ))}
               </>

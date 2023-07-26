@@ -9,7 +9,7 @@ import { setMaxRequested, setMinRequested } from '@/api/chain/admin';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
-import { useConfig } from '@/hooks/useConfig';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 const initialMinMaxUSDRequested = { min: '0', max: '0' };
 
@@ -17,20 +17,20 @@ export function USDRequested() {
   const { t } = useTranslation();
   const { session } = useChain();
 
-  const { config } = useConfig();
+  const { configs, reCache } = useConfigData();
 
   const [currentMinMaxUSDRequested, setCurrentMinMaxUSDRequested] = useState(initialMinMaxUSDRequested);
 
   useEffect(() => {
-    if (config?.min_requested && config?.max_requested) {
+    if (configs?.min_requested && configs?.max_requested) {
       setCurrentMinMaxUSDRequested({
-        min: String(config.min_requested.split(' ')[0]),
-        max: String(config.max_requested.split(' ')[0]),
+        min: String(configs.min_requested.split(' ')[0]),
+        max: String(configs.max_requested.split(' ')[0]),
       });
     } else {
       setCurrentMinMaxUSDRequested(initialMinMaxUSDRequested);
     }
-  }, [config]);
+  }, [configs]);
 
   const MinMaxUSDRequestSchema = useMemo(() => {
     return z.object({
@@ -48,9 +48,13 @@ export function USDRequested() {
   type MinMaxUSDRequest = z.input<typeof MinMaxUSDRequestSchema>;
 
   const setMinMaxUSDRequest = (data: MinMaxUSDRequest) => {
-    setMinRequested({ minRequested: Number(data.min), session: session as Session });
-    setMaxRequested({ maxRequested: Number(data.max), session: session as Session });
-    reset();
+    Promise.all([
+      setMinRequested({ minRequested: Number(data.min), session: session as Session }),
+      setMaxRequested({ maxRequested: Number(data.max), session: session as Session }),
+    ]).then(() => {
+      reCache();
+      reset();
+    });
   };
 
   const {

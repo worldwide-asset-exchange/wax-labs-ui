@@ -9,13 +9,13 @@ import { addCategory, deleteCategory } from '@/api/chain/category';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
-import { useConfig } from '@/hooks/useConfig';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 export function Categories() {
   const { t } = useTranslation();
   const { session } = useChain();
 
-  const { config } = useConfig();
+  const { configs, reCache } = useConfigData();
 
   const CategorySchema = useMemo(() => {
     return z.object({
@@ -29,12 +29,12 @@ export function Categories() {
   type Category = z.input<typeof CategorySchema>;
 
   const addNewCategory = (data: Category) => {
-    addCategory({ category: data.category, session: session as Session });
+    addCategory({ category: data.category, session: session as Session }).then(() => reCache());
     reset();
   };
 
   const deleteExistingCategory = (category: string) => {
-    deleteCategory({ category: category, session: session as Session });
+    deleteCategory({ category: category, session: session as Session }).then(() => reCache());
   };
 
   const {
@@ -65,7 +65,7 @@ export function Categories() {
           </div>
         </form>
         <div className="mt-4 divide-y divide-subtle-light rounded-xl bg-subtle">
-          {config?.categories.map(category => (
+          {configs?.categories.map(category => (
             <div key={category} className="flex items-center justify-between gap-6 px-8 py-4">
               <p className="body-1 text-high-contrast">{category}</p>
               <Button

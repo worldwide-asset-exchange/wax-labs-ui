@@ -9,10 +9,12 @@ import { setAdmin } from '@/api/chain/admin';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 export function AdminRole() {
   const { t } = useTranslation();
   const { session } = useChain();
+  const { reCache } = useConfigData();
 
   const AccountSchema = useMemo(() => {
     return z.object({
@@ -26,8 +28,10 @@ export function AdminRole() {
   type WaxAccount = z.input<typeof AccountSchema>;
 
   const setNewAdmin = (data: WaxAccount) => {
-    setAdmin({ newAdmin: data.account, session: session as Session });
-    reset();
+    setAdmin({ newAdmin: data.account, session: session as Session }).then(() => {
+      reCache();
+      reset();
+    });
   };
 
   const {

@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
 import { VotingPeriodForm } from '@/components/VotingPeriodForm';
-import { useConfig } from '@/hooks/useConfig';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
 export function VotingPeriod() {
   const { t } = useTranslation();
-  const { config, isLoadingConfig } = useConfig();
+  const { configs, isLoadingConfig } = useConfigData();
 
   let defaultValues = {
     days: 0,
@@ -14,12 +14,12 @@ export function VotingPeriod() {
     seconds: 0,
   };
 
-  if (config?.vote_duration && config?.vote_duration > 0) {
+  if (configs?.vote_duration && configs?.vote_duration > 0) {
     defaultValues = {
-      days: Math.floor(config.vote_duration / (60 * 60 * 24)),
-      hours: Math.floor((config.vote_duration / (60 * 60)) % 24),
-      minutes: Math.floor((config.vote_duration / 60) % 60),
-      seconds: Math.floor(config.vote_duration % 60),
+      days: Math.floor(configs.vote_duration / (60 * 60 * 24)),
+      hours: Math.floor((configs.vote_duration / (60 * 60)) % 24),
+      minutes: Math.floor((configs.vote_duration / 60) % 60),
+      seconds: Math.floor(configs.vote_duration % 60),
     };
   }
 

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 import { formattedConfigData } from '@/api/chain/config/query/formattedConfigData.ts';
 import { ConfigContext } from '@/contexts/config.ts';
@@ -11,7 +11,6 @@ export interface ConfigProviderProps {
 
 export function ConfigProvider({ children }: ConfigProviderProps) {
   const { isAuthenticated, actor } = useChain();
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   const {
     data: configData,
@@ -22,11 +21,10 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
     queryFn: () => formattedConfigData(),
   });
 
-  useEffect(() => {
-    if (configData != null && isAuthenticated != null) {
-      setIsAdmin(configData.admin_acct === actor);
-    }
-  }, [isAuthenticated, configData, actor]);
+  let isAdmin: boolean | null = null;
+  if (configData != null && isAuthenticated != null) {
+    isAdmin = configData.admin_acct === actor;
+  }
 
   const configProviderValue = useMemo(
     () => ({

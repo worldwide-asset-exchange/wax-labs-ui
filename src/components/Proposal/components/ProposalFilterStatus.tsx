@@ -8,9 +8,9 @@ import { Button } from '@/components/Button';
 import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
-import { ProposalStatus } from '@/constants.ts';
+import { statusFilterMapping } from '@/mappings/statusFilterMapping.ts';
 
-export function ProposalFilterStatus() {
+export function ProposalFilterStatus({ onChangeFilters }: { onChangeFilters: () => void }) {
   const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,6 +31,7 @@ export function ProposalFilterStatus() {
 
     setSearchParams(newParams);
     modalRef.current?.onClose();
+    onChangeFilters();
   }
 
   function handleResetField() {
@@ -53,13 +54,13 @@ export function ProposalFilterStatus() {
       <FilterModal.Content title={t('status')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="grid grid-cols-2 gap-1 p-4">
-            {Object.entries(ProposalStatus).map(([statusKey, statusValue]) => (
+            {Object.entries(statusFilterMapping()).map(([statusKey, statusValue]) => (
               <ToggleField
-                key={statusKey}
+                key={statusValue}
                 {...register('status')}
                 type="checkbox"
-                label={statusValue}
-                value={statusValue}
+                label={statusKey}
+                value={statusKey}
               />
             ))}
           </fieldset>

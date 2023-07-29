@@ -20,7 +20,7 @@ export interface GetTableRowsResult<T> {
 }
 
 export interface WaxUser {
-  accountName: string;
+  actor: string;
   requestPermission: string;
 }
 

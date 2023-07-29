@@ -7,20 +7,20 @@ export interface CreateEditProfileAction extends SessionProps {
 }
 
 export default function createEditProfileAction({ profile, session }: CreateEditProfileAction): Action<Profile> {
-  const accountName = session.actor.toString();
+  const actor = session.actor.toString();
 
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.EDIT_PROFILE,
     authorization: [
       {
-        actor: accountName,
+        actor,
         permission: session.permission.toString(),
       },
     ],
     data: {
       ...profile,
-      wax_account: accountName,
+      wax_account: actor,
     },
   };
 }

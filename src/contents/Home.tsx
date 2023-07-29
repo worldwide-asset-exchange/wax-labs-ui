@@ -78,7 +78,7 @@ export function Home() {
         <div className="order-6 col-span-1 flex flex-col justify-between gap-2 rounded-xl bg-[#3F2353] p-12 text-[#B57DE9] md:order-none md:row-span-2">
           <div>
             <h2 className="display-1">{isLoading ? <span className="animate-pulse">-</span> : stats?.inProgress}</h2>
-            <h3 className="label-2 mt-1">{ProposalStatus.PROGRESS}</h3>
+            <h3 className="label-2 mt-1">{ProposalStatus.IN_PROGRESS}</h3>
           </div>
           <div className="flex justify-end">
             <Link to="/proposals?status=in+progress" square variant="secondary">

@@ -10,7 +10,7 @@ import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef'
 import { ToggleField } from '@/components/ToggleField';
 import { useConfigData } from '@/hooks/useConfigData.ts';
 
-export function ProposalFilterCategories() {
+export function ProposalFilterCategories({ onChangeFilters }: { onChangeFilters: () => void }) {
   const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,6 +33,7 @@ export function ProposalFilterCategories() {
 
     setSearchParams(newParams);
     modalRef.current?.onClose();
+    onChangeFilters();
   }
 
   function handleResetField() {
@@ -57,8 +58,14 @@ export function ProposalFilterCategories() {
       <FilterModal.Content title={t('categories')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="flex flex-col gap-1 p-4">
-            {configs?.categories.map((category, index) => (
-              <ToggleField {...register('categories')} key={category} type="checkbox" label={category} value={index} />
+            {configs?.categories.map(category => (
+              <ToggleField
+                {...register('categories')}
+                key={category}
+                type="checkbox"
+                label={category}
+                value={category}
+              />
             ))}
           </fieldset>
           <footer className="flex items-center justify-between p-4">

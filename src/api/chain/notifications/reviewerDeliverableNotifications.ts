@@ -14,14 +14,14 @@ const statusToCheck: DeliverablesStatusToCheck[] = [
 ];
 
 export default async function reviewerDeliverableNotifications({
-  accountName,
+  actor,
 }: {
-  accountName: string;
+  actor: string;
 }): Promise<WaxLabsNotification[]> {
   try {
     const { upperBound, lowerBound } = nameBounds({
       statusKey: ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
-      accountName,
+      actor,
     });
 
     const proposals = await getProposals({

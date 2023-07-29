@@ -3,13 +3,12 @@ import { nameBounds } from '@/api/chain/proposals/query/proposalBounds.ts';
 import { WaxLabsNotification } from '@/api/models/notifications.ts';
 import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
-export default async function startVotingNotifications({
-  accountName,
-}: {
-  accountName: string;
-}): Promise<WaxLabsNotification[]> {
+export default async function startVotingNotifications({ actor }: { actor: string }): Promise<WaxLabsNotification[]> {
   try {
-    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.APPROVED_OR_REPORTED, accountName });
+    const { upperBound, lowerBound } = nameBounds({
+      statusKey: ProposalStatusKey.APPROVED_OR_REPORTED,
+      actor,
+    });
 
     const proposals = await getProposals({
       queryType: ProposalFilterType.BY_PROPOSER_STAT,

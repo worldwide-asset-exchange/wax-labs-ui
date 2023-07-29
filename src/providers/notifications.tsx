@@ -19,54 +19,54 @@ export interface NotificationsProviderProps {
 }
 
 export function NotificationsProvider({ children }: NotificationsProviderProps) {
-  const { actor: accountName, isAuthenticated } = useChain();
-  const storageKey = accountName ? `${READ_NOTIFICATIONS_STORAGE}-${accountName}` : null;
+  const { actor, isAuthenticated } = useChain();
+  const storageKey = actor ? `${READ_NOTIFICATIONS_STORAGE}-${actor}` : null;
   const isAdmin = useIsAdmin();
   const [read, setRead] = useState<string[]>(getStorage(storageKey));
 
   const notificationResult = useQueries({
     queries: [
       {
-        queryKey: ['proposerEndVotingNotifications', accountName],
-        queryFn: () => proposerEndVotingNotifications({ accountName: accountName as string }),
+        queryKey: ['proposerEndVotingNotifications', actor],
+        queryFn: () => proposerEndVotingNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated,
+        enabled: !!isAuthenticated && !!actor,
       },
       {
-        queryKey: ['startVotingNotifications', accountName],
-        queryFn: () => startVotingNotifications({ accountName: accountName as string }),
+        queryKey: ['startVotingNotifications', actor],
+        queryFn: () => startVotingNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated,
+        enabled: !!isAuthenticated && !!actor,
       },
       {
-        queryKey: ['proposerDeliverableNotifications', accountName],
-        queryFn: () => proposerDeliverableNotifications({ accountName: accountName as string }),
+        queryKey: ['proposerDeliverableNotifications', actor],
+        queryFn: () => proposerDeliverableNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated,
+        enabled: !!isAuthenticated && !!actor,
       },
       {
-        queryKey: ['reviewerDeliverableNotifications', accountName],
-        queryFn: () => reviewerDeliverableNotifications({ accountName: accountName as string }),
+        queryKey: ['reviewerDeliverableNotifications', actor],
+        queryFn: () => reviewerDeliverableNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated,
+        enabled: !!isAuthenticated && !!actor,
       },
       {
-        queryKey: ['adminEndVotingNotifications', accountName, isAdmin],
+        queryKey: ['adminEndVotingNotifications', actor, isAdmin],
         queryFn: () => (isAdmin ? adminEndVotingNotifications() : Promise.resolve([])),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated,
+        enabled: !!isAuthenticated && !!actor,
       },
       {
-        queryKey: ['adminToReviewNotifications', accountName, isAdmin],
+        queryKey: ['adminToReviewNotifications', actor, isAdmin],
         queryFn: () => (isAdmin ? adminToReviewNotifications() : Promise.resolve([])),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated,
+        enabled: !!isAuthenticated && !!actor,
       },
     ],
   });

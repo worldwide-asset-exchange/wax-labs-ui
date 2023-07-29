@@ -15,7 +15,7 @@ export function NotificationGroup({ title, notifications }: NotificationCardProp
           key={n.readNotificationKey}
           readNotificationKey={n.readNotificationKey}
           title={n.title}
-          tag={n.status}
+          status={n.status}
           description={n.summary}
           proposalId={n.id}
         />

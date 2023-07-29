@@ -27,15 +27,9 @@ export function statBounds(statusKey: ProposalStatusKey): ProposalBounds {
   };
 }
 
-export function nameBounds({
-  statusKey,
-  accountName,
-}: {
-  statusKey: ProposalStatusKey;
-  accountName: string;
-}): ProposalBounds {
+export function nameBounds({ statusKey, actor }: { statusKey: ProposalStatusKey; actor: string }): ProposalBounds {
   const sb = new Serialize.SerialBuffer();
-  sb.pushName(accountName);
+  sb.pushName(actor);
 
   const reversedArray = new Uint8Array(16);
   reversedArray.set(sb.array.slice(0, 8).reverse());

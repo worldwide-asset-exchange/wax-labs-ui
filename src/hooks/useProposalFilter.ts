@@ -92,7 +92,7 @@ export function useProposalFilter({
 
   let proposalQueries: () => Promise<Proposal[]>;
   if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
-    proposalQueries = () => myProposals((actor ?? actAsActor) as string);
+    proposalQueries = () => myProposals((actAsActor ?? actor) as string);
   } else if (whoseKey === Whose.ALL_PROPOSALS) {
     proposalQueries = allProposals;
   } else {

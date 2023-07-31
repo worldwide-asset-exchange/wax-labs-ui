@@ -4,6 +4,7 @@ import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { z } from 'zod';
 
 import { editProfile, newProfile, removeProfile } from '@/api/chain/profile';
@@ -15,13 +16,11 @@ import { TextArea } from '@/components/TextArea';
 import profilePlaceholders from '@/contents/profile/profilePlaceholders';
 import { useChain } from '@/hooks/useChain';
 
-interface CreateEditProfileProps {
-  create: boolean;
-}
-
-export function CreateEditProfile({ create }: CreateEditProfileProps) {
+export function CreateEditProfile() {
   const { t } = useTranslation();
   const { actor, session } = useChain();
+  const { pathname } = useLocation();
+  const create = pathname.includes('create');
 
   const randomProfile = Math.floor(Math.random() * 10);
 

@@ -41,7 +41,7 @@ export function Balance() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<WithdrawBalance>({
     resolver: zodResolver(BalanceSchema),
     values: {
@@ -69,7 +69,7 @@ export function Balance() {
               />
             </div>
             <div className="flex-none pt-8">
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" disabled={!isDirty}>
                 {t('withdraw')}
               </Button>
             </div>

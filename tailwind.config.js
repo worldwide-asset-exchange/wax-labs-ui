@@ -26,6 +26,15 @@ export default {
         'high-contrast': '#FFFFFF',
         interactive: '#979797',
       },
+      keyframes: {
+        slideIn: {
+          from: { transform: 'translateX(calc(100%))' },
+          to: { transform: 'translateX(0)' },
+        },
+      },
+      animation: {
+        slideIn: 'slideIn 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+      },
     },
   },
   plugins: [

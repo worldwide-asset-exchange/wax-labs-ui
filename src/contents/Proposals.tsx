@@ -34,9 +34,6 @@ export function Proposals({ actAsActor }: { actAsActor?: string }) {
       sortBy: searchParams.get('sortBy') ?? 'Created last',
     },
   });
-
-  const whoseKey = methods.getValues('whose') ? whoseFilterMapping()[methods.getValues('whose') as string] : null;
-
   const { proposals, isLoading } = useProposalFilter({
     sortBy: methods.getValues('sortBy'),
     search: methods.getValues('search'),
@@ -47,6 +44,9 @@ export function Proposals({ actAsActor }: { actAsActor?: string }) {
   });
   const proposalSlice = proposals.slice(0, pageSlice);
   const totalProposals = proposals.length;
+
+  const whoseKey = methods.getValues('whose') ? whoseFilterMapping()[methods.getValues('whose') as string] : null;
+  const showStaticWhose = !!actAsActor || isAuthenticated !== true;
 
   if (
     actAsActor == null &&
@@ -60,20 +60,22 @@ export function Proposals({ actAsActor }: { actAsActor?: string }) {
     <FormProvider {...methods}>
       <Header.Root>
         <Header.Content>
-          {actAsActor ? (
-            <h1 className="title-2 text-high-contrast">{t('myProposals')}</h1>
+          {showStaticWhose ? (
+            <h2 className="title-2 text-high-contrast">{actAsActor ? t('myProposals') : methods.getValues('whose')}</h2>
           ) : (
             <ProposalFilterWhose>
               <Header.Button>{methods.getValues('whose')}</Header.Button>
             </ProposalFilterWhose>
           )}
         </Header.Content>
-        <Header.Action>
-          <Link variant="primary" to="create">
-            <MdOutlineAdd size={24} className="md:hidden" />
-            <span className="max-md:hidden">{t('createProposal')}</span>
-          </Link>
-        </Header.Action>
+        {isAuthenticated && (
+          <Header.Action>
+            <Link variant="primary" to="create">
+              <MdOutlineAdd size={24} className="md:hidden" />
+              <span className="max-md:hidden">{t('createProposal')}</span>
+            </Link>
+          </Header.Action>
+        )}
       </Header.Root>
 
       <ProposalModule.Root onChangeFilters={() => setPageSlice(DEFAULT_PAGE_SLICE)}>

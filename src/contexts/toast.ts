@@ -11,10 +11,8 @@ export interface Toast {
   variant?: 'success' | 'error';
 }
 
-type SetToasts = Dispatch<SetStateAction<Toast[]>>;
-
 interface CreateContextProps {
-  setToasts: SetToasts;
+  setToasts: Dispatch<SetStateAction<Toast[]>>;
 }
 
 export const ToastContext = createContext<CreateContextProps>({

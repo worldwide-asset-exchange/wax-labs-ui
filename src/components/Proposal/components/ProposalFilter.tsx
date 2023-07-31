@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce';
 import { ChangeEvent, RefObject, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,7 @@ import { ProposalFilterCategories } from './ProposalFilterCategories';
 import { ProposalFilterSortBy } from './ProposalFilterSortBy';
 import { ProposalFilterStatus } from './ProposalFilterStatus';
 
-export function ProposalFilter() {
+export function ProposalFilter({ onChangeFilters }: { onChangeFilters: () => void }) {
   const { t } = useTranslation();
   const filterBarRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,6 +30,7 @@ export function ProposalFilter() {
     }
 
     setSearchParams(newParams);
+    onChangeFilters();
   }
 
   function handleToggleShowSearchField() {
@@ -65,7 +67,7 @@ export function ProposalFilter() {
         <div className="flex-1">
           <Input
             {...register('search', {
-              onChange: handleSearchTerm,
+              onChange: debounce(handleSearchTerm, 500),
             })}
             placeholder={t('searchPlaceholder') as string}
           >
@@ -79,10 +81,10 @@ export function ProposalFilter() {
         </Button>
       </div>
       <div className="flex-none group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-        <ProposalFilterCategories />
+        <ProposalFilterCategories onChangeFilters={onChangeFilters} />
       </div>
       <div className="flex-none group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-        <ProposalFilterStatus />
+        <ProposalFilterStatus onChangeFilters={onChangeFilters} />
       </div>
       <div className="flex-none max-md:hidden group-data-[search-field=visible]/filter-bar:max-lg:hidden">
         <Button onClick={handleToggleView} square>
@@ -97,7 +99,7 @@ export function ProposalFilter() {
         </Button>
       </div>
       <div className="flex-none group-data-[search-field=visible]/filter-bar:max-lg:hidden">
-        <ProposalFilterSortBy />
+        <ProposalFilterSortBy onChangeFilters={onChangeFilters} />
       </div>
     </div>
   );

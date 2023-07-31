@@ -1,5 +1,4 @@
 import { format } from 'date-fns';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   MdAttachMoney,
@@ -11,17 +10,20 @@ import {
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
+import { WAXCurrency } from '@/api/models/common.ts';
 import { StatusTag } from '@/components/StatusTag';
-import { ProposalStatus } from '@/constants';
+import { ProposalStatusKey } from '@/constants.ts';
 import { useConfigData } from '@/hooks/useConfigData.ts';
+import { formatCurrency } from '@/utils/formatter.ts';
+import { toProposalStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalItemProps {
   title: string;
   shortDescription: string;
-  // status: number;
+  status: ProposalStatusKey;
   deliverables: number;
   id: string | number;
-  requestedAmount: string;
+  requestedAmount: WAXCurrency;
   proposer: string;
   category: number;
   lastUpdate: string;
@@ -30,7 +32,7 @@ interface ProposalItemProps {
 export function ProposalItem({
   title,
   shortDescription,
-  // status,
+  status,
   deliverables,
   id,
   requestedAmount,
@@ -45,10 +47,7 @@ export function ProposalItem({
   const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
   const categoryName = configs?.categories[category];
 
-  const requestedAmountFormatted = useMemo(() => {
-    const [amount, symbol] = requestedAmount.split(' ');
-    return `${Number(amount).toFixed(2)} ${symbol}`;
-  }, [requestedAmount]);
+  const requestedAmountFormatted = formatCurrency(requestedAmount);
 
   return (
     <Link
@@ -58,7 +57,7 @@ export function ProposalItem({
       <div className="flex-1 space-y-4 p-4">
         <h3 className="title-3 text-high-contrast group-hover/proposal-item:text-accent">{title}</h3>
         <p className="body-2 text-low-contrast">{shortDescription}</p>
-        <StatusTag status={ProposalStatus.COMPLETE} />
+        <StatusTag status={toProposalStatus(status)} />
       </div>
 
       <div className="label-1 mx-4 flex-1 divide-y divide-subtle-light text-low-contrast">

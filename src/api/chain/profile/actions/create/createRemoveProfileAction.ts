@@ -9,19 +9,19 @@ export default function createRemoveProfileAction({
   waxAccount,
   session,
 }: CreateRemoveProfileAction): Action<{ wax_account: string }> {
-  const accountName = session.actor.toString();
+  const actor = session.actor.toString();
 
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.REMOVE_PROFILE,
     authorization: [
       {
-        actor: accountName,
+        actor,
         permission: session.permission.toString(),
       },
     ],
     data: {
-      wax_account: waxAccount ?? accountName,
+      wax_account: waxAccount ?? actor,
     },
   };
 }

@@ -4,12 +4,15 @@ import { WaxLabsNotification } from '@/api/models/notifications.ts';
 import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 export default async function proposerEndVotingNotifications({
-  accountName,
+  actor,
 }: {
-  accountName: string;
+  actor: string;
 }): Promise<WaxLabsNotification[]> {
   try {
-    const { upperBound, lowerBound } = nameBounds({ statusKey: ProposalStatusKey.VOTING_OR_ACCEPTED, accountName });
+    const { upperBound, lowerBound } = nameBounds({
+      statusKey: ProposalStatusKey.VOTING_OR_ACCEPTED,
+      actor,
+    });
 
     const proposals = await getProposals({
       queryType: ProposalFilterType.BY_PROPOSER_STAT,

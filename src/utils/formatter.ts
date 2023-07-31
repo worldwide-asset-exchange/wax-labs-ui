@@ -14,6 +14,16 @@ export function formatDecimal(waxValue: number | null) {
   return numberFormatter.format(waxValue);
 }
 
-export function formatWax(waxValue: number | null) {
-  return `${formatDecimal(waxValue)} ${TOKEN_SYMBOL}`;
+export function formatCurrency(waxValue: number | string | null) {
+  let currency = TOKEN_SYMBOL;
+
+  if (typeof waxValue === 'string') {
+    const [value, symbol] = waxValue.split(' ');
+
+    currency = symbol.trim() || TOKEN_SYMBOL;
+
+    waxValue = Number(value);
+  }
+
+  return `${formatDecimal(waxValue)} ${currency}`;
 }

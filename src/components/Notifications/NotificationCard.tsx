@@ -2,21 +2,28 @@ import { MdOutlineClose } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 
 import { Button } from '@/components/Button.tsx';
-import { NotificationTag } from '@/components/Notifications/NotificationTag.tsx';
+import { StatusTag } from '@/components/StatusTag.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
 import { useNotifications } from '@/hooks/useNotifications.ts';
+import { toProposalStatus } from '@/utils/proposalUtils.ts';
 
 export interface NotificationCardProps {
   readNotificationKey: string;
   title: string;
   description: string;
-  tag: ProposalStatusKey;
+  status: ProposalStatusKey;
   proposalId: number;
 }
 
 const MAX_DESCRIPTION_LENGTH = 130;
 
-export function NotificationCard({ readNotificationKey, tag, title, description, proposalId }: NotificationCardProps) {
+export function NotificationCard({
+  readNotificationKey,
+  status,
+  title,
+  description,
+  proposalId,
+}: NotificationCardProps) {
   const { readNotification } = useNotifications();
   const longerDescription = description.length > MAX_DESCRIPTION_LENGTH;
   const trimmedDescription = longerDescription ? `${description.slice(0, MAX_DESCRIPTION_LENGTH)}...` : description;
@@ -39,7 +46,7 @@ export function NotificationCard({ readNotificationKey, tag, title, description,
       >
         {trimmedDescription}
       </p>
-      <NotificationTag tag={tag} />
+      <StatusTag status={toProposalStatus(status)} />
     </div>
   );
 }

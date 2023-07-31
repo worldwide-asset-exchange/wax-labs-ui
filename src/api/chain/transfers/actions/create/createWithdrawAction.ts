@@ -7,19 +7,19 @@ export interface CreateWithdrawAction extends SessionProps {
 }
 
 export default function createWithdrawAction({ quantity, session }: CreateWithdrawAction): Action<Withdraw> {
-  const accountName = session.actor.toString();
+  const actor = session.actor.toString();
 
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.WITHDRAW,
     authorization: [
       {
-        actor: accountName,
+        actor,
         permission: session.permission.toString(),
       },
     ],
     data: {
-      account_owner: accountName,
+      account_owner: actor,
       quantity: `${quantity.toFixed(8)} ${TOKEN_SYMBOL}`,
     },
   };

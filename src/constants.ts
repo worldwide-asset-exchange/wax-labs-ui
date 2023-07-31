@@ -78,6 +78,18 @@ export enum ProposalStatusKey {
   FAILED_DRAFT = 9,
 }
 
+export const ProposalStatusKeyName: Record<string, ProposalStatusKey> = {
+  'filters.drafting': ProposalStatusKey.DRAFTING,
+  'filters.inReview': ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS,
+  'filters.approved': ProposalStatusKey.APPROVED_OR_REPORTED,
+  'filters.voting': ProposalStatusKey.VOTING_OR_ACCEPTED,
+  'filters.inProgress': ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
+  'filters.failed': ProposalStatusKey.FAILED_OR_CLAIMED,
+  'filters.cancelled': ProposalStatusKey.CANCELLED,
+  'filters.completed': ProposalStatusKey.COMPLETED,
+  'filters.failedDraft': ProposalStatusKey.FAILED_DRAFT,
+};
+
 export enum ProposalStatus2 {
   STATUS = 'status',
   PROPOSAL_ID = 'proposal_id',
@@ -97,14 +109,15 @@ export enum ProposalFilterType {
 }
 
 export enum ProposalStatus {
-  DRAFTING = 'in drafting',
-  REVIEW = 'in review',
-  APPROVED = 'approved',
-  VOTING = 'in voting',
-  PROGRESS = 'in progress',
-  CANCELLED = 'cancelled',
-  REJECTED = 'rejected',
-  COMPLETE = 'completed',
+  DRAFTING = 'in drafting', //
+  REVIEW = 'in review', //
+  APPROVED = 'approved', //
+  VOTING = 'in voting', //
+  IN_PROGRESS = 'in progress', //
+  CANCELLED = 'cancelled', //
+  REJECTED = 'rejected', //
+  COMPLETE = 'completed', //
+  FAILED_DRAFT = 'to be improved', //
 }
 
 export enum NotificationType {
@@ -168,4 +181,32 @@ export const PATTERN: Record<ProposalFilterType, { key: ProposalStatus2; byteSiz
     { key: ProposalStatus2.PROPOSAL_ID, byteSize: 7 },
   ],
   [ProposalFilterType.BY_BALLOT]: [{ key: ProposalStatus2.BALLOT, byteSize: 8 }],
+};
+
+export enum SortBy {
+  CREATED_LAST,
+  CREATED_FIRST,
+  MIN_WAX_REQUESTED,
+  MAX_WAX_REQUESTED,
+  LAST_UPDATED,
+}
+
+export const ProposalFilter: Record<string, SortBy> = {
+  'sortByOptions.createdLast': SortBy.CREATED_LAST,
+  'sortByOptions.createdFirst': SortBy.CREATED_FIRST,
+  'sortByOptions.minWaxRequested': SortBy.MIN_WAX_REQUESTED,
+  'sortByOptions.maxWaxRequested': SortBy.MAX_WAX_REQUESTED,
+  'sortByOptions.lastUpdated': SortBy.LAST_UPDATED,
+};
+
+export enum Whose {
+  ALL_PROPOSALS,
+  MY_PROPOSALS,
+  PROPOSALS_TO_REVIEW,
+}
+
+export const WhoseFilter: Record<string, Whose> = {
+  allProposals: Whose.ALL_PROPOSALS,
+  myProposals: Whose.MY_PROPOSALS,
+  proposalsToReview: Whose.PROPOSALS_TO_REVIEW,
 };

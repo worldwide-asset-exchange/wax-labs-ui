@@ -19,7 +19,7 @@ interface EditorProps {
   label?: string;
   onChange: (html: string) => void;
   value: string;
-  error?: string | undefined;
+  error?: string;
 }
 
 export function Editor({ label, onChange, value, error }: EditorProps) {

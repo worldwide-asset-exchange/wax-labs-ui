@@ -5,12 +5,12 @@ import { ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 export function userProposals({
   proposalStatusKey,
-  accountName,
+  actor,
 }: {
   proposalStatusKey: ProposalStatusKey;
-  accountName: string;
+  actor: string;
 }): Promise<Proposal[]> {
-  const { upperBound, lowerBound } = nameBounds({ statusKey: proposalStatusKey, accountName });
+  const { upperBound, lowerBound } = nameBounds({ statusKey: proposalStatusKey, actor });
 
   return getProposals({
     queryType: ProposalFilterType.BY_PROPOSER_STAT,

@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -8,12 +7,16 @@ import { Button } from '@/components/Button';
 import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
+import { useChain } from '@/hooks/useChain.ts';
+import { useConfigData } from '@/hooks/useConfigData.ts';
 
-interface ProposalFilterWhose {
+interface ProposalFilterWhoseProps {
   children: ReactNode;
 }
 
-export function ProposalFilterWhose({ children }: ProposalFilterWhose) {
+export function ProposalFilterWhose({ children }: ProposalFilterWhoseProps) {
+  const { isAdmin } = useConfigData();
+  const { isAuthenticated } = useChain();
   const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,18 +50,22 @@ export function ProposalFilterWhose({ children }: ProposalFilterWhose) {
               label={t('allProposals')}
               value={t('allProposals') as string}
             />
-            <ToggleField
-              {...register('whose')}
-              type="radio"
-              label={t('myProposals')}
-              value={t('myProposals') as string}
-            />
-            <ToggleField
-              {...register('whose')}
-              type="radio"
-              label={t('proposalsToReview')}
-              value={t('proposalsToReview') as string}
-            />
+            {isAuthenticated && (
+              <ToggleField
+                {...register('whose')}
+                type="radio"
+                label={t('myProposals')}
+                value={t('myProposals') as string}
+              />
+            )}
+            {isAdmin && (
+              <ToggleField
+                {...register('whose')}
+                type="radio"
+                label={t('proposalsToReview')}
+                value={t('proposalsToReview') as string}
+              />
+            )}
           </fieldset>
           <footer className="flex items-center justify-end p-4">
             <Button variant="primary" type="submit">

@@ -97,6 +97,10 @@
             @apply bg-[#4E2018] text-[#E07258];
         }
 
+        &.to-be-improved {
+            @apply bg-[#4E2018] text-[#E07258];
+        }
+
         &.completed {
             @apply bg-[#213824] text-[#7BBF7C];
         }

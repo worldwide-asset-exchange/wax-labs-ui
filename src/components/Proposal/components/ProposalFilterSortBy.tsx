@@ -8,10 +8,9 @@ import { Button } from '@/components/Button';
 import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
+import { sortByMapping } from '@/mappings/sortByMapping.ts';
 
-const mockedSortBy = ['Created last', 'Created first', 'Min WAX request', 'Max WAX request', 'Last updated'];
-
-export function ProposalFilterSortBy() {
+export function ProposalFilterSortBy({ onChangeFilters }: { onChangeFilters: () => void }) {
   const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,6 +29,7 @@ export function ProposalFilterSortBy() {
 
     setSearchParams(newParams);
     modalRef.current?.onClose();
+    onChangeFilters();
   }
 
   return (
@@ -43,8 +43,8 @@ export function ProposalFilterSortBy() {
       <FilterModal.Content title={t('sortBy')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="flex flex-col gap-1 p-4">
-            {mockedSortBy.map(item => (
-              <ToggleField {...register('sortBy')} key={item} type="radio" label={item} value={item} />
+            {Object.keys(sortByMapping()).map(sortBy => (
+              <ToggleField {...register('sortBy')} key={sortBy} type="radio" label={sortBy} value={sortBy} />
             ))}
           </fieldset>
           <footer className="flex items-center justify-end p-4">

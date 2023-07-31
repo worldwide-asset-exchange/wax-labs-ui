@@ -41,6 +41,7 @@
   "status": "Status",
   "createdLast": "Created last",
   "loadMore": "Load More",
+  "noProposalsFound": "No Proposals found",
   "clean": "Clean",
   "apply": "Apply",
   "searchPlaceholder": "Name, description and proposer's account",
@@ -179,5 +180,23 @@
     "adminEndVoting": "Proposals with ended voting",
     "endVoting": "Voting just ended",
     "startVoting": "Voting just started"
+  },
+  "filters": {
+    "drafting": "Drafting",
+    "inReview": "In Review",
+    "approved": "Approved",
+    "voting": "In Voting",
+    "inProgress": "In Progress",
+    "failed": "Rejected",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "failedDraft": "To be Improved"
+  },
+  "sortByOptions": {
+    "createdLast": "Created last",
+    "createdFirst": "Created first",
+    "minWaxRequested": "Min WAX request",
+    "maxWaxRequested": "Max WAX request",
+    "lastUpdated": "In Last updated"
   }
 }

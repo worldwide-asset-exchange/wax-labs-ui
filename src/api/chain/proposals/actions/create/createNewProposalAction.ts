@@ -11,19 +11,19 @@ export default function createNewProposalAction({
   proposal,
   session,
 }: CreateNewProposalAction): Action<CreateProposal> {
-  const accountName = session.actor.toString();
+  const actor = session.actor.toString();
 
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.DRAFT_PROPOSAL,
     authorization: [
       {
-        actor: accountName,
+        actor,
         permission: session.permission.toString(),
       },
     ],
     data: {
-      proposer: accountName,
+      proposer: actor,
       category: proposal.category,
       title: proposal.title,
       description: proposal.description,

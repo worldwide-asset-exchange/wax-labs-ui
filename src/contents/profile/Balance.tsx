@@ -34,7 +34,7 @@ export function Balance() {
 
   const { data: balance } = useQuery({
     queryKey: ['balance', actor],
-    queryFn: () => accountBalance({ accountName: actor as string }).then(response => response ?? ''),
+    queryFn: () => accountBalance({ actor: actor as string }).then(response => response ?? ''),
   });
 
   const {

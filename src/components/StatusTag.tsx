@@ -5,7 +5,7 @@ interface StatusTagProps {
 }
 
 export function StatusTag({ status }: StatusTagProps) {
-  const className = ['status-tag', status.replace(' ', '-')].join(' ');
+  const className = ['status-tag', status.replace(/\s/g, '-')].join(' ');
 
   return <span className={className}>{status}</span>;
 }

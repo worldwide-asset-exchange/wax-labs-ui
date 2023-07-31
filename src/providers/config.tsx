@@ -19,6 +19,9 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
   } = useQuery({
     queryKey: ['configData'],
     queryFn: () => formattedConfigData(),
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
   });
 
   let isAdmin: boolean | null = null;

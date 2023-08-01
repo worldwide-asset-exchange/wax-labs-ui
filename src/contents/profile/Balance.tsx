@@ -39,8 +39,8 @@ export function Balance() {
     const data = getValues();
 
     withdraw({ quantity: Number(data.quantity), session: session! })
+      .then(() => reFetch())
       .then(() => {
-        reFetch();
         toast({ description: t('withdrawBalanceSuccess'), variant: 'success' });
         reset();
       })

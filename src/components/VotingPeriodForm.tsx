@@ -55,7 +55,7 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
   });
 
   function setVotingPeriod() {
-    const { days, hours, minutes, seconds } = getValues();
+    const { days, hours, minutes, seconds } = VotingPeriodSchema.parse(getValues());
 
     const newVoteDuration = days * 3600 * 24 + hours * 3600 + minutes * 60 + seconds;
 
@@ -63,10 +63,8 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
       newVoteDuration,
       session: session!,
     })
-      .then(() => {
-        reFetch();
-        toast({ description: t('votingPeriodSuccess'), variant: 'success' });
-      })
+      .then(() => reFetch())
+      .then(() => toast({ description: t('votingPeriodSuccess'), variant: 'success' }))
       .catch(e => toast({ description: e.message, variant: 'error' }));
   }
 

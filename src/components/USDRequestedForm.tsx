@@ -64,10 +64,8 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
     }
 
     execute(session!, actions)
-      .then(() => {
-        reFetch();
-        toast({ description: t('minMaxUSDRequestedSuccess'), variant: 'success' });
-      })
+      .then(() => reFetch())
+      .then(() => toast({ description: t('minMaxUSDRequestedSuccess'), variant: 'success' }))
       .catch(e => toast({ description: e.message, variant: 'error' }));
   }
 

@@ -37,8 +37,8 @@ export function AdminRole() {
     const data = getValues();
 
     setAdmin({ newAdmin: data.account, session: session! })
+      .then(() => reFetch())
       .then(() => {
-        reFetch();
         toast({ description: t('transferAdminRoleSuccess'), variant: 'success' });
         reset();
       })

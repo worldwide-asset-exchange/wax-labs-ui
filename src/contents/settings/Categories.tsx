@@ -35,8 +35,8 @@ export function Categories() {
 
   const addNewCategory = (data: Category) => {
     addCategory({ category: data.category, session: session! })
+      .then(() => reFetch())
       .then(() => {
-        reFetch();
         toast({ description: t('addCategorySuccess'), variant: 'success' });
         reset();
       })
@@ -48,7 +48,6 @@ export function Categories() {
       deleteCategory({ category: categoryToDelete, session: session! })
         .then(() => reFetch())
         .then(() => {
-          reFetch();
           toast({ description: t('deleteCategorySuccess'), variant: 'success' });
           reset();
         })

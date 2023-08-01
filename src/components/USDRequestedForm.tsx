@@ -4,7 +4,9 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
-import { setMaxRequested, setMinRequested } from '@/api/chain/admin';
+import { execute } from '@/api/chain/actions';
+import createSetMaxRequestedAction from '@/api/chain/admin/actions/create/createSetMaxRequestedAction.ts';
+import createSetMinRequestedAction from '@/api/chain/admin/actions/create/createSetMinRequestedAction.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -29,8 +31,12 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
 
   const MinMaxUSDRequestSchema = useMemo(() => {
     return z.object({
-      min: z.preprocess(val => Number(val), z.number().min(0, t('USDValueError')!).nonnegative(t('USDValueError')!)),
-      max: z.preprocess(val => Number(val), z.number().min(0, t('USDValueError')!).nonnegative(t('USDValueError')!)),
+      min: z
+        .preprocess(val => Number(val), z.number().min(0, t('USDValueError')!).nonnegative(t('USDValueError')!))
+        .transform(v => Number(v)),
+      max: z
+        .preprocess(val => Number(val), z.number().min(0, t('USDValueError')!).nonnegative(t('USDValueError')!))
+        .transform(v => Number(v)),
     });
   }, [t]);
 
@@ -42,12 +48,22 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
   };
 
   function setMinMaxUSDRequest() {
-    const { min, max } = getValues();
+    const { min, max } = MinMaxUSDRequestSchema.parse(getValues());
 
-    Promise.all([
-      setMinRequested({ minRequested: min, session: session! }),
-      setMaxRequested({ maxRequested: max, session: session! }),
-    ])
+    const actions = [];
+    if (min !== defaultValues.min) {
+      actions.push(createSetMinRequestedAction({ minRequested: min, session: session! }));
+    }
+
+    if (max !== defaultValues.max) {
+      actions.push(createSetMaxRequestedAction({ maxRequested: max, session: session! }));
+    }
+
+    if (!actions.length) {
+      return false;
+    }
+
+    execute(session!, actions)
       .then(() => {
         reFetch();
         toast({ description: t('minMaxUSDRequestedSuccess'), variant: 'success' });

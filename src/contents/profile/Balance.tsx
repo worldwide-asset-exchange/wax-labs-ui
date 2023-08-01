@@ -1,19 +1,26 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 import { accountBalance } from '@/api/chain/profile/query/accountBalance';
 import { withdraw } from '@/api/chain/transfers';
+import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
+import { useConfigData } from '@/hooks/useConfigData.ts';
+import { useToast } from '@/hooks/useToast';
 
 export function Balance() {
   const { t } = useTranslation();
   const { actor, session } = useChain();
+  const { reFetch } = useConfigData();
+  const { toast } = useToast();
+
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
   const BalanceSchema = useMemo(() => {
     return z.object({
@@ -23,19 +30,31 @@ export function Balance() {
 
   type WithdrawBalance = z.input<typeof BalanceSchema>;
 
-  const withdrawBalance = (data: WithdrawBalance) => {
-    withdraw({ quantity: Number(data.quantity), session: session! });
-    reset();
+  const openConfirmationModal = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setConfirmationModalOpen(true);
+  };
+
+  const withdrawBalance = () => {
+    const data = getValues();
+
+    withdraw({ quantity: Number(data.quantity), session: session! })
+      .then(() => reFetch())
+      .then(() => {
+        toast({ description: t('withdrawBalanceSuccess'), variant: 'success' });
+        reset();
+      })
+      .catch(e => toast({ description: e.message, variant: 'error' }));
   };
 
   const { data: balance } = useQuery({
     queryKey: ['balance', actor],
-    queryFn: () => accountBalance({ actor: actor as string }).then(response => response ?? ''),
+    queryFn: () => accountBalance({ actor: actor! }).then(response => response ?? ''),
   });
 
   const {
     register,
-    handleSubmit,
+    getValues,
     reset,
     formState: { errors, isDirty },
   } = useForm<WithdrawBalance>({
@@ -54,7 +73,7 @@ export function Balance() {
           <h3 className="title-1 mt-1 text-high-contrast">
             {balance ?? 0} {t('wax')}
           </h3>
-          <form onSubmit={handleSubmit(withdrawBalance)} className="mt-8 flex gap-6 border-t border-subtle-light pt-8">
+          <form onSubmit={openConfirmationModal} className="mt-8 flex gap-6 border-t border-subtle-light pt-8">
             <div className="flex-1">
               <Input
                 {...register('quantity')}
@@ -72,6 +91,15 @@ export function Balance() {
           </form>
         </div>
       </div>
+      <AlertDialog.Root
+        open={confirmationModalOpen}
+        onOpenChange={setConfirmationModalOpen}
+        title={t('balance')}
+        description={t('withdrawBalanceConfirmation')}
+      >
+        <AlertDialog.Action onClick={withdrawBalance}>{t('withdraw')}</AlertDialog.Action>
+        <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
+      </AlertDialog.Root>
     </div>
   );
 }

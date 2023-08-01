@@ -1,20 +1,25 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 import { addCategory, deleteCategory } from '@/api/chain/category';
+import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useChain } from '@/hooks/useChain';
 import { useConfigData } from '@/hooks/useConfigData.ts';
+import { useToast } from '@/hooks/useToast';
 
 export function Categories() {
   const { t } = useTranslation();
   const { session } = useChain();
-
   const { configs, reFetch } = useConfigData();
+  const { toast } = useToast();
+
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState('');
 
   const CategorySchema = useMemo(() => {
     return z.object({
@@ -24,13 +29,30 @@ export function Categories() {
 
   type Category = z.input<typeof CategorySchema>;
 
-  const addNewCategory = (data: Category) => {
-    addCategory({ category: data.category, session: session! }).then(() => reFetch());
-    reset();
+  const openConfirmationModal = () => {
+    setConfirmationModalOpen(true);
   };
 
-  const deleteExistingCategory = (category: string) => {
-    deleteCategory({ category: category, session: session! }).then(() => reFetch());
+  const addNewCategory = (data: Category) => {
+    addCategory({ category: data.category, session: session! })
+      .then(() => reFetch())
+      .then(() => {
+        toast({ description: t('addCategorySuccess'), variant: 'success' });
+        reset();
+      })
+      .catch(e => toast({ description: e.message, variant: 'error' }));
+  };
+
+  const deleteExistingCategory = () => {
+    if (categoryToDelete) {
+      deleteCategory({ category: categoryToDelete, session: session! })
+        .then(() => reFetch())
+        .then(() => {
+          toast({ description: t('deleteCategorySuccess'), variant: 'success' });
+          reset();
+        })
+        .catch(e => toast({ description: e.message, variant: 'error' }));
+    }
   };
 
   const {
@@ -66,7 +88,8 @@ export function Categories() {
               <p className="body-1 text-high-contrast">{category}</p>
               <Button
                 onClick={() => {
-                  deleteExistingCategory(category);
+                  setCategoryToDelete(category);
+                  openConfirmationModal();
                 }}
                 variant="tertiary"
               >
@@ -76,6 +99,15 @@ export function Categories() {
           ))}
         </div>
       </div>
+      <AlertDialog.Root
+        open={confirmationModalOpen}
+        onOpenChange={setConfirmationModalOpen}
+        title={t('categories')}
+        description={t('deleteCategoryConfirmation')}
+      >
+        <AlertDialog.Action onClick={deleteExistingCategory}>{t('delete')}</AlertDialog.Action>
+        <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
+      </AlertDialog.Root>
     </div>
   );
 }

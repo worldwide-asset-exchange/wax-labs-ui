@@ -44,26 +44,16 @@ export function ProposalFilterWhose({ children }: ProposalFilterWhoseProps) {
       <FilterModal.Content title={getValues('whose')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="flex flex-col gap-1 p-4">
-            <ToggleField
-              {...register('whose')}
-              type="radio"
-              label={t('allProposals')}
-              value={t('allProposals') as string}
-            />
+            <ToggleField {...register('whose')} type="radio" label={t('allProposals')} value={t('allProposals')!} />
             {isAuthenticated && (
-              <ToggleField
-                {...register('whose')}
-                type="radio"
-                label={t('myProposals')}
-                value={t('myProposals') as string}
-              />
+              <ToggleField {...register('whose')} type="radio" label={t('myProposals')} value={t('myProposals')!} />
             )}
             {isAdmin && (
               <ToggleField
                 {...register('whose')}
                 type="radio"
                 label={t('proposalsToReview')}
-                value={t('proposalsToReview') as string}
+                value={t('proposalsToReview')!}
               />
             )}
           </fieldset>

@@ -21,12 +21,12 @@ export function ProposalFormStep2() {
   return (
     <div className="mx-auto max-w-5xl p-1 md:px-4 md:py-8">
       <div className="space-y-6 rounded-xl bg-subtle p-8">
-        <Input {...register('imageURL')} error={errors.imageURL?.message} label={t('imageURL') as string} />
+        <Input {...register('imageURL')} error={errors.imageURL?.message} label={t('imageURL')!} />
         <Controller
           control={control}
           name="content"
           render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <Editor label={t('content') as string} onChange={onChange} value={value} error={error?.message} />
+            <Editor label={t('content')!} onChange={onChange} value={value} error={error?.message} />
           )}
         />
       </div>

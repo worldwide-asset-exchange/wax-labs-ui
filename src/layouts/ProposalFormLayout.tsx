@@ -34,38 +34,26 @@ export function ProposalFormLayout() {
 
   const ProposalSchema = useMemo(() => {
     return z.object({
-      title: z
-        .string()
-        .nonempty(t('titleErrorEmpty') as string)
-        .max(64),
-      description: z
-        .string()
-        .nonempty(t('descriptionErrorEmpty') as string)
-        .max(160),
+      title: z.string().nonempty(t('titleErrorEmpty')!).max(64),
+      description: z.string().nonempty(t('descriptionErrorEmpty')!).max(160),
       category: z
         .nullable(z.string())
         .refine(value => !!value, {
-          message: t('categoryErrorEmpty') as string,
+          message: t('categoryErrorEmpty')!,
         })
         .transform(value => Number(value)),
       imageURL: z.string(),
-      content: z
-        .string()
-        .nonempty(t('contentErrorEmpty') as string)
-        .max(4096),
-      financialRoadMap: z
-        .string()
-        .nonempty(t('financialRoadMapErrorEmpty') as string)
-        .max(4096),
+      content: z.string().nonempty(t('contentErrorEmpty')!).max(4096),
+      financialRoadMap: z.string().nonempty(t('financialRoadMapErrorEmpty')!).max(4096),
       deliverables: z
         .object({
-          description: z.string().nonempty(t('deliverableDescriptionErrorEmpty') as string),
-          recipient: z.string().nonempty(t('deliverableRecipientErrorEmpty') as string),
+          description: z.string().nonempty(t('deliverableDescriptionErrorEmpty')!),
+          recipient: z.string().nonempty(t('deliverableRecipientErrorEmpty')!),
           daysToComplete: z
             .string()
-            .nonempty(t('deliverableDaysToCompleteErrorEmpty') as string)
+            .nonempty(t('deliverableDaysToCompleteErrorEmpty')!)
             .transform(value => Number(value)),
-          requestedUSD: z.string().nonempty(t('deliverableRequestedUSDErrorEmpty') as string),
+          requestedUSD: z.string().nonempty(t('deliverableRequestedUSDErrorEmpty')!),
         })
         .array()
         .nullish(),

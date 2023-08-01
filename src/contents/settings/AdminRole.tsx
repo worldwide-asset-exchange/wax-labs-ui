@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -18,17 +17,14 @@ export function AdminRole() {
 
   const AccountSchema = useMemo(() => {
     return z.object({
-      account: z
-        .string()
-        .nonempty(t('waxAccountErrorEmpty') as string)
-        .min(1),
+      account: z.string().nonempty(t('waxAccountErrorEmpty')!).min(1),
     });
   }, [t]);
 
   type WaxAccount = z.input<typeof AccountSchema>;
 
   const setNewAdmin = (data: WaxAccount) => {
-    setAdmin({ newAdmin: data.account, session: session as Session }).then(() => {
+    setAdmin({ newAdmin: data.account, session: session! }).then(() => {
       reFetch();
       reset();
     });
@@ -50,8 +46,8 @@ export function AdminRole() {
             <Input
               {...register('account')}
               error={errors.account?.message}
-              label={t('waxAccount') as string}
-              placeholder={t('waxAccountPlaceholder') as string}
+              label={t('waxAccount')!}
+              placeholder={t('waxAccountPlaceholder')!}
               maxLength={64}
             />
           </div>

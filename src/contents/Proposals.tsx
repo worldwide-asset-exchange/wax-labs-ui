@@ -45,7 +45,7 @@ export function Proposals({ actAsActor }: { actAsActor?: string }) {
   const proposalSlice = proposals.slice(0, pageSlice);
   const totalProposals = proposals.length;
 
-  const whoseKey = methods.getValues('whose') ? whoseFilterMapping()[methods.getValues('whose') as string] : null;
+  const whoseKey = methods.getValues('whose') ? whoseFilterMapping()[methods.getValues('whose')!] : null;
   const showStaticWhose = !!actAsActor || isAuthenticated !== true;
 
   if (

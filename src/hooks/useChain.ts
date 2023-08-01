@@ -1,4 +1,3 @@
-import { Session } from '@wharfkit/session';
 import { useContext } from 'react';
 
 import { ChainContext, ChainContextOptions } from '@/contexts/chain.ts';
@@ -17,7 +16,7 @@ export function useChain(): ChainOptions {
     logout,
     session,
     isAuthenticated,
-    actor: (session as Session)?.actor?.toString(),
-    permission: (session as Session)?.permission?.toString(),
+    actor: session?.actor?.toString(),
+    permission: session?.permission?.toString(),
   };
 }

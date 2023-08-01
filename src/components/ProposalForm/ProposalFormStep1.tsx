@@ -28,15 +28,15 @@ export function ProposalFormStep1() {
         <Input
           {...register('title')}
           error={errors.title?.message}
-          label={t('title') as string}
-          placeholder={t('titlePlaceholder') as string}
+          label={t('title')!}
+          placeholder={t('titlePlaceholder')!}
           maxLength={64}
         />
         <TextArea
           {...register('description')}
           error={errors.description?.message}
-          label={t('description') as string}
-          placeholder={t('descriptionPlaceholder') as string}
+          label={t('description')!}
+          placeholder={t('descriptionPlaceholder')!}
           rows={2}
           maxLength={160}
         />

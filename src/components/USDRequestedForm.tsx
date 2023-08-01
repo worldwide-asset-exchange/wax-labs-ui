@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -26,20 +25,8 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
 
   const MinMaxUSDRequestSchema = useMemo(() => {
     return z.object({
-      min: z.preprocess(
-        val => Number(val),
-        z
-          .number()
-          .min(0, t('USDValueError') as string)
-          .nonnegative(t('USDValueError') as string)
-      ),
-      max: z.preprocess(
-        val => Number(val),
-        z
-          .number()
-          .min(0, t('USDValueError') as string)
-          .nonnegative(t('USDValueError') as string)
-      ),
+      min: z.preprocess(val => Number(val), z.number().min(0, t('USDValueError')!).nonnegative(t('USDValueError')!)),
+      max: z.preprocess(val => Number(val), z.number().min(0, t('USDValueError')!).nonnegative(t('USDValueError')!)),
     });
   }, [t]);
 
@@ -47,8 +34,8 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
 
   function setMinMaxUSDRequest({ min, max }: MinMaxUSDRequest) {
     Promise.all([
-      setMinRequested({ minRequested: min, session: session as Session }),
-      setMaxRequested({ maxRequested: max, session: session as Session }),
+      setMinRequested({ minRequested: min, session: session! }),
+      setMaxRequested({ maxRequested: max, session: session! }),
     ]).then(() => {
       reFetch();
     });
@@ -69,8 +56,8 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
         <Input
           {...register('min')}
           error={errors.min?.message}
-          label={t('minUSDRequest') as string}
-          placeholder={t('zeroPlaceholder') as string}
+          label={t('minUSDRequest')!}
+          placeholder={t('zeroPlaceholder')!}
           type="number"
           maxLength={32}
         />
@@ -79,7 +66,7 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
         <Input
           {...register('max')}
           error={errors.max?.message}
-          label={t('maxUSDRequest') as string}
+          label={t('maxUSDRequest')!}
           type="number"
           maxLength={32}
         />

@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -27,34 +26,10 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
 
   const VotingPeriodSchema = useMemo(() => {
     return z.object({
-      days: z.preprocess(
-        val => Number(val),
-        z
-          .number()
-          .min(0, t('timeError') as string)
-          .nonnegative(t('timeError') as string)
-      ),
-      hours: z.preprocess(
-        val => Number(val),
-        z
-          .number()
-          .min(0, t('timeError') as string)
-          .nonnegative(t('timeError') as string)
-      ),
-      minutes: z.preprocess(
-        val => Number(val),
-        z
-          .number()
-          .min(0, t('timeError') as string)
-          .nonnegative(t('timeError') as string)
-      ),
-      seconds: z.preprocess(
-        val => Number(val),
-        z
-          .number()
-          .min(0, t('timeError') as string)
-          .nonnegative(t('timeError') as string)
-      ),
+      days: z.preprocess(val => Number(val), z.number().min(0, t('timeError')!).nonnegative(t('timeError')!)),
+      hours: z.preprocess(val => Number(val), z.number().min(0, t('timeError')!).nonnegative(t('timeError')!)),
+      minutes: z.preprocess(val => Number(val), z.number().min(0, t('timeError')!).nonnegative(t('timeError')!)),
+      seconds: z.preprocess(val => Number(val), z.number().min(0, t('timeError')!).nonnegative(t('timeError')!)),
     });
   }, [t]);
 
@@ -74,35 +49,23 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
 
     setVotingDurationAction({
       newVoteDuration,
-      session: session as Session,
+      session: session!,
     }).then(() => reFetch());
   }
 
   return (
     <form onSubmit={handleSubmit(setVotingPeriod)} className="flex gap-6 rounded-xl bg-subtle p-8 max-md:flex-col">
       <div className="flex-1">
-        <Input
-          {...register('days')}
-          error={errors.days?.message}
-          label={t('days') as string}
-          type="number"
-          maxLength={16}
-        />
+        <Input {...register('days')} error={errors.days?.message} label={t('days')!} type="number" maxLength={16} />
       </div>
       <div className="flex-1">
-        <Input
-          {...register('hours')}
-          error={errors.hours?.message}
-          label={t('hours') as string}
-          type="number"
-          maxLength={16}
-        />
+        <Input {...register('hours')} error={errors.hours?.message} label={t('hours')!} type="number" maxLength={16} />
       </div>
       <div className="flex-1">
         <Input
           {...register('minutes')}
           error={errors.minutes?.message}
-          label={t('minutes') as string}
+          label={t('minutes')!}
           type="number"
           maxLength={16}
         />
@@ -111,7 +74,7 @@ export function VotingPeriodForm({ defaultValues }: VotingPeriodFormProps) {
         <Input
           {...register('seconds')}
           error={errors.seconds?.message}
-          label={t('seconds') as string}
+          label={t('seconds')!}
           type="number"
           maxLength={16}
         />

@@ -1,3 +1,4 @@
+import { parse } from 'marked';
 import { useTranslation } from 'react-i18next';
 
 interface ProposalDetailOverviewProps {
@@ -17,9 +18,25 @@ export function ProposalDetailOverview({ imageURL, content, financialRoadMap }: 
           <img src={imageURL} alt="" className="w-full" />
         </div>
       )}
-      <div className="body-1 text-low-contrast" dangerouslySetInnerHTML={{ __html: content }} />
+      <div
+        className="body-1 text-low-contrast"
+        dangerouslySetInnerHTML={{
+          __html: parse(content, {
+            gfm: true,
+            breaks: true,
+          }),
+        }}
+      />
       <h2 className="title-2 pt-8 text-high-contrast">{t('financialRoadMap')}</h2>
-      <div className="body-1 text-low-contrast" dangerouslySetInnerHTML={{ __html: financialRoadMap }} />
+      <div
+        className="body-1 text-low-contrast"
+        dangerouslySetInnerHTML={{
+          __html: parse(financialRoadMap, {
+            gfm: true,
+            breaks: true,
+          }),
+        }}
+      />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -16,17 +15,14 @@ export function RemoveProfile() {
 
   const AccountSchema = useMemo(() => {
     return z.object({
-      account: z
-        .string()
-        .nonempty(t('waxAccountErrorEmpty') as string)
-        .min(1),
+      account: z.string().nonempty(t('waxAccountErrorEmpty')!).min(1),
     });
   }, [t]);
 
   type WaxAccount = z.input<typeof AccountSchema>;
 
   const removeWaxAccount = (data: WaxAccount) => {
-    removeProfile({ waxAccount: data.account, session: session as Session });
+    removeProfile({ waxAccount: data.account, session: session! });
     reset();
   };
 
@@ -46,8 +42,8 @@ export function RemoveProfile() {
             <Input
               {...register('account')}
               error={errors.account?.message}
-              label={t('waxAccount') as string}
-              placeholder={t('waxAccountPlaceholder') as string}
+              label={t('waxAccount')!}
+              placeholder={t('waxAccountPlaceholder')!}
               maxLength={64}
             />
           </div>

@@ -69,7 +69,7 @@ export function ProposalFilter({ onChangeFilters }: { onChangeFilters: () => voi
             {...register('search', {
               onChange: debounce(handleSearchTerm, 500),
             })}
-            placeholder={t('searchPlaceholder') as string}
+            placeholder={t('searchPlaceholder')!}
           >
             <MdOutlineSearch size={24} />
           </Input>

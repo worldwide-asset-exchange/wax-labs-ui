@@ -19,7 +19,7 @@ export function ProposalFormStep3() {
           control={control}
           name="financialRoadMap"
           render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <Editor label={t('financialRoadMap') as string} onChange={onChange} value={value} error={error?.message} />
+            <Editor label={t('financialRoadMap')!} onChange={onChange} value={value} error={error?.message} />
           )}
         />
       </div>

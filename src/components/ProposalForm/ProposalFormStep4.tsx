@@ -88,30 +88,30 @@ export function ProposalFormStep4() {
           <div className="space-y-6 p-8">
             <Input
               {...register(`deliverables.${index}.description` as const)}
-              label={t('description') as string}
+              label={t('description')!}
               error={errors.deliverables?.[index]?.description?.message}
             />
             <div className="flex gap-6 max-md:flex-col">
               <div className="flex-1">
                 <Input
                   {...register(`deliverables.${index}.recipient` as const)}
-                  label={t('recipient') as string}
+                  label={t('recipient')!}
                   error={errors.deliverables?.[index]?.recipient?.message}
                 />
               </div>
               <div className="flex-1">
                 <Input
                   {...register(`deliverables.${index}.daysToComplete` as const)}
-                  label={t('daysToComplete') as string}
-                  placeholder={t('daysToCompletePlaceholder') as string}
+                  label={t('daysToComplete')!}
+                  placeholder={t('daysToCompletePlaceholder')!}
                   error={errors.deliverables?.[index]?.daysToComplete?.message}
                 />
               </div>
               <div className="flex-1">
                 <Input
                   {...register(`deliverables.${index}.requestedUSD` as const)}
-                  label={t('requestedUSD') as string}
-                  placeholder={t('requestedUSDPlaceholder') as string}
+                  label={t('requestedUSD')!}
+                  placeholder={t('requestedUSDPlaceholder')!}
                   error={errors.deliverables?.[index]?.requestedUSD?.message}
                 />
               </div>
@@ -125,9 +125,7 @@ export function ProposalFormStep4() {
         className="flex flex-col items-center justify-center gap-2 rounded-xl bg-subtle p-8 data-[error=true]:border data-[error=true]:border-[#ED6E6D]"
       >
         <Button onClick={handleAppend}>{t('newDeliverable')}</Button>
-        {errors.deliverables?.message && (
-          <span className="body-3 text-[#ED6E6D]">{errors.deliverables.message as string}</span>
-        )}
+        {errors.deliverables?.message && <span className="body-3 text-[#ED6E6D]">{errors.deliverables.message}</span>}
       </div>
     </div>
   );

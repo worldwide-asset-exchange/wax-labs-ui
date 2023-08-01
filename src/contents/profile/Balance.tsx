@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -18,17 +17,14 @@ export function Balance() {
 
   const BalanceSchema = useMemo(() => {
     return z.object({
-      quantity: z
-        .string()
-        .nonempty(t('withdrawBalanceErrorEmpty') as string)
-        .min(1),
+      quantity: z.string().nonempty(t('withdrawBalanceErrorEmpty')!).min(1),
     });
   }, [t]);
 
   type WithdrawBalance = z.input<typeof BalanceSchema>;
 
   const withdrawBalance = (data: WithdrawBalance) => {
-    withdraw({ quantity: Number(data.quantity), session: session as Session });
+    withdraw({ quantity: Number(data.quantity), session: session! });
     reset();
   };
 
@@ -56,15 +52,15 @@ export function Balance() {
         <div className="rounded-xl bg-subtle p-8">
           <p className="label-2 text-low-contrast">{t('labsBalance')}</p>
           <h3 className="title-1 mt-1 text-high-contrast">
-            {balance || 0} {t('wax')}
+            {balance ?? 0} {t('wax')}
           </h3>
           <form onSubmit={handleSubmit(withdrawBalance)} className="mt-8 flex gap-6 border-t border-subtle-light pt-8">
             <div className="flex-1">
               <Input
                 {...register('quantity')}
                 error={errors.quantity?.message}
-                label={t('amount') as string}
-                placeholder={t('balancePlaceholder') as string}
+                label={t('amount')!}
+                placeholder={t('balancePlaceholder')!}
                 maxLength={64}
               />
             </div>

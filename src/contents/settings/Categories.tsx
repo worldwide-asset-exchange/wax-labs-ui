@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -19,22 +18,19 @@ export function Categories() {
 
   const CategorySchema = useMemo(() => {
     return z.object({
-      category: z
-        .string()
-        .nonempty(t('waxAccountErrorEmpty') as string)
-        .min(1),
+      category: z.string().nonempty(t('waxAccountErrorEmpty')!).min(1),
     });
   }, [t]);
 
   type Category = z.input<typeof CategorySchema>;
 
   const addNewCategory = (data: Category) => {
-    addCategory({ category: data.category, session: session as Session }).then(() => reFetch());
+    addCategory({ category: data.category, session: session! }).then(() => reFetch());
     reset();
   };
 
   const deleteExistingCategory = (category: string) => {
-    deleteCategory({ category: category, session: session as Session }).then(() => reFetch());
+    deleteCategory({ category: category, session: session! }).then(() => reFetch());
   };
 
   const {
@@ -53,8 +49,8 @@ export function Categories() {
             <Input
               {...register('category')}
               error={errors.category?.message}
-              label={t('categoryName') as string}
-              placeholder={t('categoryNamePlaceholder') as string}
+              label={t('categoryName')!}
+              placeholder={t('categoryNamePlaceholder')!}
               maxLength={64}
             />
           </div>

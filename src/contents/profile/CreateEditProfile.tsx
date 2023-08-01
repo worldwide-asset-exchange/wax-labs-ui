@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { Session } from '@wharfkit/session';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -26,48 +25,27 @@ export function CreateEditProfile() {
 
   const ProfileSchema = useMemo(() => {
     return z.object({
-      image_url: z
-        .string()
-        .nonempty(t('avatarErrorEmpty') as string)
-        .max(256),
-      full_name: z
-        .string()
-        .nonempty(t('fullNameErrorEmpty') as string)
-        .max(64),
-      bio: z
-        .string()
-        .nonempty(t('biographyErrorEmpty') as string)
-        .max(256),
-      group_name: z
-        .string()
-        .nonempty(t('groupNameErrorEmpty') as string)
-        .max(64),
-      website: z
-        .string()
-        .nonempty(t('websiteErrorEmpty') as string)
-        .max(64),
-      country: z
-        .string()
-        .nonempty(t('countryErrorEmpty') as string)
-        .max(64),
-      contact: z
-        .string()
-        .nonempty(t('telegramErrorEmpty') as string)
-        .max(64),
+      image_url: z.string().nonempty(t('avatarErrorEmpty')!).max(256),
+      full_name: z.string().nonempty(t('fullNameErrorEmpty')!).max(64),
+      bio: z.string().nonempty(t('biographyErrorEmpty')!).max(256),
+      group_name: z.string().nonempty(t('groupNameErrorEmpty')!).max(64),
+      website: z.string().nonempty(t('websiteErrorEmpty')!).max(64),
+      country: z.string().nonempty(t('countryErrorEmpty')!).max(64),
+      contact: z.string().nonempty(t('telegramErrorEmpty')!).max(64),
     });
   }, [t]);
 
   const save = (data: Profile) => {
     if (create) {
-      newProfile({ profile: data, session: session as Session });
+      newProfile({ profile: data, session: session! });
     } else {
-      editProfile({ profile: data, session: session as Session });
+      editProfile({ profile: data, session: session! });
     }
     reset();
   };
 
   const remove = () => {
-    removeProfile({ session: session as Session });
+    removeProfile({ session: session! });
   };
 
   const { data: profile } = useQuery({
@@ -97,22 +75,22 @@ export function CreateEditProfile() {
           <Input
             {...register('image_url')}
             error={errors.image_url?.message}
-            label={t('avatar') as string}
-            placeholder={create ? profilePlaceholders[randomProfile].imageUrl : (t('avatarPlaceholder') as string)}
+            label={t('avatar')!}
+            placeholder={create ? profilePlaceholders[randomProfile].imageUrl : t('avatarPlaceholder')!}
             maxLength={256}
           />
           <Input
             {...register('full_name')}
             error={errors.full_name?.message}
-            label={t('fullName') as string}
-            placeholder={create ? profilePlaceholders[randomProfile].fullName : (t('fullNamePlaceholder') as string)}
+            label={t('fullName')!}
+            placeholder={create ? profilePlaceholders[randomProfile].fullName : t('fullNamePlaceholder')!}
             maxLength={64}
           />
           <TextArea
             {...register('bio')}
             error={errors.bio?.message}
-            label={t('biography') as string}
-            placeholder={create ? profilePlaceholders[randomProfile].biography : (t('biographyPlaceholder') as string)}
+            label={t('biography')!}
+            placeholder={create ? profilePlaceholders[randomProfile].biography : t('biographyPlaceholder')!}
             rows={3}
             maxLength={256}
           />
@@ -120,33 +98,29 @@ export function CreateEditProfile() {
             <Input
               {...register('group_name')}
               error={errors.group_name?.message}
-              label={t('groupName') as string}
-              placeholder={
-                create ? profilePlaceholders[randomProfile].groupName : (t('groupNamePlaceholder') as string)
-              }
+              label={t('groupName')!}
+              placeholder={create ? profilePlaceholders[randomProfile].groupName : t('groupNamePlaceholder')!}
               maxLength={64}
             />
             <Input
               {...register('website')}
               error={errors.website?.message}
-              placeholder={create ? profilePlaceholders[randomProfile].website : (t('websitePlaceholder') as string)}
-              label={t('website') as string}
+              placeholder={create ? profilePlaceholders[randomProfile].website : t('websitePlaceholder')!}
+              label={t('website')!}
               maxLength={64}
             />
             <Input
               {...register('country')}
               error={errors.country?.message}
-              placeholder={create ? profilePlaceholders[randomProfile].country : (t('countryPlaceholder') as string)}
-              label={t('country') as string}
+              placeholder={create ? profilePlaceholders[randomProfile].country : t('countryPlaceholder')!}
+              label={t('country')!}
               maxLength={64}
             />
             <Input
               {...register('contact')}
               error={errors.contact?.message}
-              placeholder={
-                create ? profilePlaceholders[randomProfile].contact : (t('telegramHandlePlaceholder') as string)
-              }
-              label={t('telegramHandle') as string}
+              placeholder={create ? profilePlaceholders[randomProfile].contact : t('telegramHandlePlaceholder')!}
+              label={t('telegramHandle')!}
               maxLength={64}
             />
           </div>

@@ -1,21 +1,26 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
+import DOMPurify from 'dompurify';
+import { parse } from 'marked';
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CgSpinner } from 'react-icons/cg';
 import { MdOutlineArrowBack, MdOutlineClose } from 'react-icons/md';
 import { Navigate, Outlet, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import TurndownService from 'turndown';
 import { useInterval, useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { z } from 'zod';
 
 import { deliverables, proposalContentData, singleProposal } from '@/api/chain/proposals';
+import { createProposal } from '@/api/chain/proposals';
 import { Deliverables } from '@/api/models/deliverables';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button';
 import { Link } from '@/components/Link';
 import { ProposalFormStep1Skeleton } from '@/components/ProposalForm/ProposalFormStep1Skeleton';
 import { ProposalFormTab } from '@/components/ProposalForm/ProposalFormTab';
+import { ProposalStatusKey } from '@/constants';
 import { useChain } from '@/hooks/useChain';
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
@@ -27,7 +32,7 @@ export function ProposalFormLayout() {
   const params = useParams();
   const proposalId = Number(params.proposalId);
   const [createdProposalId, setCreatedProposalId] = useState('');
-  const { isAuthenticated } = useChain();
+  const { isAuthenticated, session } = useChain();
 
   const [proposalCreatedModal, setProposalCreatedModal] = useState(false);
   const [cancelProposalModal, setCancelProposalModal] = useState(false);
@@ -86,10 +91,8 @@ export function ProposalFormLayout() {
         proposalContentData({ proposalId }),
         deliverables({ proposalId }),
       ]).then(([proposalData, contentData, deliverablesData]) => {
-        if (proposalData.status !== 1) {
-          // To do:
-          // If the proposal is not a draft make a redirect or add a message
-          // Use enum
+        if (proposalData.status !== ProposalStatusKey.DRAFTING) {
+          navigate('/');
         }
 
         const formattedDeliverables = deliverablesData.deliverables.map((deliverable: Deliverables) => {
@@ -101,8 +104,19 @@ export function ProposalFormLayout() {
           };
         });
 
-        const content = contentData?.content ?? '';
-        const financialRoadMap = proposalData.road_map;
+        const content = contentData?.content
+          ? parse(contentData?.content, {
+              gfm: true,
+              breaks: true,
+            })
+          : '';
+
+        const financialRoadMap = proposalData.road_map
+          ? parse(proposalData.road_map, {
+              gfm: true,
+              breaks: true,
+            })
+          : '';
 
         return {
           title: proposalData.title,
@@ -208,18 +222,41 @@ export function ProposalFormLayout() {
     navigate(`/proposals/${createdProposalId}/edit?step=4`);
   }, [navigate, createdProposalId]);
 
-  const handleCreateProposal = useCallback(async (data: Proposal) => {
-    localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
+  const handleCreateProposal = useCallback(
+    async (data: Proposal) => {
+      localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
+      const content = new TurndownService().turndown(DOMPurify.sanitize(data.content));
+      const road_map = new TurndownService().turndown(DOMPurify.sanitize(data.financialRoadMap));
 
-    console.debug(data);
-    // Api to create proposal
-    setProposalCreatedModal(true);
-    // Fetch to find the last proposal created
-    // Mock
-    setTimeout(() => {
-      setCreatedProposalId('240');
-    }, 3000);
-  }, []);
+      try {
+        const teste = await createProposal({
+          session: session!,
+          proposal: {
+            title: data.title,
+            category: 'marketing',
+            description: data.description,
+            image_url: data.imageURL,
+            estimated_time: 1,
+            content,
+            road_map,
+            deliverables: 0,
+          },
+        });
+
+        console.debug(teste);
+
+        setProposalCreatedModal(true);
+        // Fetch to find the last proposal created
+        // Mock
+        setTimeout(() => {
+          setCreatedProposalId('240');
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [session]
+  );
 
   const handleUpdateProposal = useCallback(async (data: Proposal) => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);

@@ -10,7 +10,7 @@ export interface CreateProposal extends CreateNewProposalAction {
   transferFunds?: boolean;
 }
 
-export async function createProposal({ session, proposal, transferFunds }: CreateProposal) {
+export async function createProposal({ session, proposal, transferFunds = true }: CreateProposal) {
   const actions: Action<CreateProposalResponse | TransferFunds>[] = [
     createNewProposalAction({
       session,
@@ -21,6 +21,6 @@ export async function createProposal({ session, proposal, transferFunds }: Creat
   if (transferFunds) {
     actions.unshift(createTransferFundsAction({ session }));
   }
-
+  console.debug(actions);
   return await execute(session, actions);
 }

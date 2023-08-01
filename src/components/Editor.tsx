@@ -1,7 +1,5 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import DOMPurify from 'dompurify';
-import { parse } from 'marked';
 import {
   MdFormatClear,
   MdOutlineCode,
@@ -14,7 +12,6 @@ import {
   MdOutlineStrikethroughS,
   MdOutlineTitle,
 } from 'react-icons/md';
-import TurndownService from 'turndown';
 
 import { Button } from '@/components/Button';
 
@@ -36,17 +33,14 @@ export function Editor({ label, onChange, value, error }: EditorProps) {
         code: false,
       }),
     ],
-    content: parse(value || '', {
-      gfm: true,
-      breaks: true,
-    }),
+    content: value,
     editorProps: {
       attributes: {
         class: 'outline-none ring-0',
       },
     },
     onUpdate: ({ editor }) => {
-      onChange(new TurndownService().turndown(DOMPurify.sanitize(editor.getHTML())));
+      onChange(editor.getHTML());
     },
   });
 

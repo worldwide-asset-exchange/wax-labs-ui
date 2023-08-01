@@ -10,6 +10,7 @@ import { ProposalDetailDetail } from '@/components/ProposalDetail/ProposalDetail
 import { ProposalDetailOverview } from '@/components/ProposalDetail/ProposalDetailOverview';
 import { ProposalDetailProposer } from '@/components/ProposalDetail/ProposalDetailProposer';
 import * as Tabs from '@/components/Tabs';
+import { imageExists } from '@/utils/image';
 
 export function ProposalDetail() {
   const { t } = useTranslation();
@@ -22,17 +23,28 @@ export function ProposalDetail() {
 
   const { data: proposal, isLoading } = useQuery({
     queryKey: ['proposal', proposalId],
-    queryFn: () => {
-      return Promise.all([singleProposal({ proposalId }), proposalContentData({ proposalId })]).then(
-        ([proposalData, contentData]) => {
-          console.log(proposalData);
-          const data = {
-            ...proposalData,
-            content: contentData?.content ?? '',
-          };
-          return data;
+    queryFn: async () => {
+      try {
+        const [proposalData, contentData] = await Promise.all([
+          singleProposal({ proposalId }),
+          proposalContentData({ proposalId }),
+        ]);
+
+        if (proposalData.image_url) {
+          try {
+            await imageExists(proposalData.image_url);
+          } catch (e) {
+            proposalData.image_url = '';
+          }
         }
-      );
+
+        return {
+          ...proposalData,
+          content: contentData?.content ?? '',
+        };
+      } catch (error) {
+        <Navigate to="/" />;
+      }
     },
     enabled: !!proposalId,
   });
@@ -41,22 +53,24 @@ export function ProposalDetail() {
     return (
       <div className="mx-auto max-w-5xl animate-pulse px-4 py-8 duration-150">
         <div className="h-14 w-full rounded-md bg-ui-element" />
-        <div className="my-11 h-5 w-3/4 rounded-md bg-ui-element" />
-        <div className="flex gap-1">
-          <div className="flex gap-3 border-b border-subtle-light p-3">
+        <div className="mb-3 mt-[2.375rem] h-5  w-full rounded-md bg-ui-element" />
+        <div className="mb-[2.375rem] h-5 w-3/4 rounded-md bg-ui-element" />
+        <div className="flex gap-1 border-b border-subtle-light">
+          <div className="flex gap-3 p-3">
             <div className="h-6 w-6 rounded-md bg-ui-element" />
             <div className="my-1 h-4 w-28 rounded-md bg-ui-element" />
           </div>
-          <div className="flex gap-3 border-b border-subtle-light p-3">
+          <div className="flex gap-3 p-3">
             <div className="h-6 w-6 rounded-md bg-ui-element" />
             <div className="my-1 h-4 w-28 rounded-md bg-ui-element" />
           </div>
-          <div className="flex gap-3 border-b border-subtle-light p-3">
+          <div className="flex gap-3 p-3">
             <div className="h-6 w-6 rounded-md bg-ui-element" />
             <div className="my-1 h-4 w-28 rounded-md bg-ui-element" />
           </div>
         </div>
         <div className="mt-16 h-7 w-28 rounded-md bg-ui-element" />
+        <div className="mt-8 h-[32rem] rounded-xl bg-ui-element" />
       </div>
     );
   }
@@ -109,9 +123,15 @@ export function ProposalDetail() {
           totalClaimed="0000"
           reviewer={proposal.reviewer}
           category={proposal.category}
+          lastUpdate={proposal.update_ts}
+          totalRequested={proposal.total_requested_funds}
         />
       ) : (
-        <ProposalDetailOverview content={proposal.content} financialRoadMap={proposal.road_map} />
+        <ProposalDetailOverview
+          imageURL={proposal.image_url}
+          content={proposal.content}
+          financialRoadMap={proposal.road_map}
+        />
       )}
     </>
   );

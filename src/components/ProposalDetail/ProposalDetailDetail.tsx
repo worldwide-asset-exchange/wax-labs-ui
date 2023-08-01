@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import {
   MdOutlineAttachMoney,
@@ -11,6 +12,7 @@ import {
 } from 'react-icons/md';
 
 import * as Info from '@/components/Info';
+import { useConfigData } from '@/hooks/useConfigData';
 
 interface ProposalDetailDetailProps {
   status: number;
@@ -18,6 +20,8 @@ interface ProposalDetailDetailProps {
   totalClaimed: string;
   reviewer: string;
   category: number;
+  lastUpdate: string;
+  totalRequested: string;
 }
 
 export function ProposalDetailDetail({
@@ -26,8 +30,15 @@ export function ProposalDetailDetail({
   totalClaimed,
   reviewer,
   category,
+  lastUpdate,
+  totalRequested,
 }: ProposalDetailDetailProps) {
   const { t } = useTranslation();
+
+  const { configs } = useConfigData();
+  const categoryName = configs?.categories[category];
+
+  const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
 
   return (
     <>
@@ -35,16 +46,16 @@ export function ProposalDetailDetail({
       <div className="mx-auto max-w-5xl px-1 md:px-4">
         <div className="rounded-xl bg-subtle px-8 py-4">
           <Info.Root>
-            <Info.Item label={t('status')} value={String(status)}>
+            <Info.Item label={t('status')} status={status}>
               <MdOutlineDoneAll size={24} />
             </Info.Item>
             <Info.Item label={t('identifier')} value={String(identifier)}>
               <MdOutlineFingerprint size={24} />
             </Info.Item>
-            <Info.Item label={t('createdAt')} value="Jan 10th, 2023">
+            <Info.Item label={t('lastUpdate')} value={lastUpdateFormatted}>
               <MdOutlineCalendarToday size={24} />
             </Info.Item>
-            <Info.Item label={t('contact')} value="karyne@detroitledger.tech">
+            <Info.Item label={t('contact')} value="sample@exemple.com">
               <MdOutlineChatBubbleOutline size={24} />
             </Info.Item>
             <Info.Item label={t('totalClaimed')} value={totalClaimed}>
@@ -55,10 +66,10 @@ export function ProposalDetailDetail({
                 <MdOutlineRemoveRedEye size={24} />
               </Info.Item>
             )}
-            <Info.Item label={t('totalRequested')} value="12,000.00 USD">
+            <Info.Item label={t('totalRequested')} value={totalRequested}>
               <MdOutlineAttachMoney size={24} />
             </Info.Item>
-            <Info.Item label={t('category')} value={String(category)}>
+            <Info.Item label={t('category')} value={categoryName}>
               <MdOutlineLabel size={24} />
             </Info.Item>
           </Info.Root>

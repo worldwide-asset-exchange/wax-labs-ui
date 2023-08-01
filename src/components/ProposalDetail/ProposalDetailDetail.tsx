@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
   MdOutlineAttachMoney,
   MdOutlineCalendarToday,
+  MdOutlineChatBubbleOutline,
   MdOutlineDoneAll,
   MdOutlineFingerprint,
   MdOutlineLabel,
@@ -54,9 +55,9 @@ export function ProposalDetailDetail({
             <Info.Item label={t('lastUpdate')} value={lastUpdateFormatted}>
               <MdOutlineCalendarToday size={24} />
             </Info.Item>
-            {/* <Info.Item label={t('contact')} value="sample@exemple.com">
+            <Info.Item label={t('contact')} value="sample@exemple.com">
               <MdOutlineChatBubbleOutline size={24} />
-            </Info.Item> */}
+            </Info.Item>
             <Info.Item label={t('totalClaimed')} value={totalClaimed}>
               <MdOutlineWhatshot size={24} />
             </Info.Item>

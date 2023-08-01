@@ -19,6 +19,7 @@ export function Categories() {
   const { toast } = useToast();
 
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState('');
 
   const CategorySchema = useMemo(() => {
     return z.object({
@@ -28,14 +29,11 @@ export function Categories() {
 
   type Category = z.input<typeof CategorySchema>;
 
-  // const openConfirmationModal = (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setConfirmationModalOpen(true);
-  // };
+  const openConfirmationModal = () => {
+    setConfirmationModalOpen(true);
+  };
 
-  const addNewCategory = () => {
-    const data = getValues();
-
+  const addNewCategory = (data: Category) => {
     addCategory({ category: data.category, session: session! })
       .then(() => {
         reFetch();
@@ -45,20 +43,22 @@ export function Categories() {
       .catch(e => toast({ description: e.message, variant: 'error' }));
   };
 
-  const deleteExistingCategory = (category: string) => {
-    deleteCategory({ category: category, session: session! })
-      .then(() => reFetch())
-      .then(() => {
-        reFetch();
-        toast({ description: t('deleteCategorySuccess'), variant: 'success' });
-        reset();
-      })
-      .catch(e => toast({ description: e.message, variant: 'error' }));
+  const deleteExistingCategory = () => {
+    if (categoryToDelete) {
+      deleteCategory({ category: categoryToDelete, session: session! })
+        .then(() => reFetch())
+        .then(() => {
+          reFetch();
+          toast({ description: t('deleteCategorySuccess'), variant: 'success' });
+          reset();
+        })
+        .catch(e => toast({ description: e.message, variant: 'error' }));
+    }
   };
 
   const {
     register,
-    getValues,
+    handleSubmit,
     reset,
     formState: { isDirty, errors },
   } = useForm<Category>({ resolver: zodResolver(CategorySchema) });
@@ -67,7 +67,7 @@ export function Categories() {
     <div className="mx-auto max-w-7xl">
       <h2 className="title-2 mt-8 px-4 py-8 text-high-contrast">{t('categories')}</h2>
       <div className="max-w-5xl px-1 md:px-4">
-        <form onSubmit={addNewCategory} className="flex gap-6 rounded-xl bg-subtle p-8">
+        <form onSubmit={handleSubmit(addNewCategory)} className="flex gap-6 rounded-xl bg-subtle p-8">
           <div className="flex-1">
             <Input
               {...register('category')}
@@ -89,7 +89,8 @@ export function Categories() {
               <p className="body-1 text-high-contrast">{category}</p>
               <Button
                 onClick={() => {
-                  deleteExistingCategory(category);
+                  setCategoryToDelete(category);
+                  openConfirmationModal();
                 }}
                 variant="tertiary"
               >
@@ -102,10 +103,10 @@ export function Categories() {
       <AlertDialog.Root
         open={confirmationModalOpen}
         onOpenChange={setConfirmationModalOpen}
-        title={t('transferAdminRole')}
-        description={t('transferAdminRoleConfirmation')}
+        title={t('categories')}
+        description={t('deleteCategoryConfirmation')}
       >
-        {/* <AlertDialog.Action onClick={deleteExistingCategory}>{t('transfer')}</AlertDialog.Action> */}
+        <AlertDialog.Action onClick={deleteExistingCategory}>{t('delete')}</AlertDialog.Action>
         <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
       </AlertDialog.Root>
     </div>

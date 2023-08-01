@@ -165,7 +165,7 @@
   "toBeClaimed": "To Be Claimed",
   "lastReviewed": "Last Reviewed",
   "identifier": "Identifier",
-  "createdAt": "Created at",
+  "lastUpdate": "Last Update",
   "totalClaimed": "Total Claimed",
   "reviewer": "Reviewer",
   "totalRequested": "Total requested",

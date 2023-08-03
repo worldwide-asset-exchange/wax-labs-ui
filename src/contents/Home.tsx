@@ -53,7 +53,7 @@ export function Home() {
             <h3 className="label-2 mt-1">{ProposalStatus.REVIEW}</h3>
           </div>
           <div className="flex justify-end">
-            <Link to="/proposals?status=in+review" square variant="secondary">
+            <Link to="/proposals?status=In+Review" square variant="secondary">
               <MdKeyboardArrowRight size={24} />
             </Link>
           </div>
@@ -64,7 +64,7 @@ export function Home() {
             <h3 className="label-2 m-1">{ProposalStatus.VOTING}</h3>
           </div>
           <div className="flex justify-end">
-            <Link to="/proposals?status=in+voting" square variant="secondary">
+            <Link to="/proposals?status=In+Voting" square variant="secondary">
               <MdKeyboardArrowRight size={24} />
             </Link>
           </div>
@@ -81,7 +81,7 @@ export function Home() {
             <h3 className="label-2 mt-1">{ProposalStatus.IN_PROGRESS}</h3>
           </div>
           <div className="flex justify-end">
-            <Link to="/proposals?status=in+progress" square variant="secondary">
+            <Link to="/proposals?status=In+Progress" square variant="secondary">
               <MdKeyboardArrowRight size={24} />
             </Link>
           </div>
@@ -92,7 +92,7 @@ export function Home() {
             <h3 className="label-2 mt-1">{ProposalStatus.COMPLETE}</h3>
           </div>
           <div className="flex justify-end">
-            <Link to="/proposals?status=completed" square variant="secondary">
+            <Link to="/proposals?status=Completed" square variant="secondary">
               <MdKeyboardArrowRight size={24} />
             </Link>
           </div>

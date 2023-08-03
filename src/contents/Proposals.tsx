@@ -70,7 +70,7 @@ export function Proposals({ actAsActor }: { actAsActor?: string }) {
         </Header.Content>
         {isAuthenticated && (
           <Header.Action>
-            <Link variant="primary" to="create">
+            <Link variant="primary" to="/proposals/create">
               <MdOutlineAdd size={24} className="md:hidden" />
               <span className="max-md:hidden">{t('createProposal')}</span>
             </Link>

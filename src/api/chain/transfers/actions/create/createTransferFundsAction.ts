@@ -1,6 +1,6 @@
 import { Action, SessionProps } from '@/api/models';
 import { TransferFunds } from '@/api/models/actions.ts';
-import { Actions, DRAFT_PROP_AMOUNT, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
+import { Actions, DRAFT_PROP_AMOUNT, EOSIO_TOKEN_CODE, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
 export type CreateTransferFundsAction = SessionProps;
 
@@ -8,7 +8,7 @@ export default function createTransferFundsAction({ session }: CreateTransferFun
   const actor = session.actor.toString();
 
   return {
-    account: LABS_CONTRACT_ACCOUNT,
+    account: EOSIO_TOKEN_CODE,
     name: Actions.TRANSFER,
     authorization: [
       {

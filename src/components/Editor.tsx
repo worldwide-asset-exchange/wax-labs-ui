@@ -1,20 +1,15 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import DOMPurify from 'dompurify';
-import { parse } from 'marked';
 import {
   MdFormatClear,
-  MdOutlineCode,
   MdOutlineErrorOutline,
   MdOutlineFormatBold,
   MdOutlineFormatItalic,
   MdOutlineFormatListBulleted,
   MdOutlineFormatListNumbered,
   MdOutlineFormatQuote,
-  MdOutlineStrikethroughS,
   MdOutlineTitle,
 } from 'react-icons/md';
-import TurndownService from 'turndown';
 
 import { Button } from '@/components/Button';
 
@@ -34,19 +29,18 @@ export function Editor({ label, onChange, value, error }: EditorProps) {
         },
         horizontalRule: false,
         code: false,
+        codeBlock: false,
+        strike: false,
       }),
     ],
-    content: parse(value || '', {
-      gfm: true,
-      breaks: true,
-    }),
+    content: value,
     editorProps: {
       attributes: {
         class: 'outline-none ring-0',
       },
     },
     onUpdate: ({ editor }) => {
-      onChange(new TurndownService().turndown(DOMPurify.sanitize(editor.getHTML())));
+      onChange(editor.getHTML());
     },
   });
 
@@ -85,16 +79,6 @@ export function Editor({ label, onChange, value, error }: EditorProps) {
                 >
                   <MdOutlineFormatItalic size={24} />
                 </Button>
-                <Button
-                  onClick={() => editor.chain().focus().toggleStrike().run()}
-                  disabled={
-                    !editor.can().chain().focus().toggleStrike().run() || editor.isActive('heading', { level: 3 })
-                  }
-                  variant={editor.isActive('strike') ? 'tertiary' : 'link'}
-                  square
-                >
-                  <MdOutlineStrikethroughS size={24} />
-                </Button>
               </div>
               <div className="flex">
                 <Button
@@ -111,19 +95,10 @@ export function Editor({ label, onChange, value, error }: EditorProps) {
                 >
                   <MdOutlineFormatListNumbered size={24} />
                 </Button>
-                <Button
-                  onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                  variant={editor.isActive('codeBlock') ? 'tertiary' : 'link'}
-                  disabled={editor.isActive('blockquote')}
-                  square
-                >
-                  <MdOutlineCode size={24} />
-                </Button>
 
                 <Button
                   onClick={() => editor.chain().focus().toggleBlockquote().run()}
                   variant={editor.isActive('blockquote') ? 'tertiary' : 'link'}
-                  disabled={editor.isActive('codeBlock')}
                   square
                 >
                   <MdOutlineFormatQuote size={24} />
@@ -150,7 +125,7 @@ export function Editor({ label, onChange, value, error }: EditorProps) {
           </div>
         )}
         <EditorContent
-          className="prose max-w-none p-4 prose-h3:title-3 prose-p:body-2 prose-h3:my-2 prose-h3:text-high-contrast prose-p:m-0 prose-p:py-1 prose-p:text-low-contrast prose-blockquote:my-4 prose-strong:text-low-contrast prose-pre:my-2 prose-pre:bg-subtle prose-pre:text-low-contrast prose-ol:my-2 prose-ul:my-2"
+          className="prose max-w-none p-4 text-low-contrast prose-h3:title-3 prose-p:body-1 prose-h3:my-2 prose-h3:text-high-contrast prose-p:my-2 prose-p:text-low-contrast prose-blockquote:my-4 prose-strong:text-low-contrast prose-pre:my-2 prose-pre:bg-subtle prose-pre:text-low-contrast prose-ol:my-2 prose-ul:my-2"
           editor={editor}
         />
       </div>

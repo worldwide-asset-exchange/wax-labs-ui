@@ -19,7 +19,7 @@ export function ProposalDetailOverview({ imageURL, content, financialRoadMap }: 
         </div>
       )}
       <div
-        className="body-1 text-low-contrast"
+        className="prose max-w-none text-low-contrast prose-h3:title-3 prose-p:body-1 prose-h3:my-2 prose-h3:text-high-contrast prose-p:my-2 prose-p:text-low-contrast prose-blockquote:my-4 prose-strong:text-low-contrast prose-pre:my-2 prose-pre:bg-subtle prose-pre:text-low-contrast prose-ol:my-2 prose-ul:my-2"
         dangerouslySetInnerHTML={{
           __html: parse(content, {
             gfm: true,
@@ -29,7 +29,7 @@ export function ProposalDetailOverview({ imageURL, content, financialRoadMap }: 
       />
       <h2 className="title-2 pt-8 text-high-contrast">{t('financialRoadMap')}</h2>
       <div
-        className="body-1 text-low-contrast"
+        className="prose max-w-none text-low-contrast prose-h3:title-3 prose-p:body-1 prose-h3:my-2 prose-h3:text-high-contrast prose-p:my-2 prose-p:text-low-contrast prose-blockquote:my-4 prose-strong:text-low-contrast prose-pre:my-2 prose-pre:bg-subtle prose-pre:text-low-contrast prose-ol:my-2 prose-ul:my-2"
         dangerouslySetInnerHTML={{
           __html: parse(financialRoadMap, {
             gfm: true,

@@ -84,8 +84,6 @@
   "back": "Back",
   "set": "Set",
   "add": "Add",
-  "addDeliverables": "Add deliverables",
-  "addLater": "Add later",
   "continueEditing": "Continue editing",
   "cancel": "Cancel",
   "discard": "Discard",
@@ -96,8 +94,6 @@
   "submit": "Submit",
   "newDeliverable": "New deliverable",
   
-  "proposalCreatedModalTitle": "Proposal created",
-  "proposalCreatedModalDescription": "Please wait momentarily, as you will soon be able to add your deliverables.",
   "cancelProposalModalTitle": "Cancel proposal",
   "cancelProposalModalDescription": "You will lose all of the current Proposal information.",
 

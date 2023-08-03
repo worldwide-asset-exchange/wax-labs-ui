@@ -130,7 +130,7 @@ export function ProposalFormLayout() {
           deliverables: formattedDeliverables,
         };
       } catch (error) {
-        toast({ description: 'error', variant: 'error' });
+        toast({ description: 'Error: An unexpected error has occurred', variant: 'error' });
         navigate('/');
       }
     },
@@ -258,7 +258,7 @@ export function ProposalFormLayout() {
         });
         navigate(`/${actor}`);
       } catch (error) {
-        console.log(error);
+        toast({ description: 'Error: An unexpected error has occurred', variant: 'error' });
       }
     },
     [session, navigate, actor, configs?.categories, toast]

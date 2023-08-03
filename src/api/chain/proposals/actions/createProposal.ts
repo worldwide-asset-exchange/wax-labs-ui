@@ -21,6 +21,6 @@ export async function createProposal({ session, proposal, transferFunds = true }
   if (transferFunds) {
     actions.unshift(createTransferFundsAction({ session }));
   }
-  console.debug(actions);
+
   return await execute(session, actions);
 }

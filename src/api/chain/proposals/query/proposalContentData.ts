@@ -1,4 +1,6 @@
-import wax from '@/api/chain';
+import { UInt64 } from '@wharfkit/antelope';
+
+import { waxClient } from '@/api/chain';
 import { GetTableRowsResult } from '@/api/models';
 import { ProposalContent } from '@/api/models/proposal.ts';
 import { LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
@@ -6,13 +8,13 @@ import { LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
 export async function proposalContentData({ proposalId }: { proposalId: number }): Promise<ProposalContent | null> {
   for (;;) {
     try {
-      const { rows } = (await wax.rpc.get_table_rows({
+      const { rows } = (await waxClient.v1.chain.get_table_rows({
         code: LABS_CONTRACT_ACCOUNT,
         scope: LABS_CONTRACT_ACCOUNT,
         table: Tables.MD_BODIES,
         json: true,
-        lower_bound: proposalId,
-        upper_bound: proposalId,
+        lower_bound: UInt64.from(proposalId),
+        upper_bound: UInt64.from(proposalId),
       })) as GetTableRowsResult<ProposalContent>;
 
       return rows?.[0];

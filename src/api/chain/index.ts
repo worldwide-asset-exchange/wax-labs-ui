@@ -1,7 +1,9 @@
-import * as waxjs from '@waxio/waxjs/dist';
+import { APIClient } from '@wharfkit/antelope';
 
 import { WAX_RPC } from '@/constants.ts';
 
-const wax = new waxjs.WaxJS({ rpcEndpoint: WAX_RPC, tryAutoLogin: false });
+const waxClient = new APIClient({
+  url: WAX_RPC,
+});
 
-export default wax;
+export { waxClient };

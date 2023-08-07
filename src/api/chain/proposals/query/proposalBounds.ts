@@ -1,5 +1,4 @@
-import { Buffer } from 'buffer';
-import { Serialize } from 'eosjs';
+import { Name } from '@wharfkit/antelope';
 import { Uint64LE } from 'int64-buffer';
 
 import { ProposalStatusKey } from '@/constants.ts';
@@ -7,6 +6,17 @@ import { ProposalStatusKey } from '@/constants.ts';
 export interface ProposalBounds {
   lowerBound: string;
   upperBound: string;
+}
+
+function toHex(bytes: Uint8Array) {
+  const hexOctets = new Array(bytes.length);
+
+  for (let i = 0; i < bytes.length; i++) {
+    const byte = bytes[i];
+    hexOctets[i] = ('0' + (byte & 0xff).toString(16)).slice(-2);
+  }
+
+  return `0x${hexOctets.join('')}`;
 }
 
 export function statBounds(statusKey: ProposalStatusKey): ProposalBounds {
@@ -28,22 +38,19 @@ export function statBounds(statusKey: ProposalStatusKey): ProposalBounds {
 }
 
 export function nameBounds({ statusKey, actor }: { statusKey: ProposalStatusKey; actor: string }): ProposalBounds {
-  const sb = new Serialize.SerialBuffer();
-  sb.pushName(actor);
+  const name = Name.from(actor);
 
   const reversedArray = new Uint8Array(16);
-  reversedArray.set(sb.array.slice(0, 8).reverse());
+  reversedArray.set(name.value.byteArray.reverse());
   reversedArray.set([statusKey], 8);
 
-  const lowerHexIndex = Buffer.from(reversedArray).toString('hex');
-  const lowerBound = '0x' + lowerHexIndex;
+  const lowerBound = toHex(reversedArray);
 
   for (let i = 9; i < 16; i++) {
     reversedArray.set([0xff], i);
   }
 
-  const upperHexIndex = Buffer.from(reversedArray).toString('hex');
-  const upperBound = '0x' + upperHexIndex;
+  const upperBound = toHex(reversedArray);
 
   return {
     lowerBound: lowerBound,

@@ -6,4 +6,3 @@
 .DS_Store
 **/*.md
 jest.config.js
-vite.config.ts

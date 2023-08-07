@@ -6,7 +6,7 @@ import { MdLink, MdOutlineGroups, MdOutlineLanguage, MdPerson } from 'react-icon
 import * as Info from '@/components/Info';
 
 interface ProfileCardProps {
-  imageUrl: string;
+  imageUrl?: string;
   fullName: string;
   actor: string;
   biography: string;

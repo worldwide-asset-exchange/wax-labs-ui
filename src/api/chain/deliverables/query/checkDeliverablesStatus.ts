@@ -1,4 +1,6 @@
-import wax from '@/api/chain';
+import { UInt64 } from '@wharfkit/antelope';
+
+import { waxClient } from '@/api/chain';
 import { GetTableRowsResult } from '@/api/models';
 import { DeliverablesStatusToCheck } from '@/api/models/common.ts';
 import { Deliverables } from '@/api/models/deliverables.ts';
@@ -18,9 +20,9 @@ export async function checkDeliverablesStatus({
   statusToCheck: DeliverablesStatusToCheck[];
 }): Promise<CheckDeliverablesStatus[]> {
   try {
-    const { rows } = (await wax.rpc.get_table_rows({
+    const { rows } = (await waxClient.v1.chain.get_table_rows({
       code: LABS_CONTRACT_ACCOUNT,
-      scope: proposalId,
+      scope: UInt64.from(proposalId),
       table: Tables.DELIVERABLES,
       json: true,
       limit: 1000,

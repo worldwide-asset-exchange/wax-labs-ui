@@ -1,18 +1,15 @@
-import { AnyAction } from '@greymass/eosio';
-import { Session } from '@wharfkit/session';
-
-import { Action } from '@/api/models';
+import { Action, AnyAction, Session } from '@wharfkit/session';
 
 /**
  * Execute Chain actions. Requires a signed-in user
  *
  * @throws {Error}
  */
-export async function execute(session: Session, actions: Action<unknown>[]) {
+export async function execute(session: Session, actions: AnyAction[]) {
   try {
     return await session.transact(
       {
-        actions: actions as AnyAction[],
+        actions: actions.map(a => Action.from(a)),
       },
       {
         expireSeconds: 30,

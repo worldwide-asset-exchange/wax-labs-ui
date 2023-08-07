@@ -1,3 +1,5 @@
+import { Asset } from '@wharfkit/session';
+
 export function toFloat(str: string | null) {
   if (str == null) {
     return null;
@@ -15,7 +17,11 @@ export function currencyToFloat(requestedAmount: string | null | number) {
     return requestedAmount;
   }
 
-  const result = toFloat((requestedAmount as string).split(' ')[0]);
-
-  return result && !isNaN(result) ? result : null;
+  try {
+    const result = Asset.from(requestedAmount);
+    return result.value ?? null;
+  } catch {
+    const result = toFloat(requestedAmount.split(' ')[0]);
+    return result && !isNaN(result) ? result : null;
+  }
 }

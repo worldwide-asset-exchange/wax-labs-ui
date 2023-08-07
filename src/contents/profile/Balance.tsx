@@ -49,7 +49,7 @@ export function Balance() {
 
   const { data: balance } = useQuery({
     queryKey: ['balance', actor],
-    queryFn: () => accountBalance({ actor: actor! }).then(response => response ?? ''),
+    queryFn: () => accountBalance({ actor: actor! }),
   });
 
   const {
@@ -71,7 +71,7 @@ export function Balance() {
         <div className="rounded-xl bg-subtle p-8">
           <p className="label-2 text-low-contrast">{t('labsBalance')}</p>
           <h3 className="title-1 mt-1 text-high-contrast">
-            {balance ?? 0} {t('wax')}
+            {balance} {t('wax')}
           </h3>
           <form onSubmit={openConfirmationModal} className="mt-8 flex gap-6 border-t border-subtle-light pt-8">
             <div className="flex-1">

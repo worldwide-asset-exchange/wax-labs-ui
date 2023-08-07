@@ -1,4 +1,6 @@
-import wax from '@/api/chain';
+import { UInt64, UInt128 } from '@wharfkit/antelope';
+
+import { waxClient } from '@/api/chain';
 import { GetTableRowsResult } from '@/api/models';
 import { Proposal } from '@/api/models/proposal.ts';
 import { INDEX_POSITION, KEY_TYPE, LABS_CONTRACT_ACCOUNT, ProposalFilterType, Tables } from '@/constants.ts';
@@ -21,6 +23,8 @@ async function _getProposalRangeLimit({
   lowerBound,
   upperBound,
 }: ProposalsFilter): Promise<ProposalResponse> {
+  type Bound = UInt64 | UInt128;
+
   const data = {
     code: LABS_CONTRACT_ACCOUNT,
     scope: LABS_CONTRACT_ACCOUNT,
@@ -28,14 +32,21 @@ async function _getProposalRangeLimit({
     json: true,
     ...(queryType != null ? { key_type: KEY_TYPE[queryType] } : {}),
     ...(queryType != null ? { index_position: INDEX_POSITION[queryType] } : {}),
-    ...(lowerBound != null ? { lower_bound: lowerBound } : {}),
-    ...(upperBound != null ? { upper_bound: upperBound } : {}),
+    ...(lowerBound != null ? { lower_bound: lowerBound as unknown as Bound } : {}),
+    ...(upperBound != null ? { upper_bound: upperBound as unknown as Bound } : {}),
     limit: 1000,
   };
 
-  const { rows, next_key, more } = (await wax.rpc.get_table_rows(data)) as GetTableRowsResult<Proposal>;
+  const { rows, next_key, more } = (await waxClient.v1.chain.get_table_rows<Bound>(data)) as GetTableRowsResult<
+    Proposal,
+    UInt64 | UInt128
+  >;
 
-  return { proposals: rows, next_key, more };
+  return {
+    more,
+    proposals: rows,
+    next_key: next_key ? next_key.toString() : null,
+  };
 }
 
 export async function getProposals({

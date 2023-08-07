@@ -32,12 +32,17 @@ export default defineConfig({
       output: {
         manualChunks: id => {
           if (id.includes('node_modules')) {
-            if (id.includes('router')) {
-              return 'react-router';
-            } else if (id.includes('react') || id.includes('scheduler') || id.includes('wax')) {
+            if (id.includes('react') || id.includes('scheduler') || id.includes('use-') || id.includes('usehooks')) {
               return 'react';
-            } else if (id.includes('buffer')) {
-              return 'buffer';
+            } else if (
+              id.includes('tiptap') ||
+              id.includes('popper') ||
+              id.includes('tippy') ||
+              id.includes('marked')
+            ) {
+              return 'editor';
+            } else if (id.includes('date-fns')) {
+              return 'date-fns';
             }
 
             return 'vendor';
@@ -47,4 +52,3 @@ export default defineConfig({
     },
   },
 });
-

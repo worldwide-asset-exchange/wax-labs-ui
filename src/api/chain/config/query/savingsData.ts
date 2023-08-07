@@ -1,4 +1,4 @@
-import wax from '@/api/chain';
+import { waxClient } from '@/api/chain';
 import { GetTableRowsResult } from '@/api/models';
 import { EOSIO_TOKEN_CODE, SAVINGS_ACCOUNT, Tables } from '@/constants.ts';
 
@@ -7,7 +7,7 @@ interface SavingsAccountResponse {
 }
 
 export async function savingsData(): Promise<SavingsAccountResponse> {
-  const { rows } = (await wax.rpc.get_table_rows({
+  const { rows } = (await waxClient.v1.chain.get_table_rows({
     json: true,
     code: EOSIO_TOKEN_CODE,
     scope: SAVINGS_ACCOUNT,

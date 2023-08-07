@@ -5,11 +5,11 @@ import { ProfileCardSkeleton } from '@/components/ProfileCardSkeleton';
 import { ProfileCard } from '@/contents/profile/ProfileCard';
 import { useProfile } from '@/hooks/useProfile';
 
-interface ProposalDetailProposer {
+interface ProposalDetailProposerProps {
   proposer: string;
 }
 
-export function ProposalDetailProposer({ proposer }: ProposalDetailProposer) {
+export function ProposalDetailProposer({ proposer }: ProposalDetailProposerProps) {
   const { t } = useTranslation();
 
   const { profile, isLoadingProfile } = useProfile({ actor: proposer });

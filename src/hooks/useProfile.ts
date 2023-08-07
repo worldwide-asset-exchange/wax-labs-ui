@@ -1,36 +1,34 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
 
 import { accountProfile } from '@/api/chain/profile';
-import { Profile } from '@/api/models/profile';
+import { Profile } from '@/api/models/profile.ts';
 import { imageExists } from '@/utils/image';
 
-interface useProfileProps {
+interface UseProfileProps {
   actor: string;
 }
 
-export function useProfile({ actor }: useProfileProps) {
-  const [profile, setProfile] = useState<Profile | null>(null);
-
+export function useProfile({ actor }: UseProfileProps) {
   const { data, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile', actor],
-    queryFn: () => accountProfile(actor).then(response => response),
+    queryFn: async () => {
+      const profile = await accountProfile(actor);
+
+      if (profile) {
+        try {
+          await imageExists(profile?.image_url);
+        } catch {
+          profile.image_url = '';
+        }
+      }
+
+      return profile;
+    },
     enabled: !!actor,
   });
 
-  useEffect(() => {
-    if (!data) return;
-
-    imageExists(data.image_url)
-      .then(() => setProfile(data))
-      .catch(() => {
-        data.image_url = '';
-        setProfile(data);
-      });
-  }, [data]);
-
   return {
-    profile,
+    profile: data as Profile,
     isLoadingProfile,
   };
 }

@@ -12,3 +12,16 @@ export interface DeliverablesStatusToCheck {
   notificationType: NotificationType;
   proposalStatusKey: ProposalStatusKey;
 }
+
+export type IndexPosition =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'fourth'
+  | 'fifth'
+  | 'sixth'
+  | 'seventh'
+  | 'eighth'
+  | 'ninth'
+  | 'tenth'
+  | undefined;

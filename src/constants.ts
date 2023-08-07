@@ -1,3 +1,5 @@
+import { IndexPosition } from '@/api/models/common.ts';
+
 export const {
   VITE_WAX_RPC: WAX_RPC,
   VITE_WAX_PROTOCOL: WAX_PROTOCOL,
@@ -131,13 +133,13 @@ export enum NotificationType {
   REVIEW_PENDING,
 }
 
-export const INDEX_POSITION: Record<ProposalFilterType, number> = {
-  [ProposalFilterType.DEFAULT]: 1,
-  [ProposalFilterType.BY_STAT_CAT]: 2,
-  [ProposalFilterType.BY_CAT_STAT]: 3,
-  [ProposalFilterType.BY_PROPOSER_STAT]: 4,
-  [ProposalFilterType.BY_REVIEWER_STAT]: 5,
-  [ProposalFilterType.BY_BALLOT]: 6,
+export const INDEX_POSITION: Record<ProposalFilterType, IndexPosition> = {
+  [ProposalFilterType.DEFAULT]: 'primary',
+  [ProposalFilterType.BY_STAT_CAT]: 'secondary',
+  [ProposalFilterType.BY_CAT_STAT]: 'tertiary',
+  [ProposalFilterType.BY_PROPOSER_STAT]: 'fourth',
+  [ProposalFilterType.BY_REVIEWER_STAT]: 'fifth',
+  [ProposalFilterType.BY_BALLOT]: 'sixth',
 };
 
 export const BYTE_SIZE: Record<ProposalFilterType, number> = {

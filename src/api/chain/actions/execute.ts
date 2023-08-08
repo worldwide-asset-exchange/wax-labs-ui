@@ -1,4 +1,4 @@
-import { Action, AnyAction, Session } from '@wharfkit/session';
+import { AnyAction, Session } from '@wharfkit/session';
 
 /**
  * Execute Chain actions. Requires a signed-in user
@@ -8,9 +8,7 @@ import { Action, AnyAction, Session } from '@wharfkit/session';
 export async function execute(session: Session, actions: AnyAction[]) {
   try {
     return await session.transact(
-      {
-        actions: actions.map(a => Action.from(a)),
-      },
+      { actions },
       {
         expireSeconds: 30,
       }

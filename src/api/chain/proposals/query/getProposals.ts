@@ -5,6 +5,8 @@ import { GetTableRowsResult } from '@/api/models';
 import { Proposal } from '@/api/models/proposal.ts';
 import { INDEX_POSITION, KEY_TYPE, LABS_CONTRACT_ACCOUNT, ProposalFilterType, Tables } from '@/constants.ts';
 
+type Bound = UInt64 | UInt128;
+
 export interface ProposalResponse {
   proposals: Proposal[] | null;
   next_key: string | null;
@@ -13,8 +15,8 @@ export interface ProposalResponse {
 
 interface ProposalsFilter {
   queryType?: ProposalFilterType;
-  lowerBound?: number | string;
-  upperBound?: number | string;
+  lowerBound?: number | string | Bound;
+  upperBound?: number | string | Bound;
   returnFirstIteration?: boolean;
 }
 
@@ -23,8 +25,6 @@ async function _getProposalRangeLimit({
   lowerBound,
   upperBound,
 }: ProposalsFilter): Promise<ProposalResponse> {
-  type Bound = UInt64 | UInt128;
-
   const data = {
     code: LABS_CONTRACT_ACCOUNT,
     scope: LABS_CONTRACT_ACCOUNT,

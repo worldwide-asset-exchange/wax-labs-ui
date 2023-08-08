@@ -21,30 +21,30 @@ export function ProposalDetail() {
   const params = useParams();
   const proposalId = Number(params.proposalId);
 
-  const { data: proposal, isLoading } = useQuery({
+  const {
+    data: proposal,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryKey: ['proposal', proposalId],
     queryFn: async () => {
-      try {
-        const [proposalData, contentData] = await Promise.all([
-          singleProposal({ proposalId }),
-          proposalContentData({ proposalId }),
-        ]);
+      const [proposalData, contentData] = await Promise.all([
+        singleProposal({ proposalId }),
+        proposalContentData({ proposalId }),
+      ]);
 
-        if (proposalData.image_url) {
-          try {
-            await imageExists(proposalData.image_url);
-          } catch (e) {
-            proposalData.image_url = '';
-          }
+      if (proposalData.image_url) {
+        try {
+          await imageExists(proposalData.image_url);
+        } catch (e) {
+          proposalData.image_url = '';
         }
-
-        return {
-          ...proposalData,
-          content: contentData?.content ?? '',
-        };
-      } catch (error) {
-        <Navigate to="/" />;
       }
+
+      return {
+        ...proposalData,
+        content: contentData?.content ?? '',
+      };
     },
     enabled: !!proposalId,
   });
@@ -75,7 +75,7 @@ export function ProposalDetail() {
     );
   }
 
-  if (typeof proposal === 'undefined') {
+  if (!isSuccess || !proposal) {
     return <Navigate to="/" />;
   }
 

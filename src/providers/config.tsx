@@ -33,7 +33,14 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
     () => ({
       isAdmin,
       configs: configData ?? null,
-      reFetch: refetch,
+      reFetch: () =>
+        new Promise<void>(resolve => {
+          setTimeout(() => {
+            refetch()
+              .then(() => resolve())
+              .catch(() => resolve());
+          }, 1000);
+        }),
       isLoadingConfig: isLoading,
     }),
     [isAdmin, configData, refetch, isLoading]

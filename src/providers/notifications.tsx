@@ -21,6 +21,7 @@ export interface NotificationsProviderProps {
 export function NotificationsProvider({ children }: NotificationsProviderProps) {
   const { actor, isAuthenticated } = useChain();
   const storageKey = actor ? `${READ_NOTIFICATIONS_STORAGE}-${actor}` : null;
+  const disableNotificationKey = !!localStorage.getItem(`${READ_NOTIFICATIONS_STORAGE}-disable-notification`);
   const isAdmin = useIsAdmin();
   const [read, setRead] = useState<string[]>(getStorage(storageKey));
 
@@ -31,42 +32,42 @@ export function NotificationsProvider({ children }: NotificationsProviderProps) 
         queryFn: () => proposerEndVotingNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated && !!actor,
+        enabled: !!isAuthenticated && !!actor && !disableNotificationKey,
       },
       {
         queryKey: ['startVotingNotifications', actor],
         queryFn: () => startVotingNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated && !!actor,
+        enabled: !!isAuthenticated && !!actor && !disableNotificationKey,
       },
       {
         queryKey: ['proposerDeliverableNotifications', actor],
         queryFn: () => proposerDeliverableNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated && !!actor,
+        enabled: !!isAuthenticated && !!actor && !disableNotificationKey,
       },
       {
         queryKey: ['reviewerDeliverableNotifications', actor],
         queryFn: () => reviewerDeliverableNotifications({ actor: actor as string }),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated && !!actor,
+        enabled: !!isAuthenticated && !!actor && !disableNotificationKey,
       },
       {
         queryKey: ['adminEndVotingNotifications', actor, isAdmin],
         queryFn: () => (isAdmin ? adminEndVotingNotifications() : Promise.resolve([])),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated && !!actor,
+        enabled: !!isAuthenticated && !!actor && !disableNotificationKey,
       },
       {
         queryKey: ['adminToReviewNotifications', actor, isAdmin],
         queryFn: () => (isAdmin ? adminToReviewNotifications() : Promise.resolve([])),
         refetchInterval: 10e3,
         refetchOnWindowFocus: false,
-        enabled: !!isAuthenticated && !!actor,
+        enabled: !!isAuthenticated && !!actor && !disableNotificationKey,
       },
     ],
   });

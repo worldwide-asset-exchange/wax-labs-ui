@@ -5,6 +5,7 @@ import { MdOutlineArticle, MdOutlineInfo, MdOutlinePerson, MdOutlinePlaylistAddC
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { proposalContentData, singleProposal } from '@/api/chain/proposals';
+import { Proposal } from '@/api/models/proposal';
 import { ProposalDetailDeliverables } from '@/components/ProposalDetail/ProposalDetailDeliverables';
 import { ProposalDetailDetail } from '@/components/ProposalDetail/ProposalDetailDetail';
 import { ProposalDetailOverview } from '@/components/ProposalDetail/ProposalDetailOverview';
@@ -33,7 +34,7 @@ export function ProposalDetail() {
         proposalContentData({ proposalId }),
       ]);
 
-      if (proposalData.image_url) {
+      if (proposalData?.image_url) {
         try {
           await imageExists(proposalData.image_url);
         } catch (e) {
@@ -44,7 +45,7 @@ export function ProposalDetail() {
       return {
         ...proposalData,
         content: contentData?.content ?? '',
-      };
+      } as Proposal & { content: string };
     },
     enabled: !!proposalId,
   });
@@ -112,11 +113,13 @@ export function ProposalDetail() {
         </Link>
       </Tabs.Root>
 
-      {tabParam === 'deliverables' ? (
+      {tabParam === 'deliverables' && (
         <ProposalDetailDeliverables total={proposal.deliverables} completed={proposal.deliverables_completed} />
-      ) : tabParam === 'proposer' ? (
-        <ProposalDetailProposer proposer={proposal.proposer} />
-      ) : tabParam === 'detail' ? (
+      )}
+
+      {tabParam === 'proposer' && <ProposalDetailProposer proposer={proposal.proposer} />}
+
+      {tabParam === 'detail' && (
         <ProposalDetailDetail
           status={proposal.status}
           identifier={proposal.proposal_id}
@@ -126,7 +129,9 @@ export function ProposalDetail() {
           lastUpdate={proposal.update_ts}
           totalRequested={proposal.total_requested_funds}
         />
-      ) : (
+      )}
+
+      {(!tabParam || tabParam === 'overview') && (
         <ProposalDetailOverview
           imageURL={proposal.image_url}
           content={proposal.content}

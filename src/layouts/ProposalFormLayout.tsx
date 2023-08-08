@@ -11,8 +11,7 @@ import TurndownService from 'turndown';
 import { useInterval, useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { z } from 'zod';
 
-import { deliverables, proposalContentData, singleProposal } from '@/api/chain/proposals';
-import { createProposal } from '@/api/chain/proposals';
+import { createProposal, deliverables, proposalContentData, singleProposal } from '@/api/chain/proposals';
 import { Deliverables } from '@/api/models/deliverables';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button';
@@ -27,6 +26,13 @@ import { imageExists } from '@/utils/image';
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
 const turndownService = new TurndownService();
+
+interface FormattedDeliverables {
+  description: string;
+  recipient: string;
+  daysToComplete: string;
+  requestedUSD: string;
+}
 
 export function ProposalFormLayout() {
   const { t } = useTranslation();
@@ -68,7 +74,7 @@ export function ProposalFormLayout() {
     });
   }, [t]);
 
-  type Proposal = z.input<typeof ProposalSchema>;
+  type ProposalForm = z.input<typeof ProposalSchema>;
 
   const fieldsPerStep = useMemo(() => {
     return [
@@ -76,7 +82,7 @@ export function ProposalFormLayout() {
       ['imageURL', 'complementaryFile', 'content'],
       ['financialRoadMap'],
       ['deliverables'],
-    ] as Array<keyof Proposal>[];
+    ] as Array<keyof ProposalForm>[];
   }, []);
 
   const [defaultValues, setDefaultValues] = useLocalStorage(PROPOSAL_DRAFT_LOCAL_STORAGE, {});
@@ -86,58 +92,59 @@ export function ProposalFormLayout() {
 
   const currentStep = useMemo(() => stepParam || 1, [stepParam]);
 
-  const { data: proposal, isLoading } = useQuery<Proposal | undefined>({
+  const {
+    data: proposal,
+    isLoading,
+    isError,
+  } = useQuery<ProposalForm | undefined>({
     queryKey: ['proposal', proposalId, 'edit'],
     queryFn: async () => {
-      try {
-        const [proposalData, contentData, deliverablesData] = await Promise.all([
-          singleProposal({ proposalId }),
-          proposalContentData({ proposalId }),
-          deliverables({ proposalId }),
-        ]);
+      const [proposalData, contentData, deliverablesData] = await Promise.all([
+        singleProposal({ proposalId }),
+        proposalContentData({ proposalId }),
+        deliverables({ proposalId }),
+      ]);
 
-        if (proposalData.status !== ProposalStatusKey.DRAFTING) {
-          navigate('/');
-        }
-
-        const formattedDeliverables = deliverablesData.deliverables.map((deliverable: Deliverables) => {
-          return {
-            description: deliverable.small_description,
-            recipient: deliverable.recipient,
-            daysToComplete: String(deliverable.days_to_complete),
-            requestedUSD: deliverable.requested,
-          };
-        });
-
-        const content = await marked(contentData?.content ?? '', {
-          gfm: true,
-          breaks: true,
-        });
-
-        const financialRoadMap = await marked(proposalData?.road_map ?? '', {
-          gfm: true,
-          breaks: true,
-        });
-
-        return {
-          title: proposalData.title,
-          description: proposalData.description,
-          category: String(proposalData.category),
-          imageURL: proposalData.image_url,
-          complementaryFile: '',
-          content,
-          financialRoadMap,
-          deliverables: formattedDeliverables,
-        };
-      } catch (error) {
+      if (!proposalData) {
         toast({ description: 'Error: An unexpected error has occurred', variant: 'error' });
-        navigate('/');
+        return Promise.reject('Proposal does not exist');
       }
+
+      if (proposalData.status !== ProposalStatusKey.DRAFTING) {
+        toast({ description: 'Error: Proposal is not in drafting state', variant: 'error' });
+        return Promise.reject('Proposal not in drafting state');
+      }
+
+      const formattedDeliverables = deliverablesData.deliverables.map((deliverable: Deliverables) => {
+        return {
+          description: deliverable.small_description,
+          recipient: deliverable.recipient,
+          daysToComplete: String(deliverable.days_to_complete),
+          requestedUSD: deliverable.requested,
+        } as FormattedDeliverables;
+      });
+
+      return {
+        title: proposalData.title,
+        description: proposalData.description,
+        category: String(proposalData.category),
+        imageURL: proposalData.image_url,
+        complementaryFile: '',
+        content: marked(contentData?.content ?? '', {
+          gfm: true,
+          breaks: true,
+        }),
+        financialRoadMap: marked(proposalData?.road_map ?? '', {
+          gfm: true,
+          breaks: true,
+        }),
+        deliverables: formattedDeliverables,
+      } as ProposalForm;
     },
-    enabled: !!proposalId,
+    enabled: !!proposalId && isAuthenticated === true,
   });
 
-  const methods = useForm<Proposal>({
+  const methods = useForm<ProposalForm>({
     resolver: zodResolver(ProposalSchema),
     mode: 'onTouched',
     defaultValues,
@@ -204,11 +211,11 @@ export function ProposalFormLayout() {
 
     await methods.trigger(fieldsToValidate);
 
-    const isValid =
-      Object.keys(methods.formState.errors).filter(fieldName => fieldsToValidate.includes(fieldName as keyof Proposal))
-        .length === 0;
-
-    return isValid;
+    return (
+      Object.keys(methods.formState.errors).filter(fieldName =>
+        fieldsToValidate.includes(fieldName as keyof ProposalForm)
+      ).length === 0
+    );
   }, [currentStep, fieldsPerStep, methods]);
 
   const onClose = useCallback(() => {
@@ -223,7 +230,7 @@ export function ProposalFormLayout() {
   }, [currentStep, searchParams, setSearchParams]);
 
   const handleCreateProposal = useCallback(
-    async (data: Proposal) => {
+    async (data: ProposalForm) => {
       const content = turndownService.turndown(DOMPurify.sanitize(data.content));
       const road_map = turndownService.turndown(DOMPurify.sanitize(data.financialRoadMap));
       const category = configs?.categories[Number(data.category)] as string;
@@ -264,7 +271,7 @@ export function ProposalFormLayout() {
     [session, navigate, actor, configs?.categories, toast]
   );
 
-  const handleUpdateProposal = useCallback(async (data: Proposal) => {
+  const handleUpdateProposal = useCallback(async (data: ProposalForm) => {
     localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
 
     console.debug(data);
@@ -300,7 +307,11 @@ export function ProposalFormLayout() {
     ]
   );
 
-  if (!isAuthenticated && isAuthenticated !== null) {
+  if (isAuthenticated === false) {
+    return <Navigate to="/" />;
+  }
+
+  if (isError) {
     return <Navigate to="/" />;
   }
 

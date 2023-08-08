@@ -7,7 +7,7 @@ export function useConfigData(): {
   configs: FormattedConfigData | null;
   isAdmin: boolean | null;
   isLoadingConfig: boolean | null;
-  reFetch: () => void;
+  reFetch: () => Promise<void>;
 } {
   const { isAdmin, configs, isLoadingConfig, reFetch } = useContext(ConfigContext);
 

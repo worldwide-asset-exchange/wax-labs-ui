@@ -11,7 +11,11 @@ import TurndownService from 'turndown';
 import { useInterval, useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { z } from 'zod';
 
+import { execute } from '@/api/chain/actions';
+import createAddDeliverableAction from '@/api/chain/deliverables/actions/create/createAddDeliverableAction.ts';
+import createRemoveDeliverableAction from '@/api/chain/deliverables/actions/create/createRemoveDeliverableAction.ts';
 import { createProposal, deliverables, proposalContentData, singleProposal } from '@/api/chain/proposals';
+import createEditProposalAction from '@/api/chain/proposals/actions/create/createEditProposalAction.ts';
 import { Deliverables } from '@/api/models/deliverables';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button';
@@ -22,12 +26,12 @@ import { ProposalStatusKey } from '@/constants';
 import { useChain } from '@/hooks/useChain';
 import { useConfigData } from '@/hooks/useConfigData';
 import { useToast } from '@/hooks/useToast';
-import { imageExists } from '@/utils/image';
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
 const turndownService = new TurndownService();
 
 interface FormattedDeliverables {
+  id: number;
   description: string;
   recipient: string;
   daysToComplete: string;
@@ -61,6 +65,7 @@ export function ProposalFormLayout() {
       financialRoadMap: z.string().nonempty(t('financialRoadMapErrorEmpty')!).max(4096),
       deliverables: z
         .object({
+          id: z.optional(z.number()),
           description: z.string().nonempty(t('deliverableDescriptionErrorEmpty')!),
           recipient: z.string().nonempty(t('deliverableRecipientErrorEmpty')!),
           daysToComplete: z
@@ -117,6 +122,7 @@ export function ProposalFormLayout() {
 
       const formattedDeliverables = deliverablesData.deliverables.map((deliverable: Deliverables) => {
         return {
+          id: deliverable.deliverable_id,
           description: deliverable.small_description,
           recipient: deliverable.recipient,
           daysToComplete: String(deliverable.days_to_complete),
@@ -235,14 +241,6 @@ export function ProposalFormLayout() {
       const road_map = turndownService.turndown(DOMPurify.sanitize(data.financialRoadMap));
       const category = configs?.categories[Number(data.category)] as string;
 
-      if (data.imageURL) {
-        try {
-          await imageExists(data.imageURL);
-        } catch (e) {
-          data.imageURL = '';
-        }
-      }
-
       try {
         await createProposal({
           session: session!,
@@ -261,21 +259,83 @@ export function ProposalFormLayout() {
         localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
         toast({
           variant: 'success',
-          description: 'Your proposal has been created',
+          description: t('proposalCreated'),
         });
         navigate(`/${actor}`);
       } catch (error) {
-        toast({ description: 'Error: An unexpected error has occurred', variant: 'error' });
+        toast({ description: t('unexpectedError'), variant: 'error' });
       }
     },
-    [session, navigate, actor, configs?.categories, toast]
+    [session, navigate, actor, configs?.categories, toast, t]
   );
 
-  const handleUpdateProposal = useCallback(async (data: ProposalForm) => {
-    localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
+  const handleUpdateProposal = useCallback(
+    async (data: ProposalForm) => {
+      localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
+      const content = turndownService.turndown(DOMPurify.sanitize(data.content));
+      const road_map = turndownService.turndown(DOMPurify.sanitize(data.financialRoadMap));
+      const category = configs?.categories[Number(data.category)] as string;
 
-    console.debug(data);
-  }, []);
+      const actions = [];
+      actions.push(
+        createEditProposalAction({
+          proposal: {
+            proposal_id: proposalId,
+            title: data.title,
+            category,
+            description: data.description,
+            image_url: data.imageURL,
+            estimated_time: 1,
+            content,
+            road_map,
+          },
+          session: session!,
+        })
+      );
+
+      if (proposal?.deliverables?.length) {
+        proposal.deliverables.forEach(deliverable => {
+          actions.push(
+            createRemoveDeliverableAction({
+              deliverableId: deliverable.id as number,
+              proposalId,
+              session: session!,
+            })
+          );
+        });
+      }
+
+      if (data.deliverables?.length) {
+        data.deliverables.forEach((deliverable, index) => {
+          actions.push(
+            createAddDeliverableAction({
+              proposalId,
+              deliverableId: index,
+              recipient: deliverable.recipient,
+              requestedAmount: deliverable.requestedUSD,
+              smallDescription: deliverable.description,
+              daysToComplete: deliverable.daysToComplete,
+              session: session!,
+            })
+          );
+        });
+      }
+
+      try {
+        await execute(session!, actions);
+
+        localStorage.removeItem(PROPOSAL_DRAFT_LOCAL_STORAGE);
+        toast({
+          variant: 'success',
+          description: t('proposalUpdated'),
+        });
+        navigate(`/${actor}`);
+      } catch (error) {
+        toast({ description: t('unexpectedError'), variant: 'error' });
+      }
+    },
+    [session, navigate, actor, configs?.categories, toast, proposalId, proposal?.deliverables, t]
+  );
 
   const onSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {

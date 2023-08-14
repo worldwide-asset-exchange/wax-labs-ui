@@ -170,6 +170,10 @@
   "privacyPolicy": "Privacy Policy",
   "copyright": "Copyright © 2023 WAX, Worldwide Asset eXchange™ All rights reserved.",
 
+  "unexpectedError": "Error: An unexpected error has occurred",
+  "proposalCreated": "Success: Your proposal has been created",
+  "proposalUpdated": "Success: Your proposal has been updated",
+
   "amountRequested": "Amount Requested",
   "toBeClaimed": "To Be Claimed",
   "lastReviewed": "Last Reviewed",

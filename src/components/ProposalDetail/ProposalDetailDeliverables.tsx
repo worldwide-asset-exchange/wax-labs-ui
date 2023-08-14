@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   MdCalendarToday,
   MdOutlineAttachMoney,
+  MdOutlineCheck,
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
   MdOutlinePerson,
@@ -115,6 +116,9 @@ export function ProposalDetailDeliverables({ total, completed }: ProposalDetailD
                         value={formatLastReviewed(deliverable.review_time ? deliverable.review_time.toString() : '')}
                       >
                         <MdCalendarToday size={24} />
+                      </Info.Item>
+                      <Info.Item label={t('daysToComplete')} value={String(deliverable.days_to_complete)}>
+                        <MdOutlineCheck size={24} />
                       </Info.Item>
                     </Info.Root>
                   </Collapsible.Content>

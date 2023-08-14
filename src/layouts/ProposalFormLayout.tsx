@@ -126,7 +126,7 @@ export function ProposalFormLayout() {
           description: deliverable.small_description,
           recipient: deliverable.recipient,
           daysToComplete: String(deliverable.days_to_complete),
-          requestedUSD: deliverable.requested,
+          requestedUSD: deliverable.requested.replace(/[^\d.]+/g, ''),
         } as FormattedDeliverables;
       });
 
@@ -312,7 +312,7 @@ export function ProposalFormLayout() {
               proposalId,
               deliverableId: index,
               recipient: deliverable.recipient,
-              requestedAmount: deliverable.requestedUSD,
+              requestedAmount: Number(deliverable.requestedUSD),
               smallDescription: deliverable.description,
               daysToComplete: deliverable.daysToComplete,
               session: session!,

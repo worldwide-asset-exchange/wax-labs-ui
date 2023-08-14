@@ -6,7 +6,7 @@ export interface CreateAddDeliverableAction extends SessionProps {
   deliverableId: number;
   proposalId: number;
   daysToComplete: string;
-  requestedAmount: string;
+  requestedAmount: number;
   recipient: string;
   smallDescription: string;
 }
@@ -34,7 +34,7 @@ export default function createAddDeliverableAction({
       proposal_id: proposalId,
       days_to_complete: daysToComplete,
       small_description: smallDescription,
-      requested_amount: requestedAmount,
+      requested_amount: `${requestedAmount.toFixed(4)} USD`,
       recipient,
     },
   };

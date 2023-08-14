@@ -114,6 +114,7 @@
   "profile": "Profile",
   "createProfile": "Create profile",
   "editProfile": "Edit profile",
+  "edit": "Edit",
   "noProfile": "You have not created a profile yet",
   "noUserProfile": "User has not created a profile yet",
   "avatar": "Avatar",

@@ -97,7 +97,7 @@ export function ProposalDetail() {
             <div className="flex-none">
               {proposal.status === ProposalStatusKey.DRAFTING && (
                 <Link to="edit?step=1" variant="primary">
-                  Edit
+                  {t('edit')}
                 </Link>
               )}
             </div>

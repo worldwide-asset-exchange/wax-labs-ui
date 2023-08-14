@@ -1,14 +1,35 @@
-import { forwardRef, InputHTMLAttributes, ReactNode, Ref, useId } from 'react';
+import IMask, { type FactoryOpts, type InputMask } from 'imask';
+import { forwardRef, InputHTMLAttributes, ReactNode, Ref, useEffect, useId, useImperativeHandle, useRef } from 'react';
 import { MdOutlineErrorOutline } from 'react-icons/md';
+
+import * as masks from '@/utils/masks';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string | boolean;
+  mask?: keyof typeof masks;
   children?: ReactNode;
 }
 
-function InputComponent({ label, error, children, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
+function InputComponent({ label, error, mask, children, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
   const id = useId();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useImperativeHandle(ref, () => inputRef.current!);
+
+  useEffect(() => {
+    let iMask: InputMask<FactoryOpts>;
+
+    if (inputRef.current && mask) {
+      iMask = IMask(inputRef.current, masks[mask]);
+    }
+
+    return () => {
+      if (iMask) {
+        iMask.destroy();
+      }
+    };
+  }, [inputRef, mask]);
 
   return (
     <div data-error={!!error} className="group/input">
@@ -22,7 +43,7 @@ function InputComponent({ label, error, children, ...props }: InputProps, ref: R
         <div className="flex-1">
           <input
             {...props}
-            ref={ref}
+            ref={inputRef}
             id={id}
             type={props.type ?? 'text'}
             className="body-2 w-full border-none bg-transparent p-[calc(0.75rem-1px)] text-high-contrast placeholder:text-low-contrast focus:ring-0"

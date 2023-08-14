@@ -77,7 +77,7 @@
   "daysToCompletePlaceholder": "E.g.: 10",
   "deliverableDaysToCompleteErrorEmpty": "Provide the number of days to complete your deliverable",
   "requestedUSD": "Requested USD",
-  "requestedUSDPlaceholder": "E.g.: 1,000.00 USD",
+  "requestedUSDPlaceholder": "E.g.: 1000.00",
   "deliverableRequestedUSDErrorEmpty": "Provide the amount requested for your deliverable",
 
   "next": "Next",
@@ -114,6 +114,7 @@
   "profile": "Profile",
   "createProfile": "Create profile",
   "editProfile": "Edit profile",
+  "edit": "Edit",
   "noProfile": "You have not created a profile yet",
   "noUserProfile": "User has not created a profile yet",
   "avatar": "Avatar",
@@ -169,6 +170,10 @@
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
   "copyright": "Copyright © 2023 WAX, Worldwide Asset eXchange™ All rights reserved.",
+
+  "unexpectedError": "Error: An unexpected error has occurred",
+  "proposalCreated": "Success: Your proposal has been created",
+  "proposalUpdated": "Success: Your proposal has been updated",
 
   "amountRequested": "Amount Requested",
   "toBeClaimed": "To Be Claimed",

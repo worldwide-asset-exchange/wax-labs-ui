@@ -112,6 +112,7 @@ export function ProposalFormStep4() {
                   {...register(`deliverables.${index}.requestedUSD` as const)}
                   label={t('requestedUSD')!}
                   placeholder={t('requestedUSDPlaceholder')!}
+                  mask="usd"
                   error={errors.deliverables?.[index]?.requestedUSD?.message}
                 />
               </div>

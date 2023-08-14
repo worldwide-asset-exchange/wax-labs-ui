@@ -125,7 +125,7 @@ export function Editor({ label, onChange, value, error }: EditorProps) {
           </div>
         )}
         <EditorContent
-          className="prose max-w-none p-4 text-low-contrast prose-h3:title-3 prose-p:body-1 prose-h3:mt-8 prose-h3:text-high-contrast prose-p:my-2 prose-p:text-low-contrast prose-blockquote:my-4 prose-strong:text-low-contrast prose-pre:my-2 prose-pre:bg-subtle prose-pre:text-low-contrast prose-ol:my-2 prose-ul:my-2"
+          className="prose max-w-none p-4 text-low-contrast prose-h3:title-3 prose-p:body-1 prose-h3:mt-8 prose-h3:text-high-contrast prose-p:my-2 prose-p:text-low-contrast prose-a:text-low-contrast prose-blockquote:my-4 prose-strong:text-low-contrast prose-pre:my-2 prose-pre:bg-subtle prose-pre:text-low-contrast prose-ol:my-2 prose-ul:my-2"
           editor={editor}
         />
       </div>

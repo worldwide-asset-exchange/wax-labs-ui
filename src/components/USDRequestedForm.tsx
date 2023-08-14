@@ -87,7 +87,7 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
             error={errors.min?.message}
             label={t('minUSDRequest')!}
             placeholder={t('zeroPlaceholder')!}
-            type="number"
+            mask="usd"
             maxLength={32}
           />
         </div>
@@ -96,7 +96,7 @@ export function USDRequestedForm({ defaultValues }: USDRequestedFormProps) {
             {...register('max')}
             error={errors.max?.message}
             label={t('maxUSDRequest')!}
-            type="number"
+            mask="usd"
             maxLength={32}
           />
         </div>

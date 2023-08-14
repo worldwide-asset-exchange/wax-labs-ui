@@ -297,7 +297,7 @@ export function ProposalFormLayout() {
         proposal.deliverables.forEach(deliverable => {
           actions.push(
             createRemoveDeliverableAction({
-              deliverableId: deliverable.id as number,
+              deliverableId: deliverable.id!,
               proposalId,
               session: session!,
             })

@@ -15,7 +15,7 @@ function InputComponent({ label, error, mask, children, ...props }: InputProps, 
   const id = useId();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
+  useImperativeHandle(ref, () => inputRef.current!);
 
   useEffect(() => {
     let iMask: InputMask<FactoryOpts>;

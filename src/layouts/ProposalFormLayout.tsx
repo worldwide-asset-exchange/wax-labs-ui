@@ -329,12 +329,12 @@ export function ProposalFormLayout() {
           variant: 'success',
           description: t('proposalUpdated'),
         });
-        navigate(`/${actor}`);
+        navigate(`/proposals/${proposalId}`);
       } catch (error) {
         toast({ description: t('unexpectedError'), variant: 'error' });
       }
     },
-    [session, navigate, actor, configs?.categories, toast, proposalId, proposal?.deliverables, t]
+    [session, navigate, configs?.categories, toast, proposalId, proposal?.deliverables, t]
   );
 
   const onSubmit = useCallback(

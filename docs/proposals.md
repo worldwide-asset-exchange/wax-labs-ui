@@ -90,7 +90,7 @@ There are **NO** status change for the Proposal if we're just adding deliverable
 
 - Only the proposer can execute this action
 - Proposal status must be `DRAFT` or `FAILED_DRAFT`
-- The `recipient` account must have a WaxLabs profile
+- The `recipient` account must have a WaxLabs profile and this is required
 - The `smallDescription` must be smaller than 80
 - The `requestedAmount` should not overflow the proposal requested amount
 
@@ -172,6 +172,24 @@ After submitted, a proposal **CAN'T** be edited, and it sent to be reviewed by a
 
 ---
 
+### Set Reviewer
+
+Once a proposal is submitted, the admin assign deliverables to any account that is present in the WaxLabs Contract,
+therefore, the reviewer must have a WaxLabs profile.
+
+This action can be executed with `setReviewer` function:
+
+```typescript
+const response = await setReviewer({newReviewer, deliverableId, proposalId, session});
+```
+
+##### Requirements
+
+- Only the admin can execute this action
+- The status of the proposal must be `SUBMITTED`
+
+---
+
 ### Review Proposal
 
 After the proposal is submitted, the proposal can be reviewed by the admin. For doing that we should use
@@ -205,22 +223,6 @@ The outcome of a revision are:
       to `true` when submitting the revision. 
 
 <small>* On the old Wax Labs, the draft action is associated with requiring community voting</small> 
-
----
-
-### Cancel Proposal
-
-We should only use the `cancelProposal` function for doing that. The memo prop is not required and can be ignored.
-
-##### Requirements
-
-- Only the proposer or an admin can execute this action
-- The status of the proposal must be one of:
-    - `DRAFTING`
-    - `SUBMITTED`
-    - `APPROVED`
-    - `VOTING`
-    - `FAILED_DRAFT`
 
 ---
 
@@ -284,21 +286,6 @@ The proposal won't change status if we close the voting.
 
 ---
 
-### Delete Proposal
-
-After the proposal lifecycle we can delete the proposal using the `deleteProposal` function. This will completely erase
-both the proposal and deliverables from the chain.
-
-##### Requirements
-
-- Only the proposer or an admin can delete a proposal
-- The proposal status must be one of:
-    - `FAILED`
-    - `CANCELLED`
-    - `COMPLETED`
-
----
-
 ### Submit Report
 
 Once a proposal is approved by both the admin and community (if the total community voting is bigger than the minimum
@@ -310,24 +297,6 @@ For executing this action we should use `submitReport`.
 - Only the proposer or an admin can execute this action
 - The status of the proposal must be `IN_PROGRESS`
 - The status of the deliverable must be `IN_PROGRESS`
-
----
-
-### Set Reviewer
-
-Once a proposal is submitted, the admin assign deliverables to any account that is present in the WaxLabs Contract,
-therefore, the reviewer must have a WaxLabs profile.
-
-This action can be executed with `setReviewer` function:
-
-```typescript
-const response = await setReviewer({newReviewer, deliverableId, proposalId, session});
-```
-
-##### Requirements
-
-- Only the admin can execute this action
-- The status of the proposal must be `SUBMITTED`
 
 ---
 
@@ -384,9 +353,41 @@ Once the last deliverable is claimed, we set the proposal status to `COMPLETED`.
 
 ##### Requirements
 
-- Only a reviewer can execute this action
-    - This information is saved in the Proposal object as `reviewer`
+- Only the proposer or the recipient can execute this action
 - The status of the proposal must be `IN_PROGRESS`
 - The status of the deliverable must be `ACCEPTED`
+
+---
+
+
+### Cancel Proposal
+
+We should only use the `cancelProposal` function for doing that. The memo prop is not required and can be ignored.
+
+##### Requirements
+
+- Only the proposer or an admin can execute this action
+- The status of the proposal must be one of:
+  - `DRAFTING`
+  - `SUBMITTED`
+  - `APPROVED`
+  - `VOTING`
+  - `FAILED_DRAFT`
+
+---
+
+
+### Delete Proposal
+
+After the proposal lifecycle we can delete the proposal using the `deleteProposal` function. This will completely erase
+both the proposal and deliverables from the chain.
+
+##### Requirements
+
+- Only the proposer or an admin can delete a proposal
+- The proposal status must be one of:
+  - `FAILED`
+  - `CANCELLED`
+  - `COMPLETED`
 
 ---

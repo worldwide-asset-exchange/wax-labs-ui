@@ -1,4 +1,5 @@
 import { WAXCurrency } from '@/api/models/common.ts';
+import { BallotOptions } from '@/api/models/voting.ts';
 import { ProposalStatusKey } from '@/constants.ts';
 
 export interface Proposal {
@@ -18,7 +19,7 @@ export interface Proposal {
   deliverables: number;
   deliverables_completed: number;
   reviewer: string;
-  ballot_results: { key: string; value: string }[];
+  ballot_results: BallotOptions[];
   update_ts: string;
   vote_end_time: string;
   road_map: string;

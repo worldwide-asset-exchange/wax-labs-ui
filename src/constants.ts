@@ -13,7 +13,8 @@ export const {
 const I64 = 'i64';
 const I128 = 'i128';
 
-export const DRAFT_PROP_AMOUNT = '100.00000000 WAX';
+export const DRAFT_PROP_AMOUNT = 100;
+export const BEGIN_VOTING_AMOUNT = 10;
 
 export const TOKEN_SYMBOL = 'WAX';
 
@@ -55,6 +56,9 @@ export enum Actions {
   WITHDRAW = 'withdraw',
   CLAIM_FUNDS = 'claimfunds',
   TRANSFER = 'transfer',
+  CAST_VOTE = 'castvote',
+  REG_VOTER = 'regvoter',
+  SYNC = 'sync',
 }
 
 export enum Tables {
@@ -66,6 +70,8 @@ export enum Tables {
   DELIVERABLES = 'deliverables',
   PROFILES = 'profiles',
   PROPOSALS = 'proposals',
+  VOTERS = 'voters',
+  BALLOTS = 'ballots',
 }
 
 export enum ProposalStatusKey {
@@ -78,6 +84,15 @@ export enum ProposalStatusKey {
   CANCELLED = 7,
   COMPLETED = 8,
   FAILED_DRAFT = 9,
+}
+
+export enum DeliverableStatus {
+  DRAFTING = 1,
+  IN_PROGRESS = 2,
+  REPORTED = 3,
+  ACCEPTED = 4,
+  REJECTED = 5,
+  CLAIMED = 6,
 }
 
 export const ProposalStatusKeyName: Record<string, ProposalStatusKey> = {
@@ -212,3 +227,6 @@ export const WhoseFilter: Record<string, Whose> = {
   myProposals: Whose.MY_PROPOSALS,
   proposalsToReview: Whose.PROPOSALS_TO_REVIEW,
 };
+
+export const DECIDE_CONTRACT_ACCOUNT = 'decide';
+export const OIG_CODE = 'oig';

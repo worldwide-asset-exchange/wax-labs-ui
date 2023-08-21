@@ -314,7 +314,7 @@ export function ProposalFormLayout() {
               recipient: deliverable.recipient,
               requestedAmount: Number(deliverable.requestedUSD),
               smallDescription: deliverable.description,
-              daysToComplete: deliverable.daysToComplete,
+              daysToComplete: parseInt(deliverable.daysToComplete, 10),
               session: session!,
             })
           );
@@ -343,7 +343,7 @@ export function ProposalFormLayout() {
       event.stopPropagation();
 
       if (!proposalId && currentStep === 3) {
-        methods.handleSubmit(handleCreateProposal)();
+        await methods.handleSubmit(handleCreateProposal)();
         return;
       }
 
@@ -353,7 +353,7 @@ export function ProposalFormLayout() {
           nextStep();
         }
       } else {
-        methods.handleSubmit(handleUpdateProposal)();
+        await methods.handleSubmit(handleUpdateProposal)();
       }
     },
     [

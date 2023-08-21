@@ -5,8 +5,8 @@ import createReviewDeliverableAction, {
 
 export async function reviewDeliverable({
   proposalId,
-  accept,
   deliverableId,
+  accept,
   memo,
   session,
 }: CreateReviewDeliverableAction) {

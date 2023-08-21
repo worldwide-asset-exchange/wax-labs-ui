@@ -1,6 +1,6 @@
 import { Action, SessionProps } from '@/api/models';
 import { TransferFunds } from '@/api/models/actions.ts';
-import { Actions, DRAFT_PROP_AMOUNT, EOSIO_TOKEN_CODE, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
+import { Actions, DRAFT_PROP_AMOUNT, EOSIO_TOKEN_CODE, LABS_CONTRACT_ACCOUNT, TOKEN_SYMBOL } from '@/constants.ts';
 
 export type CreateTransferFundsAction = SessionProps;
 
@@ -19,7 +19,7 @@ export default function createTransferFundsAction({ session }: CreateTransferFun
     data: {
       from: actor,
       to: LABS_CONTRACT_ACCOUNT,
-      quantity: DRAFT_PROP_AMOUNT,
+      quantity: `${DRAFT_PROP_AMOUNT.toFixed(8)} ${TOKEN_SYMBOL}`,
       memo: '',
     },
   };

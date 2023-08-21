@@ -1,4 +1,4 @@
-export { reviewProposal } from './actions/reviewProposal.ts';
+export { reviewProposal } from '../reviewer/actions/reviewProposal.ts';
 export { setAdmin } from './actions/setAdmin.ts';
 export { setMaxRequested } from './actions/setMaxRequested.ts';
 export { setMinRequested } from './actions/setMinRequested.ts';

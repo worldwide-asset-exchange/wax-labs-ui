@@ -5,7 +5,7 @@ import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 export interface CreateAddDeliverableAction extends SessionProps {
   deliverableId: number;
   proposalId: number;
-  daysToComplete: string;
+  daysToComplete: number;
   requestedAmount: number;
   recipient: string;
   smallDescription: string;

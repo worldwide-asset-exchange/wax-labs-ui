@@ -1,4 +1,5 @@
 import { execute } from '@/api/chain/actions';
+import { accountHasBalance } from '@/api/chain/profile/query/actorHasBalance.ts';
 import createNewProposalAction, {
   CreateNewProposalAction,
 } from '@/api/chain/proposals/actions/create/createNewProposalAction';
@@ -6,11 +7,7 @@ import createTransferFundsAction from '@/api/chain/transfers/actions/create/crea
 import { Action } from '@/api/models';
 import { CreateProposal as CreateProposalResponse, TransferFunds } from '@/api/models/actions';
 
-export interface CreateProposal extends CreateNewProposalAction {
-  transferFunds?: boolean;
-}
-
-export async function createProposal({ session, proposal, transferFunds = true }: CreateProposal) {
+export async function createProposal({ session, proposal }: CreateNewProposalAction) {
   const actions: Action<CreateProposalResponse | TransferFunds>[] = [
     createNewProposalAction({
       session,
@@ -18,7 +15,9 @@ export async function createProposal({ session, proposal, transferFunds = true }
     }),
   ];
 
-  if (transferFunds) {
+  const hasBalance = await accountHasBalance({ actor: session.actor.toString() });
+
+  if (!hasBalance) {
     actions.unshift(createTransferFundsAction({ session }));
   }
 

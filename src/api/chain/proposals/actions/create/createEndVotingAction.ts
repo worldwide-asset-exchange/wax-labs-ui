@@ -1,17 +1,12 @@
 import { Action, SessionProps } from '@/api/models';
-import { BeginAndEndVote } from '@/api/models/actions.ts';
+import { EndVoting } from '@/api/models/actions.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
 export interface CreateEndVotingAction extends SessionProps {
   proposalId: number;
-  ballotName: string;
 }
 
-export default function createEndVotingAction({
-  session,
-  proposalId,
-  ballotName,
-}: CreateEndVotingAction): Action<BeginAndEndVote> {
+export default function createEndVotingAction({ session, proposalId }: CreateEndVotingAction): Action<EndVoting> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.END_VOTING,
@@ -23,7 +18,6 @@ export default function createEndVotingAction({
     ],
     data: {
       proposal_id: proposalId,
-      ballot_name: ballotName,
     },
   };
 }

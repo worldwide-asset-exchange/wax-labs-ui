@@ -1,3 +1,5 @@
+import { USDCurrency, WAXCurrency } from '@/api/models/common.ts';
+
 export interface Withdraw {
   account_owner: string;
   quantity: string;
@@ -63,10 +65,17 @@ export interface RemoveDeliverable {
 }
 
 export interface AddDeliverable extends RemoveDeliverable {
-  requested_amount: string;
+  requested_amount: USDCurrency;
   recipient: string;
   small_description: string;
-  days_to_complete: string;
+  days_to_complete: number;
+}
+
+export interface EditDeliverable extends RemoveDeliverable {
+  new_requested_amount: WAXCurrency;
+  new_recipient: string;
+  small_description: string;
+  days_to_complete: number;
 }
 
 export interface GenericProposal {
@@ -94,9 +103,11 @@ export interface NewReviewer {
   new_reviewer: string;
 }
 
-export interface BeginAndEndVote extends GenericProposal {
+export interface BeginVoting extends GenericProposal {
   ballot_name: string;
 }
+
+export type EndVoting = GenericProposal;
 
 export interface ReviewDeliverable {
   proposal_id: number;

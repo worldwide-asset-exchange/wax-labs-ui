@@ -3,6 +3,6 @@ import createEndVotingAction, {
   CreateEndVotingAction,
 } from '@/api/chain/proposals/actions/create/createEndVotingAction.ts';
 
-export async function endVoting({ ballotName, proposalId, session }: CreateEndVotingAction) {
-  return await execute(session, [createEndVotingAction({ ballotName, proposalId, session })]);
+export async function endVoting({ proposalId, session }: CreateEndVotingAction) {
+  return await execute(session, [createEndVotingAction({ proposalId, session })]);
 }

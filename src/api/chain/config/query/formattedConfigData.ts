@@ -8,6 +8,8 @@ export interface FormattedConfigData extends Config {
   additional_funds?: WAXCurrency | null;
   parsed_additional_funds?: number | null;
   parsed_available_funds?: number | null;
+  parsed_min_requested?: number | null;
+  parsed_max_requested?: number | null;
 }
 
 export async function formattedConfigData(): Promise<FormattedConfigData | null> {
@@ -31,8 +33,10 @@ export async function formattedConfigData(): Promise<FormattedConfigData | null>
     if (balanceResponse) {
       configDataFormatted = {
         ...configDataFormatted,
-        additional_funds: balanceResponse.balance,
+        additional_funds: balanceResponse.balance as WAXCurrency,
         parsed_additional_funds: currencyToFloat(balanceResponse.balance),
+        parsed_max_requested: currencyToFloat(configDataFormatted.max_requested),
+        parsed_min_requested: currencyToFloat(configDataFormatted.min_requested),
       };
     }
 

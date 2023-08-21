@@ -1,10 +1,9 @@
 // Format: 1,2300.00 WAX
 import { NotificationType, ProposalStatusKey } from '@/constants.ts';
 
-export type WAXCurrency = string;
+export type WAXCurrency = `${number} WAX`;
 
-// Format: 1,2300.00 USD
-export type USDCurrency = string;
+export type USDCurrency = `${number} USD`;
 
 export type Currency = 'WAX' | 'USD';
 

@@ -1,5 +1,5 @@
 import { Action, SessionProps } from '@/api/models';
-import { BeginAndEndVote } from '@/api/models/actions.ts';
+import { BeginVoting } from '@/api/models/actions.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
 export interface CreateBeginVotingAction extends SessionProps {
@@ -11,7 +11,7 @@ export default function createBeginVotingAction({
   session,
   proposalId,
   ballotName,
-}: CreateBeginVotingAction): Action<BeginAndEndVote> {
+}: CreateBeginVotingAction): Action<BeginVoting> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
     name: Actions.BEGIN_VOTING,

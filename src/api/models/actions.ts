@@ -1,4 +1,4 @@
-import { WAXCurrency } from '@/api/models/common.ts';
+import { USDCurrency, WAXCurrency } from '@/api/models/common.ts';
 
 export interface Withdraw {
   account_owner: string;
@@ -65,7 +65,7 @@ export interface RemoveDeliverable {
 }
 
 export interface AddDeliverable extends RemoveDeliverable {
-  requested_amount: WAXCurrency;
+  requested_amount: USDCurrency;
   recipient: string;
   small_description: string;
   days_to_complete: number;

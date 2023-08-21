@@ -1,9 +1,9 @@
 import { Currency, USDCurrency, WAXCurrency } from '@/api/models/common.ts';
-import { DeliverableStatus } from '@/constants.ts';
+import { ProposalStatusKey } from '@/constants.ts';
 
 export interface Deliverables {
   deliverable_id?: number;
-  status: DeliverableStatus;
+  status: ProposalStatusKey;
   requested: WAXCurrency | USDCurrency;
   recipient: string;
   report: string;

@@ -1,5 +1,6 @@
 import { Action, SessionProps } from '@/api/models';
 import { AddDeliverable } from '@/api/models/actions.ts';
+import { USDCurrency } from '@/api/models/common.ts';
 import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
 export interface CreateAddDeliverableAction extends SessionProps {
@@ -34,7 +35,7 @@ export default function createAddDeliverableAction({
       proposal_id: proposalId,
       days_to_complete: daysToComplete,
       small_description: smallDescription,
-      requested_amount: `${requestedAmount.toFixed(4)} USD`,
+      requested_amount: `${requestedAmount.toFixed(4)} USD` as USDCurrency,
       recipient,
     },
   };

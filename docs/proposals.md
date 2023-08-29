@@ -175,7 +175,7 @@ After a proposal is submitted, it **CANNOT** be edited, and it is sent to the WA
 
 ### Set Reviewer
 
-Once a proposal is submitted, the WAX Labs admin can assign deliverables to any account that is present in the 
+Once a proposal is submitted, the WAX Labs admin can assign it to any one account that is present in the 
 WaxLabs Contract for review. The assigned reviewer must have a WaxLabs profile.
 
 This action can be executed by using the `setReviewer` function:
@@ -306,13 +306,13 @@ and deliberable reports can be submitted by executing the `submitReport` action.
 
 ### Reviewing a deliverable
 
-Once a proposal is submitted, the WAX Labs admin can assign deliverables to any account in the WaxLabs Contract
-for review, given that the reviewer has a WAX Labs profile.
+After a reviewer has been assigned to a proposal for review and a deliverable report has been submitted,
+it can be evaluated by the reviewer.
 
-If the WaxLabs Contract does not have enough funds to pay for the current deliverable, the action will fail when
+If the WaxLabs Contract does not have enough funds to pay for the current proposal deliverable, the action will fail when
 the reviewer accepts this deliverable.
 
-This action can be executed with the `setReviewer` function:
+This action can be executed with the `reviewDeliverable` function:
 
 ```typescript
 const response = await reviewDeliverable({
@@ -330,6 +330,7 @@ removed, or have its funds value claimed.
 
 ##### Requirements
 
+- The WAX Labs admin must have set a reviewer for the proposal.
 - Only a reviewer can execute this action.
     - This information is available in the proposal object as `reviewer`.
 - The proposal status must be `IN_PROGRESS`.

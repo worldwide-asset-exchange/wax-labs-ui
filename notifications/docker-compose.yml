@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  notification:
+    image: waxlabs/notifications:latest
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app
+    env_file:
+      - .env

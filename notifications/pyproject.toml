@@ -1,0 +1,92 @@
+[tool.poetry]
+name = "notifications"
+version = "0.1.0"
+description = "Chat bot for WaxLabs notifications"
+authors = ["Bruno Souza <bruno@detroitledger.tech>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytelegrambotapi = "^4.13.0"
+aiohttp = "^3.8.5"
+fastapi = "^0.103.1"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+itsdangerous = "^2.1.2"
+orjson = "^3.9.7"
+pydantic-settings = "^2.0.3"
+uvloop = "^0.17.0"
+loguru = "^0.7.2"
+httpx = "^0.25.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+isort = "^5.12.0"
+ruff = "^0.0.289"
+taskipy = "^1.12.0"
+
+[tool.black]
+line-length = 120
+target-version = ['py310', 'py311']
+include = '(src\/scripts\/.*$|\.pyi?$)'
+exclude = '''
+/(
+    \.git
+  | __pycache__
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | docs
+  | java
+  | notes
+)/
+'''
+
+[tool.isort]
+atomic = true
+profile = "black"
+line_length = 120
+skip_glob = ["docs"]
+known_first_party = [
+    "notifications",
+]
+combine_as_imports = true
+include_trailing_comma = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.taskipy.tasks]
+format = { cmd = "task black && task isort && task fix", help = "Lint project" }
+black = { cmd = "black --preview .", help = "Format code using the default profile" }
+isort = { cmd = "isort .", help = "Sort imports using the default profile" }
+fix = { cmd = "ruff check --fix ./src/", help = "Auto-fix lint errors" }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

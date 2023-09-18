@@ -4,12 +4,12 @@ import { nameBounds } from '@/api/chain/proposals/query/proposalBounds.ts';
 import { DeliverablesStatusToCheck } from '@/api/models/common.ts';
 import { WaxLabsNotification } from '@/api/models/notifications.ts';
 import { Proposal } from '@/api/models/proposal.ts';
-import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
+import { DeliverableStatusKey, NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 const statusToCheck: DeliverablesStatusToCheck[] = [
   {
     notificationType: NotificationType.DELIVERABLES_TO_REVIEW,
-    proposalStatusKey: ProposalStatusKey.APPROVED,
+    deliverableStatusKey: DeliverableStatusKey.REPORTED,
   },
 ];
 

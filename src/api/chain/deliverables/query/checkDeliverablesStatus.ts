@@ -32,7 +32,7 @@ export async function checkDeliverablesStatus({
     rows.forEach(d => {
       results.push(
         ...statusToCheck
-          .filter(({ proposalStatusKey }) => d.deliverable_id && d.status === proposalStatusKey)
+          .filter(({ deliverableStatusKey }) => d.deliverable_id && d.status === deliverableStatusKey)
           .map(({ notificationType }) => ({
             deliverableId: d.deliverable_id!,
             notificationType,

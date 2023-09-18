@@ -43,15 +43,15 @@ export function UpdateReviewer({
         {proposal.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
       </Button>
       <InputDialog
-        label={t('reviewer')!}
-        placeholder={t('admin.reviewer.reviewerPlaceholder')!}
+        label={t('admin.approve')!}
+        placeholder={t('admin.approve.reviewerPlaceholder')!}
+        zodValidationMessage={t('admin.approve.messageErrorEmpty')!}
         maxLength={12}
         open={isOpen}
         defaultValue={proposal.reviewer || actor}
         title={proposal.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
         onSubmit={onSetReviewer}
         onClose={() => setIsOpen(false)}
-        disableOnDirty={false}
       />
     </>
   );

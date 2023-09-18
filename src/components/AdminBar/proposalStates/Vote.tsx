@@ -13,10 +13,10 @@ type QueriedVotesData = VotingData & { totalVotes: number; yesPercentage: string
 
 export function Vote({ proposal }: { proposal: Proposal }) {
   const { t } = useTranslation();
-  const { session } = useChain();
+  const { session, actor } = useChain();
   const { toast } = useToast();
 
-  const { data, isLoading, refetch } = useQuery<QueriedVotesData>({
+  const { data, refetch } = useQuery<QueriedVotesData>({
     queryKey: ['proposal', proposal.ballot_name],
     queryFn: async () => {
       const votingData_ = await votingData({ ballotName: proposal.ballot_name });
@@ -49,16 +49,16 @@ export function Vote({ proposal }: { proposal: Proposal }) {
   };
 
   return (
-    <div className="flex items-center gap-4">
-      {!isLoading && data?.totalVotes && (
-        <div className="mr-3 flex flex-col gap-2">
-          <h4 className="title-3 text-high-contrast">{t('votes')}</h4>
+    <div className="flex items-end gap-4">
+      {data?.totalVotes && (
+        <div className="mr-3 flex flex-col gap-2 align-baseline">
+          <h4 className="title-2 text-high-contrast">{t('votes')}:</h4>
 
           <div className="flex flex-row gap-4">
             <div className="flex flex-row gap-4">
-              <p className="title-4 text-high-contrast">Yes</p>
+              <p className="title-3 text-high-contrast">Yes</p>
               <span
-                className="title-4 text-accent"
+                className="title-3 text-accent"
                 style={{
                   width: `${data?.yesPercentage}`,
                 }}
@@ -67,9 +67,9 @@ export function Vote({ proposal }: { proposal: Proposal }) {
               </span>
             </div>
             <div className="flex flex-row gap-4">
-              <p className="title-4 text-high-contrast">No</p>
+              <p className="title-3 text-high-contrast">No</p>
               <span
-                className="title-4 text-accent"
+                className="title-3 text-accent"
                 style={{
                   width: `${data?.noPercentage}`,
                 }}
@@ -81,11 +81,11 @@ export function Vote({ proposal }: { proposal: Proposal }) {
         </div>
       )}
 
-      {!isLoading && !data?.totalVotes && (
+      {!data?.totalVotes && (
         <p className="title-2 text-high-contrast">{data?.ended ? t('noVotes') : t('noVotesYet')}</p>
       )}
 
-      {data?.ended && (
+      {!data?.ended && actor !== proposal.proposer && (
         <>
           <Button variant="primary" onClick={() => onVote(true)}>
             {t('yes')}

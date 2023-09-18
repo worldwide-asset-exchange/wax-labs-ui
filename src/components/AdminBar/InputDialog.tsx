@@ -28,6 +28,8 @@ export interface InputDialogProps {
   title: string;
   type?: 'text' | 'number' | 'textarea';
   disableOnDirty?: boolean;
+  zodValidation?: z.ZodString;
+  zodValidationMessage?: string;
 }
 
 export function InputDialog({
@@ -40,7 +42,9 @@ export function InputDialog({
   type,
   onSubmit,
   onClose,
-  disableOnDirty = false,
+  disableOnDirty,
+  zodValidation,
+  zodValidationMessage,
 }: InputDialogProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(open);
@@ -51,9 +55,14 @@ export function InputDialog({
 
   const GenericValidationSchema = useMemo(() => {
     return z.object({
-      value: z.string().nonempty(t('admin.reviewer.waxMessageErrorEmpty')!).min(1),
+      value:
+        zodValidation ||
+        z
+          .string()
+          .nonempty(zodValidationMessage || t('messageErrorEmpty')!)
+          .min(1),
     });
-  }, [t]);
+  }, [t, zodValidation, zodValidationMessage]);
 
   type GenericValidation = z.input<typeof GenericValidationSchema>;
 

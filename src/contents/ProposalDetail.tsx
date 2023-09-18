@@ -32,7 +32,7 @@ export function ProposalDetail() {
   const tabParam = useMemo(() => searchParams.get('tab'), [searchParams]);
   const params = useParams();
   const proposalId = Number(params.proposalId);
-  const { actor } = useChain();
+  const { actor, isAuthenticated } = useChain();
   const isAdmin = useIsAdmin();
   const { toast } = useToast();
 
@@ -42,12 +42,12 @@ export function ProposalDetail() {
     isSuccess,
     refetch,
   } = useQuery({
-    queryKey: ['proposal', proposalId],
+    queryKey: ['proposal', proposalId, isAuthenticated],
     queryFn: async () => {
       const [proposalData, contentData, comments] = await Promise.all([
         singleProposal({ proposalId }),
         proposalContentData({ proposalId }),
-        proposalStatusComment({ proposalId }),
+        isAuthenticated ? proposalStatusComment({ proposalId }) : Promise.resolve(null),
       ]);
 
       if (!proposalData) {
@@ -122,19 +122,10 @@ export function ProposalDetail() {
           </div>
         </div>
       )}
-      {actor !== proposal.proposer && proposal.status === ProposalStatusKey.VOTING && (
-        <div className="bg-subtle">
-          <div className="mx-auto flex max-w-5xl items-center justify-between p-4">
-            <div className="flex-none">
-              <Vote proposal={proposal} />
-            </div>
-          </div>
-        </div>
-      )}
       <header className="mx-auto max-w-5xl space-y-8 px-4 py-8">
         <h1 className="display-1 text-high-contrast">{proposal.title}</h1>
         <p className="subtitle-1 text-low-contrast">{proposal.description}</p>
-        {proposal.statusComment && (
+        {proposal.statusComment && actor === proposal.proposer && (
           <>
             <h3 className="title-3 text-accent">{t('latestStatusComment')}</h3>
             <p
@@ -145,6 +136,7 @@ export function ProposalDetail() {
             />
           </>
         )}
+        {proposal.status === ProposalStatusKey.VOTING && <Vote proposal={proposal} />}
       </header>
       <Tabs.Root smallSize>
         <LinkRouter to="?tab=overview">
@@ -174,7 +166,11 @@ export function ProposalDetail() {
       </Tabs.Root>
 
       {tabParam === 'deliverables' && (
-        <ProposalDetailDeliverables total={proposal.deliverables} completed={proposal.deliverables_completed} />
+        <ProposalDetailDeliverables
+          total={proposal.deliverables}
+          proposal={proposal}
+          completed={proposal.deliverables_completed}
+        />
       )}
 
       {tabParam === 'proposer' && <ProposalDetailProposer proposer={proposal.proposer} />}

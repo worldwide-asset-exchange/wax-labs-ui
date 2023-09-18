@@ -226,7 +226,7 @@
       "updateReviewer": "Update reviewer",
       "reviewerPlaceholder": "E.g.: waxlabsuser1",
       "setReviewerSuccess": "Success: Reviewer has been set",
-      "waxReviewerErrorEmpty": "Please provide a valid Wax Account"
+      "waxMessageErrorEmpty": "Please provide a valid Wax Account"
     },
     "cancel": {
       "cancelProposal": "Cancel proposal",
@@ -243,13 +243,20 @@
       "submitProposalConfirmation": "Are you sure you want to submit this proposal?",
       "submitProposalSuccess": "Success: Proposal has been submitted."
     },
+    "submitReport": {
+      "submitReport": "Submit report",
+      "submitReportLabel": "Enter the report URL",
+      "submitReportSuccess": "Success: Report has been submitted."
+    },
     "approve": {
       "askForChanges": "Ask for changes",
       "approveProposal": "Approve proposal",
       "communityVoting": "Require community voting",
       "cancelProposalConfirmation": "Are you sure you want to cancel this proposal?",
       "approveProposalSuccess": "Success: Proposal has been approved.",
-      "enterRequiredChangesLabel": "Enter required changes."
+      "enterRequiredChangesLabel": "Enter required changes.",
+      "messageErrorEmpty": "Please provide a valid review.",
+      "reviewerPlaceholder": "E.g.: Pleas change this and that."
     },
     "voting": {
       "beginVoting": "Begin voting",
@@ -261,5 +268,7 @@
   },
   "votes": "Votes",
   "noVotes": "No votes were cast.",
-  "noVotesYet": "No votes have been cast yet."
+  "noVotesYet": "No votes have been cast yet.",
+  "submitReport": "Submit report",
+  "messageErrorEmpty": "Please provide a valid input"
 }

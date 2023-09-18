@@ -82,12 +82,14 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
 
       <InputDialog
         label={t('admin.approve.enterRequiredChangesLabel')!}
+        zodValidationMessage={t('admin.approve.waxMessageErrorEmpty')!}
         maxLength={350}
         open={openRejectionResponse}
         title={t('admin.approve.askForChanges')}
         onSubmit={onAskForChanges}
         type="textarea"
         onClose={() => setOpenRejectionResponse(false)}
+        disableOnDirty
       />
     </>
   );

@@ -14,22 +14,29 @@ import {
 import { useParams } from 'react-router-dom';
 
 import { deliverables as getDeliverables } from '@/api/chain/proposals';
+import { Proposal } from '@/api/models/proposal.ts';
+import { SubmitReport } from '@/components/AdminBar/proposalStates/SubmitReport.tsx';
 import * as Info from '@/components/Info';
 import { StatusTag } from '@/components/StatusTag';
 import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
+  proposal: Proposal;
   total: number;
   completed: number;
 }
 
-export function ProposalDetailDeliverables({ total, completed }: ProposalDetailDeliverablesProps) {
+export function ProposalDetailDeliverables({ proposal, total, completed }: ProposalDetailDeliverablesProps) {
   const { t } = useTranslation();
 
   const params = useParams();
   const proposalId = Number(params.proposalId);
 
-  const { data: deliverables, isLoading: isLoadingDeliverables } = useQuery({
+  const {
+    data: deliverables,
+    isLoading: isLoadingDeliverables,
+    refetch,
+  } = useQuery({
     queryKey: ['proposal', proposalId, 'deliverables'],
     queryFn: () => getDeliverables({ proposalId }).then(response => response.deliverables),
     enabled: !!proposalId,
@@ -120,6 +127,8 @@ export function ProposalDetailDeliverables({ total, completed }: ProposalDetailD
                       <Info.Item label={t('daysToComplete')} value={String(deliverable.days_to_complete)}>
                         <MdOutlineCheck size={24} />
                       </Info.Item>
+
+                      <SubmitReport proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
                     </Info.Root>
                   </Collapsible.Content>
                 </article>

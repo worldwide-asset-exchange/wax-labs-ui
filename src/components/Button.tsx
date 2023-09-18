@@ -15,9 +15,8 @@ function ButtonComponent(
   ref: Ref<HTMLButtonElement>
 ) {
   const className = ['btn', variant ?? 'default', square ? 'square' : '', active ? 'active' : '']
-    .join(' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <button ref={ref} className={className} type={type} disabled={disabled} onClick={onClick}>

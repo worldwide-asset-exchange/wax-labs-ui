@@ -26,7 +26,7 @@ export function Notification() {
     <>
       <Nav.Button onClick={() => setOpen(prevState => !prevState)}>
         {notifications && Object.keys(notifications).length > 0 && (
-          <span className="absolute right-3 top-3 block h-2 w-2 rounded-full bg-accent"></span>
+          <span className="absolute right-3 top-3 block h-2 w-2 rounded-full bg-accent" />
         )}
         <MdOutlineNotifications size={24} />
       </Nav.Button>

@@ -212,5 +212,29 @@
     "minWaxRequested": "Min WAX request",
     "maxWaxRequested": "Max WAX request",
     "lastUpdated": "In Last updated"
+  },
+  "reset": "Reset",
+  "toBeImproved": "To be improved",
+  "admin": {
+    "reviewer": {
+      "setReviewer": "Set reviewer",
+      "updateReviewer": "Update reviewer",
+      "reviewerPlaceholder": "E.g.: waxlabsuser1",
+      "setReviewerSuccess": "Success: Reviewer has been set",
+      "waxReviewerErrorEmpty": "Please provide a valid Wax Account"
+    },
+    "cancel": {
+      "cancelProposal": "Cancel proposal",
+      "cancelProposalConfirmation": "Are you sure you want to cancel this proposal?",
+      "cancelProposalSuccess": "Success: Proposal has been cancelled"
+    },
+    "approve": {
+      "approveProposal": "Approve proposal",
+      "communityVoting": "Require community voting",
+      "cancelProposalConfirmation": "Are you sure you want to cancel this proposal?",
+      "approveProposalSuccess": "Success: Proposal has been approved",
+      "askForChanges": "Ask for changes",
+      "enterRequiredChanges": "Enter required changes"
+    }
   }
 }

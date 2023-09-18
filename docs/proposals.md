@@ -187,7 +187,12 @@ const response = await setReviewer({newReviewer, deliverableId, proposalId, sess
 ##### Requirements
 
 - Only the admin can execute this action.
-- The proposal status must be `SUBMITTED`.
+- The proposal status must be one of the following:
+  - `SUBMITTED`
+  - `APPROVED`
+  - `VOTING`
+  - `IN_PROGRESS`
+
 
 ---
 

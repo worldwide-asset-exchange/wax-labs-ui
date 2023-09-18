@@ -115,7 +115,7 @@ export function ProposalFormLayout() {
         return Promise.reject('Proposal does not exist');
       }
 
-      if (proposalData.status !== ProposalStatusKey.DRAFTING) {
+      if (![ProposalStatusKey.DRAFTING, ProposalStatusKey.FAILED_DRAFT].includes(proposalData.status)) {
         toast({ description: 'Error: Proposal is not in drafting state', variant: 'error' });
         return Promise.reject('Proposal not in drafting state');
       }

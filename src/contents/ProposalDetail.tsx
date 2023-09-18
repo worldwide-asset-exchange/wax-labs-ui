@@ -122,7 +122,7 @@ export function ProposalDetail() {
           </div>
         </div>
       )}
-      {actor !== proposal.proposer && proposal.status === ProposalStatusKey.VOTING_OR_ACCEPTED && (
+      {actor !== proposal.proposer && proposal.status === ProposalStatusKey.VOTING && (
         <div className="bg-subtle">
           <div className="mx-auto flex max-w-5xl items-center justify-between p-4">
             <div className="flex-none">

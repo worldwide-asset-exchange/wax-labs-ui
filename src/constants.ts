@@ -76,17 +76,17 @@ export enum Tables {
 
 export enum ProposalStatusKey {
   DRAFTING = 1,
-  SUBMITTED_OR_DELIVERABLE_IN_PROGRESS = 2,
-  APPROVED_OR_REPORTED = 3,
-  VOTING_OR_ACCEPTED = 4,
-  REJECTED_OR_PROPOSAL_IN_PROGRESS = 5,
-  FAILED_OR_CLAIMED = 6,
+  SUBMITTED = 2,
+  APPROVED = 3,
+  VOTING = 4,
+  IN_PROGRESS = 5,
+  FAILED = 6,
   CANCELLED = 7,
   COMPLETED = 8,
   FAILED_DRAFT = 9,
 }
 
-export enum DeliverableStatus {
+export enum DeliverableStatusKey {
   DRAFTING = 1,
   IN_PROGRESS = 2,
   REPORTED = 3,
@@ -97,11 +97,11 @@ export enum DeliverableStatus {
 
 export const ProposalStatusKeyName: Record<string, ProposalStatusKey> = {
   'filters.drafting': ProposalStatusKey.DRAFTING,
-  'filters.inReview': ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS,
-  'filters.approved': ProposalStatusKey.APPROVED_OR_REPORTED,
-  'filters.voting': ProposalStatusKey.VOTING_OR_ACCEPTED,
-  'filters.inProgress': ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
-  'filters.failed': ProposalStatusKey.FAILED_OR_CLAIMED,
+  'filters.inReview': ProposalStatusKey.SUBMITTED,
+  'filters.approved': ProposalStatusKey.APPROVED,
+  'filters.voting': ProposalStatusKey.VOTING,
+  'filters.inProgress': ProposalStatusKey.IN_PROGRESS,
+  'filters.failed': ProposalStatusKey.FAILED,
   'filters.cancelled': ProposalStatusKey.CANCELLED,
   'filters.completed': ProposalStatusKey.COMPLETED,
   'filters.failedDraft': ProposalStatusKey.FAILED_DRAFT,
@@ -135,6 +135,15 @@ export enum ProposalStatus {
   REJECTED = 'rejected', //
   COMPLETE = 'completed', //
   FAILED_DRAFT = 'to be improved', //
+}
+
+export enum DeliverableStatus {
+  DRAFTING = 'in drafting', //,
+  IN_PROGRESS = 'in progress', //,
+  REPORTED = 'reported', //
+  ACCEPTED = 'accepted', //
+  REJECTED = 'rejected', //
+  CLAIMED = 'claimed', //
 }
 
 export enum NotificationType {

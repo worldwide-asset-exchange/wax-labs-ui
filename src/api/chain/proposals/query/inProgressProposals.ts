@@ -4,7 +4,7 @@ import { Proposal } from '@/api/models/proposal.ts';
 import { ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 export function inProgressProposals(): Promise<Proposal[]> {
-  const { upperBound, lowerBound } = statBounds(ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS);
+  const { upperBound, lowerBound } = statBounds(ProposalStatusKey.IN_PROGRESS);
 
   return getProposals({
     queryType: ProposalFilterType.BY_STAT_CAT,

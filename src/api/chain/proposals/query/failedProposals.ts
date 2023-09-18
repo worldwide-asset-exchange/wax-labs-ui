@@ -4,7 +4,7 @@ import { Proposal } from '@/api/models/proposal.ts';
 import { ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 export function failedProposals(): Promise<Proposal[]> {
-  const { upperBound, lowerBound } = statBounds(ProposalStatusKey.FAILED_OR_CLAIMED);
+  const { upperBound, lowerBound } = statBounds(ProposalStatusKey.FAILED);
 
   return getProposals({
     queryType: ProposalFilterType.BY_STAT_CAT,

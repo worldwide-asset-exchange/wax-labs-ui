@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 import { deliverables as getDeliverables } from '@/api/chain/proposals';
 import * as Info from '@/components/Info';
 import { StatusTag } from '@/components/StatusTag';
-import { toProposalStatus } from '@/utils/proposalUtils.ts';
+import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
   total: number;
@@ -86,7 +86,7 @@ export function ProposalDetailDeliverables({ total, completed }: ProposalDetailD
                         </div>
                       </div>
                       <div className="flex-none">
-                        <StatusTag status={toProposalStatus(deliverable.status)} />
+                        <StatusTag status={toDeliverableStatus(deliverable.status)} />
                       </div>
                     </div>
                     <div className="flex-none text-low-contrast group-hover/deliverable-header:text-accent-dark group-data-[state=open]/deliverable-header:hidden">

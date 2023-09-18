@@ -26,7 +26,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS);
+      onChange(ProposalStatusKey.IN_PROGRESS);
     } catch (e) {
       console.log('onApprove error: ', e);
     }
@@ -44,7 +44,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.APPROVED_OR_REPORTED);
+      onChange(ProposalStatusKey.APPROVED);
     } catch (e) {
       console.log('onCommunityApproval error: ', e);
     }

@@ -44,21 +44,21 @@ export function ActionsBar({
     isAdmin &&
     [
       ProposalStatusKey.FAILED_DRAFT,
-      ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS,
-      ProposalStatusKey.APPROVED_OR_REPORTED,
-      ProposalStatusKey.VOTING_OR_ACCEPTED,
+      ProposalStatusKey.SUBMITTED,
+      ProposalStatusKey.APPROVED,
+      ProposalStatusKey.VOTING,
     ].includes(proposal.status)
   ) {
     render.push(<UpdateReviewer proposal={proposal} onChange={onChange} key="update-reviewer" />);
   }
 
-  if (isAdmin && proposal.reviewer && proposal.status === ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS) {
+  if (isAdmin && proposal.reviewer && proposal.status === ProposalStatusKey.SUBMITTED) {
     render.push(<Approve proposal={proposal} onChange={onChange} key="approve" />);
   }
 
   if (
     (isAdmin || actor === proposal.proposer) &&
-    [ProposalStatusKey.APPROVED_OR_REPORTED, ProposalStatusKey.VOTING_OR_ACCEPTED].includes(proposal.status)
+    [ProposalStatusKey.APPROVED, ProposalStatusKey.VOTING].includes(proposal.status)
   ) {
     render.push(<Voting proposal={proposal} onChange={onChange} key="voting" />);
   }
@@ -68,9 +68,9 @@ export function ActionsBar({
     [
       ProposalStatusKey.DRAFTING,
       ProposalStatusKey.FAILED_DRAFT,
-      ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS,
-      ProposalStatusKey.APPROVED_OR_REPORTED,
-      ProposalStatusKey.VOTING_OR_ACCEPTED,
+      ProposalStatusKey.SUBMITTED,
+      ProposalStatusKey.APPROVED,
+      ProposalStatusKey.VOTING,
     ].includes(proposal.status)
   ) {
     render.push(<CancelProposal proposal={proposal} onChange={onChange} key="cancel" />);
@@ -78,9 +78,7 @@ export function ActionsBar({
 
   if (
     (isAdmin || actor === proposal.proposer) &&
-    [ProposalStatusKey.CANCELLED, ProposalStatusKey.FAILED_OR_CLAIMED, ProposalStatusKey.COMPLETED].includes(
-      proposal.status
-    )
+    [ProposalStatusKey.CANCELLED, ProposalStatusKey.FAILED, ProposalStatusKey.COMPLETED].includes(proposal.status)
   ) {
     render.push(<Delete proposal={proposal} onChange={onChange} key="delete" />);
   }

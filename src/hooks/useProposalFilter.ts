@@ -37,11 +37,11 @@ interface ProposalFilterReturn {
 
 const defaultFilterStatus = [
   ProposalStatusKey.DRAFTING,
-  ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS,
-  ProposalStatusKey.APPROVED_OR_REPORTED,
-  ProposalStatusKey.VOTING_OR_ACCEPTED,
-  ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
-  ProposalStatusKey.FAILED_OR_CLAIMED,
+  ProposalStatusKey.SUBMITTED,
+  ProposalStatusKey.APPROVED,
+  ProposalStatusKey.VOTING,
+  ProposalStatusKey.IN_PROGRESS,
+  ProposalStatusKey.FAILED,
   ProposalStatusKey.CANCELLED,
   ProposalStatusKey.FAILED_DRAFT,
 ];

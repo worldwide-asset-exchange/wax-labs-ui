@@ -30,7 +30,7 @@ export function SubmitProposal({
 
       toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.SUBMITTED_OR_DELIVERABLE_IN_PROGRESS);
+      onChange(ProposalStatusKey.SUBMITTED);
     } catch (e) {
       console.log('Cancel Proposal', e);
     }

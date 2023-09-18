@@ -23,7 +23,7 @@ export function Voting({ proposal, onChange }: { proposal: Proposal; onChange: (
 
       toast({ description: t('admin.voting.votingProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.VOTING_OR_ACCEPTED);
+      onChange(ProposalStatusKey.VOTING);
     } catch (e) {
       console.log('onSetReviewer error', e);
     }
@@ -38,7 +38,7 @@ export function Voting({ proposal, onChange }: { proposal: Proposal; onChange: (
 
       toast({ description: t('admin.voting.endVotingProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.VOTING_OR_ACCEPTED);
+      onChange(ProposalStatusKey.VOTING);
     } catch (e) {
       console.log('onSetReviewer error', e);
     }
@@ -46,12 +46,12 @@ export function Voting({ proposal, onChange }: { proposal: Proposal; onChange: (
 
   return (
     <>
-      {proposal.proposer === actor && proposal.status === ProposalStatusKey.APPROVED_OR_REPORTED && (
+      {proposal.proposer === actor && proposal.status === ProposalStatusKey.APPROVED && (
         <Button variant="tertiary" onClick={onBeginVoting}>
           {t('admin.voting.beginVoting')}
         </Button>
       )}
-      {proposal.status === ProposalStatusKey.VOTING_OR_ACCEPTED && (
+      {proposal.status === ProposalStatusKey.VOTING && (
         <Button variant="tertiary" onClick={onEndVoting}>
           {t('admin.voting.endVoting')}
         </Button>

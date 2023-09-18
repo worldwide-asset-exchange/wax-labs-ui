@@ -27,6 +27,7 @@ export interface InputDialogProps {
   placeholder?: string;
   title: string;
   type?: 'text' | 'number' | 'textarea';
+  disableOnDirty?: boolean;
 }
 
 export function InputDialog({
@@ -39,6 +40,7 @@ export function InputDialog({
   type,
   onSubmit,
   onClose,
+  disableOnDirty = false,
 }: InputDialogProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(open);
@@ -125,7 +127,7 @@ export function InputDialog({
               <Button variant="tertiary" onClick={handleResetField}>
                 {t('reset')}
               </Button>
-              <Button variant="primary" type="submit" disabled={!isDirty}>
+              <Button variant="primary" type="submit" disabled={disableOnDirty ? !isDirty : false}>
                 {t('apply')}
               </Button>
             </footer>

@@ -22,3 +22,14 @@ export function toProposalStatus(statusKey: ProposalStatusKey): ProposalStatus {
       return ProposalStatus.COMPLETE;
   }
 }
+
+const validCharacters = '12345abcdefghijklmnopqrstuvxyz';
+export function randomEosioName(length = 12) {
+  const result: string[] = [];
+
+  for (let i = 0; i < length; i++) {
+    result.push(validCharacters.charAt(Math.floor(Math.random() * validCharacters.length)));
+  }
+
+  return result.join('');
+}

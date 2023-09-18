@@ -47,10 +47,11 @@ export function UpdateReviewer({
         placeholder={t('admin.reviewer.reviewerPlaceholder')!}
         maxLength={12}
         open={isOpen}
-        defaultValue={proposal.reviewer ?? actor}
+        defaultValue={proposal.reviewer || actor}
         title={proposal.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
         onSubmit={onSetReviewer}
         onClose={() => setIsOpen(false)}
+        disableOnDirty={false}
       />
     </>
   );

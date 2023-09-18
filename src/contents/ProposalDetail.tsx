@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineArticle, MdOutlineInfo, MdOutlinePerson, MdOutlinePlaylistAddCheck } from 'react-icons/md';
-import { Link as LinkRouter, Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link as LinkRouter, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { proposalContentData, proposalStatusComment, singleProposal } from '@/api/chain/proposals';
 import { Proposal } from '@/api/models/proposal';
 import { ActionsBar } from '@/components/AdminBar';
+import { Vote } from '@/components/AdminBar/proposalStates/Vote.tsx';
 import { ProposalDetailDeliverables } from '@/components/ProposalDetail/ProposalDetailDeliverables';
 import { ProposalDetailDetail } from '@/components/ProposalDetail/ProposalDetailDetail';
 import { ProposalDetailOverview } from '@/components/ProposalDetail/ProposalDetailOverview';
@@ -16,6 +17,7 @@ import * as Tabs from '@/components/Tabs';
 import { ProposalStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
 import { useIsAdmin } from '@/hooks/useIsAdmin.ts';
+import { useToast } from '@/hooks/useToast.ts';
 import { imageExists } from '@/utils/image';
 import { toProposalStatus } from '@/utils/proposalUtils';
 
@@ -23,6 +25,7 @@ export function ProposalDetail() {
   const { t } = useTranslation();
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [currentStatus, setCurrentStatus] = useState<ProposalStatusKey | null>(null);
 
@@ -31,6 +34,7 @@ export function ProposalDetail() {
   const proposalId = Number(params.proposalId);
   const { actor } = useChain();
   const isAdmin = useIsAdmin();
+  const { toast } = useToast();
 
   const {
     data: proposal,
@@ -45,6 +49,12 @@ export function ProposalDetail() {
         proposalContentData({ proposalId }),
         proposalStatusComment({ proposalId }),
       ]);
+
+      if (!proposalData) {
+        toast({ description: t('proposalNotFound'), variant: 'error' });
+        navigate('/proposals');
+        return Promise.reject(t('proposalNotFound'));
+      }
 
       if (proposalData?.image_url) {
         try {
@@ -100,14 +110,23 @@ export function ProposalDetail() {
 
   return (
     <>
-      {actor === proposal.proposer && (
+      {(actor === proposal.proposer || isAdmin) && (
         <div className="bg-subtle">
           <div className="mx-auto flex max-w-5xl items-center justify-between p-4">
             <div className="flex-none">
               <StatusTag status={toProposalStatus(currentStatus ?? proposal.status)} />
             </div>
             <div className="flex-none">
-              {isAdmin && <ActionsBar proposal={proposal} onChange={onProposalChanged} />}
+              <ActionsBar proposal={proposal} onChange={onProposalChanged} />
+            </div>
+          </div>
+        </div>
+      )}
+      {actor !== proposal.proposer && proposal.status === ProposalStatusKey.VOTING_OR_ACCEPTED && (
+        <div className="bg-subtle">
+          <div className="mx-auto flex max-w-5xl items-center justify-between p-4">
+            <div className="flex-none">
+              <Vote proposal={proposal} />
             </div>
           </div>
         </div>
@@ -117,7 +136,7 @@ export function ProposalDetail() {
         <p className="subtitle-1 text-low-contrast">{proposal.description}</p>
         {proposal.statusComment && (
           <>
-            <h3 className="display-1 title-3 text-accent">{t('toBeImproved')}</h3>
+            <h3 className="title-3 text-accent">{t('latestStatusComment')}</h3>
             <p
               className="subtitle-1 text-low-contrast"
               dangerouslySetInnerHTML={{

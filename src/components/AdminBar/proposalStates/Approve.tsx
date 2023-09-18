@@ -24,7 +24,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
         memo: '',
       });
 
-      toast({ description: t('admin.approval.approveProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
       onChange(ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS);
     } catch (e) {
@@ -42,7 +42,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
         draft: true,
       });
 
-      toast({ description: t('admin.approval.approveProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
       onChange(ProposalStatusKey.APPROVED_OR_REPORTED);
     } catch (e) {
@@ -60,7 +60,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
         draft: true,
       });
 
-      toast({ description: t('admin.approval.approveProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
       onChange(ProposalStatusKey.FAILED_DRAFT);
     } catch (e) {
@@ -81,7 +81,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
       </Button>
 
       <InputDialog
-        label={t('admin.approve.enterRequiredChanges')!}
+        label={t('admin.approve.enterRequiredChangesLabel')!}
         maxLength={350}
         open={openRejectionResponse}
         title={t('admin.approve.askForChanges')}

@@ -14,7 +14,7 @@ export async function vote({ session, ballotName, voteOption }: CreateVoteAction
     createVoteAction({ session, ballotName, voteOption }),
   ];
 
-  if (hasVotedBefore) {
+  if (!hasVotedBefore) {
     actions.unshift(createRegVoterAction({ session }));
   }
 

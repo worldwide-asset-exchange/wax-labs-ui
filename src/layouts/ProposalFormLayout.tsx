@@ -425,7 +425,7 @@ export function ProposalFormLayout() {
               </Link>
             )}
             <Button type="submit" variant="primary">
-              {proposalId && currentStep !== 4 ? t('next') : !proposalId && currentStep < 3 ? t('next') : t('submit')}
+              {currentStep < 4 ? t('next') : !proposalId ? t('createProposal') : t('updateProposal')}
             </Button>
           </div>
         </header>

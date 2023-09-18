@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import {
+  MdAssessment,
   MdCalendarToday,
   MdOutlineAttachMoney,
   MdOutlineCheck,
@@ -17,7 +18,9 @@ import { deliverables as getDeliverables } from '@/api/chain/proposals';
 import { Proposal } from '@/api/models/proposal.ts';
 import { SubmitReport } from '@/components/AdminBar/proposalStates/SubmitReport.tsx';
 import * as Info from '@/components/Info';
+import { Link } from '@/components/Link.tsx';
 import { StatusTag } from '@/components/StatusTag';
+import { DeliverableStatusKey } from '@/constants.ts';
 import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
@@ -127,6 +130,21 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                       <Info.Item label={t('daysToComplete')} value={String(deliverable.days_to_complete)}>
                         <MdOutlineCheck size={24} />
                       </Info.Item>
+
+                      {deliverable.status === DeliverableStatusKey.CLAIMED && (
+                        <Info.Item
+                          label={t('admin.claim.viewCompletionReport')}
+                          value={
+                            <div className="flex justify-end">
+                              <Link variant="link" to={deliverable.report} newWindow>
+                                {t('admin.claim.viewCompletionReport')}
+                              </Link>
+                            </div>
+                          }
+                        >
+                          <MdAssessment size={24} />
+                        </Info.Item>
+                      )}
 
                       <SubmitReport proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
                     </Info.Root>

@@ -7,7 +7,7 @@ import { Deliverables } from '@/api/models/deliverables.ts';
 import { Proposal } from '@/api/models/proposal.ts';
 import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
-import { DeliverableStatusKey, ProposalStatusKey } from '@/constants.ts';
+import { DeliverableStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
@@ -18,7 +18,7 @@ export function SubmitReport({
 }: {
   proposal: Proposal;
   deliverable: Deliverables;
-  onChange: (status: ProposalStatusKey) => void;
+  onChange: (status: DeliverableStatusKey) => void;
 }) {
   const { t } = useTranslation();
   const { actor, session } = useChain();
@@ -40,9 +40,9 @@ export function SubmitReport({
 
       toast({ description: t('admin.submitReport.submitReportSuccess'), variant: 'success' });
 
-      onChange(proposal.status);
+      onChange(DeliverableStatusKey.REPORTED);
     } catch (e) {
-      console.log('onSetReviewer error', e);
+      console.log('onSubmitReport error', e);
     }
   };
 

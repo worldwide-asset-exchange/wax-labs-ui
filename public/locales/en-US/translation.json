@@ -264,6 +264,11 @@
       "beginVotingProposalSuccess": "Success: The proposal voting has started.",
       "endVotingProposalSuccess": "Success: Proposal voting has ended.",
       "votingProposalSuccess": "Success: Proposal has been voted."
+    },
+    "claim": {
+      "claimLabel": "Claim",
+      "claimSuccess": "Success: Deliverable has been claimed.",
+      "viewCompletionReport": "View completion report"
     }
   },
   "votes": "Votes",

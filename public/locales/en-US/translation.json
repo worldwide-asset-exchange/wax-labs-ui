@@ -269,11 +269,18 @@
       "claimLabel": "Claim",
       "claimSuccess": "Success: Deliverable has been claimed.",
       "viewCompletionReport": "View completion report"
+    },
+    "reviewReport": {
+      "approveReportLabel": "Approve report",
+      "rejectReportLabel": "Approve report",
+      "reviewReportLabel": "Enter a review link:",
+      "reviewReportPlaceholder": "E.g.: https://report.url"
     }
   },
   "votes": "Votes",
   "noVotes": "No votes were cast.",
   "noVotesYet": "No votes have been cast yet.",
   "submitReport": "Submit report",
+  "reviewReport": "Review report",
   "messageErrorEmpty": "Please provide a valid input"
 }

@@ -16,11 +16,12 @@ import { useParams } from 'react-router-dom';
 
 import { deliverables as getDeliverables } from '@/api/chain/proposals';
 import { Proposal } from '@/api/models/proposal.ts';
+import { Claim } from '@/components/AdminBar/proposalStates/Claim.tsx';
+import { ReviewDeliverable } from '@/components/AdminBar/proposalStates/ReviewDeliverable.tsx';
 import { SubmitReport } from '@/components/AdminBar/proposalStates/SubmitReport.tsx';
 import * as Info from '@/components/Info';
 import { Link } from '@/components/Link.tsx';
 import { StatusTag } from '@/components/StatusTag';
-import { DeliverableStatusKey } from '@/constants.ts';
 import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
@@ -131,7 +132,7 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                         <MdOutlineCheck size={24} />
                       </Info.Item>
 
-                      {deliverable.status === DeliverableStatusKey.CLAIMED && (
+                      {deliverable.report && (
                         <Info.Item
                           label={t('admin.claim.viewCompletionReport')}
                           value={
@@ -146,7 +147,9 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                         </Info.Item>
                       )}
 
+                      <Claim proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
                       <SubmitReport proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
+                      <ReviewDeliverable proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
                     </Info.Root>
                   </Collapsible.Content>
                 </article>

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import {
+  MdAssessment,
   MdCalendarToday,
   MdOutlineAttachMoney,
   MdOutlineCheck,
@@ -14,22 +15,32 @@ import {
 import { useParams } from 'react-router-dom';
 
 import { deliverables as getDeliverables } from '@/api/chain/proposals';
+import { Proposal } from '@/api/models/proposal.ts';
+import { Claim } from '@/components/AdminBar/proposalStates/Claim.tsx';
+import { ReviewDeliverable } from '@/components/AdminBar/proposalStates/ReviewDeliverable.tsx';
+import { SubmitReport } from '@/components/AdminBar/proposalStates/SubmitReport.tsx';
 import * as Info from '@/components/Info';
+import { Link } from '@/components/Link.tsx';
 import { StatusTag } from '@/components/StatusTag';
-import { toProposalStatus } from '@/utils/proposalUtils.ts';
+import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
+  proposal: Proposal;
   total: number;
   completed: number;
 }
 
-export function ProposalDetailDeliverables({ total, completed }: ProposalDetailDeliverablesProps) {
+export function ProposalDetailDeliverables({ proposal, total, completed }: ProposalDetailDeliverablesProps) {
   const { t } = useTranslation();
 
   const params = useParams();
   const proposalId = Number(params.proposalId);
 
-  const { data: deliverables, isLoading: isLoadingDeliverables } = useQuery({
+  const {
+    data: deliverables,
+    isLoading: isLoadingDeliverables,
+    refetch,
+  } = useQuery({
     queryKey: ['proposal', proposalId, 'deliverables'],
     queryFn: () => getDeliverables({ proposalId }).then(response => response.deliverables),
     enabled: !!proposalId,
@@ -86,7 +97,7 @@ export function ProposalDetailDeliverables({ total, completed }: ProposalDetailD
                         </div>
                       </div>
                       <div className="flex-none">
-                        <StatusTag status={toProposalStatus(deliverable.status)} />
+                        <StatusTag status={toDeliverableStatus(deliverable.status)} />
                       </div>
                     </div>
                     <div className="flex-none text-low-contrast group-hover/deliverable-header:text-accent-dark group-data-[state=open]/deliverable-header:hidden">
@@ -120,6 +131,25 @@ export function ProposalDetailDeliverables({ total, completed }: ProposalDetailD
                       <Info.Item label={t('daysToComplete')} value={String(deliverable.days_to_complete)}>
                         <MdOutlineCheck size={24} />
                       </Info.Item>
+
+                      {deliverable.report && (
+                        <Info.Item
+                          label={t('admin.claim.viewCompletionReport')}
+                          value={
+                            <div className="flex justify-end">
+                              <Link variant="link" to={deliverable.report} newWindow>
+                                {t('admin.claim.viewCompletionReport')}
+                              </Link>
+                            </div>
+                          }
+                        >
+                          <MdAssessment size={24} />
+                        </Info.Item>
+                      )}
+
+                      <Claim proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
+                      <SubmitReport proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
+                      <ReviewDeliverable proposal={proposal} deliverable={deliverable} onChange={() => refetch()} />
                     </Info.Root>
                   </Collapsible.Content>
                 </article>

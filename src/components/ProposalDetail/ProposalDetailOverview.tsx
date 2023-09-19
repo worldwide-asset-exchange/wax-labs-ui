@@ -24,6 +24,8 @@ export function ProposalDetailOverview({ imageURL, content, financialRoadMap }: 
           __html: parse(content, {
             gfm: true,
             breaks: true,
+            headerIds: false,
+            mangle: false,
           }),
         }}
       />
@@ -34,6 +36,8 @@ export function ProposalDetailOverview({ imageURL, content, financialRoadMap }: 
           __html: parse(financialRoadMap, {
             gfm: true,
             breaks: true,
+            headerIds: false,
+            mangle: false,
           }),
         }}
       />

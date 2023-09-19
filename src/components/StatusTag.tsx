@@ -1,7 +1,7 @@
-import { ProposalStatus } from '@/constants.ts';
+import { DeliverableStatus, ProposalStatus } from '@/constants.ts';
 
 interface StatusTagProps {
-  status: ProposalStatus;
+  status: ProposalStatus | DeliverableStatus;
 }
 
 export function StatusTag({ status }: StatusTagProps) {

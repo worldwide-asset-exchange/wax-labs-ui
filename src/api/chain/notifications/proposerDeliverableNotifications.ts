@@ -4,16 +4,16 @@ import { nameBounds } from '@/api/chain/proposals/query/proposalBounds.ts';
 import { DeliverablesStatusToCheck } from '@/api/models/common.ts';
 import { WaxLabsNotification } from '@/api/models/notifications.ts';
 import { Proposal } from '@/api/models/proposal.ts';
-import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
+import { DeliverableStatusKey, NotificationType, ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 const statusToCheck: DeliverablesStatusToCheck[] = [
   {
     notificationType: NotificationType.CLAIM_DELIVERABLE,
-    proposalStatusKey: ProposalStatusKey.VOTING_OR_ACCEPTED,
+    deliverableStatusKey: DeliverableStatusKey.ACCEPTED,
   },
   {
     notificationType: NotificationType.REJECTED_DELIVERABLE,
-    proposalStatusKey: ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
+    deliverableStatusKey: DeliverableStatusKey.REJECTED,
   },
 ];
 
@@ -24,7 +24,7 @@ export default async function proposerDeliverableNotifications({
 }): Promise<WaxLabsNotification[]> {
   try {
     const { upperBound, lowerBound } = nameBounds({
-      statusKey: ProposalStatusKey.REJECTED_OR_PROPOSAL_IN_PROGRESS,
+      statusKey: ProposalStatusKey.IN_PROGRESS,
       actor,
     });
 

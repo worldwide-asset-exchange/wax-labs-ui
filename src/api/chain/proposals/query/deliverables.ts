@@ -4,7 +4,7 @@ import { waxClient } from '@/api/chain';
 import { GetTableRowsResult } from '@/api/models';
 import { Currency } from '@/api/models/common.ts';
 import { Deliverables } from '@/api/models/deliverables.ts';
-import { LABS_CONTRACT_ACCOUNT, ProposalStatusKey, Tables } from '@/constants.ts';
+import { DeliverableStatusKey, LABS_CONTRACT_ACCOUNT, Tables } from '@/constants.ts';
 import { currencyToFloat } from '@/utils/parser.ts';
 
 export async function deliverables({
@@ -12,7 +12,7 @@ export async function deliverables({
   statuses,
 }: {
   proposalId: number;
-  statuses?: ProposalStatusKey[];
+  statuses?: DeliverableStatusKey[];
 }): Promise<{ deliverables: Deliverables[] }> {
   for (;;) {
     try {

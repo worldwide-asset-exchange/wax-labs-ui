@@ -4,7 +4,7 @@ import { Proposal } from '@/api/models/proposal.ts';
 import { ProposalFilterType, ProposalStatusKey } from '@/constants.ts';
 
 export function inVotingProposals(): Promise<Proposal[]> {
-  const { upperBound, lowerBound } = statBounds(ProposalStatusKey.VOTING_OR_ACCEPTED);
+  const { upperBound, lowerBound } = statBounds(ProposalStatusKey.VOTING);
 
   return getProposals({
     queryType: ProposalFilterType.BY_STAT_CAT,

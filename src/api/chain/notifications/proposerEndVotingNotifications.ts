@@ -10,7 +10,7 @@ export default async function proposerEndVotingNotifications({
 }): Promise<WaxLabsNotification[]> {
   try {
     const { upperBound, lowerBound } = nameBounds({
-      statusKey: ProposalStatusKey.VOTING_OR_ACCEPTED,
+      statusKey: ProposalStatusKey.VOTING,
       actor,
     });
 

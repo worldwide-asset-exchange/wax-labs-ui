@@ -4,7 +4,6 @@ import { Actions, LABS_CONTRACT_ACCOUNT } from '@/constants.ts';
 
 export interface CreateSetReviewerAction extends SessionProps {
   proposalId: number;
-  deliverableId: number;
   newReviewer: string;
 }
 
@@ -12,7 +11,6 @@ export default function createSetReviewerAction({
   session,
   newReviewer,
   proposalId,
-  deliverableId,
 }: CreateSetReviewerAction): Action<NewReviewer> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
@@ -26,7 +24,7 @@ export default function createSetReviewerAction({
     data: {
       new_reviewer: newReviewer,
       proposal_id: proposalId,
-      deliverable_id: deliverableId,
+      deliverable_id: 1,
     },
   };
 }

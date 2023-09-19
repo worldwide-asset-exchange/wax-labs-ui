@@ -73,11 +73,11 @@
             @apply bg-[#173743] text-[#57BFD4];
         }
 
-        &.in-review {
+        &.in-review, &.accepted {
             @apply bg-[#212C59] text-[#899CF8];
         }
 
-        &.approved {
+        &.approved, &.reported {
             @apply bg-[#183832] text-[#5AC2B3];
         }
 
@@ -101,7 +101,7 @@
             @apply bg-[#4E2018] text-[#E07258];
         }
 
-        &.completed {
+        &.completed, &.claimed {
             @apply bg-[#213824] text-[#7BBF7C];
         }
     }

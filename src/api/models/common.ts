@@ -1,5 +1,5 @@
 // Format: 1,2300.00 WAX
-import { NotificationType, ProposalStatusKey } from '@/constants.ts';
+import { DeliverableStatusKey, NotificationType } from '@/constants.ts';
 
 export type WAXCurrency = `${number} WAX`;
 
@@ -9,7 +9,7 @@ export type Currency = 'WAX' | 'USD';
 
 export interface DeliverablesStatusToCheck {
   notificationType: NotificationType;
-  proposalStatusKey: ProposalStatusKey;
+  deliverableStatusKey: DeliverableStatusKey;
 }
 
 export type IndexPosition =

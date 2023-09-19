@@ -115,7 +115,7 @@ export function ProposalFormLayout() {
         return Promise.reject('Proposal does not exist');
       }
 
-      if (proposalData.status !== ProposalStatusKey.DRAFTING) {
+      if (![ProposalStatusKey.DRAFTING, ProposalStatusKey.FAILED_DRAFT].includes(proposalData.status)) {
         toast({ description: 'Error: Proposal is not in drafting state', variant: 'error' });
         return Promise.reject('Proposal not in drafting state');
       }
@@ -425,7 +425,7 @@ export function ProposalFormLayout() {
               </Link>
             )}
             <Button type="submit" variant="primary">
-              {proposalId && currentStep !== 4 ? t('next') : !proposalId && currentStep < 3 ? t('next') : t('submit')}
+              {currentStep < 4 ? t('next') : !proposalId ? t('createProposal') : t('updateProposal')}
             </Button>
           </div>
         </header>

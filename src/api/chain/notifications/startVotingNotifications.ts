@@ -6,7 +6,7 @@ import { NotificationType, ProposalFilterType, ProposalStatusKey } from '@/const
 export default async function startVotingNotifications({ actor }: { actor: string }): Promise<WaxLabsNotification[]> {
   try {
     const { upperBound, lowerBound } = nameBounds({
-      statusKey: ProposalStatusKey.APPROVED_OR_REPORTED,
+      statusKey: ProposalStatusKey.APPROVED,
       actor,
     });
 

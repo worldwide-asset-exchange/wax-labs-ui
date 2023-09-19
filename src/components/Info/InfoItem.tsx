@@ -7,7 +7,7 @@ import { toProposalStatus } from '@/utils/proposalUtils.ts';
 interface InfoItemProps {
   children: ReactNode;
   label: string;
-  value?: string;
+  value?: string | ReactNode;
   className?: string;
   status?: number;
 }

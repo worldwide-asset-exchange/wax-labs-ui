@@ -1,17 +1,13 @@
-import { forwardRef, ReactNode, Ref } from 'react';
+import { ComponentProps, forwardRef, Ref } from 'react';
 
-interface ButtonProps {
+interface ButtonProps extends ComponentProps<'button'> {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
-  type?: 'button' | 'submit';
-  disabled?: boolean;
   active?: boolean;
   square?: boolean;
-  onClick?: () => void;
-  children: ReactNode;
 }
 
 function ButtonComponent(
-  { variant, type = 'button', active, square, disabled, onClick, children }: ButtonProps,
+  { variant, type = 'button', active, square, children, ...restProps }: ButtonProps,
   ref: Ref<HTMLButtonElement>
 ) {
   const className = ['btn', variant ?? 'default', square ? 'square' : '', active ? 'active' : '']
@@ -19,7 +15,7 @@ function ButtonComponent(
     .join(' ');
 
   return (
-    <button ref={ref} className={className} type={type} disabled={disabled} onClick={onClick}>
+    <button ref={ref} className={className} type={type} {...restProps}>
       {children}
     </button>
   );

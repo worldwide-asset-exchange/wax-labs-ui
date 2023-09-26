@@ -1,24 +1,26 @@
-import { ReactNode } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { forwardRef, Ref, RefAttributes } from 'react';
+import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 
-interface LinkProps {
+interface LinkProps extends RouterLinkProps, RefAttributes<HTMLAnchorElement> {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
-  newWindow?: boolean;
-  to: string;
   active?: boolean;
   square?: boolean;
-  children: ReactNode;
 }
 
-export function Link({ variant, newWindow, to, active, square, children }: LinkProps) {
+function LinkComponent(
+  { variant, active, square, children, ...restProps }: LinkProps,
+  ref: Ref<RouterLinkProps & HTMLAnchorElement>
+) {
   const className = ['btn', variant ?? 'link', square ? 'square' : '', active ? 'active' : '']
     .join(' ')
     .replace(/\s+/g, ' ')
     .trim();
 
   return (
-    <RouterLink className={className} to={to} target={newWindow ? '_blank' : '_self'}>
+    <RouterLink className={className} ref={ref} {...restProps}>
       {children}
     </RouterLink>
   );
 }
+
+export const Link = forwardRef(LinkComponent);

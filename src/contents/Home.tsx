@@ -1,10 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import { completedProposals, inProgressProposals, inReviewProposals, inVotingProposals } from '@/api/chain/proposals';
-import proposalLifecycleImg from '@/assets/proposal-lifecycle.png';
+import lifecycleApprovedImg from '@/assets/approved.png';
+import lifecycleDraftingImg from '@/assets/drafting.png';
+import lifecycleFinalImg from '@/assets/final.png';
+import lifecycleProgressImg from '@/assets/progress.png';
+import lifecycleReviewImg from '@/assets/review.png';
+import lifecycleVotingImg from '@/assets/voting.png';
 import { Link } from '@/components/Link';
+import * as Tabs from '@/components/Tabs';
 import { ProposalStatus } from '@/constants.ts';
 import { useConfigData } from '@/hooks/useConfigData.ts';
 
@@ -18,6 +25,8 @@ interface HomeDashBoard {
 export function Home() {
   const { t } = useTranslation();
   const { configs } = useConfigData();
+
+  const [lifecycleImg, setLifecycleImg] = useState(lifecycleDraftingImg);
 
   const { data: stats, isLoading } = useQuery<HomeDashBoard>({
     queryKey: ['stats'],
@@ -104,10 +113,62 @@ export function Home() {
           </p>
         </div>
       </div>
-      <div className="mt-44 flex flex-col items-center justify-center px-4 text-center text-high-contrast">
+      <div className="mx-auto mt-44 flex w-full max-w-7xl flex-col items-center justify-center gap-4 px-4 text-high-contrast">
         <h2 className="display-2">{t('theProposalLifecycle')}</h2>
-        <p className="body-1 m-4">{t('proposalLifecycleDescription')}</p>
-        <img className="mb-30 mt-2 rounded-xl" src={proposalLifecycleImg} />
+        <p className="body-1">{t('proposalLifecycleDescription')}</p>
+        <Tabs.Root>
+          <Tabs.Item
+            active={lifecycleImg == lifecycleDraftingImg}
+            onClick={() => {
+              setLifecycleImg(lifecycleDraftingImg);
+            }}
+          >
+            {t('inDrafting')}
+          </Tabs.Item>
+          <Tabs.Item
+            active={lifecycleImg == lifecycleReviewImg}
+            onClick={() => {
+              setLifecycleImg(lifecycleReviewImg);
+            }}
+          >
+            {t('inReview')}
+          </Tabs.Item>
+          <Tabs.Item
+            active={lifecycleImg == lifecycleApprovedImg}
+            onClick={() => {
+              setLifecycleImg(lifecycleApprovedImg);
+            }}
+          >
+            {t('approved')}
+          </Tabs.Item>
+          <Tabs.Item
+            active={lifecycleImg == lifecycleVotingImg}
+            onClick={() => {
+              setLifecycleImg(lifecycleVotingImg);
+            }}
+          >
+            {t('inVoting')}
+          </Tabs.Item>
+          <Tabs.Item
+            active={lifecycleImg == lifecycleProgressImg}
+            onClick={() => {
+              setLifecycleImg(lifecycleProgressImg);
+            }}
+          >
+            {t('inProgress')}
+          </Tabs.Item>
+          <Tabs.Item
+            active={lifecycleImg == lifecycleFinalImg}
+            onClick={() => {
+              setLifecycleImg(lifecycleFinalImg);
+            }}
+          >
+            {t('cancelled') + ' / ' + t('rejected') + ' / ' + t('completed')}
+          </Tabs.Item>
+        </Tabs.Root>
+        <div className="h-96 w-full rounded-xl">
+          <img className="h-full w-full object-contain" alt={t('theProposalLifecycle')!} src={lifecycleImg} />
+        </div>
       </div>
     </>
   );

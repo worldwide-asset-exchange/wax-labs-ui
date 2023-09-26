@@ -2,20 +2,16 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { submitProposal } from '@/api/chain/proposals';
-import { Proposal } from '@/api/models/proposal.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
+import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function SubmitProposal({
-  proposal,
-  onChange,
-}: {
-  proposal: Proposal;
-  onChange: (status: ProposalStatusKey) => void;
-}) {
+export function SubmitProposal() {
+  const { proposal, onChangeStatus } = useAdminProposalBar();
+
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { session } = useChain();
@@ -25,12 +21,12 @@ export function SubmitProposal({
     try {
       await submitProposal({
         session: session!,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
       });
 
       toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.SUBMITTED);
+      onChangeStatus(ProposalStatusKey.SUBMITTED);
     } catch (e) {
       console.log('Cancel Proposal', e);
     }
@@ -38,7 +34,7 @@ export function SubmitProposal({
 
   return (
     <>
-      <Button variant="tertiary" square onClick={() => setOpen(true)}>
+      <Button variant="link" square onClick={() => setOpen(true)}>
         {t('admin.submit.submitProposal')}
       </Button>
 

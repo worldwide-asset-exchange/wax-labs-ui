@@ -3,14 +3,16 @@ import { useTranslation } from 'react-i18next';
 
 import { reviewProposal } from '@/api/chain/reviewer/actions/reviewProposal.ts';
 import { skipVoting } from '@/api/chain/voting';
-import { Proposal } from '@/api/models/proposal.ts';
 import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
+import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: (status: ProposalStatusKey) => void }) {
+export function Approve() {
+  const { proposal, onChangeStatus } = useAdminProposalBar();
+
   const { t } = useTranslation();
   const [openRejectionResponse, setOpenRejectionResponse] = useState(false);
   const { session } = useChain();
@@ -20,13 +22,13 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
     try {
       await skipVoting({
         session: session!,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
         memo: '',
       });
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.IN_PROGRESS);
+      onChangeStatus(ProposalStatusKey.IN_PROGRESS);
     } catch (e) {
       console.log('onApprove error: ', e);
     }
@@ -36,7 +38,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
     try {
       await reviewProposal({
         session: session!,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
         memo: '',
         approve: true,
         draft: true,
@@ -44,7 +46,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.APPROVED);
+      onChangeStatus(ProposalStatusKey.APPROVED);
     } catch (e) {
       console.log('onCommunityApproval error: ', e);
     }
@@ -54,7 +56,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
     try {
       await reviewProposal({
         session: session!,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
         memo: value,
         approve: false,
         draft: true,
@@ -62,7 +64,7 @@ export function Approve({ proposal, onChange }: { proposal: Proposal; onChange: 
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChange(ProposalStatusKey.FAILED_DRAFT);
+      onChangeStatus(ProposalStatusKey.FAILED_DRAFT);
     } catch (e) {
       console.log('onCommunityApproval error: ', e);
     }

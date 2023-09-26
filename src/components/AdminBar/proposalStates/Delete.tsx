@@ -3,14 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { deleteProposal } from '@/api/chain/proposals';
-import { Proposal } from '@/api/models/proposal.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
-import { ProposalStatusKey } from '@/constants.ts';
+import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function Delete({ proposal, onChange }: { proposal: Proposal; onChange: (status: ProposalStatusKey) => void }) {
+export function Delete() {
+  const { proposal, onChangeStatus } = useAdminProposalBar();
+
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { session } = useChain();
@@ -21,12 +22,12 @@ export function Delete({ proposal, onChange }: { proposal: Proposal; onChange: (
     try {
       await deleteProposal({
         session: session!,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
       });
 
       toast({ description: t('admin.delete.deleteProposalSuccess'), variant: 'success' });
 
-      onChange(proposal.status);
+      onChangeStatus(proposal!.status);
 
       navigate('/proposals');
     } catch (e) {

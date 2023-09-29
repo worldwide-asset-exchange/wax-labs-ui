@@ -14,7 +14,6 @@ import { ProposalStatusKey } from '@/constants';
 import { useChain } from '@/hooks/useChain.ts';
 import { useIsAdmin } from '@/hooks/useIsAdmin.ts';
 import { useSingleProposal } from '@/hooks/useSingleProposal';
-import { AdminProposalBarProvider } from '@/providers/adminProposalBar';
 
 export function ProposalDetail() {
   const { t } = useTranslation();
@@ -25,7 +24,7 @@ export function ProposalDetail() {
   const { actor } = useChain();
   const isAdmin = useIsAdmin();
 
-  const { data: proposal, isLoading, isSuccess, refetch } = useSingleProposal();
+  const { data: proposal, isLoading, isSuccess } = useSingleProposal();
 
   if (isLoading) {
     return (
@@ -61,11 +60,7 @@ export function ProposalDetail() {
     <>
       {proposal?.status === ProposalStatusKey.VOTING && <Vote proposal={proposal} />}
 
-      {(actor === proposal.proposer || isAdmin) && (
-        <AdminProposalBarProvider proposal={proposal} refetch={refetch}>
-          <AdminProposalBar />
-        </AdminProposalBarProvider>
-      )}
+      {(actor === proposal.proposer || isAdmin) && <AdminProposalBar />}
 
       <header className="mx-auto max-w-5xl space-y-8 px-4 py-8">
         <h1 className="display-1 text-high-contrast">{proposal.title}</h1>

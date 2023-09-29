@@ -1,7 +1,8 @@
 import { ProposalStatusKey } from '@/constants.ts';
-import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useIsAdmin } from '@/hooks/useIsAdmin.ts';
+
+import { useSingleProposal } from './useSingleProposal';
 
 const actionsPerStatus = {
   edit: [ProposalStatusKey.DRAFTING, ProposalStatusKey.FAILED_DRAFT],
@@ -26,7 +27,7 @@ const actionsPerStatus = {
 };
 
 export function useActionsBar() {
-  const { proposal } = useAdminProposalBar();
+  const { data: proposal } = useSingleProposal();
 
   const { actor } = useChain();
   const isAdmin = useIsAdmin();

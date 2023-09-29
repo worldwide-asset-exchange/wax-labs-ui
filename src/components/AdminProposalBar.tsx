@@ -5,18 +5,19 @@ import { MdOutlineClose, MdOutlineCommentBank } from 'react-icons/md';
 import { ActionsBar } from '@/components/AdminBar';
 import { StatusTag } from '@/components/StatusTag';
 import { useActionsBar } from '@/hooks/useActionsBar';
-import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain';
 import { useSingleProposal } from '@/hooks/useSingleProposal';
+import { toProposalStatus } from '@/utils/proposalUtils';
 
 import { Button } from './Button';
 
 export function AdminProposalBar() {
-  const { status } = useAdminProposalBar();
   const { actor } = useChain();
   const { data: proposal } = useSingleProposal();
   const { t } = useTranslation();
   const { showActionButton } = useActionsBar();
+
+  const status = toProposalStatus(proposal!.status);
 
   return (
     <div className="bg-subtle">

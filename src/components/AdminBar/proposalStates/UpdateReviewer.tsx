@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { setReviewer } from '@/api/chain/admin';
 import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
-import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
+import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
 
 function UpdateReviewerComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
-  const { proposal, onChangeStatus } = useAdminProposalBar();
+  const { data: proposal, onChangeStatus } = useSingleProposal();
 
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);

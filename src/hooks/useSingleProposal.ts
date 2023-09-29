@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { proposalContentData, proposalStatusComment, singleProposal } from '@/api/chain/proposals';
 import { Proposal } from '@/api/models/proposal';
+import { queryClient } from '@/api/queryClient';
+import { ProposalStatusKey } from '@/constants';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 import { imageExists } from '@/utils/image';
@@ -17,8 +19,10 @@ export function useSingleProposal() {
   const { isAuthenticated } = useChain();
   const { toast } = useToast();
 
-  const data = useQuery({
-    queryKey: ['proposal', proposalId, isAuthenticated],
+  const queryKey = ['proposal', proposalId, isAuthenticated];
+
+  const result = useQuery({
+    queryKey,
     queryFn: async () => {
       const [proposalData, contentData, comments] = await Promise.all([
         singleProposal({ proposalId }),
@@ -49,5 +53,13 @@ export function useSingleProposal() {
     enabled: !!proposalId,
   });
 
-  return data;
+  async function onChangeStatus(status: ProposalStatusKey) {
+    result!.data!.status = status;
+    queryClient.setQueriesData(queryKey, result.data);
+  }
+
+  return {
+    ...result,
+    onChangeStatus,
+  };
 }

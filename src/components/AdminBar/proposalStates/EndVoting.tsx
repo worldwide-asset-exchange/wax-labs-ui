@@ -5,12 +5,13 @@ import { endVoting } from '@/api/chain/proposals';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
-import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
+import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
 
 function EndVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
-  const { proposal, onChangeStatus } = useAdminProposalBar();
+  const { data: proposal, onChangeStatus } = useSingleProposal();
+
   const { t } = useTranslation();
   const { session } = useChain();
   const { toast } = useToast();

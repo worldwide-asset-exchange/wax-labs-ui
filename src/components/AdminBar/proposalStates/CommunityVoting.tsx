@@ -1,7 +1,7 @@
 import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { submitProposal } from '@/api/chain/proposals';
+import { reviewProposal } from '@/api/chain/reviewer/actions/reviewProposal.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -9,46 +9,49 @@ import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-function SubmitProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+function CommunityVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { proposal, onChangeStatus } = useAdminProposalBar();
 
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
   const { session } = useChain();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
-  const onSubmitProposal = async () => {
+  const onCommunityApproval = async () => {
     try {
-      await submitProposal({
+      await reviewProposal({
         session: session!,
         proposalId: proposal!.proposal_id,
+        memo: '',
+        approve: true,
+        draft: true,
       });
 
-      toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.SUBMITTED);
+      onChangeStatus(ProposalStatusKey.APPROVED);
     } catch (e) {
-      console.log('Cancel Proposal', e);
+      console.log('onCommunityApproval error: ', e);
     }
   };
 
   return (
     <>
       <Button {...props} ref={ref} variant="link" square onClick={() => setOpen(true)}>
-        {t('admin.submit.submitProposal')}
+        {t('admin.approve.communityVoting')}
       </Button>
 
       <AlertDialog.Root
         open={open}
         onOpenChange={setOpen}
-        title={t('admin.submit.submitProposal')}
-        description={t('admin.submit.submitProposalConfirmation')}
+        title={t('admin.approve.communityVoting')}
+        description={t('admin.approve.communityVotingConfirmation')}
       >
-        <AlertDialog.Action onClick={onSubmitProposal}>{t('submit')}</AlertDialog.Action>
+        <AlertDialog.Action onClick={onCommunityApproval}>{t('submit')}</AlertDialog.Action>
         <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
       </AlertDialog.Root>
     </>
   );
 }
 
-export const SubmitProposal = forwardRef(SubmitProposalComponent);
+export const CommunityVoting = forwardRef(CommunityVotingComponent);

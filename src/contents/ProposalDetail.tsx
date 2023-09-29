@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { MdOutlineArticle, MdOutlineInfo, MdOutlinePerson, MdOutlinePlaylistAddCheck } from 'react-icons/md';
 import { Link as LinkRouter, Navigate, useSearchParams } from 'react-router-dom';
 
-import { Vote } from '@/components/AdminBar/proposalStates/Vote.tsx';
+import { Vote } from '@/components/AdminBar/proposalStates/Vote';
 import { AdminProposalBar } from '@/components/AdminProposalBar';
 import { ProposalDetailDeliverables } from '@/components/ProposalDetail/ProposalDetailDeliverables';
 import { ProposalDetailDetail } from '@/components/ProposalDetail/ProposalDetailDetail';
 import { ProposalDetailOverview } from '@/components/ProposalDetail/ProposalDetailOverview';
 import { ProposalDetailProposer } from '@/components/ProposalDetail/ProposalDetailProposer';
 import * as Tabs from '@/components/Tabs';
-import { ProposalStatusKey } from '@/constants.ts';
+import { ProposalStatusKey } from '@/constants';
 import { useChain } from '@/hooks/useChain.ts';
 import { useIsAdmin } from '@/hooks/useIsAdmin.ts';
 import { useSingleProposal } from '@/hooks/useSingleProposal';
@@ -59,6 +59,8 @@ export function ProposalDetail() {
 
   return (
     <>
+      {proposal?.status === ProposalStatusKey.VOTING && <Vote proposal={proposal} />}
+
       {(actor === proposal.proposer || isAdmin) && (
         <AdminProposalBarProvider proposal={proposal} refetch={refetch}>
           <AdminProposalBar />
@@ -68,18 +70,6 @@ export function ProposalDetail() {
       <header className="mx-auto max-w-5xl space-y-8 px-4 py-8">
         <h1 className="display-1 text-high-contrast">{proposal.title}</h1>
         <p className="subtitle-1 text-low-contrast">{proposal.description}</p>
-        {proposal.statusComment && actor === proposal.proposer && (
-          <>
-            <h3 className="title-3 text-accent">{t('latestStatusComment')}</h3>
-            <p
-              className="subtitle-1 text-low-contrast"
-              dangerouslySetInnerHTML={{
-                __html: proposal.statusComment,
-              }}
-            />
-          </>
-        )}
-        {proposal.status === ProposalStatusKey.VOTING && <Vote proposal={proposal} />}
       </header>
       <Tabs.Root smallSize>
         <LinkRouter to="?tab=overview">

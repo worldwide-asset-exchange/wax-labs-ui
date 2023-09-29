@@ -251,7 +251,9 @@
     "approve": {
       "askForChanges": "Ask for changes",
       "approveProposal": "Approve proposal",
+      "approveProposalConfirmation": "Are you sure you want to approve this proposal?",
       "communityVoting": "Require community voting",
+      "communityVotingConfirmation": "Are you sure you want to require community voting this proposal?", 
       "cancelProposalConfirmation": "Are you sure you want to cancel this proposal?",
       "approveProposalSuccess": "Success: Proposal has been approved.",
       "enterRequiredChangesLabel": "Enter required changes.",
@@ -260,7 +262,9 @@
     },
     "voting": {
       "beginVoting": "Begin voting",
+      "beginVotingConfirmation": "Are you sure you want to begin voting this proposal?",
       "endVoting": "End voting",
+      "endVotingConfirmation": "Are you sure you want to end voting this proposal?",
       "beginVotingProposalSuccess": "Success: The proposal voting has started.",
       "endVotingProposalSuccess": "Success: Proposal voting has ended.",
       "votingProposalSuccess": "Success: Proposal has been voted."
@@ -278,8 +282,8 @@
     }
   },
   "votes": "Votes",
-  "noVotes": "No votes were cast.",
-  "noVotesYet": "No votes have been cast yet.",
+  "noVotes": "No votes were cast",
+  "noVotesYet": "No votes have been cast yet",
   "submitReport": "Submit report",
   "reviewReport": "Review report",
   "messageErrorEmpty": "Please provide a valid input"

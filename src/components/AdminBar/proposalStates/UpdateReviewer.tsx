@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { setReviewer } from '@/api/chain/admin';
@@ -8,7 +8,7 @@ import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function UpdateReviewer() {
+function UpdateReviewerComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { proposal, onChangeStatus } = useAdminProposalBar();
 
   const { t } = useTranslation();
@@ -34,9 +34,10 @@ export function UpdateReviewer() {
 
   return (
     <>
-      <Button variant="tertiary" onClick={() => setIsOpen(true)}>
+      <Button {...props} ref={ref} variant="link" square onClick={() => setIsOpen(true)}>
         {proposal!.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
       </Button>
+
       <InputDialog
         label={t('admin.approve')!}
         placeholder={t('admin.approve.reviewerPlaceholder')!}
@@ -51,3 +52,5 @@ export function UpdateReviewer() {
     </>
   );
 }
+
+export const UpdateReviewer = forwardRef(UpdateReviewerComponent);

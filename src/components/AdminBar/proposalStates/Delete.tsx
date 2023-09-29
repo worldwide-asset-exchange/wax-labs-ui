@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function Delete() {
+function DeleteComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { proposal, onChangeStatus } = useAdminProposalBar();
 
   const { t } = useTranslation();
@@ -37,9 +37,10 @@ export function Delete() {
 
   return (
     <>
-      <Button variant="tertiary" onClick={() => setIsOpen(true)}>
+      <Button {...props} ref={ref} variant="link" square onClick={() => setIsOpen(true)}>
         {t('admin.delete.deleteProposal')}
       </Button>
+
       <AlertDialog.Root
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -52,3 +53,5 @@ export function Delete() {
     </>
   );
 }
+
+export const Delete = forwardRef(DeleteComponent);

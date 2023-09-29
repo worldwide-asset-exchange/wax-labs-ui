@@ -1,7 +1,7 @@
 import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { submitProposal } from '@/api/chain/proposals';
+import { endVoting } from '@/api/chain/proposals';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -9,46 +9,45 @@ import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-function SubmitProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+function EndVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { proposal, onChangeStatus } = useAdminProposalBar();
-
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
   const { session } = useChain();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
-  const onSubmitProposal = async () => {
+  const onEndVoting = async () => {
     try {
-      await submitProposal({
+      await endVoting({
         session: session!,
         proposalId: proposal!.proposal_id,
       });
 
-      toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.voting.endVotingProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.SUBMITTED);
+      onChangeStatus(ProposalStatusKey.VOTING);
     } catch (e) {
-      console.log('Cancel Proposal', e);
+      console.log('onSetReviewer error', e);
     }
   };
 
   return (
     <>
       <Button {...props} ref={ref} variant="link" square onClick={() => setOpen(true)}>
-        {t('admin.submit.submitProposal')}
+        {t('admin.voting.endVoting')}
       </Button>
 
       <AlertDialog.Root
         open={open}
         onOpenChange={setOpen}
-        title={t('admin.submit.submitProposal')}
-        description={t('admin.submit.submitProposalConfirmation')}
+        title={t('admin.voting.endVoting')}
+        description={t('admin.voting.endVotingConfirmation')}
       >
-        <AlertDialog.Action onClick={onSubmitProposal}>{t('submit')}</AlertDialog.Action>
+        <AlertDialog.Action onClick={onEndVoting}>{t('submit')}</AlertDialog.Action>
         <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
       </AlertDialog.Root>
     </>
   );
 }
 
-export const SubmitProposal = forwardRef(SubmitProposalComponent);
+export const EndVoting = forwardRef(EndVotingComponent);

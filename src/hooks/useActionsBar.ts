@@ -13,7 +13,8 @@ const actionsPerStatus = {
     ProposalStatusKey.VOTING,
   ],
   approve: [ProposalStatusKey.SUBMITTED],
-  voting: [ProposalStatusKey.APPROVED, ProposalStatusKey.VOTING],
+  beginVoting: [ProposalStatusKey.APPROVED],
+  endVoting: [ProposalStatusKey.VOTING],
   cancelProposal: [
     ProposalStatusKey.DRAFTING,
     ProposalStatusKey.FAILED_DRAFT,
@@ -36,16 +37,32 @@ export function useActionsBar() {
   const showSubmit = isProposer && actionsPerStatus.submit.includes(proposal!.status);
   const showUpdateReviewer = isAdmin && actionsPerStatus.updateReviewer.includes(proposal!.status);
   const showApprove = isAdmin && proposal!.reviewer && actionsPerStatus.approve.includes(proposal!.status);
-  const showVoting = isAdminOrProposer && actionsPerStatus.voting.includes(proposal!.status);
+
+  const showBeginVoting = isProposer && actionsPerStatus.beginVoting.includes(proposal!.status);
+  const showEndVoting = isAdminOrProposer && actionsPerStatus.endVoting.includes(proposal!.status);
+
   const showCancelProposal = isAdminOrProposer && actionsPerStatus.cancelProposal.includes(proposal!.status);
   const showDelete = isAdminOrProposer && actionsPerStatus.delete.includes(proposal!.status);
 
+  const showActionButton =
+    showEdit ||
+    showSubmit ||
+    showUpdateReviewer ||
+    showApprove ||
+    showBeginVoting ||
+    showEndVoting ||
+    showCancelProposal ||
+    showDelete;
+
   return {
+    showActionButton,
+
     showEdit,
     showSubmit,
     showUpdateReviewer,
     showApprove,
-    showVoting,
+    showBeginVoting,
+    showEndVoting,
     showCancelProposal,
     showDelete,
   };

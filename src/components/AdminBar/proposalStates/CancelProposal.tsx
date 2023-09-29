@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { cancelProposal } from '@/api/chain/proposals';
@@ -9,7 +9,7 @@ import { useAdminProposalBar } from '@/hooks/useAdminProposalBar';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function CancelProposal() {
+function CancelProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { proposal, onChangeStatus } = useAdminProposalBar();
 
   const { t } = useTranslation();
@@ -35,7 +35,7 @@ export function CancelProposal() {
 
   return (
     <>
-      <Button variant="link" square onClick={() => setOpen(true)}>
+      <Button {...props} ref={ref} variant="link" square onClick={() => setOpen(true)}>
         {t('admin.cancel.cancelProposal')}
       </Button>
 
@@ -51,3 +51,5 @@ export function CancelProposal() {
     </>
   );
 }
+
+export const CancelProposal = forwardRef(CancelProposalComponent);

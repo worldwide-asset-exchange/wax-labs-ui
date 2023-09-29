@@ -49,52 +49,56 @@ export function Vote({ proposal }: { proposal: Proposal }) {
   };
 
   return (
-    <div className="flex items-end gap-4">
-      {data?.totalVotes && (
-        <div className="mr-3 flex flex-col gap-2 align-baseline">
-          <h4 className="title-2 text-high-contrast">{t('votes')}:</h4>
+    <div className="border-b border-subtle-light bg-subtle">
+      <div className="mx-auto max-w-5xl p-4">
+        {!data?.totalVotes && (
+          <div className="label-1 rounded-md bg-app p-2 text-center font-bold text-high-contrast">
+            {data?.ended ? t('noVotes') : t('noVotesYet')}
+          </div>
+        )}
 
-          <div className="flex flex-row gap-4">
+        {data?.totalVotes && (
+          <div className="mr-3 flex flex-col gap-2 align-baseline">
+            <h4 className="title-2 text-high-contrast">{t('votes')}:</h4>
+
             <div className="flex flex-row gap-4">
-              <p className="title-3 text-high-contrast">Yes</p>
-              <span
-                className="title-3 text-accent"
-                style={{
-                  width: `${data?.yesPercentage}`,
-                }}
-              >
-                <h4 className="votesDisplay__percentage">{data?.yesPercentage}</h4>
-              </span>
-            </div>
-            <div className="flex flex-row gap-4">
-              <p className="title-3 text-high-contrast">No</p>
-              <span
-                className="title-3 text-accent"
-                style={{
-                  width: `${data?.noPercentage}`,
-                }}
-              >
-                <h4 className="votesDisplay__percentage">{data?.noPercentage}</h4>
-              </span>
+              <div className="flex flex-row gap-4">
+                <p className="title-3 text-high-contrast">Yes</p>
+                <span
+                  className="title-3 text-accent"
+                  style={{
+                    width: `${data?.yesPercentage}`,
+                  }}
+                >
+                  <h4 className="votesDisplay__percentage">{data?.yesPercentage}</h4>
+                </span>
+              </div>
+              <div className="flex flex-row gap-4">
+                <p className="title-3 text-high-contrast">No</p>
+                <span
+                  className="title-3 text-accent"
+                  style={{
+                    width: `${data?.noPercentage}`,
+                  }}
+                >
+                  <h4 className="votesDisplay__percentage">{data?.noPercentage}</h4>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {!data?.totalVotes && (
-        <p className="title-2 text-high-contrast">{data?.ended ? t('noVotes') : t('noVotesYet')}</p>
-      )}
-
-      {!data?.ended && actor !== proposal.proposer && (
-        <>
-          <Button variant="primary" onClick={() => onVote(true)}>
-            {t('yes')}
-          </Button>
-          <Button variant="secondary" onClick={() => onVote(false)}>
-            {t('no')}
-          </Button>
-        </>
-      )}
+        {!data?.ended && actor !== proposal.proposer && (
+          <div className="flex gap-4">
+            <Button variant="primary" onClick={() => onVote(true)}>
+              {t('yes')}
+            </Button>
+            <Button variant="secondary" onClick={() => onVote(false)}>
+              {t('no')}
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

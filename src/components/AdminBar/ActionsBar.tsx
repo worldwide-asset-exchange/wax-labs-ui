@@ -34,7 +34,7 @@ export function ActionsBar() {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <Button variant="secondary">
-          Actions
+          {t('actions')}
           <MdOutlineKeyboardArrowDown size={24} />
         </Button>
       </DropdownMenu.Trigger>

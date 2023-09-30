@@ -282,6 +282,9 @@
     }
   },
   "votes": "Votes",
+  "vote": "Vote",
+  "voteDescription": "Do you like this proposal and want it to be developed?",
+  "actions": "Actions",
   "noVotes": "No votes were cast",
   "noVotesYet": "No votes have been cast yet",
   "submitReport": "Submit report",

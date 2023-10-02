@@ -1,7 +1,7 @@
 import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { cancelProposal } from '@/api/chain/proposals';
+import { skipVoting } from '@/api/chain/voting';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -9,47 +9,47 @@ import { useChain } from '@/hooks/useChain.ts';
 import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
 
-function CancelProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+function ApproveProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { data: proposal, onChangeStatus } = useSingleProposal();
 
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
   const { session } = useChain();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
-  const onSubmit = async () => {
+  const onApprove = async () => {
     try {
-      await cancelProposal({
+      await skipVoting({
         session: session!,
         proposalId: proposal!.proposal_id,
         memo: '',
       });
 
-      toast({ description: t('admin.cancel.cancelProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.CANCELLED);
+      onChangeStatus(ProposalStatusKey.IN_PROGRESS);
     } catch (e) {
-      console.log('Cancel Proposal', e);
+      console.log('onApprove error: ', e);
     }
   };
 
   return (
     <>
       <Button {...props} ref={ref} variant="link" square onClick={() => setOpen(true)}>
-        {t('admin.cancel.cancelProposal')}
+        {t('admin.approve.approveProposal')}
       </Button>
 
       <AlertDialog.Root
         open={open}
         onOpenChange={setOpen}
-        title={t('admin.cancel.cancelProposal')}
-        description={t('admin.cancel.cancelProposalConfirmation')}
+        title={t('admin.approve.approveProposal')}
+        description={t('admin.approve.approveProposalConfirmation')}
       >
-        <AlertDialog.Action onClick={onSubmit}>{t('apply')}</AlertDialog.Action>
+        <AlertDialog.Action onClick={onApprove}>{t('submit')}</AlertDialog.Action>
         <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
       </AlertDialog.Root>
     </>
   );
 }
 
-export const CancelProposal = forwardRef(CancelProposalComponent);
+export const ApproveProposal = forwardRef(ApproveProposalComponent);

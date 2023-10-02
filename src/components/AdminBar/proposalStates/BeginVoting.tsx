@@ -1,55 +1,56 @@
 import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { cancelProposal } from '@/api/chain/proposals';
+import { beginVoting } from '@/api/chain/proposals';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
 import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
+import { randomEosioName } from '@/utils/proposalUtils.ts';
 
-function CancelProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+function BeginVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { data: proposal, onChangeStatus } = useSingleProposal();
 
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
   const { session } = useChain();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
-  const onSubmit = async () => {
+  const onBeginVoting = async () => {
     try {
-      await cancelProposal({
+      await beginVoting({
         session: session!,
+        ballotName: randomEosioName(),
         proposalId: proposal!.proposal_id,
-        memo: '',
       });
 
-      toast({ description: t('admin.cancel.cancelProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.voting.votingProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.CANCELLED);
+      onChangeStatus(ProposalStatusKey.VOTING);
     } catch (e) {
-      console.log('Cancel Proposal', e);
+      console.log('onSetReviewer error', e);
     }
   };
 
   return (
     <>
       <Button {...props} ref={ref} variant="link" square onClick={() => setOpen(true)}>
-        {t('admin.cancel.cancelProposal')}
+        {t('admin.voting.beginVoting')}
       </Button>
 
       <AlertDialog.Root
         open={open}
         onOpenChange={setOpen}
-        title={t('admin.cancel.cancelProposal')}
-        description={t('admin.cancel.cancelProposalConfirmation')}
+        title={t('admin.voting.beginVoting')}
+        description={t('admin.voting.beginVotingConfirmation')}
       >
-        <AlertDialog.Action onClick={onSubmit}>{t('apply')}</AlertDialog.Action>
+        <AlertDialog.Action onClick={onBeginVoting}>{t('submit')}</AlertDialog.Action>
         <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
       </AlertDialog.Root>
     </>
   );
 }
 
-export const CancelProposal = forwardRef(CancelProposalComponent);
+export const BeginVoting = forwardRef(BeginVotingComponent);

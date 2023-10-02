@@ -1,91 +1,108 @@
-import { ReactNode } from 'react';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useTranslation } from 'react-i18next';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-import { Proposal } from '@/api/models/proposal.ts';
-import { Approve } from '@/components/AdminBar/proposalStates/Approve.tsx';
 import { CancelProposal } from '@/components/AdminBar/proposalStates/CancelProposal.tsx';
 import { Delete } from '@/components/AdminBar/proposalStates/Delete.tsx';
 import { SubmitProposal } from '@/components/AdminBar/proposalStates/SubmitProposal.tsx';
 import { UpdateReviewer } from '@/components/AdminBar/proposalStates/UpdateReviewer.tsx';
-import { Voting } from '@/components/AdminBar/proposalStates/Voting.tsx';
+import { Button } from '@/components/Button';
 import { Link } from '@/components/Link.tsx';
-import { ProposalStatusKey } from '@/constants.ts';
-import { useChain } from '@/hooks/useChain.ts';
-import { useIsAdmin } from '@/hooks/useIsAdmin.ts';
+import { useActionsBar } from '@/hooks/useActionsBar';
 
-export function ActionsBar({
-  proposal,
-  onChange,
-}: {
-  proposal: Proposal;
-  onChange: (status: ProposalStatusKey) => void;
-}) {
-  const { actor } = useChain();
-  const isAdmin = useIsAdmin();
-  const isProposer = proposal.proposer === actor;
+import { ApproveProposal } from './proposalStates/ApproveProposal';
+import { AskForChanges } from './proposalStates/AskForChanges';
+import { BeginVoting } from './proposalStates/BeginVoting';
+import { CommunityVoting } from './proposalStates/CommunityVoting';
+import { EndVoting } from './proposalStates/EndVoting';
 
+export function ActionsBar() {
   const { t } = useTranslation();
 
-  const render: ReactNode[] = [];
+  const {
+    showEdit,
+    showSubmit,
+    showUpdateReviewer,
+    showApprove,
+    showBeginVoting,
+    showEndVoting,
+    showCancelProposal,
+    showDelete,
+  } = useActionsBar();
 
-  const inDraft = [ProposalStatusKey.DRAFTING, ProposalStatusKey.FAILED_DRAFT].includes(proposal.status);
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <Button variant="secondary">
+          {t('actions')}
+          <MdOutlineKeyboardArrowDown size={24} />
+        </Button>
+      </DropdownMenu.Trigger>
 
-  if (inDraft && isProposer) {
-    render.push(
-      <Link to="edit?step=1" variant="primary" key="edit">
-        {t('edit')}
-      </Link>
-    );
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="start"
+          className="flex max-w-xs flex-col rounded-lg border border-subtle-light bg-app p-3 focus:ring-0"
+        >
+          {showEdit && (
+            <DropdownMenu.Item asChild>
+              <Link to="edit?step=1" square>
+                {t('edit')}
+              </Link>
+            </DropdownMenu.Item>
+          )}
 
-    render.push(<SubmitProposal proposal={proposal} onChange={onChange} key="submit-proposal" />);
-  }
+          {showSubmit && (
+            <DropdownMenu.Item asChild>
+              <SubmitProposal />
+            </DropdownMenu.Item>
+          )}
 
-  if (
-    isAdmin &&
-    [
-      ProposalStatusKey.FAILED_DRAFT,
-      ProposalStatusKey.SUBMITTED,
-      ProposalStatusKey.APPROVED,
-      ProposalStatusKey.VOTING,
-    ].includes(proposal.status)
-  ) {
-    render.push(<UpdateReviewer proposal={proposal} onChange={onChange} key="update-reviewer" />);
-  }
+          {showUpdateReviewer && (
+            <DropdownMenu.Item asChild>
+              <UpdateReviewer />
+            </DropdownMenu.Item>
+          )}
 
-  if (isAdmin && proposal.reviewer && proposal.status === ProposalStatusKey.SUBMITTED) {
-    render.push(<Approve proposal={proposal} onChange={onChange} key="approve" />);
-  }
+          {showApprove && (
+            <>
+              <DropdownMenu.Item asChild>
+                <ApproveProposal />
+              </DropdownMenu.Item>
+              <DropdownMenu.Item asChild>
+                <CommunityVoting />
+              </DropdownMenu.Item>
+              <DropdownMenu.Item asChild>
+                <AskForChanges />
+              </DropdownMenu.Item>
+            </>
+          )}
 
-  if (
-    (isAdmin || actor === proposal.proposer) &&
-    [ProposalStatusKey.APPROVED, ProposalStatusKey.VOTING].includes(proposal.status)
-  ) {
-    render.push(<Voting proposal={proposal} onChange={onChange} key="voting" />);
-  }
+          {showBeginVoting && (
+            <DropdownMenu.Item asChild>
+              <BeginVoting />
+            </DropdownMenu.Item>
+          )}
 
-  if (
-    (isAdmin || actor === proposal.proposer) &&
-    [
-      ProposalStatusKey.DRAFTING,
-      ProposalStatusKey.FAILED_DRAFT,
-      ProposalStatusKey.SUBMITTED,
-      ProposalStatusKey.APPROVED,
-      ProposalStatusKey.VOTING,
-    ].includes(proposal.status)
-  ) {
-    render.push(<CancelProposal proposal={proposal} onChange={onChange} key="cancel" />);
-  }
+          {showEndVoting && (
+            <DropdownMenu.Item asChild>
+              <EndVoting />
+            </DropdownMenu.Item>
+          )}
 
-  if (
-    (isAdmin || actor === proposal.proposer) &&
-    [ProposalStatusKey.CANCELLED, ProposalStatusKey.FAILED, ProposalStatusKey.COMPLETED].includes(proposal.status)
-  ) {
-    render.push(<Delete proposal={proposal} onChange={onChange} key="delete" />);
-  }
+          {showCancelProposal && (
+            <DropdownMenu.Item asChild>
+              <CancelProposal />
+            </DropdownMenu.Item>
+          )}
 
-  if (render) {
-    return <div className="flex flex-nowrap gap-4">{render}</div>;
-  }
-
-  return null;
+          {showDelete && (
+            <DropdownMenu.Item asChild>
+              <Delete />
+            </DropdownMenu.Item>
+          )}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
 }

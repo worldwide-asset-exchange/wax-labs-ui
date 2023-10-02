@@ -137,7 +137,7 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                           label={t('admin.claim.viewCompletionReport')}
                           value={
                             <div className="flex justify-end">
-                              <Link variant="link" to={deliverable.report} newWindow>
+                              <Link variant="link" to={deliverable.report} target="_blank">
                                 {t('admin.claim.viewCompletionReport')}
                               </Link>
                             </div>

@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { deleteProposal } from '@/api/chain/proposals';
-import { Proposal } from '@/api/models/proposal.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
-import { ProposalStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
+import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function Delete({ proposal, onChange }: { proposal: Proposal; onChange: (status: ProposalStatusKey) => void }) {
+function DeleteComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+  const { data: proposal, onChangeStatus } = useSingleProposal();
+
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { session } = useChain();
@@ -21,12 +22,12 @@ export function Delete({ proposal, onChange }: { proposal: Proposal; onChange: (
     try {
       await deleteProposal({
         session: session!,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
       });
 
       toast({ description: t('admin.delete.deleteProposalSuccess'), variant: 'success' });
 
-      onChange(proposal.status);
+      onChangeStatus(proposal!.status);
 
       navigate('/proposals');
     } catch (e) {
@@ -36,9 +37,10 @@ export function Delete({ proposal, onChange }: { proposal: Proposal; onChange: (
 
   return (
     <>
-      <Button variant="tertiary" onClick={() => setIsOpen(true)}>
+      <Button {...props} ref={ref} variant="link" square onClick={() => setIsOpen(true)}>
         {t('admin.delete.deleteProposal')}
       </Button>
+
       <AlertDialog.Root
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -51,3 +53,5 @@ export function Delete({ proposal, onChange }: { proposal: Proposal; onChange: (
     </>
   );
 }
+
+export const Delete = forwardRef(DeleteComponent);

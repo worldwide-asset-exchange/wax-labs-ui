@@ -1,10 +1,13 @@
+import * as Dialog from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { MdOutlineClose, MdOutlineThumbDown, MdOutlineThumbUp } from 'react-icons/md';
 
 import { votingData } from '@/api/chain/voting';
 import { vote } from '@/api/chain/voting/actions/vote.ts';
 import { Proposal } from '@/api/models/proposal.ts';
 import { VotingData } from '@/api/models/voting.ts';
+import { VoteBar } from '@/components/AdminBar/proposalStates/VoteBar';
 import { Button } from '@/components/Button.tsx';
 import { useChain } from '@/hooks/useChain.ts';
 import { useToast } from '@/hooks/useToast.ts';
@@ -49,52 +52,61 @@ export function Vote({ proposal }: { proposal: Proposal }) {
   };
 
   return (
-    <div className="flex items-end gap-4">
-      {data?.totalVotes && (
-        <div className="mr-3 flex flex-col gap-2 align-baseline">
-          <h4 className="title-2 text-high-contrast">{t('votes')}:</h4>
+    <div className="border-b border-subtle-light bg-subtle">
+      <div className="mx-auto max-w-5xl p-4">
+        {data?.totalVotes ? (
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <VoteBar yes={data?.yesPercentage} no={data?.noPercentage} />
+            </div>
 
-          <div className="flex flex-row gap-4">
-            <div className="flex flex-row gap-4">
-              <p className="title-3 text-high-contrast">Yes</p>
-              <span
-                className="title-3 text-accent"
-                style={{
-                  width: `${data?.yesPercentage}`,
-                }}
-              >
-                <h4 className="votesDisplay__percentage">{data?.yesPercentage}</h4>
-              </span>
-            </div>
-            <div className="flex flex-row gap-4">
-              <p className="title-3 text-high-contrast">No</p>
-              <span
-                className="title-3 text-accent"
-                style={{
-                  width: `${data?.noPercentage}`,
-                }}
-              >
-                <h4 className="votesDisplay__percentage">{data?.noPercentage}</h4>
-              </span>
-            </div>
+            {!data?.ended && actor !== proposal.proposer && (
+              <div className="flex-0">
+                <Dialog.Root>
+                  <Dialog.Trigger asChild>
+                    <Button variant="secondary">{t('vote')}</Button>
+                  </Dialog.Trigger>
+                  <Dialog.Portal>
+                    <Dialog.Overlay className="dialog-overlay" />
+                    <Dialog.Content className="dialog-content">
+                      <header className="dialog-header">
+                        <Dialog.Close asChild>
+                          <Button square variant="tertiary">
+                            <MdOutlineClose size={24} />
+                          </Button>
+                        </Dialog.Close>
+                        <Dialog.Title className="dialog-title">{t('vote')}</Dialog.Title>
+                      </header>
+                      <div className="space-y-4 p-4">
+                        <VoteBar yes={data?.yesPercentage} no={data?.noPercentage} />
+
+                        <Dialog.Description className="body-2 text-low-contrast">
+                          {t('voteDescription')}
+                        </Dialog.Description>
+
+                        <div className="flex gap-4">
+                          <Button variant="primary" onClick={() => onVote(true)}>
+                            <MdOutlineThumbUp size={24} />
+                            {t('yes')}
+                          </Button>
+                          <Button variant="secondary" onClick={() => onVote(false)}>
+                            <MdOutlineThumbDown size={24} />
+                            {t('no')}
+                          </Button>
+                        </div>
+                      </div>
+                    </Dialog.Content>
+                  </Dialog.Portal>
+                </Dialog.Root>
+              </div>
+            )}
           </div>
-        </div>
-      )}
-
-      {!data?.totalVotes && (
-        <p className="title-2 text-high-contrast">{data?.ended ? t('noVotes') : t('noVotesYet')}</p>
-      )}
-
-      {!data?.ended && actor !== proposal.proposer && (
-        <>
-          <Button variant="primary" onClick={() => onVote(true)}>
-            {t('yes')}
-          </Button>
-          <Button variant="secondary" onClick={() => onVote(false)}>
-            {t('no')}
-          </Button>
-        </>
-      )}
+        ) : (
+          <div className="label-1 rounded-md bg-app p-2 text-center text-high-contrast">
+            {data?.ended ? t('noVotes') : t('noVotesYet')}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,12 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Close as DialogClose,
-  Content as DialogContent,
-  Overlay as DialogOverlay,
-  Portal as DialogPortal,
-  Root as DialogRoot,
-  Title as DialogTitle,
-} from '@radix-ui/react-dialog';
+import * as Dialog from '@radix-ui/react-dialog';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -91,7 +84,7 @@ export function InputDialog({
   };
 
   return (
-    <DialogRoot
+    <Dialog.Root
       open={isOpen}
       onOpenChange={() => {
         setIsOpen(false);
@@ -99,16 +92,16 @@ export function InputDialog({
         reset();
       }}
     >
-      <DialogPortal>
-        <DialogOverlay className="fixed inset-0 z-40 block bg-app/50" />
-        <DialogContent className="fixed left-1/2 top-1/2 z-50 max-h-screen w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-subtle shadow-2xl data-[state=closed]:hidden md:max-w-lg md:rounded-md max-md:h-full">
-          <header className="sticky top-0 flex items-center gap-4 border-b border-subtle-light bg-subtle px-4 py-2">
-            <DialogClose asChild>
+      <Dialog.Portal>
+        <Dialog.Overlay className="dialog-overlay" />
+        <Dialog.Content className="dialog-content">
+          <header className="dialog-header">
+            <Dialog.Close asChild>
               <Button square variant="tertiary">
                 <MdOutlineClose size={24} />
               </Button>
-            </DialogClose>
-            <DialogTitle className="title-3 text-high-contrast">{title}</DialogTitle>
+            </Dialog.Close>
+            <Dialog.Title className="dialog-title">{title}</Dialog.Title>
           </header>
 
           <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -141,8 +134,8 @@ export function InputDialog({
               </Button>
             </footer>
           </form>
-        </DialogContent>
-      </DialogPortal>
-    </DialogRoot>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

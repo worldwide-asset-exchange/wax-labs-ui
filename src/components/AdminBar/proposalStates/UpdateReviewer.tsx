@@ -1,21 +1,16 @@
-import { useState } from 'react';
+import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { setReviewer } from '@/api/chain/admin';
-import { Proposal } from '@/api/models/proposal.ts';
 import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
-import { ProposalStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
+import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
 
-export function UpdateReviewer({
-  proposal,
-  onChange,
-}: {
-  proposal: Proposal;
-  onChange: (status: ProposalStatusKey) => void;
-}) {
+function UpdateReviewerComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+  const { data: proposal, onChangeStatus } = useSingleProposal();
+
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { actor, session } = useChain();
@@ -26,12 +21,12 @@ export function UpdateReviewer({
       await setReviewer({
         session: session!,
         newReviewer: value,
-        proposalId: proposal.proposal_id,
+        proposalId: proposal!.proposal_id,
       });
 
       toast({ description: t('admin.reviewer.setReviewerSuccess'), variant: 'success' });
 
-      onChange(proposal.status);
+      onChangeStatus(proposal!.status);
     } catch (e) {
       console.log('onSetReviewer error', e);
     }
@@ -39,20 +34,23 @@ export function UpdateReviewer({
 
   return (
     <>
-      <Button variant="tertiary" onClick={() => setIsOpen(true)}>
-        {proposal.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
+      <Button {...props} ref={ref} variant="link" square onClick={() => setIsOpen(true)}>
+        {proposal!.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
       </Button>
+
       <InputDialog
         label={t('admin.approve')!}
         placeholder={t('admin.approve.reviewerPlaceholder')!}
         zodValidationMessage={t('admin.approve.messageErrorEmpty')!}
         maxLength={12}
         open={isOpen}
-        defaultValue={proposal.reviewer || actor}
-        title={proposal.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
+        defaultValue={proposal!.reviewer || actor}
+        title={proposal!.reviewer ? t('admin.reviewer.updateReviewer') : t('admin.reviewer.setReviewer')}
         onSubmit={onSetReviewer}
         onClose={() => setIsOpen(false)}
       />
     </>
   );
 }
+
+export const UpdateReviewer = forwardRef(UpdateReviewerComponent);

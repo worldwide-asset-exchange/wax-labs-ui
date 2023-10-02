@@ -105,4 +105,17 @@
             @apply bg-[#213824] text-[#7BBF7C];
         }
     }
+
+    .dialog-overlay {
+        @apply fixed inset-0 z-40 block bg-app/50;
+    }
+    .dialog-content {
+        @apply fixed left-1/2 top-1/2 z-50 max-h-screen w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-subtle shadow-2xl data-[state=closed]:hidden md:max-w-lg md:rounded-md max-md:h-full focus:ring-0;
+    }
+    .dialog-header {
+        @apply sticky top-0 flex items-center gap-4 border-b border-subtle-light bg-subtle px-4 py-2;
+    }
+    .dialog-title {
+        @apply title-3 text-high-contrast;
+    }
 }

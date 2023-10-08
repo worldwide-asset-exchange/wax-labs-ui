@@ -8,6 +8,7 @@ The available commands are:
 
 /help - display available commands and information
 
+/start - Start interacting with this chatbot
 /status - status of all your proposals
 /status {{proposalId}} - status of a specific proposal
 /status - status of all your proposals

@@ -1,6 +1,5 @@
 import asyncio
-
-from loguru import logger
+import logging
 
 from notifications.notification_bot.bot import update_commands
 from notifications.notification_bot.handlers.callbacks import callback_handler
@@ -10,6 +9,8 @@ from notifications.notification_bot.handlers.start import start_handler
 from notifications.notification_bot.handlers.status import status_handler
 from notifications.notification_bot.handlers.subscribe import subscribe_handler
 from notifications.notification_bot.handlers.subscribed_to import subscribed_to_handler
+
+logger = logging.getLogger("waxlabs")
 
 
 async def serve_bot():

@@ -1,9 +1,17 @@
+import asyncio
+import logging
+
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
+from notifications.container import container
+from notifications.core.repository import IDatabase
+from notifications.notification_bot.serve import serve_bot
 from notifications.settings import cfg
+
+logger = logging.getLogger("waxlabs")
 
 
 def setup_middlewares(app: FastAPI) -> None:
@@ -25,3 +33,13 @@ def setup_middlewares(app: FastAPI) -> None:
 
     if cfg.enable_gzip:
         app.add_middleware(GZipMiddleware, minimum_size=150)
+
+    @app.on_event("shutdown")
+    async def shutdown_event():
+        await container[IDatabase].safe_dispose()
+
+    @app.on_event("startup")
+    async def pull_telegram():
+        logger.info("Serving Telegram bot")
+
+        asyncio.create_task(serve_bot())

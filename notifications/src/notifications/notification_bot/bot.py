@@ -1,6 +1,6 @@
+import logging
 from pathlib import Path
 
-from loguru import logger
 from telebot.async_telebot import AsyncTeleBot
 from telebot.asyncio_handler_backends import State, StatesGroup
 from telebot.types import BotCommand
@@ -8,6 +8,8 @@ from telebot.types import BotCommand
 from notifications.notification_bot.exception_handler import ExceptionHandler
 from notifications.notification_bot.storage import JsonStorage
 from notifications.settings import cfg
+
+logger = logging.getLogger("waxlabs")
 
 COMMANDS = [
     BotCommand(command="status", description="Status of all your proposals. You can also send the proposal id."),

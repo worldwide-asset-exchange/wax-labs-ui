@@ -1,11 +1,13 @@
+import logging
 import typing
 
 import httpx
-from loguru import logger
 
 from notifications.notification_bot.models import Proposal
 from notifications.notification_bot.proposal import to_proposal_status
 from notifications.settings import Tables, cfg
+
+logger = logging.getLogger("waxlabs")
 
 
 async def _get_table_rows(

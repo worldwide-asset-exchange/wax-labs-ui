@@ -12,3 +12,10 @@ services:
       - ./src:/app
     env_file:
       - .env
+
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env

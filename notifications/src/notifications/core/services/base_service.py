@@ -138,7 +138,6 @@ class BaseService(t.Generic[T, E]):
             async_session.add(instance)
             if not async_session.in_nested_transaction():
                 await async_session.commit()
-                await async_session.refresh(instance)
 
             if return_raw:
                 return instance
@@ -218,10 +217,10 @@ class BaseService(t.Generic[T, E]):
                 return entity
 
     async def export(self, instance: T, **kwargs) -> E:
-        return self.table_export.model_validate(instance)
+        return self.table_export.model_validate(instance, from_attributes=True)
 
     async def export_pagination(self, rows: list[T]):
-        return self._adapter.validate_python(rows)
+        return self._adapter.validate_python(rows, from_attributes=True)
 
     @staticmethod
     def to_dict(instance: T) -> dict[str, typing.Any]:

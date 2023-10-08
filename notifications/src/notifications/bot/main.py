@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram.enums import ParseMode
 from aiogram_fastapi_server import SimpleRequestHandler, setup_application
 from fastapi import FastAPI
 
@@ -40,12 +41,22 @@ def _server_register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot):
 
 
 def _local_register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot, **kwargs):
+    task: asyncio.Task | None = None
+
     @app.on_event("startup")
     async def start_local_bot():
-        asyncio.create_task(dp.start_polling(bot, **kwargs))
+        nonlocal task
+
+        task = asyncio.create_task(dp.start_polling(bot, **kwargs))
 
     @app.on_event("shutdown")
     async def stop_local_bot():
+        nonlocal task
+
+        if task:
+            print(f"task: {task} is cancelled: {task.cancelled()}")
+
+            task.cancel()
         await dp.stop_polling()
 
 
@@ -53,7 +64,10 @@ async def bot_set_webhook():
     if not cfg.telegram_bot_token:
         return None
 
-    bot = Bot(cfg.telegram_bot_token, parse_mode="HTML")
+    bot = Bot(
+        cfg.telegram_bot_token,
+        parse_mode=ParseMode.HTML,
+    )
 
     if cfg.debug:
         await bot.delete_webhook()

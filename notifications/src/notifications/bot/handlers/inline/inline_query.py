@@ -1,6 +1,3 @@
-from notifications.wax_interface.queries.proposals import get_proposal
-
-
 async def inline_query_handler():
     pass
     # if not inline_query:
@@ -16,7 +13,8 @@ async def inline_query_handler():
     #             id=inline_query.id,
     #             title=f"Proposal {proposal_id} status",
     #             input_message_content=InputTextMessageContent(
-    #                 message_text=f'The current status of the proposal {proposal_id} is <b>"{proposal.human_status}"</b>',
+    #                 message_text=f'The current status of the proposal
+    #                 {proposal_id} is <b>"{proposal.human_status}"</b>',
     #                 parse_mode="html",
     #             ),
     #         )

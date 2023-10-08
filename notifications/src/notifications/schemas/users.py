@@ -8,7 +8,7 @@ class UserExport(BaseSchema):
     name: str
     telegram_account: str
     wax_account: str
-    chat_id: str
+    chat_id: int
 
 
 class UserCreate(BaseSchema):

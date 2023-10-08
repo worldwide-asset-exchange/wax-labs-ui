@@ -7,7 +7,11 @@ from notifications.schemas.users import UserExport
 
 class IUserService(IBaseService[User, UserExport]):
     @abc.abstractmethod
-    async def user_already_saved(self, telegram_account: str) -> bool:
+    async def telegram_already_saved(self, telegram_account: str) -> bool:
+        pass
+
+    @abc.abstractmethod
+    async def wax_account_already_saved(self, wax_account: str) -> bool:
         pass
 
     @abc.abstractmethod

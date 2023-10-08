@@ -25,7 +25,7 @@ class BaseModel(DeclarativeBase):
     )
 
     created_at: Mapped[datetime] = mapped_column(insert_default=func.now(), server_default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(server_onupdate=func.now(), onupdate=func.now())
+    updated_at: Mapped[typing.Optional[datetime]] = mapped_column(server_onupdate=func.now(), onupdate=func.now())
 
     metadata = MetaData(naming_convention=convention)
 

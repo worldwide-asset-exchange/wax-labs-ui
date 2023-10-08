@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     testing: bool = False
     enable_gzip: bool = False
 
+    templates_directory: Path = Path(__file__).parent / "./templates"
+
     # App
     app_name: str = "Wax Labs Notifications"
     app_version: str = "1.0.0"

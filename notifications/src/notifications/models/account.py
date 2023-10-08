@@ -15,6 +15,6 @@ class User(BaseModel):
     name: Mapped[typing.Optional[str]] = mapped_column(String(160), nullable=True)
     telegram_account: Mapped[str] = mapped_column(String(160), index=True, nullable=False)
     wax_account: Mapped[str] = mapped_column(String(15), unique=True, nullable=False)
-    chat_id: Mapped[str] = mapped_column(String(60), unique=True, nullable=False)
+    chat_id: Mapped[int] = mapped_column(unique=True, nullable=False)
 
-    subscriptions: Mapped["Subscription"] = relationship(back_populates="users", lazy="noload", uselist=True)
+    subscriptions: Mapped["Subscription"] = relationship(back_populates="user", lazy="noload", uselist=True)

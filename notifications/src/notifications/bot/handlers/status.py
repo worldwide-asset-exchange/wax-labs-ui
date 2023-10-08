@@ -1,8 +1,8 @@
 from telebot.types import Message
 
-from notifications.notification_bot.bot import bot
-from notifications.notification_bot.chain import get_proposal_status
+from notifications.bot.bot import bot
 from notifications.settings import cfg
+from notifications.wax_interface.chain import get_proposal_status
 
 COMMAND = "/status "
 

@@ -32,7 +32,7 @@ def try_parse_json(json_string: str) -> dict[typing.Any, typing.Any] | None:
 
         return None
     except JSONDecodeError as e:
-        logger.opt(exception=e).error("Parsing json")
+        logger.error("Parsing json", exc_info=e)
         return None
 
 

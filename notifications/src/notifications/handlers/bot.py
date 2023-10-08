@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix="/proposals",
-    tags=["Proposals"],
+    prefix="/bot",
+    tags=["Bot"],
 )
 
 
-@router.patch("/status/{proposal_id}")
+@router.patch("/")
 async def refresh_status_proposal(proposal_id: str):
     return proposal_id
 

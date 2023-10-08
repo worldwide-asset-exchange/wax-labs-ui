@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 from fastapi import FastAPI
@@ -6,9 +5,9 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
+from notifications.bot.main import bot_set_webhook
 from notifications.container import container
 from notifications.core.repository import IDatabase
-from notifications.notification_bot.serve import serve_bot
 from notifications.settings import cfg
 
 logger = logging.getLogger("waxlabs")
@@ -42,4 +41,4 @@ def setup_middlewares(app: FastAPI) -> None:
     async def pull_telegram():
         logger.info("Serving Telegram bot")
 
-        asyncio.create_task(serve_bot())
+        await bot_set_webhook()

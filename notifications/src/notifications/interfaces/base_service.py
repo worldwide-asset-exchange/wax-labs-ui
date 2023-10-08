@@ -55,7 +55,7 @@ class IBaseService(abc.ABC, t.Generic[T, E]):
     @abc.abstractmethod
     async def create(
         self,
-        data: dict[str | Column | InstrumentedAttribute, t.Any],
+        data: dict[str | Column | InstrumentedAttribute, t.Any, T],
         current_user: CurrentUserIdentifier = None,
         return_raw: bool = False,
         db_session: AsyncSession = None,

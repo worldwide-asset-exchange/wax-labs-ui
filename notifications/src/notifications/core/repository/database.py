@@ -72,6 +72,8 @@ class Database(IDatabase):
 
         from notifications.core.models.abstract import BaseModel
 
+        self.bring_models_to_scope()
+
         async with self._engine.begin() as conn:
             await conn.execute(text('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'))
             await conn.run_sync(BaseModel.metadata.create_all)
@@ -113,7 +115,7 @@ class Database(IDatabase):
             self._logger.info("Shutting down all connections from the pool")
             await self.engine.dispose()
         except Exception as ex:
-            self._logger.opt(exception=ex).error("Error while closing all connections")
+            self._logger.error("Error while closing all connections", exc_info=ex)
 
     @staticmethod
     def bring_models_to_scope():

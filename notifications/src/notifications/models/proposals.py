@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from notifications.core.models.abstract import BaseModel
+from notifications.wax_interface.schemas.types import ProposalStatusKey
 
 if typing.TYPE_CHECKING:
     from .account import User
@@ -12,20 +13,19 @@ if typing.TYPE_CHECKING:
 class Subscription(BaseModel):
     __tablename__ = "subscriptions"
 
-    proposal_id = mapped_column(ForeignKey("proposal_statuses.proposal_id"), unique=True)
+    proposal_id = mapped_column(ForeignKey("proposals.proposal_id"), unique=True)
 
     user_id = mapped_column(ForeignKey("users.uuid"))
     user: Mapped["User"] = relationship(back_populates="subscriptions", lazy="noload")
 
-    proposal_statuses: Mapped["ProposalStatus"] = relationship(back_populates="subscriptions", lazy="noload")
+    proposal: Mapped["Proposal"] = relationship(back_populates="subscriptions", lazy="noload")
 
 
-class ProposalStatus(BaseModel):
-    __tablename__ = "proposal_statuses"
+class Proposal(BaseModel):
+    __tablename__ = "proposals"
 
     proposal_id: Mapped[int] = mapped_column(nullable=False, unique=True)
     author: Mapped[str] = mapped_column(String(length=15), nullable=False)
+    status: Mapped[typing.Optional[ProposalStatusKey]] = mapped_column(nullable=True)
 
-    subscriptions: Mapped["Subscription"] = relationship(back_populates="proposal_statuses", lazy="noload")
-
-    status: Mapped[typing.Optional[str]] = mapped_column(String(length=60), nullable=True)
+    subscriptions: Mapped["Subscription"] = relationship(back_populates="proposal", lazy="noload")

@@ -1,4 +1,4 @@
-from notifications.notification_bot.bot import bot
+from notifications.bot.bot import bot
 from notifications.settings import cfg
 
 HELP_MESSAGE = """

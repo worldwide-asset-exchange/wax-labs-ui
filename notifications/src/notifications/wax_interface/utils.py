@@ -1,4 +1,4 @@
-from notifications.notification_bot.models import ProposalStatus, ProposalStatusKey
+from notifications.wax_interface.schemas.types import ProposalStatus, ProposalStatusKey
 
 
 def to_proposal_status(status_key: ProposalStatusKey) -> ProposalStatus:

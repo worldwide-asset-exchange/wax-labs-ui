@@ -4,14 +4,19 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import AnyHttpUrl, SecretStr, field_validator
-
-# from pydantic import AnyHttpUrl, BeforeValidator, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from notifications.core.config.logger import LogLevelEnum
 
-# from notifications.core.config.logger import LogLevelEnum
-# from notifications.core.utils.settings.validations import assemble_log_level
+class LogLevelEnum(enum.IntEnum):
+    CRITICAL = logging.CRITICAL
+    FATAL = logging.FATAL
+    ERROR = logging.ERROR
+    WARNING = logging.WARNING
+    WARN = logging.WARN
+    INFO = logging.INFO
+    DEBUG = logging.DEBUG
+    NOTSET = logging.NOTSET
+
 
 env_file = Path(__file__).parent / "../../.env"
 
@@ -60,8 +65,10 @@ class Settings(BaseSettings):
     ses_aws_access_key: str | None = None
     ses_aws_secret_key: str | None = None
 
-    telegram_bot_username: str
-    telegram_bot_token: str
+    telegram_bot_path: str = "waxlabs"
+    telegram_bot_token: str | None = None
+    telegram_bot_username: str | None = None
+    telegram_bot_webhook: str | None = None
 
     wax_labs_url: AnyHttpUrl = "https://waxlabs-v3.detroitledger.tech"
     wax_labs_proposal_base_url: str = f"{wax_labs_url}/proposals/"
@@ -71,8 +78,8 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(extra="ignore", env_file=env_file)
 
-    @field_validator("log_level", mode="before")
     @classmethod
+    @field_validator("log_level", mode="before")
     def assemble_log_level(cls, v: str) -> int | LogLevelEnum:
         if isinstance(v, LogLevelEnum):
             return v
@@ -87,7 +94,7 @@ class Settings(BaseSettings):
 cfg = Settings()
 
 
-class Tables(enum.Enum):
+class Tables(enum.StrEnum):
     ACCOUNTS = "accounts"
     PROPOSAL_COMMENTS = "pcomments"
     DELIVERABLES_COMMENTS = "dcomments"
@@ -98,3 +105,6 @@ class Tables(enum.Enum):
     PROPOSALS = "proposals"
     VOTERS = "voters"
     BALLOTS = "ballots"
+
+    def __str__(self):
+        return self.value

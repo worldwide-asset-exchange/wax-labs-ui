@@ -62,10 +62,10 @@ class SesEmailSender(AbstractEmailSender):
                     },
                 )
 
-            self._logger.bind(**response).info("Email sent")
+            self._logger.info("Email sent", extra={"response": response})
 
         except ClientError as e:
-            self._logger.opt(exception=e).error("Error sending email")
+            self._logger.error("Error sending email", exc_info=e)
 
             return False
         else:

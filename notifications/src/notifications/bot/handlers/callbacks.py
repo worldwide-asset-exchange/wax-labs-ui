@@ -1,7 +1,7 @@
 from telebot.types import CallbackQuery
 
-from notifications.notification_bot.handlers.help import help_handler
-from notifications.notification_bot.handlers.start import start_handler
+from notifications.bot.handlers.help import help_handler
+from notifications.bot.handlers.pm.start import start_handler
 
 
 async def callback_handler(query: CallbackQuery):

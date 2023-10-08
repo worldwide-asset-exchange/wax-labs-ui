@@ -1,6 +1,6 @@
 from telebot.types import Message
 
-from notifications.notification_bot.bot import bot
+from notifications.bot.bot import bot
 from notifications.settings import cfg
 
 COMMAND = "/subscribe"

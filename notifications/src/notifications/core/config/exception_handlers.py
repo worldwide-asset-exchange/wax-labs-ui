@@ -43,7 +43,7 @@ def get_integrity_violation_detail(exception: IntegrityError) -> list[dict[str, 
 def setup_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(IntegrityError)
     async def integrity_exception_handler(request: Request, exc: IntegrityError) -> ORJSONResponse:
-        logger.opt(exception=exc).error("Integrity exception handler")
+        logger.error("Integrity exception handler", exc_info=exc)
 
         detail = get_integrity_violation_detail(exc)
 
@@ -55,7 +55,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(NoResultFound)
     async def no_result_found_exception_handler(request: Request, exc: NoResultFound) -> ORJSONResponse:
-        logger.opt(exception=exc).error('Not handled "No record found"')
+        logger.error('Not handled "No record found"', exc_info=exc)
 
         return ORJSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -65,7 +65,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request: Request, exc: StarletteHTTPException) -> ORJSONResponse:
-        logger.opt(exception=exc).error("HTTP exception handler")
+        logger.error("HTTP exception handler", exc_info=exc)
 
         return ORJSONResponse(
             status_code=exc.status_code,
@@ -77,7 +77,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
         )
 
     async def validation_exception_handler(request: Request, exc: ValidationError) -> ORJSONResponse:
-        logger.opt(exception=exc).error("Validation exception handler")
+        logger.error("Validation exception handler", exc_info=exc)
 
         errors = exc.errors()
 
@@ -105,7 +105,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
     app.exception_handler(ValidationError)(validation_exception_handler)
 
     async def generic_error_handler(request: Request, exc: Exception) -> ORJSONResponse:
-        logger.opt(exception=exc).error("Generic error handler")
+        logger.error("Generic error handler", exc_info=exc)
 
         return ORJSONResponse(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

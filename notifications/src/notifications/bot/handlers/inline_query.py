@@ -1,7 +1,7 @@
 from telebot.types import InlineQuery, InlineQueryResultArticle, InputTextMessageContent
 
-from notifications.notification_bot.bot import bot
-from notifications.notification_bot.chain import get_proposal_status
+from notifications.bot.bot import bot
+from notifications.wax_interface.chain import get_proposal_status
 
 
 async def inline_query_handler(inline_query: InlineQuery):

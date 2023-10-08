@@ -1,8 +1,7 @@
-import logging
-
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from notifications.bot.main import bot_startup
 from notifications.core.config.exception_handlers import setup_exception_handlers
 from notifications.core.config.logger import configure_logger
 from notifications.core.config.middleware import setup_middlewares
@@ -22,8 +21,8 @@ setup_middlewares(app)
 setup_exception_handlers(app)
 install_routes(app)
 
-configure_logger(cfg.log_level)
+_logger = configure_logger(cfg.log_level)
 
+bot_startup(app)
 
-logger = logging.getLogger("waxlabs")
-logger.info("Server started")
+_logger.info("Server started")

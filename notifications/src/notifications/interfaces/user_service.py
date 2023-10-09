@@ -10,7 +10,7 @@ from notifications.models.account import User
 from notifications.schemas.users import UserExport
 
 
-class IUserService(IBaseService[User, UserExport]):
+class IUserService(IBaseService[User, UserExport], abc.ABC):
     @abc.abstractmethod
     async def telegram_already_saved(self, telegram_account: str) -> bool:
         pass

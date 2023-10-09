@@ -10,10 +10,11 @@ from aiogram.utils import markdown as md
 from pydantic import ValidationError
 
 from notifications.bot.utils import proposal_status_to_message
+from notifications.container import container
+from notifications.interfaces.proposal_service import IProposalService
 from notifications.settings import cfg
 from notifications.wax_interface.queries import WaxObjectNotFound
 from notifications.wax_interface.queries.proposals import get_proposal
-from notifications.wax_interface.schemas.types import ProposalStatus
 
 router = Router()
 
@@ -24,6 +25,8 @@ command = "status"
 
 @router.message(Command(commands=[command]))
 async def status_handler(message: Message, state: FSMContext, bot: Bot):
+    proposal_service = container[IProposalService]
+
     bot_message: Message | None = None
 
     try:
@@ -41,6 +44,8 @@ async def status_handler(message: Message, state: FSMContext, bot: Bot):
 
         proposal = await get_proposal(int_proposal_id)
 
+        await proposal_service.update_status(proposal.proposal_id, proposal.status)
+
         await bot.edit_message_text(
             proposal_status_to_message(proposal.proposal_id, proposal.status),
             message_id=bot_message.message_id,
@@ -48,22 +53,25 @@ async def status_handler(message: Message, state: FSMContext, bot: Bot):
             parse_mode=ParseMode.MARKDOWN,
         )
     except WaxObjectNotFound:
-        await message.answer(
+        await bot.edit_message_text(
             text="I couldn't find a proposal with that ID. Please, make sure you typed it correctly.",
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
+            parse_mode=ParseMode.MARKDOWN,
         )
     except ValidationError as ex:
         _logger.error("Validation error", exc_info=ex)
 
-        await message.answer(
+        await bot.edit_message_text(
             text="Darn it, something went wrong while trying to get the proposal status. Please, try again.",
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
+            parse_mode=ParseMode.MARKDOWN,
         )
     except ValueError:
-        await message.answer(
+        await bot.edit_message_text(
             text="Please, provide a valid proposal ID.",
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
+            parse_mode=ParseMode.MARKDOWN,
         )

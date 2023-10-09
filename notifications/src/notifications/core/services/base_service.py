@@ -74,6 +74,19 @@ class BaseService(typing.Generic[T, E]):
             instance = result.scalar_one()
             return await self.export(instance)
 
+    async def get_raw_by(
+        self,
+        filters: ColumnElement[bool],
+        /,
+        db_session: AsyncSession = None,
+    ) -> T:
+        async_session: AsyncSession
+
+        async with self._database.session(db_session) as async_session:
+            stmt = self.get_queryset().where(filters).limit(1)
+            result = await async_session.execute(stmt)
+            return result.scalar_one()
+
     async def get_by_uuid(self, uuid: UUID4) -> E:
         return await self.get_by(self.table.uuid == uuid)
 

@@ -49,6 +49,10 @@ class IBaseService(abc.ABC, t.Generic[T, E]):
         pass
 
     @abc.abstractmethod
+    async def get_raw_by(self, filters: ColumnElement[bool], /, db_session: AsyncSession = None) -> T:
+        pass
+
+    @abc.abstractmethod
     async def get_by_uuid(self, uuid: UUID4) -> E:
         pass
 

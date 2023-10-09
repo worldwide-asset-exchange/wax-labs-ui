@@ -14,19 +14,19 @@ def proposal_status_to_message(proposal_id: int, status: ProposalStatus) -> str:
     if status == ProposalStatus.DRAFTING:
         return (
             f"The status of {md.link(f'proposal {proposal_id}', proposal_url)} is"
-            f" {md.bold(status.to_human_status())}: \n\n{status_to_message}\n"
+            f" {md.bold(status.to_human_status())}: \n\n{status_to_message}\n\n"
         )
 
     return (
         f"The {md.link(f'proposal {proposal_id}', proposal_url)} was updated to"
-        f" {md.bold(status.to_human_status())}: \n\n{status_to_message}\n"
+        f" {md.bold(status.to_human_status())}: \n\n{status_to_message}\n\n"
     )
 
 
 def _status_to_message(status: ProposalStatus) -> str:
     match status:
         case ProposalStatus.DRAFTING:
-            return "📝 This proposal is still being drafted."
+            return "📝 This proposal is still being drafted and is not ready for review."
         case ProposalStatus.SUBMITTED:
             return "🕵️‍♂️ This proposal has been submitted for review."
         case ProposalStatus.APPROVED:

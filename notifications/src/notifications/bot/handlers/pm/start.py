@@ -14,6 +14,7 @@ from aiogram.types import (
     ReplyKeyboardRemove,
 )
 from aiogram.utils import markdown as md
+from pydantic import UUID4
 from sqlalchemy.exc import NoResultFound
 
 from notifications.bot.handlers.callback_data.help import HelpCallback
@@ -24,16 +25,17 @@ from notifications.schemas.users import UserExport
 
 router = Router()
 
-logger = logging.getLogger("waxlabs")
+_logger = logging.getLogger("waxlabs")
 
 
 class Form(StatesGroup):
     wax_account = State()
     is_that_correct = State()
+    keep_current_wax_account = State()
 
 
-async def verify_wax_account(wax_account: str, message: Message, state: FSMContext):
-    await state.update_data(wax_account=wax_account)
+async def _verify_wax_account(wax_account: str, message: Message, state: FSMContext, uuid: UUID4 | None = None):
+    await state.update_data(wax_account=f"{wax_account}:{uuid or ''}")
     await state.set_state(Form.is_that_correct)
     await message.reply(
         f"Is your WAX account {md.bold(wax_account)} correct?",
@@ -45,6 +47,7 @@ async def verify_wax_account(wax_account: str, message: Message, state: FSMConte
                 ]
             ],
             resize_keyboard=True,
+            one_time_keyboard=True,
         ),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -62,12 +65,20 @@ async def start_handler(message: Message | CallbackQuery, state: FSMContext):
     user: UserExport | None = None
     markup: InlineKeyboardMarkup | None = None
     wax_account = message.text.lower().replace("/start", "").strip()
+    current_uuid: UUID4 | None = None
 
     try:
         if from_user:
-            user = await user_service.get_by_telegram_account(from_user.username)
+            user = await user_service.get_by_telegram_account(from_user.username, query_deleted=True)
 
-            welcome_message = f"""Hello {from_user.full_name}! 👋 \nHow can I help you today?"""
+            if user.deleted_at is None:
+                welcome_message = f"""Hello {from_user.full_name} 👋! \nHow can I help you today?"""
+
+            else:
+                current_uuid = user.uuid
+                user = None
+
+                raise NoResultFound()
 
     except NoResultFound:
         if not wax_account:
@@ -78,7 +89,7 @@ async def start_handler(message: Message | CallbackQuery, state: FSMContext):
     if user:
         markup = HelpCallback.help_markup()
     elif wax_account:
-        await verify_wax_account(wax_account, message, state)
+        await _verify_wax_account(wax_account, message, state, uuid=current_uuid)
     else:
         await state.set_state(Form.wax_account)
 
@@ -89,20 +100,13 @@ async def start_handler(message: Message | CallbackQuery, state: FSMContext):
         )
 
 
-@router.message(Command("cancel"))
-@router.message(F.text.casefold() == "cancel")
-async def cancel_handler(message: Message, state: FSMContext) -> None:
-    """
-    Allow user to cancel any action
-    """
-    current_state = await state.get_state()
-    if current_state is None:
-        return
-
-    logger.info("Cancelling state %r", current_state)
+@router.message(Command(commands=["cancel"]))
+@router.callback_query(StartCallback.filter())
+async def cancel_handler(message: Message, state: FSMContext):
     await state.clear()
+
     await message.answer(
-        "Cancelled.",
+        "Ok, I stopped the process of saving your WAX account.",
         reply_markup=ReplyKeyboardRemove(),
     )
 
@@ -111,9 +115,10 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 async def verify_wax_account_handler(message: Message, state: FSMContext, bot: Bot) -> None:
     user_service = container[IUserService]
 
+    from_user = message.from_user.username
     wax_account = message.text.strip().lower()
 
-    if not wax_account or await user_service.wax_account_already_saved(wax_account):
+    if not wax_account or await user_service.wax_account_already_saved(wax_account, from_user):
         await message.answer(
             f"Looks like something happened while I was trying to save your WAX account {wax_account} 😔. Could you"
             " verify it and try again?",
@@ -122,15 +127,15 @@ async def verify_wax_account_handler(message: Message, state: FSMContext, bot: B
 
         return
 
-    await verify_wax_account(wax_account, message, state)
+    await _verify_wax_account(wax_account, message, state)
 
 
 @router.message(Form.is_that_correct, F.text.casefold() == "no")
-async def process_dont_like_write_bots(message: Message, state: FSMContext) -> None:
+async def process_restart_wax_account(message: Message, state: FSMContext) -> None:
     await state.clear()
     await state.set_state(Form.wax_account)
     await message.answer(
-        "Darn it, could you please send your WAX account again?",
+        "Since this is not your current WAX account, could you please send me the correct one?",
         reply_markup=ReplyKeyboardRemove(),
     )
 
@@ -140,7 +145,7 @@ async def process_and_create_user(message: Message, state: FSMContext, bot: Bot)
     user_service = container[IUserService]
 
     data = await state.get_data()
-    wax_account = data.get("wax_account")
+    wax_account, current_uuid = data.get("wax_account").split(":")
     await state.clear()
 
     bot_message = await message.answer(
@@ -149,7 +154,8 @@ async def process_and_create_user(message: Message, state: FSMContext, bot: Bot)
     )
 
     try:
-        await user_service.create(
+        await user_service.enable_or_create(
+            telegram_account=message.from_user.username,
             data={
                 user_service.table.name: message.from_user.full_name,
                 user_service.table.telegram_account: message.from_user.username,
@@ -165,7 +171,7 @@ async def process_and_create_user(message: Message, state: FSMContext, bot: Bot)
             reply_markup=HelpCallback.help_markup(),
         )
     except Exception as e:
-        logger.exception("Saving WAX account failed: %s", exc_info=e)
+        _logger.exception("Saving WAX account failed: %s", exc_info=e)
 
         await bot.edit_message_text(
             "Darn it, something happened while I was trying to save your WAX account 😔. Could you try again?",

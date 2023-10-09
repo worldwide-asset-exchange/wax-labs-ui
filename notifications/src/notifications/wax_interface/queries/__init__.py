@@ -1,0 +1,2 @@
+class WaxObjectNotFound(Exception):
+    pass

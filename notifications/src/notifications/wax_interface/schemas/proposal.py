@@ -1,17 +1,15 @@
 import typing
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
 
-from notifications.wax_interface.schemas.types import BallotOptions, ProposalStatus, ProposalStatusKey
-from notifications.wax_interface.utils import to_proposal_status
+from notifications.wax_interface.schemas.types import BallotOptions, ProposalStatus
 
 
 class Proposal(BaseModel):
     proposal_id: int
     proposer: str
     category: int
-    status: ProposalStatusKey
-    human_status: ProposalStatus
+    status: ProposalStatus
     ballot_name: str
     title: str
     description: str
@@ -29,8 +27,3 @@ class Proposal(BaseModel):
     vote_end_time: str
     road_map: str
     categories: dict[str, typing.Any] | None = None
-
-    @classmethod
-    @field_validator("human_status", mode="before")
-    def validate_human_status(cls, _, values):
-        return to_proposal_status(values["status"])

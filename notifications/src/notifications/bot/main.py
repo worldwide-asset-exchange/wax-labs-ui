@@ -6,6 +6,7 @@ from aiogram.enums import ParseMode
 from aiogram_fastapi_server import SimpleRequestHandler, setup_application
 from fastapi import FastAPI
 
+from notifications.bot.bot import update_commands
 from notifications.bot.handlers import create_bot_router
 from notifications.settings import cfg
 
@@ -33,6 +34,10 @@ def register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot):
         _local_register_main_bot(dp=dp, app=app, bot=bot)
     else:
         _server_register_main_bot(dp=dp, app=app, bot=bot)
+
+    @app.on_event("startup")
+    async def update_bot_commands():
+        await update_commands(bot=bot)
 
 
 def _server_register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot):

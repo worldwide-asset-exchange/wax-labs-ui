@@ -1,6 +1,5 @@
 import logging
 import typing
-import typing as t
 from datetime import datetime, timezone
 
 from pydantic import UUID4, TypeAdapter
@@ -16,11 +15,13 @@ from notifications.models.account import User
 
 CurrentUserIdentifier = User | int | None
 
+Data: typing.TypeAlias = dict[str | Column | InstrumentedAttribute, typing.Any]
 
-class BaseService(t.Generic[T, E]):
+
+class BaseService(typing.Generic[T, E]):
     table: typing.Type[T]
-    table_export: t.Type[E]
-    table_filter: t.Type[E] | None = None
+    table_export: typing.Type[E]
+    table_filter: typing.Type[E] | None = None
 
     max_page_size: int = 1000
 
@@ -78,7 +79,7 @@ class BaseService(t.Generic[T, E]):
 
     async def create(
         self,
-        data: dict[str | Column | InstrumentedAttribute, t.Any],
+        data: Data,
         current_user: CurrentUserIdentifier = None,
         return_raw: bool = False,
         db_session: AsyncSession = None,
@@ -96,7 +97,6 @@ class BaseService(t.Generic[T, E]):
         self,
         filters: ColumnElement[bool] | None = None,
         return_raw: bool = False,
-        current_user: CurrentUserIdentifier = None,
         db_session: AsyncSession = None,
     ) -> list[E] | list[T]:
         async_session: AsyncSession
@@ -118,7 +118,7 @@ class BaseService(t.Generic[T, E]):
     async def save(
         self,
         instance: T,
-        update_instance: dict[str | Column, t.Any],
+        update_instance: dict[str | Column, typing.Any],
         current_user: CurrentUserIdentifier = None,
         create: bool = False,
         return_raw: bool = False,
@@ -147,8 +147,8 @@ class BaseService(t.Generic[T, E]):
     async def update(
         self,
         uuid: UUID4,
-        update_dict: dict[str | InstrumentedAttribute, t.Any],
-        return_entity: bool = True,
+        update_dict: Data,
+        return_entity: bool = False,
         db_session: AsyncSession = None,
     ) -> E | None:
         async_session: AsyncSession
@@ -165,13 +165,13 @@ class BaseService(t.Generic[T, E]):
             if not async_session.in_nested_transaction():
                 await async_session.commit()
 
-            if return_entity:
-                return await self.get_by(self.table.uuid == uuid)
+        if return_entity:
+            return await self.get_by(self.table.uuid == uuid)
 
     async def update_as(
         self,
         filters: ColumnElement[bool],
-        update_dict: dict[str | Column | InstrumentedAttribute, t.Any],
+        update_dict: Data,
         current_user: CurrentUserIdentifier = None,
         synchronize_session: bool = True,
         db_session: AsyncSession = None,
@@ -231,7 +231,7 @@ class BaseService(t.Generic[T, E]):
 
     def _generate_update_dict(
         self,
-        update_dict: dict[str | Column | InstrumentedAttribute, t.Any],
+        update_dict: Data,
         instance: T | None = None,
     ):
         _update = instance if instance else {}

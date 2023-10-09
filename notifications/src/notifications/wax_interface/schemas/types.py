@@ -3,28 +3,29 @@ import enum
 from pydantic import BaseModel
 
 
-class ProposalStatusKey(enum.Enum):
+class ProposalStatus(enum.Enum):
     DRAFTING = 1
-    SUBMITTED_OR_DELIVERABLE_IN_PROGRESS = 2
-    APPROVED_OR_REPORTED = 3
-    VOTING_OR_ACCEPTED = 4
-    REJECTED_OR_PROPOSAL_IN_PROGRESS = 5
-    FAILED_OR_CLAIMED = 6
+    SUBMITTED = 2
+    APPROVED = 3
+    VOTING = 4
+    IN_PROGRESS = 5
+    FAILED = 6
     CANCELLED = 7
     COMPLETED = 8
     FAILED_DRAFT = 9
 
+    def to_human_status(self):
+        return " ".join(self.name.capitalize().split("_"))
 
-class ProposalStatus(enum.Enum):
-    DRAFTING = "in drafting"
-    REVIEW = "in review"
-    APPROVED = "approved"
-    VOTING = "in voting"
-    IN_PROGRESS = "in progress"
-    CANCELLED = "cancelled"
-    REJECTED = "rejected"
-    COMPLETE = "completed"
-    FAILED_DRAFT = "to be improved"
+
+class DeliverableStatus(enum.Enum):
+    DRAFTING = 1
+    IN_PROGRESS = 2
+    REPORTED = 3
+    VOTING = 4
+    ACCEPTED = 5
+    REJECTED = 6
+    CLAIMED = 7
 
 
 class BallotOptions(BaseModel):

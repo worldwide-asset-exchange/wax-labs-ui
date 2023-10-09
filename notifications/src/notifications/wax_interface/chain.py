@@ -23,7 +23,7 @@ async def get_table_rows(
     reverse: int | None = None,
     show_payer: int | None = None,
     full: bool = True,
-) -> list[dict[str, typing.Any]]:
+) -> typing.AsyncGenerator[dict[str, typing.Any], None]:
     """
     Return a list with the rows in the table.
 
@@ -56,8 +56,6 @@ async def get_table_rows(
     payload = {k: v for k, v in payload.items() if v is not None}
 
     async with httpx.AsyncClient(base_url=str(cfg.wax_chain_url), transport=transport) as client:
-        rows = []
-
         for _ in range(1000):
             logger.debug(f"Get data with {lower_bound=}")
             response = await client.post(url=endpoint, json=payload)
@@ -68,9 +66,10 @@ async def get_table_rows(
             data = response.json()
 
             if "rows" not in data:
-                return data
-
-            rows += data["rows"]
+                yield data
+            else:
+                for row in data["rows"]:
+                    yield row
 
             if not full or not data.get("more"):
                 break
@@ -79,5 +78,3 @@ async def get_table_rows(
             payload["lower_bound"] = lower_bound
         else:
             raise ValueError("Too many requests (>1000) for table")
-
-        return rows

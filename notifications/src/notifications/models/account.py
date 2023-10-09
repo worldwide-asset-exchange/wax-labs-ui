@@ -1,4 +1,5 @@
 import typing
+from datetime import datetime
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -16,5 +17,6 @@ class User(BaseModel):
     telegram_account: Mapped[str] = mapped_column(String(160), index=True, nullable=False)
     wax_account: Mapped[str] = mapped_column(String(15), unique=True, nullable=False)
     chat_id: Mapped[int] = mapped_column(unique=True, nullable=False)
+    deleted_at: Mapped[typing.Optional[datetime]] = mapped_column(nullable=True)
 
     subscriptions: Mapped["Subscription"] = relationship(back_populates="user", lazy="noload", uselist=True)

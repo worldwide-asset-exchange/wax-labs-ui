@@ -2,6 +2,7 @@ import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { skipVoting } from '@/api/chain/voting';
+import { refreshStatus } from '@/api/notifications.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -19,11 +20,14 @@ function ApproveProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTML
 
   const onApprove = async () => {
     try {
-      await skipVoting({
-        session: session!,
-        proposalId: proposal!.proposal_id,
-        memo: '',
-      });
+      await Promise.all([
+        skipVoting({
+          session: session!,
+          proposalId: proposal!.proposal_id,
+          memo: '',
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 

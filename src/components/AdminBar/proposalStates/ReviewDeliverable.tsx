@@ -16,6 +16,7 @@ import { z } from 'zod';
 import { reviewDeliverable } from '@/api/chain/reviewer';
 import { Deliverables } from '@/api/models/deliverables.ts';
 import { Proposal } from '@/api/models/proposal.ts';
+import { refreshStatus } from '@/api/notifications.ts';
 import { Button } from '@/components/Button.tsx';
 import { Input } from '@/components/Input.tsx';
 import { DeliverableStatusKey } from '@/constants.ts';
@@ -56,16 +57,18 @@ export function ReviewDeliverable({
   if (proposal.reviewer !== actor || deliverable.status !== DeliverableStatusKey.REPORTED) {
     return null;
   }
-
   const onReviewDeliverable = async ({ review, accept }: { review: string; accept: boolean }) => {
     try {
-      await reviewDeliverable({
-        session: session!,
-        proposalId: proposal.proposal_id,
-        deliverableId: deliverable.deliverable_id!,
-        accept,
-        memo: review,
-      });
+      await Promise.all([
+        reviewDeliverable({
+          session: session!,
+          proposalId: proposal.proposal_id,
+          deliverableId: deliverable.deliverable_id!,
+          accept,
+          memo: review,
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.submitReport.submitReportSuccess'), variant: 'success' });
 

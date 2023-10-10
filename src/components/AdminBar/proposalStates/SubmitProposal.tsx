@@ -2,6 +2,7 @@ import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { submitProposal } from '@/api/chain/proposals';
+import { refreshStatus } from '@/api/notifications.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -19,10 +20,13 @@ function SubmitProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
 
   const onSubmitProposal = async () => {
     try {
-      await submitProposal({
-        session: session!,
-        proposalId: proposal!.proposal_id,
-      });
+      await Promise.all([
+        submitProposal({
+          session: session!,
+          proposalId: proposal!.proposal_id,
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
 

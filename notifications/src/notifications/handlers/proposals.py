@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 
-@router.patch("/status/{proposal_id}", response_model=Message, status_code=200)
+@router.patch("/{proposal_id}/refresh-status", response_model=Message, status_code=200)
 async def refresh_status_proposal(proposal_id: int):
     notification_handler = container[NotificationHandler]
 

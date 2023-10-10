@@ -8,6 +8,7 @@ export const {
   VITE_APP_NAME: APP_NAME,
   VITE_LABS_CONTRACT_ACCOUNT: LABS_CONTRACT_ACCOUNT,
   VITE_WAX_CHAINID: WAX_CHAIN_ID,
+  VITE_API_URL: API_URL,
 } = import.meta.env;
 
 const I64 = 'i64';

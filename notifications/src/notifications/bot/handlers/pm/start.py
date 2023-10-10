@@ -19,6 +19,7 @@ from sqlalchemy.exc import NoResultFound
 
 from notifications.bot.handlers.callback_data.help import HelpCallback
 from notifications.bot.handlers.callback_data.start import StartCallback
+from notifications.bot.utils import get_args
 from notifications.container import container
 from notifications.interfaces.user_service import IUserService
 from notifications.schemas.users import UserExport
@@ -64,7 +65,7 @@ async def start_handler(message: Message | CallbackQuery, state: FSMContext):
     welcome_message: str | None = None
     user: UserExport | None = None
     markup: InlineKeyboardMarkup | None = None
-    wax_account = message.text.lower().replace("/start", "").strip()
+    wax_account = get_args(message).lower()
     current_uuid: UUID4 | None = None
 
     try:
@@ -171,10 +172,10 @@ async def process_and_create_user(message: Message, state: FSMContext, bot: Bot)
             reply_markup=HelpCallback.help_markup(),
         )
     except Exception as e:
-        _logger.exception("Saving WAX account failed: %s", exc_info=e)
+        _logger.exception("Saving WAX account failed", exc_info=e)
 
         await bot.edit_message_text(
-            "Darn it, something happened while I was trying to save your WAX account 😔. Could you try again?",
+            "😖 Darn it, something happened while I was trying to save your WAX account. Could you try again?",
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
             reply_markup=StartCallback.restart_markup(),

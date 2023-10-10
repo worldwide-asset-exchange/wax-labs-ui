@@ -17,3 +17,7 @@ class IProposalService(IBaseService[Proposal, ProposalStatusExport], abc.ABC):
     @abc.abstractmethod
     async def create_from_wax_proposal(self, wax_proposal: WaxProposal) -> Proposal:
         pass
+
+    @abc.abstractmethod
+    async def proposal_exists(self, proposal_id: int) -> bool:
+        pass

@@ -93,11 +93,10 @@ async def process_and_create_user(message: Message, state: FSMContext, bot: Bot)
             chat_id=bot_message.chat.id,
         )
     except Exception as e:
-        _logger.exception("Removing WAX account failed: %s", exc_info=e)
+        _logger.exception("Removing WAX account failed", exc_info=e)
 
         await bot.edit_message_text(
-            "Darn it, something happened while I was trying to remove your WAX account 😔. Could you try again?",
+            "😖 Darn it, something happened while I was trying to remove your WAX account. Could you try again?",
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
-            reply_markup=StopCallback.restart_markup(),
         )

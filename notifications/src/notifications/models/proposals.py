@@ -1,6 +1,7 @@
 import typing
+import uuid
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from notifications.core.models.abstract import BaseModel
@@ -12,11 +13,12 @@ if typing.TYPE_CHECKING:
 
 class Subscription(BaseModel):
     __tablename__ = "subscriptions"
+    __table_args__ = (UniqueConstraint("proposal_id", "user_id"),)
 
-    proposal_id = mapped_column(ForeignKey("proposals.proposal_id"), unique=True)
+    proposal_id: Mapped[int] = mapped_column(ForeignKey("proposals.proposal_id"))
     proposal: Mapped["Proposal"] = relationship(back_populates="subscriptions", lazy="noload")
 
-    user_id = mapped_column(ForeignKey("users.uuid"))
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.uuid"))
     user: Mapped["User"] = relationship(back_populates="subscriptions", lazy="noload")
 
 

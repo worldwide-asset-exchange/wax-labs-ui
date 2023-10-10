@@ -45,3 +45,6 @@ class ProposalService(BaseService[Proposal, ProposalStatusExport], IProposalServ
             )
 
         return proposal
+
+    async def proposal_exists(self, proposal_id: int) -> bool:
+        return await self.record_exists(self.table.proposal_id == proposal_id)

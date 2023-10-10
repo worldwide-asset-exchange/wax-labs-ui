@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
 
+from aiogram.types import Message
 from aiogram.utils import markdown as md
 
 from notifications.settings import cfg
@@ -43,3 +44,10 @@ def _status_to_message(status: ProposalStatus) -> str:
             return "⛔ This proposal has been cancelled."
         case _:
             return "👍 This proposal has been completed."
+
+
+def get_args(message: Message) -> str:
+    try:
+        return message.text.split(" ", 1)[1].strip()
+    except IndexError:
+        return ""

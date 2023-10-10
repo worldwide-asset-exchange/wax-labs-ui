@@ -39,7 +39,7 @@ def _status_to_message(status: ProposalStatus) -> str:
         case ProposalStatus.FAILED:
             return "❌ This proposal has failed and is no longer active."
         case ProposalStatus.FAILED_DRAFT:
-            return "👨‍💻 This proposal has failed and is waiting for the author to update it and resubmit."
+            return "👨‍💻 This draft proposal has failed and is waiting for the author to update it and resubmit."
         case ProposalStatus.CANCELLED:
             return "⛔ This proposal has been cancelled."
         case _:

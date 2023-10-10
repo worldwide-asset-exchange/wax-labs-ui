@@ -39,7 +39,7 @@ async def _verify_wax_account(wax_account: str, message: Message, state: FSMCont
     await state.update_data(wax_account=f"{wax_account}:{uuid or ''}")
     await state.set_state(Form.is_that_correct)
     await message.reply(
-        f"Is your WAX account {md.bold(wax_account)} correct?",
+        f"Is your WAX account {md.bold(wax_account)} correct? You won't be able to use this service if it isn't.",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [

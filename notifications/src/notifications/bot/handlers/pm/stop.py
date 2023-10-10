@@ -99,4 +99,5 @@ async def process_and_create_user(message: Message, state: FSMContext, bot: Bot)
             "😖 Darn it, something happened while I was trying to remove your WAX account. Could you try again?",
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
+            reply_markup=StopCallback.restart_markup()
         )

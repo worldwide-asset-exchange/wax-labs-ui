@@ -9,15 +9,15 @@ COMMANDS = [
     BotCommand(command="start", description="Start the bot."),
     BotCommand(command="cancel", description="Cancel the current operation."),
     BotCommand(command="stop", description="Stop the bot."),
-    BotCommand(command="status", description="Get the status of all proposals. You can also send the proposal id."),
+    BotCommand(command="status", description="Get the status of all proposals. You can also send the proposal id to get the status of a single proposal."),
     BotCommand(command="help", description="Display the help message"),
     BotCommand(
         command="subscribe",
-        description="Subscribe to a proposal. You can also send the proposal id.",
+        description="Subscribe to a proposal. You need to send the proposal id.",
     ),
     BotCommand(
         command="unsubscribe",
-        description="Unsubscribe from all proposals. You can also send the proposal id.",
+        description="Unsubscribe from a proposal. You need to send the proposal id.",
     ),
     BotCommand(
         command="subscribed_to",

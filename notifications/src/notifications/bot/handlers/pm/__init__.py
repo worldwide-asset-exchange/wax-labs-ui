@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from notifications.bot.handlers.pm import help, start, status, stop, subscribe
+from notifications.bot.handlers.pm import help, start, status, stop, subscribe, unsubscribe
 
 
 def create_pm_router() -> Router:
@@ -11,6 +11,7 @@ def create_pm_router() -> Router:
         stop.router,
         status.router,
         subscribe.router,
+        unsubscribe.router,
     )
 
     return router

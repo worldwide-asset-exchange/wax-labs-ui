@@ -19,3 +19,11 @@ class ISubscriptionService(IBaseService[Subscription, SubscriptionExport], abc.A
     @abc.abstractmethod
     async def subscribe_to_proposal(self, proposal_id: int, user_uuid: UUID4) -> None:
         pass
+
+    @abc.abstractmethod
+    async def subscription_exists(self, proposal_id: int, user_uuid: UUID4) -> bool:
+        pass
+
+    @abc.abstractmethod
+    async def unsubscribe(self, proposal_id: int, user_uuid: UUID4) -> None:
+        pass

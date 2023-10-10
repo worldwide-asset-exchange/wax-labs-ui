@@ -26,3 +26,18 @@ class SubscriptionService(BaseService[Subscription, SubscriptionExport], ISubscr
                 },
                 return_raw=True,
             )
+
+    async def subscription_exists(self, proposal_id: int, user_uuid: UUID4) -> bool:
+        return await self.record_exists((self.table.proposal_id == proposal_id) & (self.table.user_id == user_uuid))
+
+    async def unsubscribe(self, proposal_id: int, user_uuid: UUID4) -> None:
+        try:
+            subscription = await self.get_raw_by(
+                (self.table.proposal_id == proposal_id) & (self.table.user_id == user_uuid)
+            )
+
+            await self.delete(
+                uuid=subscription.uuid
+            )
+        except NoResultFound:
+            pass

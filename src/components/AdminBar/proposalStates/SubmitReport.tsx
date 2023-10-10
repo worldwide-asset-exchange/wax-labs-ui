@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { submitReport } from '@/api/chain/proposals';
 import { Deliverables } from '@/api/models/deliverables.ts';
 import { Proposal } from '@/api/models/proposal.ts';
+import { refreshStatus } from '@/api/notifications.ts';
 import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
 import { DeliverableStatusKey } from '@/constants.ts';
@@ -28,15 +29,17 @@ export function SubmitReport({
   if (proposal.proposer !== actor || deliverable.status !== DeliverableStatusKey.IN_PROGRESS) {
     return null;
   }
-
   const onSubmitReport: InputDialogProps['onSubmit'] = async ({ value }) => {
     try {
-      await submitReport({
-        session: session!,
-        proposalId: proposal.proposal_id,
-        deliverableId: deliverable.deliverable_id!,
-        report: value,
-      });
+      await Promise.all([
+        submitReport({
+          session: session!,
+          proposalId: proposal.proposal_id,
+          deliverableId: deliverable.deliverable_id!,
+          report: value,
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.submitReport.submitReportSuccess'), variant: 'success' });
 

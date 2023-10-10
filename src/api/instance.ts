@@ -1,12 +1,14 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
+import { API_URL } from '@/constants.ts';
+
 export const AUTH_TOKEN_KEY = 'authToken:accessKey';
 
 const api = axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*',
   },
-  baseURL: import.meta.env.API_URL,
+  baseURL: API_URL,
 });
 
 export interface IAuthTokenInterceptorConfig {

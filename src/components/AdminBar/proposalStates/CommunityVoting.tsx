@@ -2,6 +2,7 @@ import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { reviewProposal } from '@/api/chain/reviewer/actions/reviewProposal.ts';
+import { refreshStatus } from '@/api/notifications.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -19,13 +20,16 @@ function CommunityVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTML
 
   const onCommunityApproval = async () => {
     try {
-      await reviewProposal({
-        session: session!,
-        proposalId: proposal!.proposal_id,
-        memo: '',
-        approve: true,
-        draft: true,
-      });
+      await Promise.all([
+        reviewProposal({
+          session: session!,
+          proposalId: proposal!.proposal_id,
+          memo: '',
+          approve: true,
+          draft: true,
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 

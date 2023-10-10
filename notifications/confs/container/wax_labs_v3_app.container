@@ -1,0 +1,18 @@
+; /etc/containers/systemd/wax_labs_v3_app.container
+
+[Unit]
+Description=Wax Labs API Notification - Interacts with telegram bot
+
+[Install]
+WantedBy=multi-user.target
+
+[Container]
+Image=localhost/waxlabs/notifications:latest
+ContainerName=wax_labs_v3_app
+Network=wax_labs_v3.network
+PublishPort=8000:8000
+EnvironmentFile=/opt/wax_labs_v3/.env
+
+[Service]
+Restart=always
+RestartSec=5

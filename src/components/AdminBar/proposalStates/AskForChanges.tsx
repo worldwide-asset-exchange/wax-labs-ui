@@ -2,6 +2,7 @@ import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { reviewProposal } from '@/api/chain/reviewer/actions/reviewProposal.ts';
+import { refreshStatus } from '@/api/notifications.ts';
 import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
@@ -19,13 +20,16 @@ function AskForChangesComponent(props: ComponentProps<'button'>, ref: Ref<HTMLBu
 
   const onAskForChanges: InputDialogProps['onSubmit'] = async ({ value }) => {
     try {
-      await reviewProposal({
-        session: session!,
-        proposalId: proposal!.proposal_id,
-        memo: value,
-        approve: false,
-        draft: true,
-      });
+      await Promise.all([
+        reviewProposal({
+          session: session!,
+          proposalId: proposal!.proposal_id,
+          memo: value,
+          approve: false,
+          draft: true,
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 

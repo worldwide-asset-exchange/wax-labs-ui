@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { claimFunds } from '@/api/chain/proposals';
 import { Deliverables } from '@/api/models/deliverables.ts';
 import { Proposal } from '@/api/models/proposal.ts';
+import { refreshStatus } from '@/api/notifications.ts';
 import { Button } from '@/components/Button.tsx';
 import { DeliverableStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
@@ -31,11 +32,14 @@ export function Claim({
 
   const onAcceptReport = async () => {
     try {
-      await claimFunds({
-        session: session!,
-        proposalId: proposal.proposal_id,
-        deliverableId: deliverable.deliverable_id!,
-      });
+      await Promise.all([
+        claimFunds({
+          session: session!,
+          proposalId: proposal.proposal_id,
+          deliverableId: deliverable.deliverable_id!,
+        }),
+        refreshStatus(proposal!.proposal_id),
+      ]);
 
       toast({ description: t('admin.claim.claimSuccess'), variant: 'success' });
 

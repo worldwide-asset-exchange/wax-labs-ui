@@ -1,9 +1,8 @@
-FROM python:3.11.0-slim-bullseye AS base
+FROM python:3.11.6-slim-bullseye AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONOPTIMIZE=1 \
-    PYTHONOPTIMIZE="TRUE" \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PATH="/opt/setup/.venv/bin:$PATH" \
     PYTHONPATH="/app/" \
@@ -23,17 +22,20 @@ ENV PATH="/root/.local/bin:$PATH" \
 WORKDIR /opt/setup
 
 RUN pip install poetry --quiet
-COPY ./pyproject.toml ./poetry.lock ./
+COPY ./pyproject.toml ./poetry.lock ./README.md ./
 
-RUN poetry install --no-interaction --no-ansi --only main
+COPY ./src/ ./src/
+RUN poetry install --no-interaction --no-ansi --without dev
 
 FROM base AS final
 
 WORKDIR /app
 
 COPY --from=build-env /opt/setup/.venv/ /opt/setup/.venv/
+COPY /confs/image/gunicorn_conf.py /opt/gunicorn_conf.py
 COPY ./src/notifications/ /app/notifications/
 
 EXPOSE 8006
 
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-c", "/opt/gunicorn_conf.py", "notifications.main:app"]
 

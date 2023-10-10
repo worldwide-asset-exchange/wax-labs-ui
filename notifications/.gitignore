@@ -178,4 +178,4 @@ mochawesome-report/
 .vscode/
 cov.xml
 cov.info
-/src/notifications/bot/.state-save/states.json
+.state-save/

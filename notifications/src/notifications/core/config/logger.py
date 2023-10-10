@@ -9,6 +9,12 @@ if typing.TYPE_CHECKING:
 def configure_logger(log_level: "LogLevelEnum") -> logging.Logger:
     logger = logging.getLogger("waxlabs")
     logger.setLevel(log_level)
-    logger.addHandler(logging.StreamHandler(sys.stdout))
+
+    formatter = logging.Formatter('%(asctime)s [%(process)d] [%(levelname)s] %(message)s')
+
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(formatter)
+
+    logger.addHandler(handler)
 
     return logger

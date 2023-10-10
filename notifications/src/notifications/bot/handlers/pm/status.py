@@ -40,12 +40,12 @@ async def status_handler(message: Message, state: FSMContext, bot: Bot):
             parse_mode=ParseMode.MARKDOWN,
         )
 
-        proposal = await get_proposal(int_proposal_id)
+        wax_proposal = await get_proposal(int_proposal_id)
 
-        await proposal_service.update_status(proposal.proposal_id, proposal.status)
+        await proposal_service.update_status(wax_proposal)
 
         await bot.edit_message_text(
-            proposal_status_to_message(proposal.proposal_id, proposal.status),
+            proposal_status_to_message(wax_proposal.proposal_id, wax_proposal.status),
             message_id=bot_message.message_id,
             chat_id=bot_message.chat.id,
             parse_mode=ParseMode.MARKDOWN,

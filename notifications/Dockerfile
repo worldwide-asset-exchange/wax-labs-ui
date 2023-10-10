@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONOPTIMIZE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PATH="/opt/setup/.venv/bin:$PATH" \
-    PYTHONPATH="/app/" \
+    PYTHONPATH="/app/src/" \
     DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -qq update -y \
@@ -33,7 +33,8 @@ WORKDIR /app
 
 COPY --from=build-env /opt/setup/.venv/ /opt/setup/.venv/
 COPY /confs/image/gunicorn_conf.py /opt/gunicorn_conf.py
-COPY ./src/notifications/ /app/notifications/
+COPY ./src/ ./src/
+COPY ./alembic.ini ./
 
 EXPOSE 8006
 

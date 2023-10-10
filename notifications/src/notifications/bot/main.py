@@ -2,7 +2,6 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
-from aiogram.enums import ParseMode
 from aiogram_fastapi_server import SimpleRequestHandler, setup_application
 from fastapi import FastAPI
 
@@ -32,13 +31,25 @@ def bot_startup(app: FastAPI):
 
 def register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot):
     if cfg.debug:
+        logger.info("Registering bot as long-polling bot")
+
         _local_register_main_bot(dp=dp, app=app, bot=bot)
     else:
+        logger.info("Registering bot as webhook")
+
         _server_register_main_bot(dp=dp, app=app, bot=bot)
 
-    @app.on_event("startup")
-    async def update_bot_commands():
-        await update_commands(bot=bot)
+        @dp.startup.register
+        async def sync_telegram():
+            if not cfg.telegram_bot_token:
+                return None
+
+            await update_commands(bot=bot)
+
+            if not cfg.debug:
+                logger.info("Setting webhook for bot")
+
+                await bot.set_webhook(cfg.telegram_bot_webhook)
 
 
 def _server_register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot):
@@ -64,18 +75,3 @@ def _local_register_main_bot(dp: Dispatcher, app: FastAPI, bot: Bot, **kwargs):
 
             task.cancel()
         await dp.stop_polling()
-
-
-async def bot_set_webhook():
-    if not cfg.telegram_bot_token:
-        return None
-
-    bot = Bot(
-        cfg.telegram_bot_token,
-        parse_mode=ParseMode.HTML,
-    )
-
-    if cfg.debug:
-        await bot.delete_webhook()
-    else:
-        await bot.set_webhook(cfg.telegram_bot_webhook)

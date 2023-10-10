@@ -5,7 +5,6 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
-from notifications.bot.main import bot_set_webhook
 from notifications.container import container
 from notifications.core.repository import IDatabase
 from notifications.services.listener import NotificationHandler
@@ -37,12 +36,6 @@ def setup_middlewares(app: FastAPI) -> None:
     @app.on_event("shutdown")
     async def shutdown_event():
         await container[IDatabase].safe_dispose()
-
-    @app.on_event("startup")
-    async def pull_telegram():
-        logger.info("Serving Telegram bot")
-
-        await bot_set_webhook()
 
 
 def setup_listener(app: FastAPI) -> None:

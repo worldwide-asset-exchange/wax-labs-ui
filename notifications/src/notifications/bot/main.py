@@ -8,6 +8,7 @@ from fastapi import FastAPI
 
 from notifications.bot.bot import update_commands
 from notifications.bot.handlers import create_bot_router
+from notifications.container import container
 from notifications.settings import cfg
 
 logger = logging.getLogger("waxlabs")
@@ -17,7 +18,7 @@ def bot_startup(app: FastAPI):
     if not cfg.telegram_bot_token:
         return None
 
-    bot = Bot(cfg.telegram_bot_token, parse_mode="HTML")
+    bot = container[Bot]
 
     dp = Dispatcher()
     dp.include_router(create_bot_router())

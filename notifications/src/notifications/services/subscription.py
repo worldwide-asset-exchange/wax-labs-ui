@@ -1,10 +1,13 @@
-from pydantic import UUID4
+from pydantic import UUID4, TypeAdapter
+from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from notifications.core.services.base_service import BaseService
 from notifications.interfaces.subscription_service import ISubscriptionService
+from notifications.models.account import User
 from notifications.models.proposals import Subscription
-from notifications.schemas.subscription import SubscriptionExport
+from notifications.schemas.subscription import BotSubscription, SubscriptionExport
 from notifications.wax_interface.schemas.wax_proposal import WaxProposal
 
 
@@ -36,8 +39,24 @@ class SubscriptionService(BaseService[Subscription, SubscriptionExport], ISubscr
                 (self.table.proposal_id == proposal_id) & (self.table.user_id == user_uuid)
             )
 
-            await self.delete(
-                uuid=subscription.uuid
-            )
+            await self.delete(uuid=subscription.uuid)
         except NoResultFound:
             pass
+
+    async def subscriptions(self, proposal_id: int) -> list[BotSubscription]:
+        async_session: AsyncSession
+
+        adapter = TypeAdapter(list[BotSubscription])
+
+        async with self._database.session() as async_session:
+            stmt = (
+                select(self.table.proposal_id, User.chat_id)
+                .join(User)
+                .where(self.table.proposal_id == proposal_id)
+                .where(User.chat_id.is_not(None))
+            )
+
+            result = await async_session.execute(stmt)
+            all_rows = result.all()
+
+            return adapter.validate_python(all_rows, from_attributes=True)

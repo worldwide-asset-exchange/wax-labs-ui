@@ -8,7 +8,6 @@ from aiogram.types import CallbackQuery, Message
 from aiogram.utils import markdown
 from sqlalchemy.exc import NoResultFound
 
-from notifications.bot.utils import get_args
 from notifications.container import container
 from notifications.interfaces.subscription_service import ISubscriptionService
 from notifications.interfaces.user_service import IUserService
@@ -31,7 +30,7 @@ async def unsubscribe_handler(message: Message | CallbackQuery, state: FSMContex
     bot_message = None
 
     try:
-        bot_message = await message.answer(f"⏳ I'm looking for your subscriptions...")
+        bot_message = await message.answer("⏳ I'm looking for your subscriptions...")
 
         user = await user_service.get_by_telegram_account(from_user.username)
 

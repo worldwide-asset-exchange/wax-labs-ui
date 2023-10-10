@@ -72,9 +72,11 @@ async def start_handler(message: Message | CallbackQuery, state: FSMContext):
         if from_user:
             user = await user_service.get_by_telegram_account(from_user.username, query_deleted=True)
 
+            if user.chat_id is None:
+                await user_service.update(user.uuid, update_dict={user_service.table.chat_id: message.chat.id})
+
             if user.deleted_at is None:
                 welcome_message = f"""Hello {from_user.full_name} 👋! \nHow can I help you today?"""
-
             else:
                 current_uuid = user.uuid
                 user = None

@@ -357,6 +357,20 @@ docs = ["Sphinx (>=5.3.0,<5.4.0)", "sphinx-rtd-theme (>=1.2.2)", "sphinxcontrib-
 test = ["flake8 (>=5.0,<6.0)", "uvloop (>=0.15.3)"]
 
 [[package]]
+name = "asyncpg-listen"
+version = "0.0.6"
+description = "Helps to use PostgreSQL listen/notify with asyncpg"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "asyncpg-listen-0.0.6.tar.gz", hash = "sha256:f3a889a3848903e4710705e785fd95940b3a5939a89a660827cdaaa113e1959e"},
+    {file = "asyncpg_listen-0.0.6-py3-none-any.whl", hash = "sha256:9fe21be4399f4c511a3f9a9b064306b13183487524a02f14166b33afe17ba401"},
+]
+
+[package.dependencies]
+asyncpg = ">=0.27.0"
+
+[[package]]
 name = "attrs"
 version = "23.1.0"
 description = "Classes Without Boilerplate"
@@ -2202,4 +2216,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ef974337965d6cae0d5b8e5cd93aca0212b29eebab70ad22fedd1331123c79c7"
+content-hash = "bd11eda2fe7b66587a8d59b097c59f6a57a2d8ee89a2a7abb2238a93431e892e"

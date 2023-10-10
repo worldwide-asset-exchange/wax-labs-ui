@@ -11,3 +11,8 @@ class SubscriptionExport(BaseSchema):
     user_id: UUID4
     created_at: datetime | None = None
     updated_at: datetime | None = None
+
+
+class BotSubscription(BaseSchema):
+    proposal_id: int
+    chat_id: int

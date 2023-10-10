@@ -8,6 +8,7 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from notifications.bot.main import bot_set_webhook
 from notifications.container import container
 from notifications.core.repository import IDatabase
+from notifications.services.listener import NotificationHandler
 from notifications.settings import cfg
 
 logger = logging.getLogger("waxlabs")
@@ -42,3 +43,15 @@ def setup_middlewares(app: FastAPI) -> None:
         logger.info("Serving Telegram bot")
 
         await bot_set_webhook()
+
+
+def setup_listener(app: FastAPI) -> None:
+    handler = container[NotificationHandler]
+
+    @app.on_event("shutdown")
+    async def shutdown_event():
+        await handler.stop()
+
+    @app.on_event("startup")
+    async def pull_telegram():
+        handler.listen()

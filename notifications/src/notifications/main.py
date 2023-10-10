@@ -4,7 +4,7 @@ from fastapi.responses import ORJSONResponse
 from notifications.bot.main import bot_startup
 from notifications.core.config.exception_handlers import setup_exception_handlers
 from notifications.core.config.logger import configure_logger
-from notifications.core.config.middleware import setup_middlewares
+from notifications.core.config.middleware import setup_listener, setup_middlewares
 from notifications.handlers import install_routes
 from notifications.settings import cfg
 
@@ -18,6 +18,7 @@ app = FastAPI(
 )
 
 setup_middlewares(app)
+setup_listener(app)
 setup_exception_handlers(app)
 install_routes(app)
 

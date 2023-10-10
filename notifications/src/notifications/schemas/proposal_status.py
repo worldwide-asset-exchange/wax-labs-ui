@@ -1,11 +1,11 @@
 from pydantic import UUID4
 
 from notifications.core.schemas.base import BaseSchema
+from notifications.wax_interface.schemas.types import ProposalStatus
 
 
-class ProposalStatusExport(BaseSchema):
+class ProposalExport(BaseSchema):
     uuid: UUID4
-    name: str
-    telegram_account: str
-    wax_account: str
-    chat_id: str
+    proposal_id: int
+    author: str
+    status: ProposalStatus | None = None

@@ -22,7 +22,7 @@ async def get_table_rows(
     limit: int = 1000,
     reverse: int | None = None,
     show_payer: int | None = None,
-    full: bool = True,
+    full: bool = False,
 ) -> typing.AsyncGenerator[dict[str, typing.Any], None]:
     """
     Return a list with the rows in the table.

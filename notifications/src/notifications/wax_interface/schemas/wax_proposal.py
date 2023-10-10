@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from notifications.wax_interface.schemas.types import BallotOptions, ProposalStatus
 
 
-class Proposal(BaseModel):
+class WaxProposal(BaseModel):
     proposal_id: int
     proposer: str
     category: int

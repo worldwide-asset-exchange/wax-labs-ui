@@ -6,7 +6,7 @@ from notifications.interfaces.proposal_service import IProposalService
 from notifications.interfaces.subscription_service import ISubscriptionService
 from notifications.models.proposals import Proposal
 from notifications.schemas.proposal_status import ProposalStatusExport
-from notifications.wax_interface.schemas.proposal import Proposal as WaxProposal
+from notifications.wax_interface.schemas.wax_proposal import WaxProposal
 
 
 class ProposalService(BaseService[Proposal, ProposalStatusExport], IProposalService):

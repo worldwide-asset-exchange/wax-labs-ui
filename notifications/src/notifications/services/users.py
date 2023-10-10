@@ -6,6 +6,7 @@ from notifications.core.services.base_service import BaseService, Data
 from notifications.interfaces.user_service import IUserService
 from notifications.models.account import User
 from notifications.schemas.users import UserExport
+from notifications.wax_interface.schemas.profile import Profile
 
 
 class UserService(BaseService[User, UserExport], IUserService):
@@ -51,14 +52,26 @@ class UserService(BaseService[User, UserExport], IUserService):
             },
         )
 
-    async def enable_or_create(
-        self,
-        telegram_account: str,
-        data: Data,
-    ) -> None:
+    async def enable_or_create(self, telegram_account: str, data: Data) -> None:
         try:
             user = await self.get_by_telegram_account(telegram_account)
 
             await self.enable(uuid=user.uuid)
         except NoResultFound:
             await self.create(data=data)
+
+    async def create_from_wax_profile(self, wax_profile: Profile) -> None:
+        try:
+            await self.get_by(
+                self.table.wax_account == wax_profile.wax_account,
+            )
+        except NoResultFound:
+            await self.create(
+                data={
+                    self.table.wax_account: wax_profile.wax_account,
+                    self.table.telegram_account: wax_profile.contact,
+                    self.table.name: wax_profile.full_name,
+                    self.table.deleted_at: None,
+                    self.table.chat_id: None,
+                },
+            )

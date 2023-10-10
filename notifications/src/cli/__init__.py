@@ -4,6 +4,8 @@ from functools import partial, wraps
 import asyncer
 import typer
 
+from cli.creators import create_proposals_from_wax_proposals, create_users_from_profile
+
 
 class AsyncTyper(typer.Typer):
     @staticmethod
@@ -32,5 +34,10 @@ app = AsyncTyper()
 
 
 @app.command()
-def users():
-    pass
+async def users():
+    await create_users_from_profile()
+
+
+@app.command()
+async def proposals():
+    await create_proposals_from_wax_proposals()

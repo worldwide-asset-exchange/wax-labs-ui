@@ -80,8 +80,8 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(extra="ignore", env_file=env_file)
 
-    @classmethod
     @field_validator("log_level", mode="before")
+    @classmethod
     def assemble_log_level(cls, v: str) -> int | LogLevelEnum:
         if isinstance(v, LogLevelEnum):
             return v

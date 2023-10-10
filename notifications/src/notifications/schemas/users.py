@@ -10,7 +10,7 @@ class UserExport(BaseSchema):
     name: str
     telegram_account: str
     wax_account: str
-    chat_id: int
+    chat_id: int | None = None
     deleted_at: datetime | None = None
 
 

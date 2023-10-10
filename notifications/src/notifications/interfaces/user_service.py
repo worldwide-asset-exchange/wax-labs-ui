@@ -8,9 +8,13 @@ from sqlalchemy.orm import InstrumentedAttribute
 from notifications.interfaces.base_service import IBaseService
 from notifications.models.account import User
 from notifications.schemas.users import UserExport
+from notifications.wax_interface.schemas.profile import Profile
 
 
 class IUserService(IBaseService[User, UserExport], abc.ABC):
+    table = User
+    table_export = UserExport
+
     @abc.abstractmethod
     async def telegram_already_saved(self, telegram_account: str) -> bool:
         pass
@@ -37,4 +41,8 @@ class IUserService(IBaseService[User, UserExport], abc.ABC):
         telegram_account: str,
         data: dict[str | Column | InstrumentedAttribute, typing.Any],
     ) -> None:
+        pass
+
+    @abc.abstractmethod
+    async def create_from_wax_profile(self, wax_profile: Profile) -> None:
         pass

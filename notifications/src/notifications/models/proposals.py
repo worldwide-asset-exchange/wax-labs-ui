@@ -14,11 +14,10 @@ class Subscription(BaseModel):
     __tablename__ = "subscriptions"
 
     proposal_id = mapped_column(ForeignKey("proposals.proposal_id"), unique=True)
+    proposal: Mapped["Proposal"] = relationship(back_populates="subscriptions", lazy="noload")
 
     user_id = mapped_column(ForeignKey("users.uuid"))
     user: Mapped["User"] = relationship(back_populates="subscriptions", lazy="noload")
-
-    proposal: Mapped["Proposal"] = relationship(back_populates="subscriptions", lazy="noload")
 
 
 class Proposal(BaseModel):

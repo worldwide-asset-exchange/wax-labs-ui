@@ -1,0 +1,6 @@
+; /etc/containers/systemd/wax_labs_v3.network
+
+[Network]
+Subnet=192.168.30.0/24
+Gateway=192.168.30.1
+Label=app=wax-labs-v3

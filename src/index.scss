@@ -2,77 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
-}
-
-a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-}
-
-a:hover {
-    color: #535bf2;
-}
-
-body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-}
-
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
-
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-
-button:hover {
-    border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
+@layer base {
+    body {
+        @apply bg-app;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
     }
 
-    a:hover {
-        color: #747bff;
+    *:focus {
+        @apply ring-1 ring-accent-dark outline-0;
     }
 
-    button {
-        background-color: #f9f9f9;
+    [type='checkbox'],
+    [type='radio'] {
+        &:checked {
+            background-image: url('/check-mark.svg');
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    [type='checkbox'] {
+        @apply rounded-sm
+    }
+
+    [type='radio'] {
+        @apply rounded-full
+    }
+}
+
+@layer components {
+    .btn {
+        @apply flex items-center gap-2 rounded-md border border-transparent px-[calc(1.5rem-1px)] py-[calc(0.75rem-1px)] label-1 duration-150 ease-in-out hover:underline disabled:opacity-30;
+        
+        &.square {
+            @apply px-[calc(0.75rem-1px)];
+        }
+        
+        &.default {
+            @apply bg-ui-element text-high-contrast;
+
+            &.active {
+                @apply border-accent text-accent;
+            }
+        }
+    
+        &.primary {
+            @apply border-accent bg-accent text-subtle hover:border-accent-dark hover:bg-accent-dark;
+        }
+    
+        &.secondary {
+            @apply border-accent bg-transparent text-accent hover:border-accent-dark hover:text-accent-dark;
+        }
+    
+        &.tertiary {
+            @apply border-transparent bg-transparent text-accent hover:text-accent-dark;
+        }
+    
+        &.link {
+            @apply border-transparent bg-transparent text-high-contrast;
+        }
+    }
+
+    .status-tag {
+        @apply label-2 inline-block px-4 py-2 rounded-full whitespace-nowrap;
+
+        &.in-drafting {
+            @apply bg-[#173743] text-[#57BFD4];
+        }
+
+        &.in-review, &.accepted {
+            @apply bg-[#212C59] text-[#899CF8];
+        }
+
+        &.approved, &.reported {
+            @apply bg-[#183832] text-[#5AC2B3];
+        }
+
+        &.in-voting {
+            @apply bg-[#4A250D] text-[#F09150];
+        }
+
+        &.in-progress {
+            @apply bg-[#3F2353] text-[#B57DE9];
+        }
+
+        &.cancelled {
+            @apply bg-[#4E1F21] text-[#ED6E6D];
+        }
+
+        &.rejected {
+            @apply bg-[#4E2018] text-[#E07258];
+        }
+
+        &.to-be-improved {
+            @apply bg-[#4E2018] text-[#E07258];
+        }
+
+        &.completed, &.claimed {
+            @apply bg-[#213824] text-[#7BBF7C];
+        }
+    }
+
+    .dialog-overlay {
+        @apply fixed inset-0 z-40 block bg-app/50;
+    }
+    .dialog-content {
+        @apply fixed left-1/2 top-1/2 z-50 max-h-screen w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-subtle shadow-2xl data-[state=closed]:hidden md:max-w-lg md:rounded-md max-md:h-full focus:ring-0;
+    }
+    .dialog-header {
+        @apply sticky top-0 flex items-center gap-4 border-b border-subtle-light bg-subtle px-4 py-2;
+    }
+    .dialog-title {
+        @apply title-3 text-high-contrast;
     }
 }

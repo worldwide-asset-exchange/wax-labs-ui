@@ -1,34 +1,36 @@
-import './App.scss'
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Suspense } from 'react';
+import { RouterProvider } from 'react-router-dom';
 
-import { useState } from 'react'
+import { queryClient } from '@/api/queryClient';
+import { ChainProvider } from '@/providers/chain.tsx';
+import { ConfigProvider } from '@/providers/config.tsx';
+import { NotificationsProvider } from '@/providers/notifications.tsx';
+import { ToastProvider } from '@/providers/toast';
+import { route } from '@/route';
 
-import viteLogo from '/vite.svg?url'
-
-import { ReactComponent as ReactLogoIcon } from './assets/react.svg'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+export function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <ReactLogoIcon className="logo react" title="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
-  )
+    <ChainProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider>
+          <ToastProvider>
+            <NotificationsProvider>
+              <RouterProvider router={route} />
+              <ReactQueryDevtools initialIsOpen={true} />
+            </NotificationsProvider>
+          </ToastProvider>
+        </ConfigProvider>
+      </QueryClientProvider>
+    </ChainProvider>
+  );
 }
 
-export default App
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="Loading...">
+      <App />
+    </Suspense>
+  );
+}

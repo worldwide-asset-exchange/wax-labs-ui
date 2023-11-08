@@ -27,10 +27,10 @@ export function Footer() {
             </div>
           </div>
           <div className="flex flex-none items-center gap-2">
-            <Link to="/" variant="link" square>
+            <Link target="_blank" to="https://www.wax.io/terms-of-service" variant="link" square>
               {t('termsOfService')}
             </Link>
-            <Link to="/" variant="link" square>
+            <Link target="_blank" to="https://www.wax.io/privacy-policy" variant="link" square>
               {t('privacyPolicy')}
             </Link>
           </div>

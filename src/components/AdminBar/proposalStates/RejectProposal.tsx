@@ -27,7 +27,6 @@ function RejectProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
         approve: false,
         draft: false,
       });
-
       await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.reject.rejectProposalSuccess'), variant: 'success' });

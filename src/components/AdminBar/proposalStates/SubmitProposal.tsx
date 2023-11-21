@@ -20,17 +20,15 @@ function SubmitProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
 
   const onSubmitProposal = async () => {
     try {
-      await Promise.all([
-        submitProposal({
-          session: session!,
-          proposalId: proposal!.proposal_id,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await submitProposal({
+        session: session!,
+        proposalId: proposal!.proposal_id,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.SUBMITTED);
+      await onChangeStatus(ProposalStatusKey.SUBMITTED);
     } catch (e) {
       console.log('Cancel Proposal', e);
     }

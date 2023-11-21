@@ -21,18 +21,16 @@ function BeginVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButt
 
   const onBeginVoting = async () => {
     try {
-      await Promise.all([
-        beginVoting({
-          session: session!,
-          ballotName: randomEosioName(),
-          proposalId: proposal!.proposal_id,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await beginVoting({
+        session: session!,
+        ballotName: randomEosioName(),
+        proposalId: proposal!.proposal_id,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.voting.votingProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.VOTING);
+      await onChangeStatus(ProposalStatusKey.VOTING);
     } catch (e) {
       console.log('onSetReviewer error', e);
     }

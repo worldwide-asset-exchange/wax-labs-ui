@@ -14,6 +14,7 @@ const actionsPerStatus = {
     ProposalStatusKey.VOTING,
   ],
   approve: [ProposalStatusKey.SUBMITTED],
+  reject: [ProposalStatusKey.SUBMITTED],
   beginVoting: [ProposalStatusKey.APPROVED],
   endVoting: [ProposalStatusKey.VOTING],
   cancelProposal: [
@@ -45,6 +46,8 @@ export function useActionsBar() {
   const showCancelProposal = isAdminOrProposer && actionsPerStatus.cancelProposal.includes(proposal!.status);
   const showDelete = isAdminOrProposer && actionsPerStatus.delete.includes(proposal!.status);
 
+  const showReject = isAdmin && actionsPerStatus.reject.includes(proposal!.status);
+
   const showActionButton =
     showEdit ||
     showSubmit ||
@@ -53,6 +56,7 @@ export function useActionsBar() {
     showBeginVoting ||
     showEndVoting ||
     showCancelProposal ||
+    showReject ||
     showDelete;
 
   return {
@@ -66,5 +70,6 @@ export function useActionsBar() {
     showEndVoting,
     showCancelProposal,
     showDelete,
+    showReject,
   };
 }

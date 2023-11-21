@@ -20,20 +20,18 @@ function AskForChangesComponent(props: ComponentProps<'button'>, ref: Ref<HTMLBu
 
   const onAskForChanges: InputDialogProps['onSubmit'] = async ({ value }) => {
     try {
-      await Promise.all([
-        reviewProposal({
-          session: session!,
-          proposalId: proposal!.proposal_id,
-          memo: value,
-          approve: false,
-          draft: true,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await reviewProposal({
+        session: session!,
+        proposalId: proposal!.proposal_id,
+        memo: value,
+        approve: false,
+        draft: true,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.FAILED_DRAFT);
+      await onChangeStatus(ProposalStatusKey.FAILED_DRAFT);
     } catch (e) {
       console.log('onCommunityApproval error: ', e);
     }

@@ -4,6 +4,7 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 import { CancelProposal } from '@/components/AdminBar/proposalStates/CancelProposal.tsx';
 import { Delete } from '@/components/AdminBar/proposalStates/Delete.tsx';
+import { RejectProposal } from '@/components/AdminBar/proposalStates/RejectProposal.tsx';
 import { SubmitProposal } from '@/components/AdminBar/proposalStates/SubmitProposal.tsx';
 import { UpdateReviewer } from '@/components/AdminBar/proposalStates/UpdateReviewer.tsx';
 import { Button } from '@/components/Button';
@@ -28,6 +29,7 @@ export function ActionsBar() {
     showEndVoting,
     showCancelProposal,
     showDelete,
+    showReject,
   } = useActionsBar();
 
   return (
@@ -76,6 +78,12 @@ export function ActionsBar() {
                 <AskForChanges />
               </DropdownMenu.Item>
             </>
+          )}
+
+          {showReject && (
+            <DropdownMenu.Item asChild>
+              <RejectProposal />
+            </DropdownMenu.Item>
           )}
 
           {showBeginVoting && (

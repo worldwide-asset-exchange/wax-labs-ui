@@ -20,20 +20,18 @@ function CommunityVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTML
 
   const onCommunityApproval = async () => {
     try {
-      await Promise.all([
-        reviewProposal({
-          session: session!,
-          proposalId: proposal!.proposal_id,
-          memo: '',
-          approve: true,
-          draft: true,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await reviewProposal({
+        session: session!,
+        proposalId: proposal!.proposal_id,
+        memo: '',
+        approve: true,
+        draft: true,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.approve.approveProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.APPROVED);
+      await onChangeStatus(ProposalStatusKey.APPROVED);
     } catch (e) {
       console.log('onCommunityApproval error: ', e);
     }

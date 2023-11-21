@@ -38,7 +38,8 @@ export function ProposalDetailDetail({
   const { configs } = useConfigData();
   const categoryName = configs?.categories[category];
 
-  const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
+  const lastUpdateDated = Date.parse(lastUpdate);
+  const lastUpdateFormatted = lastUpdateDated ? format(lastUpdateDated, 'LLL do, yyyy') : '-';
 
   return (
     <>

@@ -208,7 +208,8 @@
     "failed": "Rejected",
     "cancelled": "Cancelled",
     "completed": "Completed",
-    "failedDraft": "To be Improved"
+    "failedDraft": "To be Improved",
+    "notReviewedDeliverable": "Deliverables in Review"
   },
   "sortByOptions": {
     "createdLast": "Created last",
@@ -232,6 +233,11 @@
       "cancelProposal": "Cancel proposal",
       "cancelProposalConfirmation": "Are you sure you want to cancel this proposal?",
       "cancelProposalSuccess": "Success: Proposal has been cancelled"
+    },
+    "reject": {
+      "rejectProposal": "Reject proposal",
+      "rejectProposalConfirmation": "Are you sure you want to reject this proposal?",
+      "rejectProposalSuccess": "Success: Proposal has been rejected"
     },
     "delete": {
       "deleteProposal": "Delete proposal",

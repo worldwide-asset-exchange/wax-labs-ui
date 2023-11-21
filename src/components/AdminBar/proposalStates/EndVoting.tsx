@@ -20,17 +20,15 @@ function EndVotingComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButton
 
   const onEndVoting = async () => {
     try {
-      await Promise.all([
-        endVoting({
-          session: session!,
-          proposalId: proposal!.proposal_id,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await endVoting({
+        session: session!,
+        proposalId: proposal!.proposal_id,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.voting.endVotingProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(ProposalStatusKey.VOTING);
+      await onChangeStatus(ProposalStatusKey.VOTING);
     } catch (e) {
       console.log('onSetReviewer error', e);
     }

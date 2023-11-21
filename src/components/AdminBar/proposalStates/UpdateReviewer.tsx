@@ -26,7 +26,7 @@ function UpdateReviewerComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
 
       toast({ description: t('admin.reviewer.setReviewerSuccess'), variant: 'success' });
 
-      onChangeStatus(proposal!.status);
+      await onChangeStatus(proposal!.status);
     } catch (e) {
       console.log('onSetReviewer error', e);
     }

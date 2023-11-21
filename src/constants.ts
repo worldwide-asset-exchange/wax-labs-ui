@@ -85,6 +85,7 @@ export enum ProposalStatusKey {
   CANCELLED = 7,
   COMPLETED = 8,
   FAILED_DRAFT = 9,
+  NOT_REVIEWED_DELIVERABLE = 10,
 }
 
 export enum DeliverableStatusKey {
@@ -106,6 +107,7 @@ export const ProposalStatusKeyName: Record<string, ProposalStatusKey> = {
   'filters.cancelled': ProposalStatusKey.CANCELLED,
   'filters.completed': ProposalStatusKey.COMPLETED,
   'filters.failedDraft': ProposalStatusKey.FAILED_DRAFT,
+  'filters.notReviewedDeliverable': ProposalStatusKey.NOT_REVIEWED_DELIVERABLE,
 };
 
 export enum ProposalStatus2 {

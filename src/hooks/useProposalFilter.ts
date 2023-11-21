@@ -11,6 +11,7 @@ import {
 } from '@/api/chain/proposals';
 import { failedDraftProposals } from '@/api/chain/proposals/query/failedDraftProposals.ts';
 import { failedProposals } from '@/api/chain/proposals/query/failedProposals.ts';
+import { hasReviewableDeliverables } from '@/api/chain/proposals/query/hasReviewableDeliverables.ts';
 import { submittedProposals } from '@/api/chain/proposals/query/submittedProposals.ts';
 import { userProposals } from '@/api/chain/proposals/query/userProposals.ts';
 import { Proposal } from '@/api/models/proposal.ts';
@@ -82,6 +83,9 @@ export function useProposalFilter({
   const { actor, isAuthenticated } = useChain();
   const { isAdmin, configs } = useConfigData();
   const statusKeys = new Set(status?.map(s => statusFilterMapping()[s]) ?? []);
+  const statusWithoutReview = new Set(statusKeys);
+  statusWithoutReview.delete(ProposalStatusKey.NOT_REVIEWED_DELIVERABLE);
+
   const sortByKey = sortBy ? sortByMapping()[sortBy] : null;
   const categoryKeys = new Set(categories ? categories.map(c => configs?.categories.indexOf(c)) : []);
   const whoseKey = whose ? whoseFilterMapping()[whose] : null;
@@ -99,27 +103,47 @@ export function useProposalFilter({
     proposalQueries = () => toReviewProposals();
   }
 
-  const { isLoading, data } = useQuery({
-    queryKey: ['proposalsFilter', actor, sortBy, search, status, whose, categories, actAsActor],
+  const { isLoading, data: proposals } = useQuery({
+    queryKey: [
+      'proposalsFilter',
+      actor,
+      sortBy,
+      search,
+      status,
+      whose,
+      categories,
+      actAsActor,
+      statusKeys,
+      categoryKeys,
+      statusWithoutReview,
+      sortByKey,
+    ],
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
-    queryFn: proposalQueries,
+    queryFn: async () => {
+      let proposals = (await proposalQueries()) ?? [];
+
+      proposals = proposals
+        .filter(filterUnique())
+        .filter(filterByStatus(statusWithoutReview))
+        .filter(filterCategory(categoryKeys))
+        .filter(filterByName(search));
+
+      if (statusKeys.has(ProposalStatusKey.NOT_REVIEWED_DELIVERABLE)) {
+        return hasReviewableDeliverables(proposals);
+      }
+
+      if (sortByKey != null) {
+        proposals?.sort(sorter(sortByKey));
+      }
+
+      return proposals;
+    },
     enabled,
   });
 
-  const proposals: Proposal[] =
-    data
-      ?.filter(filterUnique())
-      ?.filter(filterByStatus(statusKeys))
-      ?.filter(filterCategory(categoryKeys))
-      ?.filter(filterByName(search)) ?? [];
-
-  if (sortByKey != null) {
-    proposals.sort(sorter(sortByKey));
-  }
-
-  return { proposals, isLoading };
+  return { proposals: proposals ?? [], isLoading };
 }
 
 function filterCategory(categories: Set<number | undefined> | null) {

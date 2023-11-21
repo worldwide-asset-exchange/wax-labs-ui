@@ -117,6 +117,7 @@ export function useProposalFilter({
       categoryKeys,
       statusWithoutReview,
       sortByKey,
+      isAdmin,
     ],
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -130,7 +131,7 @@ export function useProposalFilter({
         .filter(filterCategory(categoryKeys))
         .filter(filterByName(search));
 
-      if (statusKeys.has(ProposalStatusKey.NOT_REVIEWED_DELIVERABLE)) {
+      if (statusKeys.has(ProposalStatusKey.NOT_REVIEWED_DELIVERABLE) && isAdmin) {
         return hasReviewableDeliverables(proposals);
       }
 

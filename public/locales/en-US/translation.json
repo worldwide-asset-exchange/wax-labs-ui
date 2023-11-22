@@ -282,7 +282,7 @@
     },
     "reviewReport": {
       "approveReportLabel": "Approve report",
-      "rejectReportLabel": "Approve report",
+      "rejectReportLabel": "Reject report",
       "reviewReportLabel": "Enter a review link:",
       "reviewReportPlaceholder": "E.g.: https://report.url"
     }

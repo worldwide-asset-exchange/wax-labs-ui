@@ -8,15 +8,12 @@ import { Button } from '@/components/Button';
 import * as FilterModal from '@/components/FilterModal';
 import { FilterModalRootRef } from '@/components/FilterModal/FilterModalRootRef';
 import { ToggleField } from '@/components/ToggleField';
-import { ProposalStatusKey } from '@/constants.ts';
-import { useConfigData } from '@/hooks/useConfigData.ts';
 import { statusFilterMapping } from '@/mappings/statusFilterMapping.ts';
 
 export function ProposalFilterStatus({ onChangeFilters }: { onChangeFilters: () => void }) {
   const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAdmin } = useConfigData();
   const modalRef = useRef<FilterModalRootRef>(null);
 
   const { getValues, handleSubmit, register, setValue } = useFormContext();
@@ -57,19 +54,15 @@ export function ProposalFilterStatus({ onChangeFilters }: { onChangeFilters: () 
       <FilterModal.Content title={t('status')}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="grid grid-cols-2 gap-1 p-4">
-            {Object.entries(statusFilterMapping())
-              .filter(([_, statusValue]) =>
-                isAdmin ? true : statusValue !== ProposalStatusKey.NOT_REVIEWED_DELIVERABLE
-              )
-              .map(([statusKey, statusValue]) => (
-                <ToggleField
-                  key={statusValue}
-                  {...register('status')}
-                  type="checkbox"
-                  label={statusKey}
-                  value={statusKey}
-                />
-              ))}
+            {Object.entries(statusFilterMapping()).map(([statusKey, statusValue]) => (
+              <ToggleField
+                key={statusValue}
+                {...register('status')}
+                type="checkbox"
+                label={statusKey}
+                value={statusKey}
+              />
+            ))}
           </fieldset>
           <footer className="flex items-center justify-between p-4">
             <Button variant="tertiary" onClick={handleResetField}>

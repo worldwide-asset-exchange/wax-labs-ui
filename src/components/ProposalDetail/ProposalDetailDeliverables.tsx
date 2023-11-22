@@ -51,7 +51,7 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
     if (Date.parse(lastReviewed) && lastReviewed !== NEVER_REVIEWED_DATE) {
       return format(parseISO(lastReviewed), DEFAULT_DATE_FORMAT);
     }
-    return t('neverReviewed');
+    return '-';
   }
 
   return (

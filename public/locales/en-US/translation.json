@@ -295,6 +295,5 @@
   "noVotesYet": "No votes have been cast yet",
   "submitReport": "Submit report",
   "reviewReport": "Review report",
-  "messageErrorEmpty": "Please provide a valid input",
-  "neverReviewed": "Never reviewed"
+  "messageErrorEmpty": "Please provide a valid input"
 }

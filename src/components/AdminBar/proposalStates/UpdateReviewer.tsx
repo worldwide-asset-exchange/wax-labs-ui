@@ -39,9 +39,9 @@ function UpdateReviewerComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
       </Button>
 
       <InputDialog
-        label={t('admin.approve.reviewerPlaceholder')!}
-        placeholder={t('admin.approve.reviewerPlaceholder')!}
-        zodValidationMessage={t('admin.approve.messageErrorEmpty')!}
+        label={t('admin.reviewer.reviewerLabel')!}
+        placeholder={t('waxAccountPlaceholder')!}
+        zodValidationMessage={t('admin.reviewer.messageErrorEmpty')!}
         maxLength={12}
         open={isOpen}
         defaultValue={proposal!.reviewer || actor}

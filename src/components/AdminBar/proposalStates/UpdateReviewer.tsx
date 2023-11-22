@@ -39,7 +39,7 @@ function UpdateReviewerComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
       </Button>
 
       <InputDialog
-        label={t('admin.approve')!}
+        label={t('admin.approve.reviewerPlaceholder')!}
         placeholder={t('admin.approve.reviewerPlaceholder')!}
         zodValidationMessage={t('admin.approve.messageErrorEmpty')!}
         maxLength={12}

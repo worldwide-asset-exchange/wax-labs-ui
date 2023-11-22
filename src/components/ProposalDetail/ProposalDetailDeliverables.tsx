@@ -1,6 +1,6 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import {
   MdAssessment,
@@ -22,6 +22,7 @@ import { SubmitReport } from '@/components/AdminBar/proposalStates/SubmitReport.
 import * as Info from '@/components/Info';
 import { Link } from '@/components/Link.tsx';
 import { StatusTag } from '@/components/StatusTag';
+import { DEFAULT_DATE_FORMAT, NEVER_REVIEWED_DATE } from '@/constants.ts';
 import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
@@ -47,8 +48,8 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
   });
 
   function formatLastReviewed(lastReviewed: string) {
-    if (lastReviewed) {
-      return format(new Date(lastReviewed), 'LLL Mo, uuuu');
+    if (Date.parse(lastReviewed) && lastReviewed !== NEVER_REVIEWED_DATE) {
+      return format(parseISO(lastReviewed), DEFAULT_DATE_FORMAT);
     }
     return '-';
   }

@@ -6,7 +6,7 @@ export interface CreateReviewDeliverableAction extends SessionProps {
   proposalId: number;
   deliverableId: number;
   accept: boolean;
-  memo: string;
+  review: string;
 }
 
 export default function createReviewDeliverableAction({
@@ -14,7 +14,7 @@ export default function createReviewDeliverableAction({
   proposalId,
   accept,
   deliverableId,
-  memo,
+  review,
 }: CreateReviewDeliverableAction): Action<ReviewDeliverable> {
   return {
     account: LABS_CONTRACT_ACCOUNT,
@@ -29,7 +29,7 @@ export default function createReviewDeliverableAction({
       proposal_id: proposalId,
       deliverable_id: deliverableId,
       accept,
-      memo,
+      memo: review,
     },
   };
 }

@@ -12,6 +12,7 @@ import {
 } from 'react-icons/md';
 
 import * as Info from '@/components/Info';
+import { DEFAULT_DATE_FORMAT } from '@/constants.ts';
 import { useConfigData } from '@/hooks/useConfigData';
 
 interface ProposalDetailDetailProps {
@@ -38,8 +39,8 @@ export function ProposalDetailDetail({
   const { configs } = useConfigData();
   const categoryName = configs?.categories[category];
 
-  const lastUpdateDated = Date.parse(lastUpdate);
-  const lastUpdateFormatted = lastUpdateDated ? format(lastUpdateDated, 'LLL do, yyyy') : '-';
+  const lastUpdatedDate = Date.parse(lastUpdate);
+  const lastUpdateFormatted = lastUpdatedDate ? format(lastUpdatedDate, DEFAULT_DATE_FORMAT) : '-';
 
   return (
     <>

@@ -64,7 +64,7 @@ export function ReviewDeliverable({
         proposalId: proposal.proposal_id,
         deliverableId: deliverable.deliverable_id!,
         accept,
-        memo: review,
+        review,
       });
       await refreshStatus(proposal!.proposal_id);
 

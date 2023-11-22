@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 import { WAXCurrency } from '@/api/models/common.ts';
 import { StatusTag } from '@/components/StatusTag';
-import { ProposalStatusKey } from '@/constants.ts';
+import { DEFAULT_DATE_FORMAT, ProposalStatusKey } from '@/constants.ts';
 import { useConfigData } from '@/hooks/useConfigData.ts';
 import { formatCurrency } from '@/utils/formatter.ts';
 import { toProposalStatus } from '@/utils/proposalUtils.ts';
@@ -44,7 +44,8 @@ export function ProposalItem({
 
   const { configs } = useConfigData();
 
-  const lastUpdateFormatted = format(new Date(lastUpdate), 'LLL Mo, uuuu');
+  const lastUpdatedDate = Date.parse(lastUpdate);
+  const lastUpdateFormatted = lastUpdatedDate ? format(lastUpdatedDate, DEFAULT_DATE_FORMAT) : '-';
   const categoryName = configs?.categories[category];
 
   const requestedAmountFormatted = formatCurrency(requestedAmount);

@@ -242,3 +242,6 @@ export const WhoseFilter: Record<string, Whose> = {
 
 export const DECIDE_CONTRACT_ACCOUNT = 'decide';
 export const OIG_CODE = 'oig';
+
+export const NEVER_REVIEWED_DATE = '1970-01-01T00:00:00';
+export const DEFAULT_DATE_FORMAT = 'LLL do, yyyy';

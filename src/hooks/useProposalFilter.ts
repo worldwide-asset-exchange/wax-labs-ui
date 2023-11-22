@@ -83,8 +83,6 @@ export function useProposalFilter({
   const { actor, isAuthenticated } = useChain();
   const { isAdmin, configs } = useConfigData();
   const statusKeys = new Set(status?.map(s => statusFilterMapping()[s]) ?? []);
-  const statusWithoutReview = new Set(statusKeys);
-  statusWithoutReview.delete(ProposalStatusKey.NOT_REVIEWED_DELIVERABLE);
 
   const sortByKey = sortBy ? sortByMapping()[sortBy] : null;
   const categoryKeys = new Set(categories ? categories.map(c => configs?.categories.indexOf(c)) : []);
@@ -97,7 +95,7 @@ export function useProposalFilter({
   let proposalQueries: () => Promise<Proposal[]>;
   if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
     proposalQueries = () => myProposals((actAsActor ?? actor) as string);
-  } else if (whoseKey === Whose.ALL_PROPOSALS) {
+  } else if (whoseKey === Whose.ALL_PROPOSALS || whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
     proposalQueries = allProposals;
   } else {
     proposalQueries = () => toReviewProposals();
@@ -115,9 +113,9 @@ export function useProposalFilter({
       actAsActor,
       statusKeys,
       categoryKeys,
-      statusWithoutReview,
       sortByKey,
       isAdmin,
+      whoseKey,
     ],
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -127,11 +125,11 @@ export function useProposalFilter({
 
       proposals = proposals
         .filter(filterUnique())
-        .filter(filterByStatus(statusWithoutReview))
+        .filter(filterByStatus(statusKeys))
         .filter(filterCategory(categoryKeys))
         .filter(filterByName(search));
 
-      if (statusKeys.has(ProposalStatusKey.NOT_REVIEWED_DELIVERABLE) && isAdmin) {
+      if (whoseKey === Whose.DELIVERABLES_TO_REVIEW && isAdmin) {
         return hasReviewableDeliverables(proposals);
       }
 

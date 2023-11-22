@@ -85,7 +85,6 @@ export enum ProposalStatusKey {
   CANCELLED = 7,
   COMPLETED = 8,
   FAILED_DRAFT = 9,
-  NOT_REVIEWED_DELIVERABLE = 10,
 }
 
 export enum DeliverableStatusKey {
@@ -107,7 +106,6 @@ export const ProposalStatusKeyName: Record<string, ProposalStatusKey> = {
   'filters.cancelled': ProposalStatusKey.CANCELLED,
   'filters.completed': ProposalStatusKey.COMPLETED,
   'filters.failedDraft': ProposalStatusKey.FAILED_DRAFT,
-  'filters.notReviewedDeliverable': ProposalStatusKey.NOT_REVIEWED_DELIVERABLE,
 };
 
 export enum ProposalStatus2 {
@@ -232,12 +230,14 @@ export enum Whose {
   ALL_PROPOSALS,
   MY_PROPOSALS,
   PROPOSALS_TO_REVIEW,
+  DELIVERABLES_TO_REVIEW,
 }
 
 export const WhoseFilter: Record<string, Whose> = {
   allProposals: Whose.ALL_PROPOSALS,
   myProposals: Whose.MY_PROPOSALS,
   proposalsToReview: Whose.PROPOSALS_TO_REVIEW,
+  deliverablesToReview: Whose.DELIVERABLES_TO_REVIEW,
 };
 
 export const DECIDE_CONTRACT_ACCOUNT = 'decide';

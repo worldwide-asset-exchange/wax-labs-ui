@@ -33,6 +33,8 @@
   "allProposals": "All Proposals",
   "myProposals": "My proposals",
   "proposalsToReview": "Proposals to review",
+  "deliverablesToReview": "Deliverables to review",
+  "toReview": "To review",
   "createProposal": "Create proposal",
   "updateProposal": "Update proposal",
   "category": "Category",
@@ -208,8 +210,7 @@
     "failed": "Rejected",
     "cancelled": "Cancelled",
     "completed": "Completed",
-    "failedDraft": "To be Improved",
-    "notReviewedDeliverable": "Deliverables in Review"
+    "failedDraft": "To be Improved"
   },
   "sortByOptions": {
     "createdLast": "Created last",
@@ -225,7 +226,7 @@
     "reviewer": {
       "setReviewer": "Set reviewer",
       "updateReviewer": "Update reviewer",
-      "reviewerPlaceholder": "E.g.: waxlabsuser1",
+      "reviewerLabel": "Reviewer account",
       "setReviewerSuccess": "Success: Reviewer has been set",
       "waxMessageErrorEmpty": "Please provide a valid Wax Account"
     },
@@ -264,7 +265,7 @@
       "approveProposalSuccess": "Success: Proposal has been approved.",
       "enterRequiredChangesLabel": "Enter required changes.",
       "messageErrorEmpty": "Please provide a valid review.",
-      "reviewerPlaceholder": "E.g.: Pleas change this and that."
+      "reviewerPlaceholder": "E.g.: Please change this and that."
     },
     "voting": {
       "beginVoting": "Begin voting",

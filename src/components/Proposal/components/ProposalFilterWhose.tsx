@@ -48,6 +48,12 @@ export function ProposalFilterWhose({ children }: ProposalFilterWhoseProps) {
             {isAuthenticated && (
               <ToggleField {...register('whose')} type="radio" label={t('myProposals')} value={t('myProposals')!} />
             )}
+            <ToggleField
+              {...register('whose')}
+              type="radio"
+              label={t('deliverablesToReview')}
+              value={t('deliverablesToReview')!}
+            />
             {isAdmin && (
               <ToggleField
                 {...register('whose')}

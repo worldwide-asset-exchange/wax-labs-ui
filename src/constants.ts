@@ -230,13 +230,18 @@ export enum Whose {
   ALL_PROPOSALS,
   MY_PROPOSALS,
   PROPOSALS_TO_REVIEW,
+  DELIVERABLES_TO_REVIEW,
 }
 
 export const WhoseFilter: Record<string, Whose> = {
   allProposals: Whose.ALL_PROPOSALS,
   myProposals: Whose.MY_PROPOSALS,
   proposalsToReview: Whose.PROPOSALS_TO_REVIEW,
+  deliverablesToReview: Whose.DELIVERABLES_TO_REVIEW,
 };
 
 export const DECIDE_CONTRACT_ACCOUNT = 'decide';
 export const OIG_CODE = 'oig';
+
+export const NEVER_REVIEWED_DATE = '1970-01-01T00:00:00';
+export const DEFAULT_DATE_FORMAT = 'LLL do, yyyy';

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { deleteProposal } from '@/api/chain/proposals';
+import { refreshStatus } from '@/api/notifications.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
 import { useChain } from '@/hooks/useChain.ts';
@@ -24,10 +25,11 @@ function DeleteComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonEle
         session: session!,
         proposalId: proposal!.proposal_id,
       });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.delete.deleteProposalSuccess'), variant: 'success' });
 
-      onChangeStatus(proposal!.status);
+      await onChangeStatus(proposal!.status);
 
       navigate('/proposals');
     } catch (e) {

@@ -59,16 +59,14 @@ export function ReviewDeliverable({
   }
   const onReviewDeliverable = async ({ review, accept }: { review: string; accept: boolean }) => {
     try {
-      await Promise.all([
-        reviewDeliverable({
-          session: session!,
-          proposalId: proposal.proposal_id,
-          deliverableId: deliverable.deliverable_id!,
-          accept,
-          memo: review,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await reviewDeliverable({
+        session: session!,
+        proposalId: proposal.proposal_id,
+        deliverableId: deliverable.deliverable_id!,
+        accept,
+        review,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.submitReport.submitReportSuccess'), variant: 'success' });
 

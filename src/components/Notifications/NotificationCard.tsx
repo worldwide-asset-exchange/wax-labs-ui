@@ -31,7 +31,7 @@ export function NotificationCard({
   return (
     <div className="flex flex-col items-start gap-4 self-stretch rounded-xl bg-subtle p-6">
       <div className="flex w-full flex-nowrap items-center">
-        <NavLink to={`/proposals/${proposalId}/edit`} className="flex-auto">
+        <NavLink to={`/proposals/${proposalId}`} className="flex-auto">
           <h4 className="text-xl font-semibold not-italic leading-7 text-white">{title}</h4>
         </NavLink>
 

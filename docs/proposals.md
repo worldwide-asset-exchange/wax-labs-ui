@@ -299,7 +299,7 @@ The proposal will not have its status changed if the voting is closed.
 
 Once a proposal is approved by both the WAX Labs admin and the community (given that total community voting has
 reached a value higher than the minimum set in the WaxLabs Contract) the proposal status is set to `IN_PROGRESS`
-and deliberable reports can be submitted by executing the `submitReport` action.
+and deliverable reports can be submitted by executing the `submitReport` action.
 
 ##### Requirements
 

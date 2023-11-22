@@ -7,8 +7,10 @@ export async function reviewDeliverable({
   proposalId,
   deliverableId,
   accept,
-  memo,
+  review,
   session,
 }: CreateReviewDeliverableAction) {
-  return await execute(session, [createReviewDeliverableAction({ proposalId, accept, deliverableId, memo, session })]);
+  return await execute(session, [
+    createReviewDeliverableAction({ proposalId, accept, deliverableId, review, session }),
+  ]);
 }

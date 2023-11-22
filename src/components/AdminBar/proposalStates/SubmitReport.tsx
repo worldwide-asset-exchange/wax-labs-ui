@@ -31,15 +31,13 @@ export function SubmitReport({
   }
   const onSubmitReport: InputDialogProps['onSubmit'] = async ({ value }) => {
     try {
-      await Promise.all([
-        submitReport({
-          session: session!,
-          proposalId: proposal.proposal_id,
-          deliverableId: deliverable.deliverable_id!,
-          report: value,
-        }),
-        refreshStatus(proposal!.proposal_id),
-      ]);
+      await submitReport({
+        session: session!,
+        proposalId: proposal.proposal_id,
+        deliverableId: deliverable.deliverable_id!,
+        report: value,
+      });
+      await refreshStatus(proposal!.proposal_id);
 
       toast({ description: t('admin.submitReport.submitReportSuccess'), variant: 'success' });
 

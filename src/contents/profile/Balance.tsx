@@ -22,14 +22,6 @@ export function Balance() {
 
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
-  const BalanceSchema = useMemo(() => {
-    return z.object({
-      quantity: z.string().nonempty(t('withdrawBalanceErrorEmpty')!).min(1),
-    });
-  }, [t]);
-
-  type WithdrawBalance = z.input<typeof BalanceSchema>;
-
   const openConfirmationModal = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setConfirmationModalOpen(true);
@@ -52,15 +44,27 @@ export function Balance() {
     queryFn: () => accountBalance({ actor: actor! }),
   });
 
+  const BalanceSchema = useMemo(() => {
+    return z.object({
+      quantity: z.coerce
+        .number()
+        .gt(0, t('withdrawBalanceErrorEmpty')!)
+        .lte(Number(balance), t('withdrawBalanceErrorEmpty')!)
+        .min(1, t('withdrawBalanceErrorEmpty')!),
+    });
+  }, [balance, t]);
+
+  type WithdrawBalance = z.input<typeof BalanceSchema>;
+
   const {
     register,
     getValues,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors, isValid },
   } = useForm<WithdrawBalance>({
     resolver: zodResolver(BalanceSchema),
     values: {
-      quantity: String(balance),
+      quantity: Number(balance) || 0,
     },
   });
 
@@ -84,7 +88,7 @@ export function Balance() {
               />
             </div>
             <div className="flex-none pt-8">
-              <Button variant="primary" type="submit" disabled={!isDirty}>
+              <Button variant="primary" type="submit" disabled={!isValid}>
                 {t('withdraw')}
               </Button>
             </div>

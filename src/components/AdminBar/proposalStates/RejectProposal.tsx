@@ -1,7 +1,7 @@
 import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { submitProposal } from '@/api/chain/proposals';
+import { reviewProposal } from '@/api/chain/reviewer/actions/reviewProposal.ts';
 import { refreshStatus } from '@/api/notifications.ts';
 import * as AlertDialog from '@/components/AlertDialog';
 import { Button } from '@/components/Button.tsx';
@@ -10,7 +10,7 @@ import { useChain } from '@/hooks/useChain.ts';
 import { useSingleProposal } from '@/hooks/useSingleProposal';
 import { useToast } from '@/hooks/useToast.ts';
 
-function SubmitProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
+function RejectProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLButtonElement>) {
   const { data: proposal, onChangeStatus } = useSingleProposal();
 
   const { t } = useTranslation();
@@ -18,39 +18,42 @@ function SubmitProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
   const { session } = useChain();
   const { toast } = useToast();
 
-  const onSubmitProposal = async () => {
+  const onSubmit = async () => {
     try {
-      await submitProposal({
+      await reviewProposal({
         session: session!,
         proposalId: proposal!.proposal_id,
+        memo: '',
+        approve: false,
+        draft: false,
       });
       await refreshStatus(proposal!.proposal_id);
 
-      toast({ description: t('admin.submit.submitProposalSuccess'), variant: 'success' });
+      toast({ description: t('admin.reject.rejectProposalSuccess'), variant: 'success' });
 
-      await onChangeStatus(ProposalStatusKey.SUBMITTED);
+      await onChangeStatus(ProposalStatusKey.CANCELLED);
     } catch (e) {
-      console.log('Cancel Proposal', e);
+      console.log('Reject Proposal', e);
     }
   };
 
   return (
     <>
       <Button {...props} ref={ref} variant="link" square onClick={() => setOpen(true)}>
-        {t('admin.submit.submitProposal')}
+        {t('admin.reject.rejectProposal')}
       </Button>
 
       <AlertDialog.Root
         open={open}
         onOpenChange={setOpen}
-        title={t('admin.submit.submitProposal')}
-        description={t('admin.submit.submitProposalConfirmation')}
+        title={t('admin.reject.rejectProposal')}
+        description={t('admin.reject.rejectProposalConfirmation')}
       >
-        <AlertDialog.Action onClick={onSubmitProposal}>{t('submit')}</AlertDialog.Action>
+        <AlertDialog.Action onClick={onSubmit}>{t('apply')}</AlertDialog.Action>
         <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
       </AlertDialog.Root>
     </>
   );
 }
 
-export const SubmitProposal = forwardRef(SubmitProposalComponent);
+export const RejectProposal = forwardRef(RejectProposalComponent);

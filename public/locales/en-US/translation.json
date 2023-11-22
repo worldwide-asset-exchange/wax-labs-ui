@@ -33,6 +33,8 @@
   "allProposals": "All Proposals",
   "myProposals": "My proposals",
   "proposalsToReview": "Proposals to review",
+  "deliverablesToReview": "Deliverables to review",
+  "toReview": "To review",
   "createProposal": "Create proposal",
   "updateProposal": "Update proposal",
   "category": "Category",
@@ -224,7 +226,7 @@
     "reviewer": {
       "setReviewer": "Set reviewer",
       "updateReviewer": "Update reviewer",
-      "reviewerPlaceholder": "E.g.: waxlabsuser1",
+      "reviewerLabel": "Reviewer account",
       "setReviewerSuccess": "Success: Reviewer has been set",
       "waxMessageErrorEmpty": "Please provide a valid Wax Account"
     },
@@ -232,6 +234,11 @@
       "cancelProposal": "Cancel proposal",
       "cancelProposalConfirmation": "Are you sure you want to cancel this proposal?",
       "cancelProposalSuccess": "Success: Proposal has been cancelled"
+    },
+    "reject": {
+      "rejectProposal": "Reject proposal",
+      "rejectProposalConfirmation": "Are you sure you want to reject this proposal?",
+      "rejectProposalSuccess": "Success: Proposal has been rejected"
     },
     "delete": {
       "deleteProposal": "Delete proposal",
@@ -258,7 +265,7 @@
       "approveProposalSuccess": "Success: Proposal has been approved.",
       "enterRequiredChangesLabel": "Enter required changes.",
       "messageErrorEmpty": "Please provide a valid review.",
-      "reviewerPlaceholder": "E.g.: Pleas change this and that."
+      "reviewerPlaceholder": "E.g.: Please change this and that."
     },
     "voting": {
       "beginVoting": "Begin voting",
@@ -276,7 +283,7 @@
     },
     "reviewReport": {
       "approveReportLabel": "Approve report",
-      "rejectReportLabel": "Approve report",
+      "rejectReportLabel": "Reject report",
       "reviewReportLabel": "Enter a review link:",
       "reviewReportPlaceholder": "E.g.: https://report.url"
     }

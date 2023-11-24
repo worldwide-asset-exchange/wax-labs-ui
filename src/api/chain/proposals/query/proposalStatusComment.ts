@@ -17,7 +17,7 @@ export async function proposalStatusComment({ proposalId }: { proposalId: number
         upper_bound: UInt64.from(proposalId),
       })) as GetTableRowsResult<ProposalComment>;
 
-      return rows?.[0];
+      return rows?.[0] ?? null;
     } catch (e) {
       console.error('[proposalContentData] Error', e);
     }

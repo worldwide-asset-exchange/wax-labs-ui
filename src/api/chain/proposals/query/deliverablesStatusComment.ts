@@ -21,7 +21,7 @@ export async function deliverablesStatusComment({
         upper_bound: UInt32.from(deliverableId),
       })) as GetTableRowsResult<DeliverableComment>;
 
-      return rows?.[0];
+      return rows?.[0] ?? null;
     } catch (e) {
       console.error('[proposalContentData] Error', e);
     }

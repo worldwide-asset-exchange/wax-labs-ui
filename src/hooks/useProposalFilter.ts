@@ -113,9 +113,8 @@ export function useProposalFilter({
       actAsActor,
       statusKeys,
       categoryKeys,
-      sortByKey,
-      isAdmin,
       whoseKey,
+      sortByKey,
     ],
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -129,8 +128,15 @@ export function useProposalFilter({
         .filter(filterCategory(categoryKeys))
         .filter(filterByName(search));
 
-      if (whoseKey === Whose.DELIVERABLES_TO_REVIEW && isAdmin) {
-        return hasReviewableDeliverables(proposals);
+      if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
+        return hasReviewableDeliverables(
+          proposals.filter(p => {
+            if (!p.reviewer && isAdmin) {
+              return true;
+            }
+            return p.reviewer === actor;
+          })
+        );
       }
 
       if (sortByKey != null) {

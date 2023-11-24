@@ -11,16 +11,15 @@ const statusToCheck: DeliverablesStatusToCheck[] = [
 ];
 
 export async function hasReviewableDeliverables(proposals: Proposal[]): Promise<Proposal[]> {
+  if (!proposals.length) {
+    return [];
+  }
+
   const status = await Promise.all(
     proposals.map(p => checkDeliverablesStatus({ proposalId: p.proposal_id, statusToCheck }))
   );
 
-  console.log(status);
-  console.log(proposals);
-
   const proposalIds = status.flat().map(d => d.proposalId);
-
-  console.log(proposalIds);
 
   return proposals.filter(p => proposalIds.includes(p.proposal_id));
 }

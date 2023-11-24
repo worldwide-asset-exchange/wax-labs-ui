@@ -19,7 +19,7 @@ export async function configData(): Promise<Config | null> {
       limit: 1,
     })) as GetTableRowsResult<Config>;
 
-    return rows?.[0];
+    return rows?.[0] ?? null;
   } catch (e) {
     console.error('[configData] Error', e);
   }

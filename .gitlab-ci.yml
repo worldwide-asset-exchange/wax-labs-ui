@@ -2,7 +2,6 @@
 stages:
   - test
   - deploy
-  - build
 
 build-and-deploy-testnet:
   script:
@@ -12,6 +11,17 @@ build-and-deploy-testnet:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "testnet"'
+
+build-and-deploy-mainnet:
+  script:
+    - yarn install
+    - yarn build
+  stage: deploy
+  only:
+    - tags
+  artifacts:
+    paths:
+      - dist/
 
 validate-pr:
   image:

@@ -1,9 +1,10 @@
 import { ComponentProps, forwardRef, Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
 
 import { reviewProposal } from '@/api/chain/reviewer/actions/reviewProposal.ts';
 import { refreshStatus } from '@/api/notifications.ts';
-import * as AlertDialog from '@/components/AlertDialog';
+import { InputDialog, InputDialogProps } from '@/components/AdminBar/InputDialog.tsx';
 import { Button } from '@/components/Button.tsx';
 import { ProposalStatusKey } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
@@ -18,12 +19,12 @@ function RejectProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
   const { session } = useChain();
   const { toast } = useToast();
 
-  const onSubmit = async () => {
+  const onSubmit: InputDialogProps['onSubmit'] = async ({ value }) => {
     try {
       await reviewProposal({
         session: session!,
         proposalId: proposal!.proposal_id,
-        memo: '',
+        memo: value,
         approve: false,
         draft: false,
       });
@@ -43,15 +44,16 @@ function RejectProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
         {t('admin.reject.rejectProposal')}
       </Button>
 
-      <AlertDialog.Root
+      <InputDialog
+        label={t('admin.reject.rejectLabel')!}
+        zodValidation={z.string().url().nonempty(t('messageErrorEmpty')!).min(1).max(1000)}
+        maxLength={350}
         open={open}
-        onOpenChange={setOpen}
         title={t('admin.reject.rejectProposal')}
-        description={t('admin.reject.rejectProposalConfirmation')}
-      >
-        <AlertDialog.Action onClick={onSubmit}>{t('apply')}</AlertDialog.Action>
-        <AlertDialog.Cancel>{t('cancel')}</AlertDialog.Cancel>
-      </AlertDialog.Root>
+        onSubmit={onSubmit}
+        onClose={() => setOpen(false)}
+        disableOnDirty
+      />
     </>
   );
 }

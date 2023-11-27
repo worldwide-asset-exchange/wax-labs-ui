@@ -237,6 +237,7 @@
     },
     "reject": {
       "rejectProposal": "Reject proposal",
+      "rejectLabel": "Rejection notes",
       "rejectProposalConfirmation": "Are you sure you want to reject this proposal?",
       "rejectProposalSuccess": "Success: Proposal has been rejected"
     },

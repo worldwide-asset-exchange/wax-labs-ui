@@ -13,6 +13,7 @@ export interface Deliverables {
   claimable_wax?: string;
 
   // Custom fields
+  claimable_wax_amount: number;
   requested_amount?: number;
   currency?: Currency;
 }

@@ -31,6 +31,7 @@ export async function deliverables({
       return {
         deliverables: rows.map(d => {
           d.requested_amount = currencyToFloat(d.requested) as number | undefined;
+          d.claimable_wax_amount = currencyToFloat(d.claimable_wax || '0.0 WAX') as number;
           d.currency = (d.requested.split(' ')[1] || 'WAX') as Currency;
           return d;
         }),

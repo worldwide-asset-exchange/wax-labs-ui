@@ -14,33 +14,41 @@ import {
 import * as Info from '@/components/Info';
 import { DEFAULT_DATE_FORMAT } from '@/constants.ts';
 import { useConfigData } from '@/hooks/useConfigData';
+import { useDeliverables } from '@/hooks/useDeliverables.ts';
+import { formatCurrency } from '@/utils/formatter.ts';
 
 interface ProposalDetailDetailProps {
   status: number;
   identifier: number;
-  totalClaimed: string;
   reviewer: string;
   category: number;
   lastUpdate: string;
   totalRequested: string;
+  proposerContact: string;
 }
 
 export function ProposalDetailDetail({
   status,
   identifier,
-  totalClaimed,
   reviewer,
   category,
   lastUpdate,
   totalRequested,
+  proposerContact,
 }: ProposalDetailDetailProps) {
   const { t } = useTranslation();
+
+  const { data: deliverables, isLoading: isLoadingDeliverables } = useDeliverables({ proposalId: identifier });
 
   const { configs } = useConfigData();
   const categoryName = configs?.categories[category];
 
   const lastUpdatedDate = Date.parse(lastUpdate);
   const lastUpdateFormatted = lastUpdatedDate ? format(lastUpdatedDate, DEFAULT_DATE_FORMAT) : '-';
+
+  const totalClaimedFormatted = formatCurrency(
+    deliverables?.reduce((acc, curr) => acc + curr.claimable_wax_amount, 0) ?? 0
+  );
 
   return (
     <>
@@ -57,12 +65,14 @@ export function ProposalDetailDetail({
             <Info.Item label={t('lastUpdate')} value={lastUpdateFormatted}>
               <MdOutlineCalendarToday size={24} />
             </Info.Item>
-            <Info.Item label={t('contact')} value="sample@exemple.com">
+            <Info.Item label={t('contact')} value={proposerContact}>
               <MdOutlineChatBubbleOutline size={24} />
             </Info.Item>
-            <Info.Item label={t('totalClaimed')} value={totalClaimed}>
-              <MdOutlineWhatshot size={24} />
-            </Info.Item>
+            {!isLoadingDeliverables && (
+              <Info.Item label={t('totalClaimed')} value={totalClaimedFormatted}>
+                <MdOutlineWhatshot size={24} />
+              </Info.Item>
+            )}
             {reviewer && (
               <Info.Item label={t('reviewer')} value={reviewer}>
                 <MdOutlineRemoveRedEye size={24} />

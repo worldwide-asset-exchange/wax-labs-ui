@@ -2,7 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { accountProfile } from '@/api/chain/profile';
 import { proposalContentData, proposalStatusComment, singleProposal } from '@/api/chain/proposals';
+import { Profile } from '@/api/models/profile.ts';
 import { Proposal } from '@/api/models/proposal';
 import { queryClient } from '@/api/queryClient';
 import { ProposalStatusKey } from '@/constants';
@@ -44,11 +46,21 @@ export function useSingleProposal() {
         }
       }
 
+      let profile = null;
+      if (proposalData?.proposer) {
+        try {
+          profile = await accountProfile(proposalData?.proposer);
+        } catch {
+          //   We don't care if we don't find the proposer data
+        }
+      }
+
       return {
         ...proposalData,
         content: contentData?.content ?? '',
         statusComment: comments?.status_comment ?? '',
-      } as Proposal & { content: string; statusComment: string };
+        proposerProfile: profile,
+      } as Proposal & { content: string; statusComment: string; proposerProfile: Profile };
     },
     enabled: !!proposalId,
   });

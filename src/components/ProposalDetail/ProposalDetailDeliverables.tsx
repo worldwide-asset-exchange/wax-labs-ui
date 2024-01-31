@@ -1,5 +1,4 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
-import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,7 +13,6 @@ import {
 } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
-import { deliverables as getDeliverables } from '@/api/chain/proposals';
 import { Proposal } from '@/api/models/proposal.ts';
 import { Claim } from '@/components/AdminBar/proposalStates/Claim.tsx';
 import { ReviewDeliverable } from '@/components/AdminBar/proposalStates/ReviewDeliverable.tsx';
@@ -23,6 +21,7 @@ import * as Info from '@/components/Info';
 import { Link } from '@/components/Link.tsx';
 import { StatusTag } from '@/components/StatusTag';
 import { DEFAULT_DATE_FORMAT, NEVER_REVIEWED_DATE } from '@/constants.ts';
+import { useDeliverables } from '@/hooks/useDeliverables.ts';
 import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
 interface ProposalDetailDeliverablesProps {
@@ -37,15 +36,7 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
   const params = useParams();
   const proposalId = Number(params.proposalId);
 
-  const {
-    data: deliverables,
-    isLoading: isLoadingDeliverables,
-    refetch,
-  } = useQuery({
-    queryKey: ['proposal', proposalId, 'deliverables'],
-    queryFn: () => getDeliverables({ proposalId }).then(response => response.deliverables),
-    enabled: !!proposalId,
-  });
+  const { data: deliverables, isLoading: isLoadingDeliverables, refetch } = useDeliverables({ proposalId });
 
   function formatLastReviewed(lastReviewed: string) {
     if (Date.parse(lastReviewed) && lastReviewed !== NEVER_REVIEWED_DATE) {

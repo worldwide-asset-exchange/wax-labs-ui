@@ -31,21 +31,25 @@ export function CreateEditProfile() {
       group_name: z.string().nonempty(t('groupNameErrorEmpty')!).max(64),
       website: z.string().nonempty(t('websiteErrorEmpty')!).max(64),
       country: z.string().nonempty(t('countryErrorEmpty')!).max(64),
-      contact: z.string().nonempty(t('telegramErrorEmpty')!).max(64),
+      contact: z
+        .string()
+        .regex(/.*\B@(?=\w{5,32}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/, t('telegramErrorRegex')!)
+        .nonempty(t('telegramErrorEmpty')!)
+        .max(64),
     });
   }, [t]);
 
-  const save = (data: Profile) => {
+  const save = async (data: Profile) => {
     if (create) {
-      newProfile({ profile: data, session: session! });
+      await newProfile({ profile: data, session: session! });
     } else {
-      editProfile({ profile: data, session: session! });
+      await editProfile({ profile: data, session: session! });
     }
     reset();
   };
 
-  const remove = () => {
-    removeProfile({ session: session! });
+  const remove = async () => {
+    await removeProfile({ session: session! });
   };
 
   const { data: profile } = useQuery({
@@ -119,7 +123,7 @@ export function CreateEditProfile() {
             <Input
               {...register('contact')}
               error={errors.contact?.message}
-              placeholder={create ? profilePlaceholders[randomProfile].contact : t('telegramHandlePlaceholder')!}
+              placeholder={create ? profilePlaceholders[randomProfile].contact : t('telegramPlaceholder')!}
               label={t('telegramHandle')!}
               maxLength={64}
             />

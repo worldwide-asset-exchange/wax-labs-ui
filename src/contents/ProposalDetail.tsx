@@ -107,7 +107,7 @@ export function ProposalDetail() {
         <ProposalDetailDetail
           status={proposal.status}
           identifier={proposal.proposal_id}
-          totalClaimed="0000"
+          proposerContact={proposal.proposer}
           reviewer={proposal.reviewer}
           category={proposal.category}
           lastUpdate={proposal.update_ts}

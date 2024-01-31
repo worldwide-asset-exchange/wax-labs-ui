@@ -123,7 +123,7 @@ export function CreateEditProfile() {
             <Input
               {...register('contact')}
               error={errors.contact?.message}
-              placeholder={create ? profilePlaceholders[randomProfile].contact : t('telegramHandlePlaceholder')!}
+              placeholder={create ? profilePlaceholders[randomProfile].contact : t('telegramPlaceholder')!}
               label={t('telegramHandle')!}
               maxLength={64}
             />

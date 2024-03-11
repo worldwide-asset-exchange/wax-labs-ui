@@ -46,9 +46,10 @@ function RejectProposalComponent(props: ComponentProps<'button'>, ref: Ref<HTMLB
 
       <InputDialog
         label={t('admin.reject.rejectLabel')!}
-        zodValidation={z.string().url().nonempty(t('messageErrorEmpty')!).min(1).max(1000)}
-        maxLength={350}
+        zodValidation={z.string().trim().nonempty(t('messageErrorEmpty')!).min(1).max(1000)}
+        maxLength={1000}
         open={open}
+        type="textarea"
         title={t('admin.reject.rejectProposal')}
         onSubmit={onSubmit}
         onClose={() => setOpen(false)}

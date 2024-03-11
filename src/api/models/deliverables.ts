@@ -7,7 +7,7 @@ export interface Deliverables {
   requested: WAXCurrency | USDCurrency;
   recipient: string;
   report: string;
-  review_time?: number;
+  review_time?: string;
   small_description: string;
   days_to_complete: number;
   claimable_wax?: string;

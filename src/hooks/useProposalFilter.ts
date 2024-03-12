@@ -87,10 +87,11 @@ export function useProposalFilter({
   const sortByKey = sortBy ? sortByMapping()[sortBy] : null;
   const categoryKeys = new Set(categories ? categories.map(c => configs?.categories.indexOf(c)) : []);
   const whoseKey = whose ? whoseFilterMapping()[whose] : null;
-  const enabled = !(
-    (whoseKey === Whose.MY_PROPOSALS && isAuthenticated !== true) ||
-    (whoseKey === Whose.PROPOSALS_TO_REVIEW && isAdmin !== true)
-  );
+  const enabled =
+    !(
+      (whoseKey === Whose.MY_PROPOSALS && isAuthenticated !== true) ||
+      (whoseKey === Whose.PROPOSALS_TO_REVIEW && isAdmin !== true)
+    ) && isAuthenticated != null;
 
   let proposalQueries: () => Promise<Proposal[]>;
   if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
@@ -130,12 +131,15 @@ export function useProposalFilter({
 
       if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
         return hasReviewableDeliverables(
-          proposals.filter(p => {
-            if (!p.reviewer && isAdmin) {
-              return true;
-            }
-            return p.reviewer === actor;
-          })
+          isAuthenticated === false
+            ? proposals
+            : proposals.filter(p => {
+                if (!p.reviewer && isAdmin) {
+                  return true;
+                }
+
+                return p.reviewer === actor;
+              })
         );
       }
 

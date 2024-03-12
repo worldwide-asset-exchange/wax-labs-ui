@@ -114,10 +114,7 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                       <Info.Item label={t('toBeClaimed')} value={deliverable.claimable_wax}>
                         <MdOutlineWhatshot size={24} />
                       </Info.Item>
-                      <Info.Item
-                        label={t('lastReviewed')}
-                        value={formatLastReviewed(deliverable.review_time ? deliverable.review_time.toString() : '')}
-                      >
+                      <Info.Item label={t('lastReviewed')} value={formatLastReviewed(deliverable.review_time || '')}>
                         <MdCalendarToday size={24} />
                       </Info.Item>
                       <Info.Item label={t('daysToComplete')} value={String(deliverable.days_to_complete)}>

@@ -29,7 +29,7 @@ export function useSingleProposal() {
       const [proposalData, contentData, comments] = await Promise.all([
         singleProposal({ proposalId }),
         proposalContentData({ proposalId }),
-        isAuthenticated ? proposalStatusComment({ proposalId }) : Promise.resolve(null),
+        proposalStatusComment({ proposalId }),
       ]);
 
       if (!proposalData) {

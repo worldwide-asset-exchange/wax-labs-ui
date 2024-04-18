@@ -60,7 +60,7 @@
   "title": "Title",
   "titlePlaceholder": "E.g.: The spice must flow through WAX",
   "titleErrorEmpty": "Provide a title for your proposal",
-  "descriptionPlaceholder": "E.g.: The most desired commodity can now be tracked and accounted for by leveraging WAX",
+  "descriptionPlaceholder": "Short 1 - 2 sentence short headline description of your project proposal (120 characters max).",
   "descriptionErrorEmpty": "Provide a brief description for your proposal",
   "addCategorySuccess": "Success: Category was successfully added",
   "deleteCategoryConfirmation": "Are you sure you want to delete this category?",

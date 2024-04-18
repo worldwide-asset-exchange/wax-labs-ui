@@ -19,6 +19,7 @@ import { formatCurrency } from '@/utils/formatter.ts';
 
 interface ProposalDetailDetailProps {
   status: number;
+  memo: string;
   identifier: number;
   reviewer: string;
   category: number;
@@ -29,6 +30,7 @@ interface ProposalDetailDetailProps {
 
 export function ProposalDetailDetail({
   status,
+  memo,
   identifier,
   reviewer,
   category,
@@ -53,12 +55,17 @@ export function ProposalDetailDetail({
   return (
     <>
       <h2 className="title-2 mx-auto mt-8 max-w-5xl px-4 py-8 text-high-contrast">{t('detail')}</h2>
-      <div className="mx-auto max-w-5xl px-1 md:px-4">
+      <div className="mx-auto max-w-5xl space-y-4 px-1 md:px-4">
         <div className="rounded-xl bg-subtle px-8 py-4">
           <Info.Root>
             <Info.Item label={t('status')} status={status}>
               <MdOutlineDoneAll size={24} />
             </Info.Item>
+            {memo && <div className="py-4 text-low-contrast" dangerouslySetInnerHTML={{ __html: memo }} />}
+          </Info.Root>
+        </div>
+        <div className="rounded-xl bg-subtle px-8 py-4">
+          <Info.Root>
             <Info.Item label={t('identifier')} value={String(identifier)}>
               <MdOutlineFingerprint size={24} />
             </Info.Item>

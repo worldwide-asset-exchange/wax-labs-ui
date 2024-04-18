@@ -26,6 +26,7 @@ import { ProposalStatusKey } from '@/constants';
 import { useChain } from '@/hooks/useChain';
 import { useConfigData } from '@/hooks/useConfigData';
 import { useToast } from '@/hooks/useToast';
+import { content, financialRoadMap } from '@/utils/proposalDefaultValues';
 
 const PROPOSAL_DRAFT_LOCAL_STORAGE = '@WaxLabs:v1:proposal-draft';
 const turndownService = new TurndownService();
@@ -90,7 +91,10 @@ export function ProposalFormLayout() {
     ] as Array<keyof ProposalForm>[];
   }, []);
 
-  const [defaultValues, setDefaultValues] = useLocalStorage(PROPOSAL_DRAFT_LOCAL_STORAGE, {});
+  const [defaultValues, setDefaultValues] = useLocalStorage(PROPOSAL_DRAFT_LOCAL_STORAGE, {
+    content,
+    financialRoadMap,
+  });
 
   const [searchParams, setSearchParams] = useSearchParams();
   const stepParam = useMemo(() => Number(searchParams.get('step')), [searchParams]);

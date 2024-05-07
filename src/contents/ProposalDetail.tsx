@@ -106,6 +106,7 @@ export function ProposalDetail() {
       {tabParam === 'detail' && (
         <ProposalDetailDetail
           status={proposal.status}
+          memo={proposal.statusComment}
           identifier={proposal.proposal_id}
           proposerContact={proposal.proposer}
           reviewer={proposal.reviewer}

@@ -15,13 +15,15 @@ import { TextArea } from '@/components/TextArea';
 import profilePlaceholders from '@/contents/profile/profilePlaceholders';
 import { useChain } from '@/hooks/useChain';
 
+const randomProfile = Math.floor(Math.random() * 10);
+
 export function CreateEditProfile() {
   const { t } = useTranslation();
   const { actor, session } = useChain();
   const { pathname } = useLocation();
-  const create = pathname.includes('create');
+  const maxBioLength = 256;
 
-  const randomProfile = Math.floor(Math.random() * 10);
+  const create = pathname.includes('create');
 
   const ProfileSchema = useMemo(() => {
     return z.object({
@@ -69,7 +71,10 @@ export function CreateEditProfile() {
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
   } = useForm<Profile>({ resolver: zodResolver(ProfileSchema), values: profile });
+
+  const bioLength = watch('bio')?.length ?? 0;
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -93,10 +98,10 @@ export function CreateEditProfile() {
           <TextArea
             {...register('bio')}
             error={errors.bio?.message}
-            label={t('biography')!}
+            label={`${t('biography')!} (${bioLength}/${maxBioLength})`}
             placeholder={create ? profilePlaceholders[randomProfile].biography : t('biographyPlaceholder')!}
             rows={3}
-            maxLength={256}
+            maxLength={maxBioLength}
           />
           <div className="grid gap-6 md:grid-cols-2 md:grid-rows-2">
             <Input

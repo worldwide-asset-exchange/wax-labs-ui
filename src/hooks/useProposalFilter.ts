@@ -73,19 +73,22 @@ export function useProposalFilter({
       (whoseKey === Whose.PROPOSALS_TO_REVIEW && isAdmin !== true)
     ) && isAuthenticated != null;
 
-  let proposalQueries: () => Promise<Proposal[]>;
-  if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
-    proposalQueries = () => myProposals((actAsActor ?? actor) as string);
-  } else if (whoseKey === Whose.ALL_PROPOSALS || whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
-    proposalQueries = allProposals;
-  } else {
-    proposalQueries = () => toReviewProposals();
-  }
-
   const { isLoading, data } = useQuery({
-    queryKey: ['proposalsFilter', actor, statusKeys, categoryKeys, whoseKey, sortByKey],
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    queryKey: ['proposalsFilter', actor, whoseKey, actAsActor],
     queryFn: async () => {
-      const proposals = (await proposalQueries()) ?? [];
+      let proposals: Proposal[] = [];
+      if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
+        proposals = await myProposals((actAsActor ?? actor)! as string);
+      } else if (whoseKey === Whose.ALL_PROPOSALS || whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
+        proposals = await allProposals();
+      } else {
+        proposals = await toReviewProposals();
+      }
+
+      proposals = proposals ?? [];
 
       if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
         return hasReviewableDeliverables(

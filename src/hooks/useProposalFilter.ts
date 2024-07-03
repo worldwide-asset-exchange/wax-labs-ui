@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 import {
   approvedProposals,
@@ -47,30 +48,7 @@ const defaultFilterStatus = [
   ProposalStatusKey.FAILED_DRAFT,
 ];
 
-const allProposals = () =>
-  Promise.all([
-    inDrafting(),
-    inReviewProposals(),
-    approvedProposals(),
-    inVotingProposals(),
-    inProgressProposals(),
-    failedProposals(),
-    cancelledProposals(),
-    completedProposals(),
-    failedDraftProposals(),
-  ]).then(r => r.flat());
-
-const myProposals = (actor: string) =>
-  Promise.all(
-    defaultFilterStatus.map(f =>
-      userProposals({
-        actor,
-        proposalStatusKey: f,
-      })
-    )
-  ).then(r => r.flat());
-
-const toReviewProposals = () => submittedProposals();
+export type ProposalFilterProps = ProposalSearchForm & { actAsActor?: string };
 
 export function useProposalFilter({
   sortBy,
@@ -79,13 +57,15 @@ export function useProposalFilter({
   whose,
   categories,
   actAsActor,
-}: ProposalSearchForm & { actAsActor?: string }): ProposalFilterReturn {
+}: ProposalFilterProps): ProposalFilterReturn {
   const { actor, isAuthenticated } = useChain();
   const { isAdmin, configs } = useConfigData();
-  const statusKeys = new Set(status?.map(s => statusFilterMapping()[s]) ?? []);
-
+  const statusKeys = useMemo(() => new Set(status?.map(s => statusFilterMapping()[s]) ?? []), [status]);
   const sortByKey = sortBy ? sortByMapping()[sortBy] : null;
-  const categoryKeys = new Set(categories ? categories.map(c => configs?.categories.indexOf(c)) : []);
+  const categoryKeys = useMemo(
+    () => new Set(categories ? categories.map(c => configs?.categories.indexOf(c)) : []),
+    [categories, configs?.categories]
+  );
   const whoseKey = whose ? whoseFilterMapping()[whose] : null;
   const enabled =
     !(
@@ -93,41 +73,22 @@ export function useProposalFilter({
       (whoseKey === Whose.PROPOSALS_TO_REVIEW && isAdmin !== true)
     ) && isAuthenticated != null;
 
-  let proposalQueries: () => Promise<Proposal[]>;
-  if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
-    proposalQueries = () => myProposals((actAsActor ?? actor) as string);
-  } else if (whoseKey === Whose.ALL_PROPOSALS || whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
-    proposalQueries = allProposals;
-  } else {
-    proposalQueries = () => toReviewProposals();
-  }
-
-  const { isLoading, data: proposals } = useQuery({
-    queryKey: [
-      'proposalsFilter',
-      actor,
-      sortBy,
-      search,
-      status,
-      whose,
-      categories,
-      actAsActor,
-      statusKeys,
-      categoryKeys,
-      whoseKey,
-      sortByKey,
-    ],
+  const { isLoading, data } = useQuery({
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
+    queryKey: ['proposalsFilter', actor, whoseKey, actAsActor],
     queryFn: async () => {
-      let proposals = (await proposalQueries()) ?? [];
+      let proposals: Proposal[] = [];
+      if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
+        proposals = await myProposals((actAsActor ?? actor)! as string);
+      } else if (whoseKey === Whose.ALL_PROPOSALS || whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
+        proposals = await allProposals();
+      } else {
+        proposals = await toReviewProposals();
+      }
 
-      proposals = proposals
-        .filter(filterUnique())
-        .filter(filterByStatus(statusKeys))
-        .filter(filterCategory(categoryKeys))
-        .filter(filterByName(search));
+      proposals = proposals ?? [];
 
       if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
         return hasReviewableDeliverables(
@@ -143,16 +104,57 @@ export function useProposalFilter({
         );
       }
 
-      if (sortByKey != null) {
-        proposals?.sort(sorter(sortByKey));
-      }
-
       return proposals;
     },
     enabled,
   });
 
-  return { proposals: proposals ?? [], isLoading };
+  return useMemo(() => {
+    const proposals = (data ?? [])
+      .filter(filterUnique())
+      .filter(filterByStatus(statusKeys))
+      .filter(filterCategory(categoryKeys))
+      .filter(filterByName(search));
+
+    if (sortByKey != null) {
+      proposals.sort(sorter(sortByKey));
+    }
+
+    return { proposals: proposals ?? [], isLoading };
+  }, [categoryKeys, data, isLoading, search, sortByKey, statusKeys]);
+}
+
+async function allProposals() {
+  const responses = await Promise.all([
+    inDrafting(),
+    inReviewProposals(),
+    approvedProposals(),
+    inVotingProposals(),
+    inProgressProposals(),
+    failedProposals(),
+    cancelledProposals(),
+    completedProposals(),
+    failedDraftProposals(),
+  ]);
+
+  return responses.flat();
+}
+
+async function myProposals(actor: string) {
+  const responses = await Promise.all(
+    defaultFilterStatus.map(f =>
+      userProposals({
+        actor,
+        proposalStatusKey: f,
+      })
+    )
+  );
+
+  return responses.flat();
+}
+
+function toReviewProposals() {
+  return submittedProposals();
 }
 
 function filterCategory(categories: Set<number | undefined> | null) {

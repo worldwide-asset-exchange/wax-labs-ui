@@ -1,10 +1,11 @@
 """empty message
 
 Revision ID: 3539f2563d0f
-Revises: 
+Revises:
 Create Date: 2023-10-01 20:29:53.955022
 
 """
+
 from typing import Sequence, Union
 
 import sqlalchemy as sa

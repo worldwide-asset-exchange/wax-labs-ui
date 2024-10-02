@@ -22,7 +22,7 @@ class TemplateRenderer:
         template = self._templates.get_template(template_name)
         if inline_css:
             inlined_html = css_inliner.inline(template.render(context or {}))
-            return re.sub(f'<link href="{self._assets_path}.*\.css" rel="stylesheet">', "", inlined_html)
+            return re.sub(rf'<link href="{self._assets_path}.*\.css" rel="stylesheet">', "", inlined_html)
 
         return template.render(context or {})
 

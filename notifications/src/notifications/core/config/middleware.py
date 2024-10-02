@@ -5,9 +5,6 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
-from notifications.container import container
-from notifications.core.repository import IDatabase
-from notifications.services.listener import NotificationHandler
 from notifications.settings import cfg
 
 logger = logging.getLogger("waxlabs")
@@ -32,19 +29,3 @@ def setup_middlewares(app: FastAPI) -> None:
 
     if cfg.enable_gzip:
         app.add_middleware(GZipMiddleware, minimum_size=150)
-
-    @app.on_event("shutdown")
-    async def shutdown_event():
-        await container[IDatabase].safe_dispose()
-
-
-def setup_listener(app: FastAPI) -> None:
-    handler = container[NotificationHandler]
-
-    @app.on_event("shutdown")
-    async def shutdown_event():
-        await handler.stop()
-
-    @app.on_event("startup")
-    async def pull_telegram():
-        handler.listen()

@@ -36,7 +36,7 @@ export function Claim({
         claimFunds({
           session: session!,
           proposalId: proposal.proposal_id,
-          deliverableId: deliverable.deliverable_id!,
+          deliverable,
         }),
         refreshStatus(proposal!.proposal_id),
       ]);

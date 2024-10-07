@@ -91,17 +91,7 @@ export function useProposalFilter({
       proposals = proposals ?? [];
 
       if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
-        return hasReviewableDeliverables(
-          isAuthenticated === false
-            ? proposals
-            : proposals.filter(p => {
-                if (!p.reviewer && isAdmin) {
-                  return true;
-                }
-
-                return p.reviewer === actor;
-              })
-        );
+        return hasReviewableDeliverables(proposals);
       }
 
       return proposals;

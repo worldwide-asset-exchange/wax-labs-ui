@@ -1,42 +1,35 @@
-FROM python:3.11.6-slim-bullseye AS base
+FROM python:3.12.6-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONOPTIMIZE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PATH="/opt/setup/.venv/bin:$PATH" \
     PYTHONPATH="/app/src/" \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    POETRY_WARNINGS_EXPORT=false
 
 RUN apt-get -qq update -y \
         && apt-get -qq upgrade -y \
-        && apt-get -yqq install libpq-dev gcc \
-        && pip install --quiet --upgrade pip wheel setuptools
+        && apt-get clean autoclean \
+        && apt-get autoremove --yes \
+        && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
-FROM base AS build-env
-
-ENV PATH="/root/.local/bin:$PATH" \
-    POETRY_CACHE_DIR="/tmp" \
-    POETRY_VIRTUALENVS_IN_PROJECT="true"
-
-WORKDIR /opt/setup
-
-RUN pip install poetry --quiet
 COPY ./pyproject.toml ./poetry.lock ./README.md ./
 
-COPY ./src/ ./src/
-RUN poetry install --no-interaction --no-ansi --without dev
-
-FROM base AS final
+RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
+    --mount=from=ghcr.io/astral-sh/uv,source=/uvx,target=/bin/uvx \
+    --mount=type=cache,target=/root/.cache/uv \
+    uvx poetry export --without-hashes --with main -f requirements.txt -o requirements.txt \
+    && uv pip sync --compile-bytecode --link-mode=copy --system requirements.txt \
+    && rm requirements.txt
 
 WORKDIR /app
 
-COPY --from=build-env /opt/setup/.venv/ /opt/setup/.venv/
 COPY /confs/image/gunicorn_conf.py /opt/gunicorn_conf.py
-COPY ./src/ ./src/
+COPY ./src ./src/
 COPY ./alembic.ini ./
 
-EXPOSE 8006
+EXPOSE 8000
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-c", "/opt/gunicorn_conf.py", "notifications.main:app"]
 

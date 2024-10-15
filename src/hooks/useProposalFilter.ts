@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { checkDeliverablesStatus } from '@/api/chain/deliverables/query/checkDeliverablesStatus.ts';
+import { deliverablesWithStatus } from '@/api/chain/deliverables/query/deliverablesWithStatus.ts';
 import {
   approvedProposals,
   cancelledProposals,
@@ -13,12 +13,11 @@ import {
 } from '@/api/chain/proposals';
 import { failedDraftProposals } from '@/api/chain/proposals/query/failedDraftProposals.ts';
 import { failedProposals } from '@/api/chain/proposals/query/failedProposals.ts';
-import { getProposals } from '@/api/chain/proposals/query/getProposals.ts';
 import { hasReviewableDeliverables } from '@/api/chain/proposals/query/hasReviewableDeliverables.ts';
 import { submittedProposals } from '@/api/chain/proposals/query/submittedProposals.ts';
 import { userProposals } from '@/api/chain/proposals/query/userProposals.ts';
 import { Proposal } from '@/api/models/proposal.ts';
-import { DeliverableStatusKey, NotificationType, ProposalStatusKey, SortBy, Whose } from '@/constants.ts';
+import { DeliverableStatusKey, ProposalStatusKey, SortBy, Whose } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
 import { useConfigData } from '@/hooks/useConfigData.ts';
 import { sortByMapping } from '@/mappings/sortByMapping.ts';
@@ -153,24 +152,19 @@ function toReviewProposals() {
 
 async function proposalsWithReviewable() {
   try {
-    const proposals = await getProposals({});
-
-    const proposalMapping = proposals.reduce((acc, proposal) => {
+    const proposalsResponse = await Promise.all([inProgressProposals(), inReviewProposals()]);
+    const proposalMapping = proposalsResponse.flat().reduce((acc, proposal) => {
       acc[proposal.proposal_id] = proposal;
 
       return acc;
     }, {} as Record<number, Proposal>);
+    const proposals = Object.values(proposalMapping);
 
     const deliverables = await Promise.all(
       proposals.map(p =>
-        checkDeliverablesStatus({
+        deliverablesWithStatus({
           proposalId: p.proposal_id,
-          statusToCheck: [
-            {
-              notificationType: NotificationType.DELIVERABLES_TO_REVIEW,
-              deliverableStatusKey: DeliverableStatusKey.REPORTED,
-            },
-          ],
+          deliverableStatusKey: DeliverableStatusKey.REPORTED,
         })
       )
     );

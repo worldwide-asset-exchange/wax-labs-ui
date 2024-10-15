@@ -1,4 +1,5 @@
-from aiogram import Bot
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from lagom import Container, Singleton
 
 from notifications.core.repository import IDatabase
@@ -21,4 +22,5 @@ container[ISubscriptionService] = Singleton(SubscriptionService)
 container[IProposalService] = Singleton(ProposalService)
 container[TemplateEngine] = Singleton(lambda: TemplateEngine(directory=cfg.templates_directory))
 container[NotificationHandler] = Singleton(NotificationHandler)
-container[Bot] = Singleton(lambda: Bot(cfg.telegram_bot_token, parse_mode="HTML"))
+container[Bot] = Singleton(lambda: Bot(cfg.telegram_bot_token, default=DefaultBotProperties(parse_mode="HTML")))
+container[Dispatcher] = Singleton(lambda: Dispatcher())

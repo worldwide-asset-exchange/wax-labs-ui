@@ -1,5 +1,5 @@
-import typer
 from pydantic import UUID4
+from rich.console import Console
 
 from notifications.container import container
 from notifications.interfaces.proposal_service import IProposalService
@@ -8,6 +8,8 @@ from notifications.interfaces.user_service import IUserService
 from notifications.wax_interface.queries.profile import get_profiles
 from notifications.wax_interface.queries.proposals import get_proposals
 
+console = Console()
+
 
 async def create_users_from_profile():
     user_service = container[IUserService]
@@ -15,7 +17,7 @@ async def create_users_from_profile():
     async for profile in get_profiles():
         await user_service.create_from_wax_profile(profile)
 
-        typer.echo(f"Created user {profile.wax_account}")
+        console.log(f"Created user {profile.wax_account}")
 
 
 async def create_proposals_from_wax_proposals():
@@ -32,4 +34,4 @@ async def create_proposals_from_wax_proposals():
         if user_id := all_users_mapping.get(proposal.proposer):
             await subscription_service.create_from_wax_proposal(proposal, user_id)
 
-        typer.echo(f"Created proposal {proposal.proposal_id}")
+        console.log(f"Created proposal {proposal.proposal_id}")

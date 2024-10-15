@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { checkDeliverablesStatus } from '@/api/chain/deliverables/query/checkDeliverablesStatus.ts';
 import {
   approvedProposals,
   cancelledProposals,
@@ -12,11 +13,12 @@ import {
 } from '@/api/chain/proposals';
 import { failedDraftProposals } from '@/api/chain/proposals/query/failedDraftProposals.ts';
 import { failedProposals } from '@/api/chain/proposals/query/failedProposals.ts';
+import { getProposals } from '@/api/chain/proposals/query/getProposals.ts';
 import { hasReviewableDeliverables } from '@/api/chain/proposals/query/hasReviewableDeliverables.ts';
 import { submittedProposals } from '@/api/chain/proposals/query/submittedProposals.ts';
 import { userProposals } from '@/api/chain/proposals/query/userProposals.ts';
 import { Proposal } from '@/api/models/proposal.ts';
-import { ProposalStatusKey, SortBy, Whose } from '@/constants.ts';
+import { DeliverableStatusKey, NotificationType, ProposalStatusKey, SortBy, Whose } from '@/constants.ts';
 import { useChain } from '@/hooks/useChain.ts';
 import { useConfigData } from '@/hooks/useConfigData.ts';
 import { sortByMapping } from '@/mappings/sortByMapping.ts';
@@ -82,8 +84,10 @@ export function useProposalFilter({
       let proposals: Proposal[] = [];
       if (whoseKey === Whose.MY_PROPOSALS || actAsActor != null) {
         proposals = await myProposals((actAsActor ?? actor)! as string);
-      } else if (whoseKey === Whose.ALL_PROPOSALS || whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
+      } else if (whoseKey === Whose.ALL_PROPOSALS) {
         proposals = await allProposals();
+      } else if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
+        proposals = await proposalsWithReviewable();
       } else {
         proposals = await toReviewProposals();
       }
@@ -91,17 +95,7 @@ export function useProposalFilter({
       proposals = proposals ?? [];
 
       if (whoseKey === Whose.DELIVERABLES_TO_REVIEW) {
-        return hasReviewableDeliverables(
-          isAuthenticated === false
-            ? proposals
-            : proposals.filter(p => {
-                if (!p.reviewer && isAdmin) {
-                  return true;
-                }
-
-                return p.reviewer === actor;
-              })
-        );
+        return hasReviewableDeliverables(proposals);
       }
 
       return proposals;
@@ -155,6 +149,38 @@ async function myProposals(actor: string) {
 
 function toReviewProposals() {
   return submittedProposals();
+}
+
+async function proposalsWithReviewable() {
+  try {
+    const proposals = await getProposals({});
+
+    const proposalMapping = proposals.reduce((acc, proposal) => {
+      acc[proposal.proposal_id] = proposal;
+
+      return acc;
+    }, {} as Record<number, Proposal>);
+
+    const deliverables = await Promise.all(
+      proposals.map(p =>
+        checkDeliverablesStatus({
+          proposalId: p.proposal_id,
+          statusToCheck: [
+            {
+              notificationType: NotificationType.DELIVERABLES_TO_REVIEW,
+              deliverableStatusKey: DeliverableStatusKey.REPORTED,
+            },
+          ],
+        })
+      )
+    );
+
+    return deliverables.flat().map(({ proposalId }) => proposalMapping[proposalId]);
+  } catch (e) {
+    console.error('[proposerDeliverableNotifications] Error', e);
+
+    return [];
+  }
 }
 
 function filterCategory(categories: Set<number | undefined> | null) {

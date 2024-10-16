@@ -1,18 +1,21 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
+import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import {
-  MdAssessment,
   MdCalendarToday,
   MdOutlineAttachMoney,
   MdOutlineCheck,
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
   MdOutlinePerson,
+  MdOutlinePlaylistAddCheck,
+  MdOutlinePlaylistRemove,
   MdOutlineWhatshot,
 } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
+import { deliverablesStatusComment } from '@/api/chain/proposals';
 import { Proposal } from '@/api/models/proposal.ts';
 import { Claim } from '@/components/AdminBar/proposalStates/Claim.tsx';
 import { ReviewDeliverable } from '@/components/AdminBar/proposalStates/ReviewDeliverable.tsx';
@@ -20,7 +23,7 @@ import { SubmitReport } from '@/components/AdminBar/proposalStates/SubmitReport.
 import * as Info from '@/components/Info';
 import { Link } from '@/components/Link.tsx';
 import { StatusTag } from '@/components/StatusTag';
-import { DEFAULT_DATE_FORMAT, NEVER_REVIEWED_DATE } from '@/constants.ts';
+import { DEFAULT_DATE_FORMAT, DeliverableStatusKey, NEVER_REVIEWED_DATE } from '@/constants.ts';
 import { useDeliverables } from '@/hooks/useDeliverables.ts';
 import { toDeliverableStatus } from '@/utils/proposalUtils.ts';
 
@@ -44,6 +47,21 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
     }
     return '-';
   }
+
+  const deliverableId = deliverables?.find(deliverable => deliverable.status === DeliverableStatusKey.REJECTED);
+
+  const { data: rejectReport } = useQuery({
+    queryKey: ['proposal', proposalId, 'deliverable', 'report', deliverableId],
+    queryFn: () =>
+      deliverablesStatusComment({ proposalId: proposalId! }).then(response =>
+        response.reduce((acc, item) => {
+          acc[item.deliverable_id] = item.status_comment;
+
+          return acc;
+        }, {} as Record<number, string>)
+      ),
+    enabled: !!deliverableId,
+  });
 
   return (
     <>
@@ -123,16 +141,36 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
 
                       {deliverable.report && (
                         <Info.Item
-                          label={t('admin.claim.viewCompletionReport')}
+                          label={t('admin.claim.completionReport')}
                           value={
                             <div className="flex justify-end">
-                              <Link variant="link" to={deliverable.report} target="_blank">
-                                {t('admin.claim.viewCompletionReport')}
+                              <Link variant="tertiary" square to={deliverable.report} target="_blank">
+                                {t('admin.viewReport')}
                               </Link>
                             </div>
                           }
                         >
-                          <MdAssessment size={24} />
+                          <MdOutlinePlaylistAddCheck size={24} />
+                        </Info.Item>
+                      )}
+
+                      {!!rejectReport?.[deliverable.deliverable_id!] && (
+                        <Info.Item
+                          label={t('admin.reviewReport.rejectReport')}
+                          value={
+                            <div className="flex justify-end">
+                              <Link
+                                variant="tertiary"
+                                square
+                                to={rejectReport[deliverable.deliverable_id!]}
+                                target="_blank"
+                              >
+                                {t('admin.viewReport')}
+                              </Link>
+                            </div>
+                          }
+                        >
+                          <MdOutlinePlaylistRemove size={24} />
                         </Info.Item>
                       )}
 

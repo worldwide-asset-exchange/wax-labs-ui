@@ -31,7 +31,7 @@ export function ProposalDetailProposer({ proposer }: ProposalDetailProposerProps
             website={profile.website}
             telegram={profile.contact}
           >
-            <Link to={`/${proposer}`} variant="secondary">
+            <Link to={`/${proposer}/profile`} variant="secondary">
               {t('seeProfile')}
             </Link>
           </ProfileCard>

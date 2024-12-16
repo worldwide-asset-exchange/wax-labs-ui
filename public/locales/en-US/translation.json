@@ -200,7 +200,8 @@
     "toBeReview": "Proposals needing your review",
     "adminEndVoting": "Proposals with ended voting",
     "endVoting": "Voting just ended",
-    "startVoting": "Voting just started"
+    "startVoting": "Voting just started",
+    "noNotifications": "You have no notifications"
   },
   "filters": {
     "drafting": "Drafting",

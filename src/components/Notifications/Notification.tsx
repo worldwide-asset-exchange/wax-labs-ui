@@ -12,7 +12,9 @@ import { MdOutlineClose, MdOutlineNotifications } from 'react-icons/md';
 
 import { Button } from '@/components/Button.tsx';
 import * as Nav from '@/components/Nav';
+import { NoNotificationCard } from '@/components/Notifications/NoNotificationCard.tsx';
 import { NotificationGroup } from '@/components/Notifications/NotificationGroup.tsx';
+import { NotificationItemSkeleton } from '@/components/Notifications/NotificationItemSkeleton.tsx';
 import { NotificationType } from '@/constants.ts';
 import { useNotifications } from '@/hooks/useNotifications.ts';
 
@@ -20,7 +22,9 @@ export function Notification() {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
 
-  const { notifications } = useNotifications();
+  const { notifications, isLoading } = useNotifications();
+
+  const hasNotifications = isLoading === false && notifications && Object.keys(notifications).length > 0;
 
   return (
     <>
@@ -42,6 +46,10 @@ export function Notification() {
               </DialogClose>
               <DialogTitle className="title-3 text-high-contrast">Notification</DialogTitle>
             </header>
+
+            {isLoading && <NotificationItemSkeleton />}
+
+            {!hasNotifications && <NoNotificationCard />}
 
             {notifications?.[NotificationType.REJECTED_DELIVERABLE]?.length && (
               <NotificationGroup

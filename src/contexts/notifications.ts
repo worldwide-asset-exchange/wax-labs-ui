@@ -7,9 +7,11 @@ import { noop } from '@/utils/common.ts';
 export interface NotificationsContextOptions {
   readNotification: (readNotificationKey: string) => void;
   notifications: Record<NotificationType, WaxLabsNotification[]> | null;
+  isLoading: boolean | null;
 }
 
 export const NotificationsContext = createContext<NotificationsContextOptions>({
   readNotification: noop,
   notifications: null,
+  isLoading: true,
 });

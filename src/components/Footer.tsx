@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { FaDiscord, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
+import { FaDiscord, FaRobot, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
 
 import dlt from '@/assets/dlt.svg';
 import wax from '@/assets/wax.svg';
@@ -13,16 +13,19 @@ export function Footer() {
       <div className="mx-auto max-w-7xl border-t border-subtle-light px-4 py-16">
         <div className="flex flex-col items-center gap-2 md:flex-row">
           <div className="flex flex-1 items-center gap-8">
-            <img src={wax} alt="" />
+            <img src={wax} alt="WaxLabs" />
             <div className="flex flex-none items-center gap-2">
-              <Link target="_blank" to="https://twitter.com/WAX_io" square>
+              <Link target="_blank" to="https://twitter.com/WAX_io" square title="WaxLabs Twittter">
                 <FaTwitter size={24} />
               </Link>
-              <Link target="_blank" to="https://go.wax.io/Discord" square>
+              <Link target="_blank" to="https://go.wax.io/Discord" square title="WaxLabs Discord">
                 <FaDiscord size={24} />
               </Link>
-              <Link target="_blank" to="https://t.me/wax_io" square>
+              <Link target="_blank" to="https://t.me/wax_io" square title="WaxLabs Telegram">
                 <FaTelegramPlane size={24} />
+              </Link>
+              <Link target="_blank" to="https://t.me/waxlabsbot" square title="WaxLabs Telegram Bot">
+                <FaRobot size={24} />
               </Link>
             </div>
           </div>

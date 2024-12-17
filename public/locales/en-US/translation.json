@@ -201,7 +201,7 @@
     "adminEndVoting": "Proposals with ended voting",
     "endVoting": "Voting just ended",
     "startVoting": "Voting just started",
-    "noNotifications": "You have no notifications"
+    "noNotifications": "You have no notifications. Check back later for updates."
   },
   "filters": {
     "drafting": "Drafting",

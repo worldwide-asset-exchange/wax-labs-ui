@@ -49,7 +49,7 @@ export function Notification() {
 
             {isLoading && <NotificationItemSkeleton />}
 
-            {!hasNotifications && <NoNotificationCard />}
+            {!isLoading && !hasNotifications && <NoNotificationCard />}
 
             {notifications?.[NotificationType.REJECTED_DELIVERABLE]?.length && (
               <NotificationGroup

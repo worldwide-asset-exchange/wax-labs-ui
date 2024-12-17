@@ -9,6 +9,38 @@ export function NotificationItemSkeleton() {
 
         <div className="h-6 w-28 rounded-md bg-ui-element" />
       </div>
+      <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-subtle p-6">
+        <div className="flex w-full flex-nowrap items-center gap-2">
+          <div className="h-6 w-full rounded-md bg-ui-element" />
+          <div className="h-8 w-8 rounded-md bg-ui-element" />
+        </div>
+
+        <div className="h-6 w-28 rounded-md bg-ui-element" />
+      </div>
+      <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-subtle p-6">
+        <div className="flex w-full flex-nowrap items-center gap-2">
+          <div className="h-6 w-full rounded-md bg-ui-element" />
+          <div className="h-8 w-8 rounded-md bg-ui-element" />
+        </div>
+
+        <div className="h-6 w-28 rounded-md bg-ui-element" />
+      </div>
+      <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-subtle p-6">
+        <div className="flex w-full flex-nowrap items-center gap-2">
+          <div className="h-6 w-full rounded-md bg-ui-element" />
+          <div className="h-8 w-8 rounded-md bg-ui-element" />
+        </div>
+
+        <div className="h-6 w-28 rounded-md bg-ui-element" />
+      </div>
+      <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-subtle p-6">
+        <div className="flex w-full flex-nowrap items-center gap-2">
+          <div className="h-6 w-full rounded-md bg-ui-element" />
+          <div className="h-8 w-8 rounded-md bg-ui-element" />
+        </div>
+
+        <div className="h-6 w-28 rounded-md bg-ui-element" />
+      </div>
     </div>
   );
 }

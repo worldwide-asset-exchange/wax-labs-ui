@@ -11,8 +11,8 @@
   "homeTitle": "Choose how to add value to the community",
   "homeDescription": "Growing the WAX Blockchain through decentralized and innovative proposals",
 
-  "seeProposals": "See proposals",
-  "seeProfile": "See profile",
+  "seeProposals": "View proposals",
+  "seeProfile": "View profile",
   "theProposalLifecycle": "The proposal lifecycle",
   "proposalLifecycleDescription": "Learn each step of the proposal process by selecting a proposal phase below",
 
@@ -281,14 +281,16 @@
     "claim": {
       "claimLabel": "Claim",
       "claimSuccess": "Success: Deliverable has been claimed.",
-      "viewCompletionReport": "View completion report"
+      "completionReport": "Completion report"
     },
     "reviewReport": {
       "approveReportLabel": "Approve report",
       "rejectReportLabel": "Reject report",
       "reviewReportLabel": "Enter a review link:",
-      "reviewReportPlaceholder": "E.g.: https://report.url"
-    }
+      "reviewReportPlaceholder": "E.g.: https://report.url",
+      "rejectReport": "Rejection report"
+    },
+    "viewReport": "View report"
   },
   "votes": "Votes",
   "vote": "Vote",

@@ -72,6 +72,8 @@ export function NotificationsProvider({ children }: NotificationsProviderProps) 
     ],
   });
 
+  const isLoading = notificationResult.some(t => t.isLoading);
+
   const readNotification = useCallback(
     (readNotificationKey: string) => {
       if (storageKey) {
@@ -106,8 +108,9 @@ export function NotificationsProvider({ children }: NotificationsProviderProps) 
             return previousValue;
           }, {} as NotificationMapping) ?? null,
       readNotification,
+      isLoading,
     }),
-    [notificationResult, readNotification, read]
+    [notificationResult, readNotification, isLoading, read]
   );
 
   useEffect(() => {

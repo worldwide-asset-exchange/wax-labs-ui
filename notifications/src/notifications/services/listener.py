@@ -1,13 +1,8 @@
 import asyncio
-import contextlib
 import logging
 
-import asyncpg_listen
 from aiogram import Bot
 from aiogram.enums import ParseMode
-from asyncpg_listen import Notification
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from notifications.bot.utils import proposal_status_to_message
 from notifications.core.repository import IDatabase
@@ -33,59 +28,26 @@ class NotificationHandler:
         self._logger = logging.getLogger("waxlabs")
 
     async def notify(self, proposal_id: int):
-        session: AsyncSession
+        subscriptions = []
 
-        async with self.database.session() as session:
-            await session.execute(text(f"NOTIFY proposal, '{proposal_id}'"))
+        try:
+            wax_proposal = await get_proposal(proposal_id)
+            proposal = await self.proposal_service.get_by_proposal_id(proposal_id)
 
-    async def connect(self):
-        return lambda: self.database.engine.connect()
+            if proposal.status != wax_proposal.status:
+                await self.proposal_service.update_status(wax_proposal)
 
-    async def handler(self, notification: asyncpg_listen.NotificationOrTimeout) -> None:
-        if isinstance(notification, Notification):
-            print(f"{notification} has been received {notification.payload}")
+                subscriptions = await self.subscription_service.subscriptions(proposal_id)
 
-            subscriptions = []
-
-            try:
-                proposal_id = int(notification.payload)
-                wax_proposal = await get_proposal(proposal_id)
-                proposal = await self.proposal_service.get_by_proposal_id(proposal_id)
-
-                if proposal.status != wax_proposal.status:
-                    await self.proposal_service.update_status(wax_proposal)
-
-                    subscriptions = await self.subscription_service.subscriptions(proposal_id)
-
-            except ValueError as ex:
-                self._logger.error("Handling notification, raised ValueError", exc_info=ex)
-            else:
-                for subscription in subscriptions:
-                    try:
-                        await self._bot.send_message(
-                            chat_id=subscription.chat_id,
-                            text=proposal_status_to_message(wax_proposal.proposal_id, wax_proposal.status),
-                            parse_mode=ParseMode.MARKDOWN,
-                        )
-                    except Exception as ex:
-                        self._logger.error("Sending bot notification, raised Exception", exc_info=ex)
-
-    def listen(self):
-        listener = asyncpg_listen.NotificationListener(
-            asyncpg_listen.connect_func(
-                dsn=self.database.connection_string(override_driver="postgresql"),
-            )
-        )
-        self.listener_task = asyncio.create_task(
-            listener.run(
-                {"proposal": self.handler},
-                policy=asyncpg_listen.ListenPolicy.ALL,
-                notification_timeout=5,
-            )
-        )
-
-    async def stop(self):
-        with contextlib.suppress(asyncio.CancelledError):
-            if self.listener_task:
-                self.listener_task.cancel()
-                await self.listener_task
+        except ValueError as ex:
+            self._logger.error("Handling notification, raised ValueError", exc_info=ex)
+        else:
+            for subscription in subscriptions:
+                try:
+                    await self._bot.send_message(
+                        chat_id=subscription.chat_id,
+                        text=proposal_status_to_message(wax_proposal.proposal_id, wax_proposal.status),
+                        parse_mode=ParseMode.MARKDOWN,
+                    )
+                except Exception as ex:
+                    self._logger.error("Sending bot notification, raised Exception", exc_info=ex)

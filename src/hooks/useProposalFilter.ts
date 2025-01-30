@@ -38,7 +38,7 @@ interface ProposalFilterReturn {
   proposals: Proposal[];
 }
 
-const defaultFilterStatus = [
+const myProposalStatusFilter = [
   ProposalStatusKey.DRAFTING,
   ProposalStatusKey.SUBMITTED,
   ProposalStatusKey.APPROVED,
@@ -47,6 +47,7 @@ const defaultFilterStatus = [
   ProposalStatusKey.FAILED,
   ProposalStatusKey.CANCELLED,
   ProposalStatusKey.FAILED_DRAFT,
+  ProposalStatusKey.COMPLETED,
 ];
 
 export type ProposalFilterProps = ProposalSearchForm & { actAsActor?: string };
@@ -135,7 +136,7 @@ async function allProposals() {
 
 async function myProposals(actor: string) {
   const responses = await Promise.all(
-    defaultFilterStatus.map(f =>
+    myProposalStatusFilter.map(f =>
       userProposals({
         actor,
         proposalStatusKey: f,

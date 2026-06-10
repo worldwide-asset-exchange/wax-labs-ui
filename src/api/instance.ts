@@ -1,39 +1,56 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-
 import { API_URL } from '@/constants.ts';
 
 export const AUTH_TOKEN_KEY = 'authToken:accessKey';
-
-const api = axios.create({
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-  },
-  baseURL: API_URL,
-});
 
 export interface IAuthTokenInterceptorConfig {
   header?: string;
   headerPrefix?: string;
 }
 
-const authTokenInterceptor = ({ header = 'Authorization', headerPrefix = 'Bearer ' }: IAuthTokenInterceptorConfig) => {
-  return (requestConfig: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    const accessToken = localStorage.getItem(AUTH_TOKEN_KEY);
+class ApiRequestError extends Error {
+  constructor(public readonly response: Response) {
+    super(`Request failed with status ${response.status}`);
+    this.name = 'ApiRequestError';
+  }
+}
 
-    // add token to headers
-    if (accessToken && requestConfig.headers) {
-      requestConfig.headers[header] = `${headerPrefix}${accessToken}`;
+const getAuthHeaders = ({ header = 'Authorization', headerPrefix = 'Bearer ' }: IAuthTokenInterceptorConfig = {}) => {
+  const headers = new Headers({
+    'Access-Control-Allow-Origin': '*',
+  });
+  const accessToken = localStorage.getItem(AUTH_TOKEN_KEY);
+
+  if (accessToken) {
+    headers.set(header, `${headerPrefix}${accessToken}`);
+  }
+
+  return headers;
+};
+
+const request = async (path: string, init: RequestInit = {}) => {
+  try {
+    const response = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new ApiRequestError(response);
     }
 
-    return requestConfig;
-  };
+    return response;
+  } catch (error) {
+    console.error(`[request error] [${JSON.stringify(error)}]`);
+    throw error;
+  }
 };
 
-const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-  console.error(`[request error] [${JSON.stringify(error)}]`);
-  return Promise.reject(error);
+const api = {
+  patch: (path: string, init: RequestInit = {}) =>
+    request(path, {
+      ...init,
+      method: 'PATCH',
+    }),
 };
-
-api.interceptors.request.use(authTokenInterceptor({}), onRequestError);
 
 export default api;

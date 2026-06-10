@@ -29,7 +29,6 @@
     "@wharfkit/wallet-plugin-anchor": "^1.1.0",
     "@wharfkit/wallet-plugin-cloudwallet": "^1.1.0",
     "@wharfkit/web-renderer": "^1.1.1",
-    "axios": "^1.6.2",
     "date-fns": "^2.30.0",
     "dompurify": "^3.0.5",
     "i18next": "^22.5.1",

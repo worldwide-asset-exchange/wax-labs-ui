@@ -1,15 +1,11 @@
 import { IndexPosition } from '@/api/models/common.ts';
 
-export const {
-  VITE_WAX_RPC: WAX_RPC,
-  VITE_WAX_PROTOCOL: WAX_PROTOCOL,
-  VITE_WAX_HOST: WAX_HOST,
-  VITE_WAX_PORT: WAX_PORT,
-  VITE_APP_NAME: APP_NAME,
-  VITE_LABS_CONTRACT_ACCOUNT: LABS_CONTRACT_ACCOUNT,
-  VITE_WAX_CHAINID: WAX_CHAIN_ID,
-  VITE_API_URL: API_URL,
-} = import.meta.env;
+export const WAX_CHAIN_ID =
+  import.meta.env.VITE_WAX_CHAINID ?? '1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4';
+export const WAX_RPC = import.meta.env.VITE_WAX_RPC ?? 'https://wax.greymass.com';
+export const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'WAX Labs';
+export const LABS_CONTRACT_ACCOUNT = import.meta.env.VITE_LABS_CONTRACT_ACCOUNT ?? 'labs.wax';
+export const API_URL = import.meta.env.VITE_API_URL ?? '';
 
 const I64 = 'i64';
 const I128 = 'i128';

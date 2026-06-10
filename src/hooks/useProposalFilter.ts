@@ -154,11 +154,14 @@ function toReviewProposals() {
 async function proposalsWithReviewable() {
   try {
     const proposalsResponse = await Promise.all([inProgressProposals(), inReviewProposals()]);
-    const proposalMapping = proposalsResponse.flat().reduce((acc, proposal) => {
-      acc[proposal.proposal_id] = proposal;
+    const proposalMapping = proposalsResponse.flat().reduce(
+      (acc, proposal) => {
+        acc[proposal.proposal_id] = proposal;
 
-      return acc;
-    }, {} as Record<number, Proposal>);
+        return acc;
+      },
+      {} as Record<number, Proposal>
+    );
     const proposals = Object.values(proposalMapping);
 
     const deliverables = await Promise.all(

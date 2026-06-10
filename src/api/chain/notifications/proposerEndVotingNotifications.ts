@@ -32,7 +32,7 @@ export default async function proposerEndVotingNotifications({
             title: p.title,
             summary: p.description,
             status: p.status,
-          } as WaxLabsNotification)
+          }) as WaxLabsNotification
       );
   } catch (e) {
     console.error('[proposerEndVotingNotifications] Error', e);

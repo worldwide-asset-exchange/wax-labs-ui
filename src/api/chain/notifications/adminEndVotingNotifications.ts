@@ -25,7 +25,7 @@ export default async function adminEndVotingNotifications(): Promise<WaxLabsNoti
             title: p.title,
             summary: p.description,
             status: p.status,
-          } as WaxLabsNotification)
+          }) as WaxLabsNotification
       );
   } catch (e) {
     console.error('[adminEndVotingNotifications] Error', e);

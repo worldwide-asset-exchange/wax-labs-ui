@@ -34,11 +34,14 @@ export default async function proposerDeliverableNotifications({
       lowerBound,
     });
 
-    const proposalMapping = proposals.reduce((previousProposal, proposal) => {
-      previousProposal[proposal.proposal_id] = proposal;
+    const proposalMapping = proposals.reduce(
+      (previousProposal, proposal) => {
+        previousProposal[proposal.proposal_id] = proposal;
 
-      return previousProposal;
-    }, {} as Record<number, Proposal>);
+        return previousProposal;
+      },
+      {} as Record<number, Proposal>
+    );
 
     return await Promise.all(
       proposals.map(p => checkDeliverablesStatus({ proposalId: p.proposal_id, statusToCheck }))
@@ -52,7 +55,7 @@ export default async function proposerDeliverableNotifications({
             title: proposalMapping[d.proposalId]?.title,
             summary: proposalMapping[d.proposalId]?.description,
             status: proposalMapping[d.proposalId]?.status,
-          } as WaxLabsNotification)
+          }) as WaxLabsNotification
       );
     });
   } catch (e) {

@@ -1,4 +1,4 @@
-const plugin = require('tailwindcss/plugin');
+import plugin from 'tailwindcss/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -38,8 +38,6 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
     plugin(function ({ addComponents }) {
       addComponents({
         '.display-1': {

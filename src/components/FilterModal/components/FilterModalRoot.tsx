@@ -18,16 +18,12 @@ function FilterModalRootComponent({ children }: FilterModalRootProps, ref: Ref<F
     setOpen(false);
   }
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        onOpen,
-        onClose,
-      };
-    },
-    []
-  );
+  useImperativeHandle(ref, () => {
+    return {
+      onOpen,
+      onClose,
+    };
+  }, []);
 
   return (
     <DialogRoot open={open} onOpenChange={setOpen}>

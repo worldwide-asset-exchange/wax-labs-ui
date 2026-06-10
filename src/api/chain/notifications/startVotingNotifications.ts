@@ -25,7 +25,7 @@ export default async function startVotingNotifications({ actor }: { actor: strin
           title: p.title,
           summary: p.description,
           status: p.status,
-        } as WaxLabsNotification)
+        }) as WaxLabsNotification
     );
   } catch (e) {
     console.error('[startVotingNotifications] Error', e);

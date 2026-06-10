@@ -54,11 +54,14 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
     queryKey: ['proposal', proposalId, 'deliverable', 'report', deliverableId],
     queryFn: () =>
       deliverablesStatusComment({ proposalId: proposalId! }).then(response =>
-        response.reduce((acc, item) => {
-          acc[item.deliverable_id] = item.status_comment;
+        response.reduce(
+          (acc, item) => {
+            acc[item.deliverable_id] = item.status_comment;
 
-          return acc;
-        }, {} as Record<number, string>)
+            return acc;
+          },
+          {} as Record<number, string>
+        )
       ),
     enabled: !!deliverableId,
   });

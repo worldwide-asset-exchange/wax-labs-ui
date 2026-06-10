@@ -22,7 +22,7 @@ export default async function adminToReviewNotifications(): Promise<WaxLabsNotif
           title: p.title,
           summary: p.description,
           status: p.status,
-        } as WaxLabsNotification)
+        }) as WaxLabsNotification
     );
   } catch (e) {
     console.error('[adminToReviewNotifications] Error', e);

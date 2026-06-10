@@ -30,7 +30,7 @@ export function ProposalDetail() {
     return (
       <div className="mx-auto max-w-5xl animate-pulse px-4 py-8 duration-150">
         <div className="h-14 w-full rounded-md bg-ui-element" />
-        <div className="mb-3 mt-[2.375rem] h-5  w-full rounded-md bg-ui-element" />
+        <div className="mb-3 mt-[2.375rem] h-5 w-full rounded-md bg-ui-element" />
         <div className="mb-[2.375rem] h-5 w-3/4 rounded-md bg-ui-element" />
         <div className="flex gap-1 border-b border-subtle-light">
           <div className="flex gap-3 p-3">

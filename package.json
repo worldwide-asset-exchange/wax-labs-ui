@@ -1,5 +1,5 @@
 {
-  "name": "react-template",
+  "name": "wax-labs",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -32,7 +32,6 @@
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",
     "dompurify": "^3.0.5",
-    "eosjs": "^22.1.0",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^7.0.2",
     "i18next-http-backend": "^2.2.1",

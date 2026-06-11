@@ -15,25 +15,55 @@ export function Footer() {
           <div className="flex flex-1 items-center gap-8">
             <img src={wax} alt="WaxLabs" />
             <div className="flex flex-none items-center gap-2">
-              <Link target="_blank" to="https://twitter.com/WAX_io" square title="WaxLabs Twittter">
+              <Link
+                target="_blank"
+                to="https://twitter.com/WAX_io"
+                square
+                title="WaxLabs Twittter"
+                rel="noreferrer noopener"
+              >
                 <FaTwitter size={24} />
               </Link>
-              <Link target="_blank" to="https://go.wax.io/Discord" square title="WaxLabs Discord">
+              <Link
+                target="_blank"
+                to="https://go.wax.io/Discord"
+                square
+                title="WaxLabs Discord"
+                rel="noreferrer noopener"
+              >
                 <FaDiscord size={24} />
               </Link>
-              <Link target="_blank" to="https://t.me/wax_io" square title="WaxLabs Telegram">
+              <Link target="_blank" to="https://t.me/wax_io" square title="WaxLabs Telegram" rel="noreferrer noopener">
                 <FaTelegramPlane size={24} />
               </Link>
-              <Link target="_blank" to="https://t.me/waxlabsbot" square title="WaxLabs Telegram Bot">
+              <Link
+                target="_blank"
+                to="https://t.me/waxlabsbot"
+                square
+                title="WaxLabs Telegram Bot"
+                rel="noreferrer noopener"
+              >
                 <FaRobot size={24} />
               </Link>
             </div>
           </div>
           <div className="flex flex-none items-center gap-2">
-            <Link target="_blank" to="https://www.wax.io/terms-of-service" variant="link" square>
+            <Link
+              target="_blank"
+              to="https://www.wax.io/terms-of-service"
+              variant="link"
+              square
+              rel="noreferrer noopener"
+            >
               {t('termsOfService')}
             </Link>
-            <Link target="_blank" to="https://www.wax.io/privacy-policy" variant="link" square>
+            <Link
+              target="_blank"
+              to="https://www.wax.io/privacy-policy"
+              variant="link"
+              square
+              rel="noreferrer noopener"
+            >
               {t('privacyPolicy')}
             </Link>
           </div>
@@ -43,7 +73,7 @@ export function Footer() {
           href="https://detroitledger.tech/"
           target="_blank"
           className="opacity-80 duration-150 hover:opacity-100"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <img src={dlt} alt="" className="mx-auto" />
         </a>

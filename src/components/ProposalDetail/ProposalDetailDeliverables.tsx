@@ -147,7 +147,13 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                           label={t('admin.claim.completionReport')}
                           value={
                             <div className="flex justify-end">
-                              <Link variant="tertiary" square to={deliverable.report} target="_blank">
+                              <Link
+                                variant="tertiary"
+                                square
+                                to={deliverable.report}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                              >
                                 {t('admin.viewReport')}
                               </Link>
                             </div>
@@ -167,6 +173,7 @@ export function ProposalDetailDeliverables({ proposal, total, completed }: Propo
                                 square
                                 to={rejectReport[deliverable.deliverable_id!]}
                                 target="_blank"
+                                rel="noreferrer noopener"
                               >
                                 {t('admin.viewReport')}
                               </Link>
